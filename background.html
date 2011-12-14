@@ -1,0 +1,76 @@
+<html>
+<head>
+<script>
+
+var active = false;
+browserActionClicked(); //Activate
+
+chrome.browserAction.onClicked.addListener(browserActionClicked);
+
+function browserActionClicked(tab) {
+	active = !active;
+	if(active)
+	{
+		chrome.browserAction.setIcon({path: "gray.png"});
+		chrome.browserAction.setBadgeText({text: ""});
+		chrome.browserAction.setBadgeBackgroundColor({color: [0,192,0,255]});
+		//does not appear to work
+		//chrome.experimental.privacy.websites.thirdPartyCookiesAllowed = false;
+	}
+	else
+	{
+		chrome.browserAction.setIcon({path: "red.png"});
+		chrome.browserAction.setBadgeText({text: "off"});
+		chrome.browserAction.setBadgeBackgroundColor({color: [255,0,0,255]});
+	}
+}
+
+
+
+chrome.experimental.webRequest.onBeforeRequest.addListener(onBeforeRequest,{},["blocking"]);
+
+function onBeforeRequest(r) {
+	if(active != true)
+		return;
+	var redirect = chrome.extension.getURL("/blocked.html");
+	if(r.url.indexOf(redirect) == 0)
+		return;
+
+	if(r.url.indexOf("google.com/url") != -1)
+	{
+		var re = /url=([^&]*)/g;
+		var p = re.exec(r.url);
+		p = decodeURIComponent(p[1]);
+
+		console.log("Redirecting: " + JSON.stringify(r, null, "	"));
+
+		//chrome.tabs.executeScript(r.tabId, {code: "history.back();"});
+		chrome.tabs.update(r.tabId, {url: p});
+		return {cancel: true};
+		//return {redirectUrl: p};
+	}
+}
+
+
+var Agent = "Mozilla/5.0";
+
+chrome.experimental.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {}, ["blocking", "requestHeaders"]);
+
+function onBeforeSendHeaders(d) {
+	if(active != true)
+		return;
+	for(var i in d.requestHeaders)
+	{
+		var h = d.requestHeaders[i];
+		if(h.name == "User-Agent")
+		{
+			h.value = Agent;
+			break;
+		}
+	}
+	return {requestHeaders: d.requestHeaders};
+}
+
+</script>
+</head>
+</html>
