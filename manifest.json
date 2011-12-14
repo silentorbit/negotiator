@@ -1,17 +1,18 @@
 {
 	"name": "Kiss Privacy",
-	"version": "0.0.0.2",
+	"version": "0.0.0.3",
 	
 	"description": "Privacy enhancement by blocking and filtering",
-	"options_page": "about.html",
 	"browser_action": {
 		"default_icon": "gray.png",
 		"default_title": "Kiss Privacy"
 	},
 	"update_url": "http://silentorbit.com/extensions/updates",
+	"homepage_url": "http://silentorbit.com/kiss/",
 	"background_page": "background.html",
 	"permissions": [
 		"experimental",
 		"tabs"
-	]
+	],
+	"incognito": "split"
 }
