@@ -1,6 +1,6 @@
 {
 	"name": "Kiss Privacy",
-	"version": "0.0.0.3",
+	"version": "0.0.0.4",
 	
 	"description": "Privacy enhancement by blocking and filtering",
 	"browser_action": {
