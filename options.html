@@ -8,28 +8,24 @@
 <body>
 	<div class="mainmenu" style="float:right;">
 		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
-		<a href="mailto:extensions@silentorbit.com">Contact</a>
+		<a href="mailto:phq@silentorbit.com">Contact</a>
 		<a href="https://github.com/hultqvist/Kiss" target="_new">Source Code</a>
-		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Feedback/Bugs</a>
+		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Feedback<br/>Bugs</a>
 	</div>
 
-
-	<h1>Kiss Privacy Options</h1>
-	<p class="blocked">Blocked: <span id="blocked">x</span></p>
-
-	<h2>Test</h2>
+	<h1>Kiss Privacy</h1>
 	<input id="testFrom" value="example.com">
 	<input id="testTo" value="doubleclick.net">
 	<input type="button" onClick="test();" value="Test" />
 	<div id="testResult">-</div>
 	
+	<h2>Filters</h2>
+	<p>
+		<span class="filterpass">pass(default)</span>
+		<span class="filterblock">block</span>
+		<span class="filterclear">clear: remove referer</span>
+	</p>
 	<div class="column">
-		<h2>Filters</h2>
-		<p>
-			<span class="filterpass">pass(default)</span>
-			<span class="filterblock">block</span>
-			<span class="filterclear">clear: remove referer</span>
-		</p>
 		<div id="filters"></div>
 	</div>
 

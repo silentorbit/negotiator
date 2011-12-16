@@ -1,6 +1,6 @@
 {
 	"name": "Kiss Privacy",
-	"version": "0.0.0.8",
+	"version": "0.0.0.9",
 	"minimum_chrome_version": "17.0.0.0",
 	"icons": {
 		"16": "images/icon16.png",

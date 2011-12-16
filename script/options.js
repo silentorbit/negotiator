@@ -65,10 +65,7 @@
 	}
 	
 	function loadOptions(){
-		document.getElementById('blocked').innerText = b.blocked + '';
-		
 		updateFilters();
-	
 		fillTrackedTable(null, document.getElementById('trackedTable'));
 	}
 
