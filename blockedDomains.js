@@ -1,4 +1,26 @@
 
+//TODO: Block if accessed as third party site
+var blocedThirdParties = [
+	"twitter.com",
+	"linkedin.com",
+	"stumble-upon.com",
+	"slashdot.org",
+	"facebook.net",
+	"plusone.google.com",
+	"gravatar.com",
+	"disqus.com"];
+
+//TODO: ClickTracking
+/*
+	"bit.ly",
+	"feedburner.com",
+	"adf.ly",
+	"",
+	"",
+	"",
+	"",
+*/
+	
 var blockedDomains = [
 	"ad4game.com",
 	"adbrite.com",
@@ -15,6 +37,7 @@ var blockedDomains = [
 	"delicious.com",
 	"doubleclick.net",
 	"googleadservices.com",
+	"googlesyndication.com",
 	"google-analytics.com",
 	"histats.com",
 	"imrworldwide.com",

@@ -1,0 +1,90 @@
+<html>
+<head>
+	<title>Blocked Pages</title>
+	<style>
+		body{
+			background: -webkit-linear-gradient(-45deg, #fefcea 0%,#efe49e 100%);
+		}
+		.blocked{
+			position: absolute; right: 0; top: 0;
+			padding: 0.5em;
+			background: red;
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body style="min-width: 500px;">
+	<h1>Requests</h1>
+	<p class="blocked">Blocked: <span id="blocked">x</span></p>
+	<h2>User Block List</h2>
+	<ul id="userBlockList"></ul>
+	<h2>Tracked</h2>
+	<p><a href="javascript:clearRequests();">Clear</a></p>
+	<table id="table">
+		<tr>
+			<th>From</th>
+			<th>Target</th>
+			<th>Block Request</th>
+			<th>Block Target</th>
+		</tr>
+	</table>
+<script>
+
+	var b = chrome.extension.getBackgroundPage();
+
+	function blockRequest(index)
+	{
+		alert("Not Yet Implemented " + index);
+	}
+
+	function blockTarget(domain)
+	{
+		b.BlockTarget(domain);
+		location.reload()
+	}
+
+	function clearRequests()
+	{
+		b.Requests = {};
+		location.reload()
+	}
+
+	//Blocked Requests
+	document.getElementById('blocked').innerText = b.blocked + '';
+
+	//User block list
+	var ubl = document.getElementById('userBlockList');
+	var list = "";
+	for(var i in b.userBlocked)
+	{
+		list += "<li>"+i+"</li>";
+	}
+	ubl.innerHTML = list;
+
+	//Find url of selected tab
+	chrome.tabs.query({'active': true}, function(tabs){
+		var domain = b.getDomain(tabs[0].url);
+
+		//Tracked
+		var t = document.getElementById('table');
+		for(var i in b.Requests)
+		{
+			var r = b.Requests[i];
+			if(r.from != domain)
+				continue;
+				
+			var row = t.insertRow(1);
+			if(r.from == undefined)
+				row.insertCell(0).innerText = "";
+			else
+				row.insertCell(0).innerText = r.from;
+			row.insertCell(1).innerText = r.to;
+			row.insertCell(2).innerHTML = '<a href="#" onClick="blockRequest(\''+i+'\')">block</a>';
+			row.insertCell(3).innerHTML = '<a href="#" onClick="blockTarget(\''+r.to+'\')">block</a>';
+		}
+	});
+
+	
+</script>
+</body>
+</html>

@@ -1,34 +1,21 @@
-var active = false;
-browserActionClicked(); //Activate
-
-chrome.browserAction.onClicked.addListener(browserActionClicked);
-
-function browserActionClicked(tab) {
-	active = !active;
-	if(active)
-	{
-		chrome.browserAction.setIcon({path: "green.png"});
-		chrome.browserAction.setBadgeText({text: ""});
-		chrome.browserAction.setBadgeBackgroundColor({color: [0,192,0,255]});
-		//does not appear to work
-		//chrome.experimental.privacy.websites.thirdPartyCookiesAllowed = false;
-	}
-	else
-	{
-		blocked = 0;
-		chrome.browserAction.setIcon({path: "gray.png"});
-		chrome.browserAction.setBadgeText({text: "off"});
-		chrome.browserAction.setBadgeBackgroundColor({color: [255,0,0,255]});
-	}
-}
-
 
 var blocked = 0;
+
+//Domains blocked by the user
+var userBlocked = JSON.parse(localStorage.getItem("userBlocked"));
+if(userBlocked == null)
+	userBlocked = {};
+
+function BlockTarget(domain)
+{
+	userBlocked[domain] = true;
+	localStorage.userBlocked = JSON.stringify(userBlocked);
+}
 
 function addOne()
 {
 	blocked++;
-	chrome.browserAction.setBadgeText({text: ''+blocked});
+	chrome.browserAction.setBadgeText({text: '' + blocked});
 	chrome.browserAction.setBadgeBackgroundColor({color: [255,0,0,255]});
 	chrome.browserAction.setIcon({path: "red.png"});
 	setTimeout(function(){
@@ -36,92 +23,94 @@ function addOne()
 	}, 100);
 }
 
+var Agent = "Mozilla/5.0";
 
-chrome.experimental.webRequest.onBeforeRequest.addListener(onBeforeRequest,{},["blocking"]);
+//Non blocked requests
+var Requests = {};
 
-function onBeforeRequest(r) {
-	if(active != true)
-		return;
-	var redirect = chrome.extension.getURL("/blocked.html");
-	if(r.url.indexOf(redirect) == 0)
-		return;
+chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
 
+function onBeforeRequest(d) {
+	var domain = getDomain(d.url);
+	
 	//Skip google result click tracking
-	if(r.url.indexOf("google.com/url") != -1)
+	if(d.url.indexOf("google.com/url") != -1)
 	{
 		var re = /url=([^&]*)/g;
-		var p = re.exec(r.url);
+		var p = re.exec(d.url);
 		p = decodeURIComponent(p[1]);
 
-		console.log("Redirecting: " + JSON.stringify(r, null, "	"));
+		console.log("Skipping Google clicktrack: " + p);
 
-		//chrome.tabs.executeScript(r.tabId, {code: "history.back();"});
-		chrome.tabs.update(r.tabId, {url: p});
+		chrome.tabs.update(d.tabId, {url: p});
 		return {cancel: true};
-		//return {redirectUrl: p};
 	}
-
-	//Get domain
-	var domain = r.url.split("://")[1].split("/")[0];
-	var pos = domain.indexOf("@");
-	if(pos != -1) domain = domain.substr(pos + 1);
-	pos = domain.indexOf(":");
-	if(pos != -1) domain = domain.substr(0, pos);
-	//domain == full hostname
 
 	for(var i in blockedDomains)
 	{
-		//TODO: optimize a list for top domains.
+		//TODO: optimize with a list for top domains.
 		if(endsWith(domain, blockedDomains[i]))
 		{
 			addOne();
 			return {cancel: true};
 		}
 	}
+	if(userBlocked[domain] === true)
+	{
+		addOne();
+		return {cancel: true};
+	}
 }
 
-//TODO: Block if accessed as third party site
-var blocedThirdParties = [
-	"twitter.com",
-	"linkedin.com",
-	"stumble-upon.com",
-	"slashdot.org",
-	"facebook.net",
-	"plusone.google.com",
-	"gravatar.com",
-	"disqus.com"];
-
-//TODO: ClickTracking
-/*
-	"bit.ly",
-	"feedburner.com",
-	"adf.ly",
-	"",
-	"",
-	"",
-	"",
-*/
-	
-
-function endsWith(str, suffix) {
-		return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
-var Agent = "Mozilla/5.0";
-
-chrome.experimental.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {}, ["blocking", "requestHeaders"]);
+chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 
 function onBeforeSendHeaders(d) {
-	if(active != true)
-		return;
+
+	//Get header
+	var header = {};
 	for(var i in d.requestHeaders)
 	{
 		var h = d.requestHeaders[i];
 		if(h.name == "User-Agent")
-		{
-			h.value = Agent;
-			break;
-		}
+			header.UserAgent = h;
+		if(h.name == "Referer")
+			header.Referer = h;
 	}
+
+	//Set User-Agent
+	header.UserAgent.value = Agent;
+
+	//Get domain for target and referrer
+	var domain = getDomain(d.url);
+	var referrer;
+	if(header.Referer != undefined)
+		referrer = getDomain(header.Referer.value);
+
+	//Allow all within the same domain
+	if(domain === referrer)
+		return;
+
+
+	//Record attempt
+	var reqKey = referrer + " " + domain;
+	var req = Requests[reqKey];
+	if(req === undefined)
+	{
+		req = {from: referrer, to: domain, block: false};
+		Requests[reqKey] = req;
+	}
+
+	//Allow empty referrer, we assume it is user entered requests
+	if(referrer == undefined || referrer == "")
+		return;
+
+	//Find existing match
+	if(req.block)
+	{
+		addOne();
+		return {cancel: true};
+	}
+	
+	//Allow with modified headers
 	return {requestHeaders: d.requestHeaders};
 }

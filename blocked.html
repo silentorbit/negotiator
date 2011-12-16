@@ -4,5 +4,12 @@
 <body>
 	<h1>Blocked</h1>
 	<p><a href="javascript: history.back();">Go back</a></p>
+	<p><span id="tabid">nothing</span>
+	<script>
+		//For future reporting on blocked site
+		chrome.tabs.getCurrent(function(tab){
+			document.getElementById("tabid").innerText = tab.id + "-" + tab.frameId;
+			});
+	</script></p>
 </body>
 </html>
