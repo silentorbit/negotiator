@@ -87,7 +87,12 @@ function getRequestFilter(from, to)
 		return t;
 		
 	//To wildcard match
-	return getWild(f, to);
+	t = getWild(f, to);
+	if(t != null)
+		return t;
+
+	//To empty match
+	return f[""];
 }
 
 
@@ -122,6 +127,11 @@ function addFilter(f)
 		alert("domains cant contain space");
 		return;
 	}
+	//Remove wildcard if either from or to is empty
+	if(f.from == "")
+		f.fromWild = false;
+	if(f.to == "")
+		f.toWild = false;
 	
 	//From...
 	var fr;

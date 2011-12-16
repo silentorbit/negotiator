@@ -131,7 +131,10 @@
 		var html = "<"+tag+" class=\"filter"+f.filter+"\">";
 		if(f.toWild)
 			html += "* ";
-		html += f.to;
+		if(f.to == "")
+			html += "anywhere";
+		else
+			html += f.to;
 		html += " <small><a href=\"javascript:deleteFilter(" + f.fromWild + ", '" + f.from + "', " + f.toWild + ", '" + f.to + "');\">delete</a></small>";
 		html += "</"+tag+">";
 		return html;
