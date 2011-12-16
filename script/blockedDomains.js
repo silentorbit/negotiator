@@ -20,7 +20,9 @@ var blocedThirdParties = [
 	"",
 	"",
 */
-	
+
+//Used to populate the filters
+//the first time the extension is used
 var blockedDomains = [
 	"ad4game.com",
 	"adbrite.com",

@@ -1,32 +1,22 @@
 
 var blocked = 0;
 
-//Domains blocked by the user
-var userBlocked = JSON.parse(localStorage.getItem("userBlocked"));
-if(userBlocked == null)
-	userBlocked = {};
-
-function BlockTarget(domain)
-{
-	userBlocked[domain] = true;
-	localStorage.userBlocked = JSON.stringify(userBlocked);
-}
-
+//Flash the icon and increase the block count
 function addOne()
 {
 	blocked++;
 	chrome.browserAction.setBadgeText({text: '' + blocked});
 	chrome.browserAction.setBadgeBackgroundColor({color: [255,0,0,255]});
-	chrome.browserAction.setIcon({path: "red.png"});
+	chrome.browserAction.setIcon({path: "images/red.png"});
 	setTimeout(function(){
-		chrome.browserAction.setIcon({path: "green.png"});
+		chrome.browserAction.setIcon({path: "images/green.png"});
 	}, 100);
 }
 
 var Agent = "Mozilla/5.0";
 
 //Non blocked requests
-var Requests = {};
+var TrackedRequests = {};
 
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
 
@@ -46,16 +36,7 @@ function onBeforeRequest(d) {
 		return {cancel: true};
 	}
 
-	for(var i in blockedDomains)
-	{
-		//TODO: optimize with a list for top domains.
-		if(endsWith(domain, blockedDomains[i]))
-		{
-			addOne();
-			return {cancel: true};
-		}
-	}
-	if(userBlocked[domain] === true)
+	if(testDomainFilter(domain) == "block")
 	{
 		addOne();
 		return {cancel: true};
@@ -90,14 +71,19 @@ function onBeforeSendHeaders(d) {
 	if(domain === referrer)
 		return;
 
+	//Find matching filter
+	var filter = testFilter(referrer, domain)
 
-	//Record attempt
-	var reqKey = referrer + " " + domain;
-	var req = Requests[reqKey];
-	if(req === undefined)
+	if(filter == null)
 	{
-		req = {from: referrer, to: domain, block: false};
-		Requests[reqKey] = req;
+		//Record attempt
+		var reqKey = referrer + " " + domain;
+		var req = TrackedRequests[reqKey];
+		if(req == undefined)
+		{
+			req = {from: referrer, to: domain, block: false};
+			TrackedRequests[reqKey] = req;
+		}
 	}
 
 	//Allow empty referrer, we assume it is user entered requests
@@ -105,11 +91,14 @@ function onBeforeSendHeaders(d) {
 		return;
 
 	//Find existing match
-	if(req.block)
+	if(filter == "block")
 	{
 		addOne();
 		return {cancel: true};
 	}
+	if(filter == "clear" && header.Referer != null)
+		header.Referer.value = "";
+	
 	
 	//Allow with modified headers
 	return {requestHeaders: d.requestHeaders};

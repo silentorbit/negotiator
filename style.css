@@ -3,21 +3,14 @@ body{
 	font-family: sans-serif;
 
 	margin: 0 auto;
-	padding:0;
-	width: 40em;
+	padding: 3em;
 	max-width: 80%;
 }
 
-.headermenu{
-	float:right;
-}
-
-.headermenu a{
-	color: #777;
-}
-
-h1,h2,h3{
-	color:#777;
+.popupBody{
+	min-width: 500px;
+	background: -webkit-linear-gradient(225deg, #fefcea 0%,#efe49e 100%);
+	padding: 1em;
 }
 
 .intro{
@@ -28,6 +21,7 @@ h1,h2,h3{
 p{
 }
 .mainmenu{
+	clear: both;
 	border-collapse: separate;
 	border-spacing: 1em;
 	margin-bottom: 5em;
@@ -72,3 +66,34 @@ p{
 	box-shadow: inset 0 0 10px #888, 0 0 10px green;
 }
 
+
+//Tracked table
+.table{
+	display: table;
+	border: 2px solid black;
+} 
+.table>*{display: table-row;} 
+.table>*:nth-child(even){background: lightgray;} 
+.table>*>*{display: table-cell;} 
+.table input[type="checkbox"] {
+	width: 1em;
+	height: 1em;
+	padding: 0;
+	margin: 0;
+}
+
+.column{
+	width: 45%;
+	margin: 0 3% 0 0;
+	float:left;
+}
+
+.filterblock{
+	background: red;
+}
+.filterclear{
+	background: skyblue;
+}
+.filterpass{
+	background: green;
+}
