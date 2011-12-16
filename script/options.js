@@ -54,7 +54,7 @@
 			var f = b.getDomainFilter(domain);
 
 			if(f != null)
-				document.getElementById('filterReport').innerHTML = "Filtered: " + generateFilterItem('div', f);
+				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
 			
 			
 			fillTrackedTable(

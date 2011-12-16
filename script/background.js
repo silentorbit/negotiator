@@ -96,10 +96,46 @@ function onBeforeSendHeaders(d) {
 		addOne();
 		return {cancel: true};
 	}
-	if(filter == "clear" && header.Referer != null)
-		header.Referer.value = "";
-	
+	if(filter == "clear"){
+		for(var i = 0; i < d.requestHeaders.length; i++){
+			if(d.requestHeaders[i].name == "Referer"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+				continue;
+			}
+			if(d.requestHeaders[i].name == "Cookie"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+				continue;
+			}
+		}
+	}
+
+	//Save filter for onHeadersReceived below
+	requestFilter[d.requestId] = filter;
 	
 	//Allow with modified headers
 	return {requestHeaders: d.requestHeaders};
 }
+
+//Track filter for every chrome request
+var requestFilter = {};
+
+chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
+
+function onHeadersReceived(d){
+	var f = requestFilter[d.requestId];
+
+	if(f == "clear"){
+		for(var i = 0; i < d.responseHeaders.length; i++){
+			if(d.responseHeaders[i].name == "Set-Cookie"){
+				d.responseHeaders.splice(i, 1);
+				i--;
+				continue;
+			}
+		}
+	}
+
+	return {requestHeaders: d.responseHeaders};
+}
+
