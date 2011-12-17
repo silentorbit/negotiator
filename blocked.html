@@ -1,15 +1,30 @@
 <html>
 <head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<title>Blocked</title>
+	<link rel="icon" type="image/png" href="images/red.png">
+	<script src="script/options.js" ></script>
 </head>
 <body>
-	<h1>Blocked</h1>
-	<p><a href="javascript: history.back();">Go back</a></p>
-	<p><span id="tabid">nothing</span>
+	<div id="mainpanel"></div>
+	<div>
+		<h1>Blocked</h1>
+		<p><a class="button" href="javascript: history.back();">Go back</a></p>
+		<div id="blockReport">nothing to report</div>
+	</div>
+	
 	<script>
-		//For future reporting on blocked site
 		chrome.tabs.getCurrent(function(tab){
-			document.getElementById("tabid").innerText = tab.id + "-" + tab.frameId;
-			});
-	</script></p>
+			var url = b.blockReport[tab.id];
+			var f = b.getDomainFilter(b.getDomain(url));
+			var html = '<p><a href="'+url+'">'+url+'</a></p>';
+			if(f != null){
+				html += '<p>was blocked by: ';
+				html += generateFilterItem('span', f)+'</p>';
+			}
+			document.getElementById("blockReport").innerHTML = html;
+		});
+	</script>
 </body>
 </html>

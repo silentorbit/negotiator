@@ -4,8 +4,12 @@
 var TrackedRequests = {};
 
 //Track filter for every chrome request
-//Written in onBeforeSendHeaders and used in onHeadersReceived
+//Written in onBeforeSendHeaders and used/cleared in onHeadersReceived
 var requestFilter = {};
+
+//Track URL being blocked
+//Written before redirecting and used/cleared in blocked.html
+var blockReport = {};
 
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
@@ -27,8 +31,15 @@ function onBeforeRequest(d) {
 		return {cancel: true};
 	}
 
-	if(testDomainFilter(domain) == "block")
-		return {cancel: true};
+	if(testDomainFilter(domain) == "block"){
+		if(d.type == "main_frame"){
+			blockReport[d.tabId] = d.url;
+			chrome.browserAction.setIcon({tabId: d.tabId, path: 'images/red.png'});
+			//return {cancel: true};
+			return {redirectUrl: chrome.extension.getURL('blocked.html')};
+		}else
+			return {cancel: true};
+	}
 }
 
 
@@ -85,12 +96,25 @@ function onBeforeSendHeaders(d) {
 		return {requestHeaders: d.requestHeaders};
 
 	//Load default
-	if(filter == null)
+	if(filter == null){
 		filter = defaultFilter;
 
+		//Don't block main_frame links
+		if(filter == "block" && d.type == "main_frame")
+			filter = "clear";
+	}
+
 	//Find existing match
-	if(filter == "block")
+	if(filter == "block"){
+		if(d.type == "main_frame"){
+			blockReport[d.tabId] = d.url;
+			chrome.browserAction.setIcon({
+				tabId: d.tabId,
+				path: 'images/red.png'
+			});
+		}
 		return {cancel: true};
+	}
 	if(filter == "clear"){
 		for(var i = 0; i < d.requestHeaders.length; i++){
 			if(d.requestHeaders[i].name == "Referer"){

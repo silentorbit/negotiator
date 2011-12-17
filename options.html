@@ -6,40 +6,51 @@
 	<script src="script/options.js" ></script>
 </head>
 <body>
-	<div class="mainmenu" style="float:right;">
-		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
-		<a href="mailto:phq@silentorbit.com">Contact</a>
-		<a href="https://github.com/hultqvist/Kiss" target="_new">Source Code</a>
-		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Feedback<br/>Bugs</a>
-	</div>
-
+<div id="mainpanel">
 	<h1>Kiss Privacy</h1>
+	<div class="mainmenu">
+		<div>
+		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
+		<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
+		</div>
+		<div>
+		<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
+		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
+		</div>
+	</div>
+	
+	<h2>Test</h2>
 	<div>
 		<input id="testFrom" value="example.com">
 		<input id="testTo" value="doubleclick.net">
 		<input type="button" onClick="test();" value="Test" />
 		<div id="testResult">-</div>
 	</div>
-	<div>
-		Default:
+
+	<h2>Default</h2>
+	<fieldset id="defaultFilter">
 		<input type="radio" name="defaultfilter" id="filterpass" onClick="b.setDefaultFilter('pass')" />
-		<label class="filterpass" for="filterpass">pass</label>
+		<label class="filterpass button" for="filterpass">pass</label>
 		
 		<input type="radio" name="defaultfilter" id="filterblock" onClick="b.setDefaultFilter('block')" />
-		<label class="filterblock" for="filterblock">block</label>
+		<label class="filterblock button" for="filterblock">block</label>
 		
 		<input type="radio" name="defaultfilter" id="filterclear" onClick="b.setDefaultFilter('clear')" />
-		<label class="filterclear" for="filterclear">clear: remove referrer and cookies</label>
-	</div>
-	<div class="column">
+		<label class="filterclear button" for="filterclear" title="Remove referrer and cookies">clear</label>
+	</fieldset>
+
+</div>
+
+	<div>
+		<h1>Filters</h1>
 		<div id="filters"></div>
 	</div>
 
-	<div class="column">
-		<h2>
+	<div id="tracked">
+		<h1>
 			Tracked Requests
-			<small><a href="javascript:clearTrackedRequests();">Clear</a></small>
-		</h2>
+			<small><a class="button" href="javascript:clearTrackedRequests();"><span>Clear</span></a></small>
+		</h1>
 		
 		<div id="trackedTable" class="table">
 			<div class="header">
@@ -65,6 +76,13 @@
 		</div>
 	</div>
 
-	<script>loadOptions();</script>
+	<script>
+		updateFilters();
+		fillTrackedTable(null, document.getElementById('trackedTable'));
+
+		var df = document.getElementById('filter'+b.defaultFilter);
+		if(df != null)
+			df.checked = true;
+	</script>
 </body>
 </html>

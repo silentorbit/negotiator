@@ -79,32 +79,6 @@
 
 	var displayDomain;
 
-	function loadPopup(){
-		chrome.tabs.query({'active': true}, function(tabs){
-
-			displayDomain = b.getDomain(tabs[0].url);
-			var f = b.getDomainFilter(displayDomain);
-
-			if(f != null)
-				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
-			
-			
-			fillTrackedTable(
-				displayDomain,
-				document.getElementById('trackedTable')
-			);
-		});
-	}
-	
-	function loadOptions(){
-		updateFilters();
-		fillTrackedTable(null, document.getElementById('trackedTable'));
-
-		var df = document.getElementById('filter'+b.defaultFilter);
-		if(df != null)
-			df.checked = true;
-	}
-
 	//load options page in a new tab
 	function showOptions(){
 		var optionsUrl = chrome.extension.getURL('options.html');
@@ -132,14 +106,15 @@
 		{
 			if(i == "" || i == "wild")
 				continue;
-			html += "<h3>From " + i +
-			" <small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
-			"</h3>" + generateFilterList(b.filters[i]);
+			html += "<h3>"+
+				"<small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
+				"From " + i +
+				"</h3>" + generateFilterList(b.filters[i]);
 		}
 		for(var i in b.filters.wild)
 		{
-			html += "<h3>From * " + i +
-			" <small><a href=\"javascript:deleteFilterFrom(true, '" + i + "');\">delete</a></small>" +
+			html += "<h3><small><a href=\"javascript:deleteFilterFrom(true, '" + i + "');\">delete</a></small>" +
+			"From * " + i +
 			"</h3>" + generateFilterList(b.filters.wild[i]);
 		}
 		filterTag.innerHTML = html;
@@ -164,13 +139,13 @@
 
 	function generateFilterItem(tag, f){
 		var html = "<"+tag+" class=\"filter"+f.filter+"\">";
+		html += "<small><a href=\"javascript:deleteFilter(" + f.fromWild + ", '" + f.from + "', " + f.toWild + ", '" + f.to + "');\">delete</a></small>";
 		if(f.toWild)
 			html += "* ";
 		if(f.to == "")
 			html += "anywhere";
 		else
 			html += f.to;
-		html += " <small><a href=\"javascript:deleteFilter(" + f.fromWild + ", '" + f.from + "', " + f.toWild + ", '" + f.to + "');\">delete</a></small>";
 		html += "</"+tag+">";
 		return html;
 	}

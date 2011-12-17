@@ -6,10 +6,10 @@
 	<script src="script/options.js" ></script>
 </head>
 <body class="popupBody">
-	<h1>Kiss Privacy <small><a href="javascript:showOptions();">options</a></small></h1>
+	<div style="float:right;"><a class="button" href="javascript:showOptions();">options...</a></div>
 	<p id="filterReport"></p>
 
-	<h2>Tracked Requests <small><a href="javascript:clearTrackedRequests();">Clear</a></small></h2>
+	<h2>Tracked Requests <small><a class="button" href="javascript:clearTrackedRequests();"><span>Clear</span></a></small></h2>
 	
 	<div id="trackedTable" class="table">
 		<div class="header">
@@ -35,6 +35,26 @@
 			<div><input type="submit" value="Add" /></div>
 		</form>
 	</div>
-	<script>loadPopup();</script>
+	<script>
+		chrome.tabs.query({'active': true}, function(tabs){
+
+			displayDomain = b.getDomain(tabs[0].url);
+			var f = b.getDomainFilter(displayDomain);
+
+			if(f == null){
+				var url = b.blockReport[tabs[0].id];
+				//delete b.blockReport[tab.id];
+				f = b.getFilter(displayDomain, b.getDomain(url));
+			}
+			
+			if(f != null)
+				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
+
+			fillTrackedTable(
+				displayDomain,
+				document.getElementById('trackedTable')
+			);
+		});
+	</script>
 </body>
 </html>
