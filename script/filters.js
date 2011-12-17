@@ -79,14 +79,25 @@ function getDomainFilter(domain)
 function getRequestFilter(from, to)
 {
 	//From direct match
-	f = filters[from];
-	if(f == null){
-		//From wildcard match
-		f = getWild(filters, from);
-		if(f == null)
-			return null;
+	var f = filters[from];
+
+	if(f != null){
+		//To 
+		var t = getRequestFilterTo(f, to);
+		if(t != null)
+			return t;
 	}
 
+	//From wildcard match
+	f = getWild(filters, from);
+	if(f == null)
+		return null;
+
+	return getRequestFilterTo(f, to);
+}
+
+function getRequestFilterTo(f, to)
+{
 	//To direct match
 	var t = f[to];
 	if(t != null)
@@ -100,7 +111,6 @@ function getRequestFilter(from, to)
 	//To empty match
 	return f[""];
 }
-
 
 //Helper for getDomainFilter and getFilter
 function getWild(source, domain){
