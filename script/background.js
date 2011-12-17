@@ -11,22 +11,6 @@ chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_url
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
 
-//Counter of blocked requests, shown in the badge.
-var blocked = 0;
-
-//Flash the icon and increase the block count
-function addOne(tabId)
-{
-	blocked++;
-	chrome.browserAction.setBadgeText({text: '' + blocked});
-	chrome.browserAction.setBadgeBackgroundColor({color: [255,255,0,255]});
-	chrome.browserAction.setIcon({path: "images/red.png"});
-	setTimeout(function(){
-		chrome.browserAction.setIcon({path: "images/green.png"});
-	}, 100);
-}
-
-
 function onBeforeRequest(d) {
 	var domain = getDomain(d.url);
 	
@@ -44,10 +28,7 @@ function onBeforeRequest(d) {
 	}
 
 	if(testDomainFilter(domain) == "block")
-	{
-		addOne();
 		return {cancel: true};
-	}
 }
 
 
@@ -82,7 +63,7 @@ function onBeforeSendHeaders(d) {
 
 	//Allow all within the same domain
 	if(domain === referrer)
-		return;
+		return {requestHeaders: d.requestHeaders};
 
 	//Find matching filter
 	var filter = testFilter(referrer, domain)
@@ -101,14 +82,15 @@ function onBeforeSendHeaders(d) {
 
 	//Allow empty referrer, we assume it is user entered requests
 	if(referrer == undefined || referrer == "")
-		return;
+		return {requestHeaders: d.requestHeaders};
+
+	//Load default
+	if(filter == null)
+		filter = defaultFilter;
 
 	//Find existing match
 	if(filter == "block")
-	{
-		addOne();
 		return {cancel: true};
-	}
 	if(filter == "clear"){
 		for(var i = 0; i < d.requestHeaders.length; i++){
 			if(d.requestHeaders[i].name == "Referer"){

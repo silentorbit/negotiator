@@ -23,7 +23,13 @@ if(filters == null){
 if(filters.wild == null)
 	filters.wild = {};
 
+var defaultFilter = localStorage.getItem('defaultFilter') || "pass";
 
+function setDefaultFilter(f){
+	defaultFilter = f;
+	localStorage.defaultFilter = f;
+}
+	
 function testDomainFilter(domain)
 {
 	var f = getDomainFilter(domain);

@@ -17,6 +17,31 @@
 
 		b.addFilter(f);
 		updateFilters();
+
+		//Remove tracked requests matching filter
+		for(var i in b.TrackedRequests){
+			var t = b.TrackedRequests[i];
+
+			if(f.from != undefined && f.from != ""){
+				if(f.fromWild && b.endsWith(t.from, f.from) == false)
+					continue;
+				else if(f.from != t.from)
+					continue;
+				
+			}
+			if(f.to != undefined && f.to != ""){
+				if(f.toWild && b.endsWith(t.to, f.to) == false)
+					continue;
+				else if(f.to != t.to)
+					continue;
+			}
+			
+			//Remove record
+			delete b.TrackedRequests[i];
+		}
+
+		//Update tracked requests list
+		fillTrackedTable(displayDomain, document.getElementById('trackedTable'));
 	}
 
 	function deleteFilterFrom(fromWild, from){
@@ -47,18 +72,20 @@
 			result.innerHTML = referrer + " -> " + generateFilterItem('span', filter);
 	}
 
+	var displayDomain;
+
 	function loadPopup(){
 		chrome.tabs.query({'active': true}, function(tabs){
 
-			var domain = b.getDomain(tabs[0].url);
-			var f = b.getDomainFilter(domain);
+			displayDomain = b.getDomain(tabs[0].url);
+			var f = b.getDomainFilter(displayDomain);
 
 			if(f != null)
 				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
 			
 			
 			fillTrackedTable(
-				domain,
+				displayDomain,
 				document.getElementById('trackedTable')
 			);
 		});
@@ -67,6 +94,10 @@
 	function loadOptions(){
 		updateFilters();
 		fillTrackedTable(null, document.getElementById('trackedTable'));
+
+		var df = document.getElementById('filter'+b.defaultFilter);
+		if(df != null)
+			df.checked = true;
 	}
 
 	//load options page in a new tab
@@ -86,6 +117,10 @@
 	}
 
 	function updateFilters(){
+		var filterTag = document.getElementById('filters');
+		if(filterTag == null)
+			return;
+			
 		var html = "<h3>From anywhere</h3>";
 		html += generateFilterList(b.filters[""]);
 		for(var i in b.filters)
@@ -95,16 +130,14 @@
 			html += "<h3>From " + i +
 			" <small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
 			"</h3>" + generateFilterList(b.filters[i]);
-			
-			
 		}
 		for(var i in b.filters.wild)
 		{
-			html += "<h3>From " + i +
-			" <small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
+			html += "<h3>From * " + i +
+			" <small><a href=\"javascript:deleteFilterFrom(true, '" + i + "');\">delete</a></small>" +
 			"</h3>" + generateFilterList(b.filters.wild[i]);
 		}
-		document.getElementById('filters').innerHTML = html;
+		filterTag.innerHTML = html;
 	}
 
 	function generateFilterList(list){

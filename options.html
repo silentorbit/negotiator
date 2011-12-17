@@ -14,16 +14,23 @@
 	</div>
 
 	<h1>Kiss Privacy</h1>
-	<input id="testFrom" value="example.com">
-	<input id="testTo" value="doubleclick.net">
-	<input type="button" onClick="test();" value="Test" />
-	<div id="testResult">-</div>
-	
-	<p>
-		<span class="filterpass">pass(default)</span>
-		<span class="filterblock">block</span>
-		<span class="filterclear">clear: remove referer</span>
-	</p>
+	<div>
+		<input id="testFrom" value="example.com">
+		<input id="testTo" value="doubleclick.net">
+		<input type="button" onClick="test();" value="Test" />
+		<div id="testResult">-</div>
+	</div>
+	<div>
+		Default:
+		<input type="radio" name="defaultfilter" id="filterpass" onClick="b.setDefaultFilter('pass')" />
+		<label class="filterpass" for="filterpass">pass</label>
+		
+		<input type="radio" name="defaultfilter" id="filterblock" onClick="b.setDefaultFilter('block')" />
+		<label class="filterblock" for="filterblock">block</label>
+		
+		<input type="radio" name="defaultfilter" id="filterclear" onClick="b.setDefaultFilter('clear')" />
+		<label class="filterclear" for="filterclear">clear: remove referrer and cookies</label>
+	</div>
 	<div class="column">
 		<div id="filters"></div>
 	</div>
@@ -51,8 +58,6 @@
 				<div><select id="filter">
 					<option value="block" selected class="filterblock">Block</option>
 					<option value="pass" class="filterpass">Pass</option>
-					<option value="fake" disabled>Fake</option>
-					<option value="clean" disabled>Clean</option>
 					<option value="clear" class="filterclear">Clear</option>
 				</select></div>
 				<div><input type="submit" value="Add" /></div>
