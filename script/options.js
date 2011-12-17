@@ -23,17 +23,22 @@
 			var t = b.TrackedRequests[i];
 
 			if(f.from != undefined && f.from != ""){
-				if(f.fromWild && b.endsWith(t.from, f.from) == false)
-					continue;
-				else if(f.from != t.from)
-					continue;
-				
+				if(f.fromWild){
+					if(b.endsWith(t.from, f.from) == false)
+						continue;
+				}else{
+					if(f.from != t.from)
+						continue;
+				}
 			}
 			if(f.to != undefined && f.to != ""){
-				if(f.toWild && b.endsWith(t.to, f.to) == false)
-					continue;
-				else if(f.to != t.to)
-					continue;
+				if(f.toWild){
+					if(b.endsWith(t.to, f.to) == false)
+						continue;
+				}else{
+					if(f.to != t.to)
+						continue;
+				}
 			}
 			
 			//Remove record
