@@ -24,7 +24,7 @@
 
 			if(f.from != undefined && f.from != ""){
 				if(f.fromWild){
-					if(b.endsWith(t.from, f.from) == false)
+					if(endsWith(t.from, f.from) == false)
 						continue;
 				}else{
 					if(f.from != t.from)
@@ -33,7 +33,7 @@
 			}
 			if(f.to != undefined && f.to != ""){
 				if(f.toWild){
-					if(b.endsWith(t.to, f.to) == false)
+					if(endsWith(t.to, f.to) == false)
 						continue;
 				}else{
 					if(f.to != t.to)
@@ -172,3 +172,8 @@
 		table.appendChild(row);
 	}
 
+	function endsWith(str, suffix) {
+		if(str == undefined)
+			return false;
+		return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}

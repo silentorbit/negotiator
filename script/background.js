@@ -15,6 +15,24 @@ chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_url
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
 
+
+function getDomain(url){
+	if(url === undefined)
+		return "";
+	var domain = url.split("://");
+	if(domain.length > 1)
+		domain = domain[1];
+	else
+		domain = domain[0];	
+	domain = domain.split("/")[0];
+	var pos = domain.indexOf("@");
+	if(pos != -1) domain = domain.substr(pos + 1);
+	pos = domain.indexOf(":");
+	if(pos != -1) domain = domain.substr(0, pos);
+	return domain;
+}
+
+
 function onBeforeRequest(d) {
 	var domain = getDomain(d.url);
 	
