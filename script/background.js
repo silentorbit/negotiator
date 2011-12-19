@@ -1,4 +1,6 @@
 
+//Only keep mozilla in the user-agent
+var userAgent = navigator.userAgent.replace(/([^ ]*).* (Chrome[^ ]*).*/, '$1')
 
 //Requests without any matching filter
 var TrackedRequests = {};
@@ -73,7 +75,7 @@ function onBeforeSendHeaders(d) {
 		if(h.name == "Referer")
 			referrer = getDomain(h.value);
 		if(h.name == "User-Agent")
-			h.value = "Mozilla/5.0";
+			h.value = userAgent;
 		if(h.name == "Accept")
 			h.value = "*/*";
 //		if(h.name == "Accept-Encoding")
