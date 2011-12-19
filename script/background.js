@@ -1,6 +1,10 @@
 
-//Only keep mozilla in the user-agent
-var userAgent = navigator.userAgent.replace(/([^ ]*).* (Chrome[^ ]*).*/, '$1')
+//Keep a few parameters to allow login to google accounts
+var ua = navigator.userAgent;
+var userAgent = ua.replace(/^([^ ]*).*/, '$1 ') + "(X) " +
+	ua.replace(/.* (AppleWebKit[^ ]*).*/, '$1 (KHTML, like Gecko) ') +
+	ua.replace(/.* (Chromium[^ ]*).*/, '$1 ') + 
+	ua.replace(/.* (Chrome[^ ]*).*/, '$1');
 
 //Requests without any matching filter
 var TrackedRequests = {};
