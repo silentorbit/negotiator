@@ -49,8 +49,16 @@ function testFilter(from, to){
 function listDomainFilters(domain){
 	var ret = {};
 
+	//Add target match
+	var d = getDomainFilter(domain);
+	if(d != null){
+		console.log(JSON.stringify(d));
+		alert(JSON.stringify(d));
+		ret[d.from] = d;
+	}
+
 	//Add direct match
-	var d = filters[domain];
+	d = filters[domain];
 	if(d != null)
 		ret[domain] = d;
 

@@ -8,12 +8,11 @@
 <body class="popupBody">
 	
 	<div style="float:right;"><a class="button" href="javascript:showOptions();">All filters<br/>/options...</a></div>
-	<p id="filterReport"></p>
 
-	<p id="filters"></p>
+	<div id="filters" class="table"></div>
 
 	<h2>Tracked Requests <small><a class="button" href="javascript:clearTrackedRequests();"><span>Clear</span></a></small></h2>
-	
+
 	<div id="trackedTable" class="table">
 		<div class="header">
 			<span title="Wildcard">*</span>
@@ -23,18 +22,6 @@
 			<span>Type</span>
 			<span></span>
 		</div>
-		<form id="trackedTemplate" onSubmit="addFilter(this);">
-			<div><input type="checkbox" id="fromWild"/></div>
-			<div><input type="text" id="from" value="" /></div>
-			<div><input type="checkbox" id="toWild"/></div>
-			<div><input type="text" id="to" value="" /></div>
-			<div><select id="filter">
-				<option value="block" selected class="filterblock">Block</option>
-				<option value="pass" class="filterpass">Pass</option>
-				<option value="clear" class="filterclear">Clear</option>
-			</select></div>
-			<div><input type="submit" value="Add" /></div>
-		</form>
 	</div>
 	<script>
 		chrome.tabs.getSelected(null, function(tab){
@@ -42,19 +29,7 @@
 			domain = b.getDomain(tab.url);
 
 			//Update list of filters for domain
-			updateFilters(domain);
-
-			//Show filter for this domain
-			var f = b.getDomainFilter(domain);
-
-			if(f == null){
-				var url = b.blockReport[tab.id];
-				//delete b.blockReport[tab.id];
-				f = b.getFilter(domain, b.getDomain(url));
-			}
-			
-			if(f != null)
-				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
+			updateFilters();
 
 			//Tracked requests
 			fillTrackedTable(document.getElementById('trackedTable'));

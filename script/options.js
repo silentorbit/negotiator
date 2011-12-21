@@ -15,6 +15,9 @@
 			filter: form.filter.value
 		};
 
+		if(f.from == "" && f.to == "")
+			return;
+
 		b.addFilter(f);
 		updateFilters();
 
@@ -108,61 +111,63 @@
 		if(filterTag == null)
 			return;
 			
-		var html = "";
-		
 		if(list[""] != null)
-			html += "<h3>From anywhere</h3>" + generateFilterList(list[""]);
+			generateFilterList(filterTag, list[""]);
 		
 		for(var i in list)
 		{
 			if(i == "" || i == "wild")
 				continue;
-			html += "<h3>"+
-				"<small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
-				"From " + i +
-				"</h3>" + generateFilterList(list[i]);
+			generateFilterList(filterTag, list[i]);
 		}
 		for(var i in list.wild)
 		{
-			html += "<h3><small><a href=\"javascript:deleteFilterFrom(true, '" + i + "');\">delete</a></small>" +
-			"From * " + i +
-			"</h3>" + generateFilterList(list.wild[i]);
+			generateFilterList(filterTag, list.wild[i]);
 		}
-		filterTag.innerHTML = html;
 	}
 
-	function generateFilterList(list){
-		var html = "";
+	function generateFilterList(table, list){
 		for(var i in list)
 		{
 			if(i == "wild")
 				continue;
-			var f = list[i];
-			html += generateFilterItem('li', f);
+			table.appendChild(generateFilterItem(list[i]));
 		}
 		for(var i in list.wild)
 		{
-			var f = list.wild[i];
-			html += generateFilterItem('li', f);
+			table.appendChild(generateFilterItem(list.wild[i]));
 		}
-		return "<ul>" + html + "</ul>";
 	}
 
-	function generateFilterItem(tag, f){
-		var html = "<"+tag+" class=\"filter"+f.filter+"\">";
-		html += "<small><a href=\"javascript:deleteFilter(" + f.fromWild + ", '" + f.from + "', " + f.toWild + ", '" + f.to + "');\">delete</a></small>";
-		if(f.toWild)
-			html += "* ";
-		if(f.to == "")
-			html += "anywhere";
-		else
-			html += f.to;
-		html += "</"+tag+">";
-		return html;
+	function generateFilterItem(f){
+		var row = b.trackedTemplate.cloneNode(true);
+		row.removeAttribute('id');
+		row.className = "filter" + f.filter;
+		row.from.value = f.from;
+		row.fromWild.checked = f.fromWild;
+		row.to.value = f.to;
+		row.toWild.checked = f.toWild;
+		if(f.filter == "block")
+			row.filter[0].selected = true;
+		if(f.filter == "pass")
+			row.filter[1].selected = true;
+		if(f.filter == "clear")
+			row.filter[2].selected = true;
+		row.add.value = "delete";
+		//Disable all but delete button
+		row.from.disabled = true;
+		row.fromWild.disabled = true;
+		row.to.disabled = true;
+		row.toWild.disabled = true;
+		row.filter.disabled = true;
+		row.onsubmit = function(){deleteFilter(row.fromWild.checked, row.from.value, row.toWild.checked, row.to.value);};
+		return row;
 	}
 
 	function fillTrackedTable(table)
 	{
+		insertTrackedRow(table, "", "");
+		
 		for(var i in b.TrackedRequests)
 		{
 			var r = b.TrackedRequests[i];
@@ -177,9 +182,12 @@
 	{
 		if(from == undefined)
 			from = "";
-		var row = document.getElementById('trackedTemplate').cloneNode(true);
+		var row = b.trackedTemplate.cloneNode(true);
+		row.removeAttribute('id');
 		row.from.value = from;
 		row.to.value = to;
+		row.onsubmit=function(){addFilter(row);};
+		
 		table.appendChild(row);
 	}
 

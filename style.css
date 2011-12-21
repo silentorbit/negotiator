@@ -91,9 +91,9 @@ fieldset{
 	margin: 0;
 }
 
-#defaultFilter input[type="radio"] {
-    display:none; 
-}
+#trackedTemplate{display:none;}
+
+#defaultFilter input[type="radio"] {display:none;}
 
 #defaultFilter label {
     display:inline-block;
@@ -150,7 +150,9 @@ fieldset{
 	display: table;
 } 
 .table>*{display: table-row;} 
-.table>*:nth-child(even){background: #eee;} 
+/*
+ table>*:nth-child(even){background: #eee;}
+ */
 .table>*>*{display: table-cell;} 
 
 input[type="checkbox"] {

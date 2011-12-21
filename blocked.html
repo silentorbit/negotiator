@@ -11,19 +11,21 @@
 	<div>
 		<h1>Blocked</h1>
 		<p><a class="button" href="javascript: history.back();">Go back</a></p>
-		<div id="blockReport">nothing to report</div>
+		<div id="blockReport" class="table">nothing to report</div>
 	</div>
 	
 	<script>
 		chrome.tabs.getCurrent(function(tab){
+			var report = document.getElementById("blockReport");
+			
 			var url = b.blockReport[tab.id];
 			var f = b.getDomainFilter(b.getDomain(url));
 			var html = '<p><a href="'+url+'">'+url+'</a></p>';
+			report.innerHTML = html;
 			if(f != null){
-				html += '<p>was blocked by: ';
-				html += generateFilterItem('span', f)+'</p>';
+				report.appendChild(generateFilterItem(f));
 			}
-			document.getElementById("blockReport").innerHTML = html;
+			
 		});
 	</script>
 </body>
