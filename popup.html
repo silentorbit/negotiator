@@ -6,6 +6,7 @@
 	<script src="script/options.js" ></script>
 </head>
 <body class="popupBody">
+	
 	<div style="float:right;"><a class="button" href="javascript:showOptions();">options...</a></div>
 	<p id="filterReport"></p>
 
@@ -34,13 +35,13 @@
 		</form>
 	</div>
 	<script>
-		chrome.tabs.query({'active': true}, function(tabs){
-
-			displayDomain = b.getDomain(tabs[0].url);
+		chrome.tabs.getSelected(null, function(tab){
+			
+			displayDomain = b.getDomain(tab.url);
 			var f = b.getDomainFilter(displayDomain);
 
 			if(f == null){
-				var url = b.blockReport[tabs[0].id];
+				var url = b.blockReport[tab.id];
 				//delete b.blockReport[tab.id];
 				f = b.getFilter(displayDomain, b.getDomain(url));
 			}
