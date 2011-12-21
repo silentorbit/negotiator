@@ -45,6 +45,21 @@ function testFilter(from, to){
 	return f.filter;
 }
 
+//Return a list of all filter object matching the domain name
+function listDomainFilters(domain){
+	var ret = {};
+
+	//Add direct match
+	var d = filters[domain];
+	if(d != null)
+		ret[domain] = d;
+
+	//Add wildcard match
+	ret.wild = listWild(filters, domain);
+
+	return ret; 
+}
+
 //Return the filter string for a given domain
 //Return null if no filter matched
 function getFilter(from, to)
@@ -128,6 +143,27 @@ function getWild(source, domain){
 		domain = domain.substring(p + 1);
 	}
 	return null;
+}
+
+//Same as getWild but return every match in a list
+function listWild(source, domain){
+	var ret = {};
+	
+	source = source.wild;
+	if(source == null)
+		return ret;
+	while(domain != ""){
+		var t = source[domain];
+		if(t != null)
+			ret[domain] = t;
+		//remove one subdomain
+		var p = domain.indexOf(".");
+		if(p < 0)
+			return ret;
+		domain = domain.substring(p + 1);
+	}
+	
+	return ret;
 }
 
 function addFilter(f)

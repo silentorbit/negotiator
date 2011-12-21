@@ -12,6 +12,10 @@ body{
 	padding: 0.5em 0 0 40px;
 }
 
+.popupBody #filters{
+	width: 70%;
+}
+
 #mainpanel{
 	color: #fff;
 	display:table-cell;

@@ -46,7 +46,7 @@
 		}
 
 		//Update tracked requests list
-		fillTrackedTable(displayDomain, document.getElementById('trackedTable'));
+		fillTrackedTable(domain, document.getElementById('trackedTable'));
 	}
 
 	function deleteFilterFrom(fromWild, from){
@@ -77,8 +77,6 @@
 			result.innerHTML = referrer + " -> " + generateFilterItem('span', filter);
 	}
 
-	var displayDomain;
-
 	//load options page in a new tab
 	function showOptions(){
 		var optionsUrl = chrome.extension.getURL('options.html');
@@ -95,27 +93,40 @@
 		chrome.tabs.create({url:optionsUrl}); 
 	}
 
+	//Set by popup page when only filters for one domain is to be shown
+	var domain;
+
 	function updateFilters(){
+		var list;
+		if(domain == null)
+			list = b.filters;
+		else
+			list = b.listDomainFilters(domain);
+			
+			
 		var filterTag = document.getElementById('filters');
 		if(filterTag == null)
 			return;
 			
-		var html = "<h3>From anywhere</h3>";
-		html += generateFilterList(b.filters[""]);
-		for(var i in b.filters)
+		var html = "";
+		
+		if(list[""] != null)
+			html += "<h3>From anywhere</h3>" + generateFilterList(list[""]);
+		
+		for(var i in list)
 		{
 			if(i == "" || i == "wild")
 				continue;
 			html += "<h3>"+
 				"<small><a href=\"javascript:deleteFilterFrom(false, '" + i + "');\">delete</a></small>" +
 				"From " + i +
-				"</h3>" + generateFilterList(b.filters[i]);
+				"</h3>" + generateFilterList(list[i]);
 		}
-		for(var i in b.filters.wild)
+		for(var i in list.wild)
 		{
 			html += "<h3><small><a href=\"javascript:deleteFilterFrom(true, '" + i + "');\">delete</a></small>" +
 			"From * " + i +
-			"</h3>" + generateFilterList(b.filters.wild[i]);
+			"</h3>" + generateFilterList(list.wild[i]);
 		}
 		filterTag.innerHTML = html;
 	}
@@ -150,12 +161,12 @@
 		return html;
 	}
 
-	function fillTrackedTable(domain, table)
+	function fillTrackedTable(table)
 	{
 		for(var i in b.TrackedRequests)
 		{
 			var r = b.TrackedRequests[i];
-			if(domain != undefined && r.from != domain)
+			if(domain != null && r.from != domain)
 				continue;
 				
 			insertTrackedRow(table, r.from, r.to);

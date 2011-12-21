@@ -7,8 +7,10 @@
 </head>
 <body class="popupBody">
 	
-	<div style="float:right;"><a class="button" href="javascript:showOptions();">options...</a></div>
+	<div style="float:right;"><a class="button" href="javascript:showOptions();">All filters<br/>/options...</a></div>
 	<p id="filterReport"></p>
+
+	<p id="filters"></p>
 
 	<h2>Tracked Requests <small><a class="button" href="javascript:clearTrackedRequests();"><span>Clear</span></a></small></h2>
 	
@@ -36,23 +38,26 @@
 	</div>
 	<script>
 		chrome.tabs.getSelected(null, function(tab){
-			
-			displayDomain = b.getDomain(tab.url);
-			var f = b.getDomainFilter(displayDomain);
+			//Get tab domain
+			domain = b.getDomain(tab.url);
+
+			//Update list of filters for domain
+			updateFilters(domain);
+
+			//Show filter for this domain
+			var f = b.getDomainFilter(domain);
 
 			if(f == null){
 				var url = b.blockReport[tab.id];
 				//delete b.blockReport[tab.id];
-				f = b.getFilter(displayDomain, b.getDomain(url));
+				f = b.getFilter(domain, b.getDomain(url));
 			}
 			
 			if(f != null)
 				document.getElementById('filterReport').innerHTML = "Filtered: " + f.filter + generateFilterItem('div', f);
 
-			fillTrackedTable(
-				displayDomain,
-				document.getElementById('trackedTable')
-			);
+			//Tracked requests
+			fillTrackedTable(document.getElementById('trackedTable'));
 		});
 	</script>
 </body>
