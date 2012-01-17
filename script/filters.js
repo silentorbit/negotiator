@@ -52,8 +52,6 @@ function listDomainFilters(domain){
 	//Add target match
 	var d = getDomainFilter(domain);
 	if(d != null){
-		console.log(JSON.stringify(d));
-		alert(JSON.stringify(d));
 		ret[d.from] = d;
 	}
 

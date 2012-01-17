@@ -76,8 +76,10 @@
 		var result = document.getElementById("testResult");
 		if(filter == null)
 			result.innerHTML = "no match, default";
-		else
-			result.innerHTML = referrer + " -> " + generateFilterItem('span', filter);
+		else {
+			result.innerHTML = "";
+			result.appendChild(generateFilterItem(filter));
+		}
 	}
 
 	//load options page in a new tab

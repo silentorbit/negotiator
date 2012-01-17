@@ -54,16 +54,6 @@ function onBeforeRequest(d) {
 		chrome.tabs.update(d.tabId, {url: p});
 		return {cancel: true};
 	}
-
-	if(testDomainFilter(domain) == "block"){
-		if(d.type == "main_frame"){
-			blockReport[d.tabId] = d.url;
-			chrome.browserAction.setIcon({tabId: d.tabId, path: 'images/red.png'});
-			//return {cancel: true};
-			return {redirectUrl: chrome.extension.getURL('blocked.html')};
-		}else
-			return {cancel: true};
-	}
 }
 
 
