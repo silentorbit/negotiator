@@ -1,5 +1,5 @@
 {
-	"version": "0.0.0.20",
+	"version": "0.0.0.21",
 	"name": "KISS Privacy",
 	"minimum_chrome_version": "17.0.0.0",
 	"icons": {
@@ -7,7 +7,7 @@
 		"48": "images/icon48.png",
 		"128": "images/icon128.png"
 	},
-	"description": "Privacy enhancement by blocking and filtering",
+	"description": "Simple ad-blocking/privacy filter for advanced users.",
 	"browser_action": {
 		"default_icon": "images/icon16.png",
 		"default_title": "Kiss Privacy",
