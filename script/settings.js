@@ -20,30 +20,30 @@ function setIgnoreWWW(enabled){
 
 //Load actions
 var actions = JSON.parse(localStorage.getItem("actions"));
-if(actions == null || true){
+if(actions == null){
 	//Load default actions
 	actions = {};
 	
 	actions.pass = {
 		color: "#4f4",
-		block: false
+		block: "false"
 	}
 
 	actions.clear = {
 		color: "#8ce",
-		Agent: "simple",
-		Referer: "remove",
-		Cookie: "remove",
-		Accept: "remove",
-		AcceptLanguage: "remove",
-		AcceptEncoding: "remove",
-		AcceptCharset: "remove",
-		block: false
+		block: "false",
+		agent: "pass",
+		referer: "remove",
+		cookie: "remove",
+		accept: "pass",
+		ccceptlanguage: "pass",
+		acceptencoding: "pass",
+		acceptcharset: "pass"
 	}
 
 	actions.block = {
 		color: "#f64",
-		block: true
+		block: "true"
 	}
 	saveActions();
 }

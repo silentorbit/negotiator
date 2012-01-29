@@ -113,7 +113,7 @@ function onBeforeSendHeaders(d) {
 	var action = actions[filter];
 
 	//Apply filters
-	if(action.block){
+	if(action.block == "true"){
 		if(d.type == "main_frame"){
 			blockReport[d.tabId] = d.url;
 			chrome.browserAction.setIcon({

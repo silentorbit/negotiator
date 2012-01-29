@@ -101,6 +101,84 @@
 	//Set by popup page when only filters for one domain is to be shown
 	var domain;
 
+	function setSelected(list, value){
+		for(var i = 0; i < list.length; i++){
+			var li = list[i];
+			if(li.value == value){
+				list[i].selected = true;
+				return;
+			}
+		}
+	}
+
+	//Populate Actions list
+	
+	function updateActions(){
+		var tag = document.getElementById('actions');
+		if(tag == null)
+			return;
+			
+		for(var i in b.actions)
+		{
+			var row = b.actionTemplate.cloneNode(true);
+			var a = b.actions[i];
+			row.filterAction = a;
+			
+			row.removeAttribute('id');
+			//row.className = "filter" + i;
+			row.style.background = a.color;
+
+			row.actionName.value = i;
+			row.actionName.disabled = true;
+
+			row.color.value = a.color;
+			
+			setSelected(row.block, a.block);	//Block request
+			setSelected(row.agent, a.agent);	//User-Agent
+			setSelected(row.referer, a.referer);	//Referer
+			setSelected(row.cookie, a.cookie);	//Cookie, Cookie-Set
+			setSelected(row.accept, a.accept);	//Accept
+			setSelected(row.acceptlanguage, a.acceptlanguage);	//Accept-Language
+			setSelected(row.acceptencoding, a.acceptencoding);	//Accept-Encoding
+			setSelected(row.acceptcharset, a.acceptcharset);	//Accept-Charset
+
+			row.onsubmit = function(){
+				this.filterAction.color = this.color.value;
+				this.filterAction.block = this.block.value;
+				this.filterAction.agent = this.agent.value;
+				this.filterAction.referer = this.referer.value;
+				this.filterAction.cookie = this.cookie.value;
+				this.filterAction.accept = this.accept.value;
+				this.filterAction.acceptlanguage = this.acceptlanguage.value;
+				this.filterAction.acceptencoding = this.acceptencoding.value;
+				this.filterAction.acceptcharset = this.acceptcharset.value;
+				
+				b.saveActions();
+				return true;
+			};
+
+			row.delete.onclick = function(){
+				delete b.actions[this.form.actionName.value];
+				return true;
+			}
+			
+			tag.appendChild(row);
+		}
+	}
+
+	function addAction(form){
+		var n = form.actionName.value;
+		if(b.actions[n] != undefined){
+			alert(n + " does already exist");
+			return;
+		}
+
+		b.actions[n] = {};
+		b.actions[n].color = "green";
+		b.actions[n].block = "false";
+	}
+
+	//Populate filters list
 	function updateFilters(){
 		var list;
 		if(domain == null)
@@ -144,28 +222,27 @@
 	function generateFilterItem(f){
 		var row = b.trackedTemplate.cloneNode(true);
 		row.removeAttribute('id');
-		row.className = "filter" + f.filter;
+		row.style.background = b.actions[f.filter].color;
 		row.from.value = f.from;
 		row.fromWild.checked = f.fromWild;
 		row.to.value = f.to;
 		row.toWild.checked = f.toWild;
-		if(f.filter == "block")
-			row.filter[0].selected = true;
-		if(f.filter == "pass")
-			row.filter[1].selected = true;
-		if(f.filter == "clear")
-			row.filter[2].selected = true;
+		row.filter.options[0] = new Option(f.filter, f.filter);
+		row.filter.options[0].selected = true;
 		row.add.value = "delete";
+
 		//Disable all but delete button
 		row.from.disabled = true;
 		row.fromWild.disabled = true;
 		row.to.disabled = true;
 		row.toWild.disabled = true;
 		row.filter.disabled = true;
+		
 		row.onsubmit = function(){deleteFilter(row.fromWild.checked, row.from.value, row.toWild.checked, row.to.value);};
 		return row;
 	}
 
+	//Tracked requests
 	function fillTrackedTable(table)
 	{
 		insertTrackedRow(table, "", "");
@@ -188,6 +265,17 @@
 		row.removeAttribute('id');
 		row.from.value = from;
 		row.to.value = to;
+
+		var i = 0;
+		for(var f in b.actions)
+		{
+			row.filter.options[i] = new Option(f, f);
+			row.filter.options[i].style.background = b.actions[f].color;
+			row.filter.options[i].selected = true;
+			i++;
+		}
+		setSelected(row.filter, b.defaultFilter);
+		
 		row.onsubmit=function(){addFilter(row);};
 		
 		table.appendChild(row);

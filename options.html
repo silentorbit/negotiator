@@ -47,11 +47,6 @@
 	
 </div>
 
-	<div>
-		<h1>Filters</h1>
-		<div id="filters" class="table"></div>
-	</div>
-
 	<div id="tracked">
 		<h1>
 			Tracked Requests
@@ -70,11 +65,29 @@
 		</div>
 	</div>
 
+	<div id="filtersTab">
+		<h1>Filters</h1>
+		<div id="filters" class="table"></div>
+	</div>
+
+	<div id="actionsTab">
+		<h1>Actions</h1>
+		<form id="actionTemplate" onSubmit="addAction(this);">
+			<div>Name: <input id="actionName" value="name"/></div>
+			<div><input type="submit" id="add" value="Add" /></div>
+		</form>
+		<div id="actions"></div>
+	</div>
+
 	<script>
-		//Filters
-		updateFilters();
 		//Tracked Requests
 		fillTrackedTable(document.getElementById('trackedTable'));
+
+		//Filters
+		updateFilters();
+
+		//Filters
+		updateActions();
 
 		//Default Action
 		var df = document.getElementById('filter'+b.defaultFilter);
@@ -83,5 +96,6 @@
 		//Ignore WWW
 		document.getElementById('ignoreWWW').checked = b.ignoreWWW;
 	</script>
+	
 </body>
 </html>
