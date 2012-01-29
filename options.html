@@ -39,6 +39,12 @@
 		<label class="filterclear button" for="filterclear" title="Remove referrer and cookies">clear</label>
 	</fieldset>
 
+	<h2>Ignore www.</h2>
+	<fieldset id="ignoreWWWSetting">
+		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" onClick="b.setIgnoreWWW(this.checked)" />
+		<label for="ignoreWWW">Ignore leading www.</label>
+	</fieldset>
+	
 </div>
 
 	<div>
@@ -65,12 +71,17 @@
 	</div>
 
 	<script>
+		//Filters
 		updateFilters();
+		//Tracked Requests
 		fillTrackedTable(document.getElementById('trackedTable'));
 
+		//Default Action
 		var df = document.getElementById('filter'+b.defaultFilter);
 		if(df != null)
 			df.checked = true;
+		//Ignore WWW
+		document.getElementById('ignoreWWW').checked = b.ignoreWWW;
 	</script>
 </body>
 </html>

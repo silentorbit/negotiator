@@ -1,34 +1,4 @@
 
-var filters = JSON.parse(localStorage.getItem("filters"));
-//First time the filter is filled with entries from blockedDomains
-if(filters == null){
-	//Fill with embedded block list
-	filters = {};
-	filters[""] = {};
-	filters[""].wild = {};
-	
-	for(var i in blockedDomains)
-	{
-		var f = {
-			from: "",
-			fromWild: false,
-			to: blockedDomains[i],
-			toWild: true,
-			filter: "block"
-		};
-		filters[""].wild[f.to] = f;
-	}
-	
-}
-if(filters.wild == null)
-	filters.wild = {};
-
-var defaultFilter = localStorage.getItem('defaultFilter') || "pass";
-
-function setDefaultFilter(f){
-	defaultFilter = f;
-	localStorage.defaultFilter = f;
-}
 	
 function testDomainFilter(domain)
 {
@@ -70,6 +40,14 @@ function listDomainFilters(domain){
 //Return null if no filter matched
 function getFilter(from, to)
 {
+	//Remove leading www.
+	if(ignoreWWW){
+		if(from !== undefined && from.lastIndexOf("www.", 0) == 0)
+			from = from.substring(4);
+		if(to.lastIndexOf("www.", 0) == 0)
+			to = to.substring(4);
+	}
+	
 	if(from !== undefined){
 		var f = getRequestFilter(from, to);
 		if(f != null)

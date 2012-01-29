@@ -35,6 +35,11 @@ function getDomain(url){
 	if(pos != -1) domain = domain.substr(pos + 1);
 	pos = domain.indexOf(":");
 	if(pos != -1) domain = domain.substr(0, pos);
+
+	//Remove leading www.
+	if(ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
+		domain = domain.substring(4);
+
 	return domain;
 }
 
