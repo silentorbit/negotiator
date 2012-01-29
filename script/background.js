@@ -71,24 +71,10 @@ function onBeforeSendHeaders(d) {
 	var header = {};
 	for(var i = 0; i < d.requestHeaders.length; i++){
 		var h = d.requestHeaders[i];
-		if(h.name == "Referer")
+		if(h.name == "Referer"){
 			referrer = getDomain(h.value);
-		if(h.name == "User-Agent")
-			h.value = userAgent;
-		if(h.name == "Accept")
-			h.value = "*/*";
-//		if(h.name == "Accept-Encoding")
-//			h.value = "gzip,deflate,sdch";
-		if(h.name == "Accept-Language"){
-			d.requestHeaders.splice(i, 1);
-			i--;
-			continue;
+			break;
 		}
-		if(h.name == "Accept-Charset"){
-			d.requestHeaders.splice(i, 1);
-			i--;
-			continue;
-		}		
 	}
 
 	//Allow all within the same domain
@@ -105,13 +91,13 @@ function onBeforeSendHeaders(d) {
 		var req = TrackedRequests[reqKey];
 		if(req == undefined)
 		{
-			req = {from: referrer, to: domain, block: false};
+			req = {from: referrer, to: domain};
 			TrackedRequests[reqKey] = req;
 		}
 	}
 
 	//Allow empty referrer, we assume it is user entered requests
-	if(referrer == undefined || referrer == "")
+	if(filter == null && (referrer == undefined || referrer == ""))
 		return {requestHeaders: d.requestHeaders};
 
 	//Load default
@@ -123,8 +109,11 @@ function onBeforeSendHeaders(d) {
 			filter = "clear";
 	}
 
-	//Find existing match
-	if(filter == "block"){
+	//Get matching action
+	var action = actions[filter];
+
+	//Apply filters
+	if(action.block){
 		if(d.type == "main_frame"){
 			blockReport[d.tabId] = d.url;
 			chrome.browserAction.setIcon({
@@ -134,18 +123,71 @@ function onBeforeSendHeaders(d) {
 		}
 		return {cancel: true};
 	}
-	if(filter == "clear"){
-		for(var i = 0; i < d.requestHeaders.length; i++){
-			if(d.requestHeaders[i].name == "Referer"){
+	
+	for(var i = 0; i < d.requestHeaders.length; i++){
+		if(d.requestHeaders[i].name == "Referer"){
+			if(action.Referer == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
-				continue;
 			}
-			if(d.requestHeaders[i].name == "Cookie"){
+			continue;
+		}
+		if(d.requestHeaders[i].name == "Cookie"){
+			if(action.Cookie == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
-				continue;
 			}
+			continue;
+		}
+		if(d.requestHeaders[i].name == "User-Agent"){
+			if(action.UserAgent == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			if(action.UserAgent == "simple")
+				d.requestHeaders[i].value = userAgent;
+			continue;
+		}
+		if(d.requestHeaders[i].name == "User-Agent"){
+			if(action.UserAgent == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			if(action.UserAgent == "simple")
+				d.requestHeaders[i].value = userAgent;
+			if(action.UserAgent == "minimal")
+				d.requestHeaders[i].value = "Mozilla/5.0";
+			continue;
+		}
+		if(d.requestHeaders[i].name == "Accept"){
+			if(action.Accept == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			if(action.Accept == "any")
+				d.requestHeaders[i].value = "*/*";
+			continue;
+		}
+		if(d.requestHeaders[i].name == "Accept-Encoding"){
+			if(action.AcceptEncoding == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			continue;
+		}
+		if(d.requestHeaders[i].name == "Accept-Language"){
+			if(action.AcceptLanguage == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			continue;
+		}
+		if(d.requestHeaders[i].name == "Accept-Charset"){
+			if(action.AcceptCharset == "remove"){
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
+			continue;
 		}
 	}
 		
@@ -161,7 +203,11 @@ function onHeadersReceived(d){
 	var f = requestFilter[d.requestId];
 	delete requestFilter[d.requestId];
 
-	if(f == "clear"){
+	var action = actions[f];
+	if(action == undefined)
+		return;
+
+	if(action.Cookie == "remove"){
 		for(var i = 0; i < d.responseHeaders.length; i++){
 			if(d.responseHeaders[i].name == "Set-Cookie"){
 				d.responseHeaders.splice(i, 1);

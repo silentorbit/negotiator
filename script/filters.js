@@ -222,7 +222,3 @@ function deleteFilterFrom(fromWild, from){
 	
 	saveFilters();
 }
-
-function saveFilters(){
-	localStorage.filters = JSON.stringify(filters);
-}
