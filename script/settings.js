@@ -4,11 +4,19 @@
 
 //Settings
 
-//Default filter
-var defaultFilter = localStorage.getItem('defaultFilter') || "pass";
+//Default filter: what action to take when no filter match
+//We changed the storage key from defaultFilter to defaultAction
+var defaultAction = localStorage.getItem('defaultAction') || localStorage.getItem('defaultFilter') || "pass";
 function setDefaultFilter(f){
-	defaultFilter = f;
-	localStorage.defaultFilter = f;
+	defaultAction = f;
+	localStorage.defaultAction = f;
+}
+
+//Default new filter: what the preselected action for new filters are
+var defaultNewFilterAction = localStorage.getItem('defaultNewFilterAction') || "block";
+function setDefaultNewFilterAction(f){
+	defaultNewFilterAction = f;
+	localStorage.defaultNewFilterAction = f;
 }
 
 //Ignore leading www.

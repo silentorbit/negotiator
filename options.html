@@ -27,17 +27,15 @@
 		<div id="testResult"></div>
 	</div>
 
-	<h2>Default</h2>
-	<fieldset id="defaultFilter">
-		<input type="radio" name="defaultfilter" id="filterpass" onClick="b.setDefaultFilter('pass')" />
-		<label class="filterpass button" for="filterpass">pass</label>
-		
-		<input type="radio" name="defaultfilter" id="filterblock" onClick="b.setDefaultFilter('block')" />
-		<label class="filterblock button" for="filterblock">block</label>
-		
-		<input type="radio" name="defaultfilter" id="filterclear" onClick="b.setDefaultFilter('clear')" />
-		<label class="filterclear button" for="filterclear" title="Remove referrer and cookies">clear</label>
-	</fieldset>
+	<p>
+		<strong title="When no filter is matching, do this">Default action:</strong>
+		<select id="defaultAction" onclick="b.setDefaultFilter(this.value);"></select>
+	</p>
+
+	<p>
+		<strong title="the preset action for new filters, can be changed before the filter is added.">Default filter action:</strong>
+		<select id="defaultNewFilterAction" onclick="b.setDefaultNewFilterAction(this.value);"></select>
+	</p>
 
 	<h2>Ignore www.</h2>
 	<fieldset id="ignoreWWWSetting">
@@ -80,21 +78,7 @@
 	</div>
 
 	<script>
-		//Tracked Requests
-		fillTrackedTable(document.getElementById('trackedTable'));
-
-		//Filters
-		updateFilters();
-
-		//Filters
-		updateActions();
-
-		//Default Action
-		var df = document.getElementById('filter'+b.defaultFilter);
-		if(df != null)
-			df.checked = true;
-		//Ignore WWW
-		document.getElementById('ignoreWWW').checked = b.ignoreWWW;
+		updateOptionsPage();
 	</script>
 	
 </body>

@@ -102,7 +102,7 @@ function onBeforeSendHeaders(d) {
 
 	//Load default
 	if(filter == null){
-		filter = defaultFilter;
+		filter = defaultAction;
 
 		//Don't block main_frame links
 		if(filter == "block" && d.type == "main_frame")

@@ -5,6 +5,26 @@
 
 	var b = chrome.extension.getBackgroundPage();
 
+	//Called at the end of the options page load
+	function updateOptionsPage()
+	{
+		//Tracked Requests
+		fillTrackedTable(document.getElementById('trackedTable'));
+
+		//Filters
+		updateFilters();
+
+		//Filters
+		updateActions();
+
+		//Default Actions
+		fillActionSelect(document.getElementById('defaultAction'), b.defaultAction);
+		fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.defaultNewFilterAction);
+
+		//Ignore WWW
+		document.getElementById('ignoreWWW').checked = b.ignoreWWW;
+	}
+
 	function addFilter(form)
 	{
 		var f = {
@@ -80,22 +100,6 @@
 			result.innerHTML = "";
 			result.appendChild(generateFilterItem(filter));
 		}
-	}
-
-	//load options page in a new tab
-	function showOptions(){
-		var optionsUrl = chrome.extension.getURL('options.html');
-
-		var extviews = chrome.extension.getViews({"type": "tab"}) 
-		for (var i in extviews) { 
-			if (extviews[i].location.href == optionsUrl) { 
-				extviews[i].chrome.tabs.getCurrent(function(tab) {
-					chrome.tabs.update(tab.id, {"selected": true});
-				}); 
-				return; 
-			} 
-		} 
-		chrome.tabs.create({url:optionsUrl}); 
 	}
 
 	//Set by popup page when only filters for one domain is to be shown
@@ -266,19 +270,24 @@
 		row.from.value = from;
 		row.to.value = to;
 
-		var i = 0;
-		for(var f in b.actions)
-		{
-			row.filter.options[i] = new Option(f, f);
-			row.filter.options[i].style.background = b.actions[f].color;
-			row.filter.options[i].selected = true;
-			i++;
-		}
-		setSelected(row.filter, b.defaultFilter);
+		fillActionSelect(row.filter, b.defaultNewFilterAction);
 		
 		row.onsubmit=function(){addFilter(row);};
 		
 		table.appendChild(row);
+	}
+
+	function fillActionSelect(select, selectedAction)
+	{
+		var i = 0;
+		for(var f in b.actions)
+		{
+			select.options[i] = new Option(f, f);
+			select.options[i].style.background = b.actions[f].color;
+			select.options[i].selected = true;
+			i++;
+		}
+		setSelected(select, selectedAction);
 	}
 
 	function endsWith(str, suffix) {
