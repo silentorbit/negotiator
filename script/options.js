@@ -204,31 +204,24 @@
 		if(filterTag == null)
 			return;
 			
-		if(list[""] != null)
-			generateFilterList(filterTag, list[""]);
-		
-		for(var i in list)
-		{
-			if(i == "" || i == "wild")
+		for(var i in list.wild)
+			generateFilterList(filterTag, list.wild[i]);
+			
+		for(var i in list){
+			if(i == "wild")
 				continue;
 			generateFilterList(filterTag, list[i]);
-		}
-		for(var i in list.wild)
-		{
-			generateFilterList(filterTag, list.wild[i]);
 		}
 	}
 
 	function generateFilterList(table, list){
-		for(var i in list)
-		{
+		for(var i in list.wild)
+			table.appendChild(generateFilterItem(list.wild[i]));
+			
+		for(var i in list) {
 			if(i == "wild")
 				continue;
 			table.appendChild(generateFilterItem(list[i]));
-		}
-		for(var i in list.wild)
-		{
-			table.appendChild(generateFilterItem(list.wild[i]));
 		}
 	}
 
@@ -237,8 +230,14 @@
 		row.removeAttribute('id');
 		row.style.background = b.actions[f.filter].color;
 		row.from.value = f.from;
+		//Collides with filterDelete
+		//if(f.fromWild)
+		//	row.from.value = "* " + row.from.value;
 		row.fromWild.checked = f.fromWild;
 		row.to.value = f.to;
+		//Collides with filterDelete
+		//if(f.toWild)
+		//	row.to.value = "* " + row.to.value;
 		row.toWild.checked = f.toWild;
 		row.filter.options[0] = new Option(f.filter, f.filter);
 		row.filter.options[0].selected = true;
@@ -258,7 +257,7 @@
 	//Tracked requests
 	function fillTrackedTable(table)
 	{
-		insertTrackedRow(table, "", "");
+		insertTrackedRow(table, domain, "");
 		
 		for(var i in b.TrackedRequests)
 		{

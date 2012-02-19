@@ -66,8 +66,8 @@ var filters = JSON.parse(localStorage.getItem("filters"));
 if(filters == null){
 	//Fill with embedded block list
 	filters = {};
-	filters[""] = {};
-	filters[""].wild = {};
+	filters.wild = {};
+	filters.wild[""] = {};
 	
 	for(var i in blockedDomains)
 	{
@@ -78,15 +78,50 @@ if(filters == null){
 			toWild: true,
 			filter: "block"
 		};
-		filters[""].wild[f.to] = f;
+		filters.wild[""][f.to] = f;
 	}
 
 	//By default new installs ignore www
 	setIgnoreWWW(true);
 }
+
 if(filters.wild == null)
 	filters.wild = {};
 
+if(filters[""] != null){
+	//Uppgrade from [""] to .wild[""]
+	var list = filters[""];
+	//Prepare .wild[""]
+	if(filters.wild == null)
+		filters.wild = {};
+	if(filters.wild[""] == null)
+		filters.wild[""] = {};
+	var fromWildList = filters.wild[""];
+	if(fromWildList.wild == null)
+		fromWildList.wild = {};
+
+	//Format old wildcard [""]
+	for(ti in list){
+		if(ti == "wild"){
+			//toWild
+			for(twi in list.wild){
+				fromWildList.wild[twi] = list.wild[twi];
+				fromWildList.wild[twi].fromWild = true;
+			}
+		}else{
+			fromWildList[ti] = list[ti];
+			fromWildList[ti].fromWild = true;
+		}
+	}
+
+	//remove old version of converted filters
+	//filters[""] = null;
+
+	//Save changes
+	saveFilters();
+}
+
+	
 function saveFilters(){
 	localStorage.filters = JSON.stringify(filters);
 }

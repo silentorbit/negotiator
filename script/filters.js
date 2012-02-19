@@ -1,12 +1,4 @@
-
 	
-function testDomainFilter(domain)
-{
-	var f = getDomainFilter(domain);
-	if(f == null)
-		return null;
-	return f.filter;
-}		
 
 function testFilter(from, to){
 	var f = getFilter(from, to);
@@ -19,13 +11,7 @@ function testFilter(from, to){
 function listDomainFilters(domain){
 	var ret = {};
 
-	//Add target match
-	var d = getDomainFilter(domain);
-	if(d != null){
-		ret[d.from] = d;
-	}
-
-	//Add direct match
+	//Add exact match
 	d = filters[domain];
 	if(d != null)
 		ret[domain] = d;
@@ -47,33 +33,12 @@ function getFilter(from, to)
 		if(to.lastIndexOf("www.", 0) == 0)
 			to = to.substring(4);
 	}
-	
-	if(from !== undefined){
-		var f = getRequestFilter(from, to);
-		if(f != null)
-			return f;
-	}
-	return getDomainFilter(to);	
+
+	if(from == null)
+		return getRequestFilterTo(filters.wild[""], to);
+	else
+		return getRequestFilter(from, to);
 }	
-
-//Return the filter string for a given domain
-//Return null if no filter matched
-function getDomainFilter(domain)
-{
-	//From is always ""
-	var f = filters[""];
-	if(f == null)
-		return null;
-
-	//To direct match
-	var t = f[domain];
-	if(t != null)
-		return t;
-
-	//To wildcard match
-	return getWild(f, domain);
-}
-
 
 function getRequestFilter(from, to)
 {
@@ -95,38 +60,33 @@ function getRequestFilter(from, to)
 	return getRequestFilterTo(f, to);
 }
 
-function getRequestFilterTo(f, to)
+function getRequestFilterTo(fromList, to)
 {
 	//To direct match
-	var t = f[to];
+	var t = fromList[to];
 	if(t != null)
 		return t;
 		
 	//To wildcard match
-	t = getWild(f, to);
-	if(t != null)
-		return t;
-
-	//To empty match
-	return f[""];
+	return getWild(fromList, to);
 }
 
-//Helper for getDomainFilter and getFilter
+//Helper for getFilter
 function getWild(source, domain){
 	source = source.wild;
 	if(source == null)
 		return null;
-	while(domain != ""){
+	while(true){
 		var t = source[domain];
 		if(t != null)
 			return t;
 		//remove one subdomain
 		var p = domain.indexOf(".");
 		if(p < 0)
-			return null;
+			break;
 		domain = domain.substring(p + 1);
 	}
-	return null;
+	return source[""];
 }
 
 //Same as getWild but return every match in a list
@@ -152,22 +112,33 @@ function listWild(source, domain){
 
 function addFilter(f)
 {
-	//Remove whitespace and leading dots
-	f.from = f.from.replace(/^[\s\.]+/,'').trim();
-	f.to = f.to.replace(/^[\s\.]+/,'').trim();
-	if(f.from == "wild" || f.to == "wild"){
-		alert("Invalid domain: domain can't be 'wild'");
-		return;
+	//Remove whitespace
+	f.from = f.from.trim();
+	f.to = f.to.trim();
+
+	//Interpret leading * as wildcard
+	if(f.from.indexOf("*") == 0){
+		f.fromWild = true;
+		f.from = f.from.substring(1);
 	}
+	if(f.to.indexOf("*") == 0){
+		f.toWild = true;
+		f.to = f.to.substring(1);
+	}
+
+	//Remove leading dots
+	f.from = f.from.replace(/^[\.]+/,'').trim();
+	f.to = f.to.replace(/^[\.]+/,'').trim();
+
 	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
-		alert("domains cant contain space");
+		alert("domains can't contain spaces");
 		return;
 	}
-	//Remove wildcard if either from or to is empty
+	//Empty is interpreted as wildcard(which includes empty
 	if(f.from == "")
-		f.fromWild = false;
+		f.fromWild = true;
 	if(f.to == "")
-		f.toWild = false;
+		f.toWild = true;
 	
 	//From...
 	var fr;

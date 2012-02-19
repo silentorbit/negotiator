@@ -45,8 +45,6 @@ function getDomain(url){
 
 
 function onBeforeRequest(d) {
-	var domain = getDomain(d.url);
-	
 	//Skip google result click tracking
 	if(d.url.indexOf("google.com/url") != -1)
 	{

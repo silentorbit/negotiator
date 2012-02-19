@@ -14,3 +14,18 @@
 		} 
 		chrome.tabs.create({url:optionsUrl}); 
 	}
+
+window.onload = function() {
+	chrome.tabs.getSelected(null,
+		function(tab){
+			//Get tab domain
+			domain = b.getDomain(tab.url);
+
+			//Update list of filters for domain
+			updateFilters();
+
+			//Tracked requests
+			fillTrackedTable(document.getElementById('trackedTable'));
+		}
+	);
+}

@@ -25,17 +25,5 @@
 			<span></span>
 		</div>
 	</div>
-	<script>
-		chrome.tabs.getSelected(null, function(tab){
-			//Get tab domain
-			domain = b.getDomain(tab.url);
-
-			//Update list of filters for domain
-			updateFilters();
-
-			//Tracked requests
-			fillTrackedTable(document.getElementById('trackedTable'));
-		});
-	</script>
 </body>
 </html>
