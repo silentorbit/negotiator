@@ -5,24 +5,33 @@
 
 	var b = chrome.extension.getBackgroundPage();
 
+	window.onload = function(){
+		if(window.location.pathname.indexOf('options.html') > 0)
+			updateOptionsPage();
+		if(window.location.pathname.indexOf('filters.html') > 0)
+			updateFiltersPage();
+	}
 	//Called at the end of the options page load
 	function updateOptionsPage()
 	{
-		//Tracked Requests
-		fillTrackedTable(document.getElementById('trackedTable'));
-
-		//Filters
-		updateFilters();
-
-		//Filters
-		updateActions();
-
 		//Default Actions
 		fillActionSelect(document.getElementById('defaultAction'), b.defaultAction);
 		fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.defaultNewFilterAction);
 
 		//Ignore WWW
 		document.getElementById('ignoreWWW').checked = b.ignoreWWW;
+
+		//Action List
+		updateActions();
+	}
+
+	function updateFiltersPage()
+	{
+		//Tracked Requests
+		fillTrackedTable(document.getElementById('trackedTable'));
+
+		//Filters
+		updateFilters();
 	}
 
 	function addFilter(form)

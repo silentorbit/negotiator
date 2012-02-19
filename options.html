@@ -7,79 +7,65 @@
 </head>
 <body>
 <div id="mainpanel">
-	<h1>Kiss Privacy</h1>
 	<div class="mainmenu">
-		<div>
-		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
-		<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
-		</div>
-		<div>
-		<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
-		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
-		</div>
+		<a href="options.html" class="active">Options</a>
+		<a href="filters.html">Filters</a>
 	</div>
-	
-	<h2>Test</h2>
-	<div>
-		<input id="testFrom" value="example.com">
-		<input id="testTo" value="doubleclick.net">
-		<input type="button" onClick="test();" value="Test" />
-		<div id="testResult"></div>
-	</div>
-
 	<p>
-		<strong title="When no filter is matching, do this">Default action:</strong>
+		When there is no matching filter<br/>
+		<strong>Default action:</strong>
 		<select id="defaultAction" onclick="b.setDefaultFilter(this.value);"></select>
 	</p>
-
 	<p>
-		<strong title="the preset action for new filters, can be changed before the filter is added.">Default filter action:</strong>
+		The preset action for new filters<br/>
+		<strong>Preset action</strong>
 		<select id="defaultNewFilterAction" onclick="b.setDefaultNewFilterAction(this.value);"></select>
 	</p>
 
-	<h2>Ignore www.</h2>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" onClick="b.setIgnoreWWW(this.checked)" />
 		<label for="ignoreWWW">Ignore leading www.</label>
 	</fieldset>
-	
+
+	<div class="mainmenu" id="extensionMenu">
+		<h1>Kiss Privacy</h1>
+		<div>
+			<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
+			<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
+		</div>
+		<div>
+			<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
+			<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
+		</div>
+	</div>
 </div>
-
-	<div id="tracked">
-		<h1>
-			Tracked Requests
-			<small><a class="button" href="javascript:clearTrackedRequests();"><span>Clear</span></a></small>
-		</h1>
-
-		<div id="trackedTable" class="table">
-			<div class="header">
-				<span title="Wildcard">*</span>
-				<span>From</span>
-				<span title="Wildcard">*</span>
-				<span>To</span>
-				<span>Type</span>
+<div>
+	<div id="actionsTab">
+		<h1>Actions</h1>
+		<form id="actionTemplate" onSubmit="addAction(this);">
+			<div>
+				Action name: <input id="actionName" value="name" size="10"/>
+				<input type="submit" id="add" value="Add" />
+			</div>
+		</form>
+		<div id="actions" class="table">
+			<div>
+				<span></span>
+				<span>Name</span>
+				<span>Color</span>
+				<span>Block</span>
+				<span>User-Agent</span>
+				<span>Referer</span>
+				<span>Cookie</span>
+				<span>Accept</span>
+				<span>Language</span>
+				<span>Encoding</span>
+				<span>Charset</span>
 				<span></span>
 			</div>
 		</div>
 	</div>
-
-	<div id="filtersTab">
-		<h1>Filters</h1>
-		<div id="filters" class="table"></div>
-	</div>
-
-	<div id="actionsTab">
-		<h1>Actions</h1>
-		<form id="actionTemplate" onSubmit="addAction(this);">
-			<div>Name: <input id="actionName" value="name"/></div>
-			<div><input type="submit" id="add" value="Add" /></div>
-		</form>
-		<div id="actions"></div>
-	</div>
-
-	<script>
-		updateOptionsPage();
-	</script>
+</div>
 	
 </body>
 </html>

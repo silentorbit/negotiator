@@ -18,45 +18,47 @@
 	</form>
 
 	<form id="actionTemplate">
-		<div>Name: <input id="actionName" value="name"/></div>
-		<div>Color: <input id="color" value="#fff"/></div>
-		<div>Block: <select id="block">
+		<div><input type="submit" id="delete" value="Delete" /></div>
+		<div><input id="actionName" value="name" size="10"/></div>
+		<div><input id="color" value="#fff" size="10"/></div>
+		<div><select id="block">
 			<option value="false">No</option>
 			<option value="true">Yes</option>
 		</select></div>
-		<div>User-Agent: <select id="agent">
+		<div><select id="agent">
 			<option value="pass">Pass(Everything)</option>
 			<option value="simple">Simple(Chrome, Webkit)</option>
 			<option value="minimal">Minimal(Mozilla/5.0)</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Referer: <select id="referer">
+		<div><select id="referer">
 			<option value="pass">Pass</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Cookies: <select id="cookie">
+		<div><select id="cookie">
 			<option value="pass">Pass</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Accept: <select id="accept">
+		<div><select id="accept">
 			<option value="pass">Pass</option>
 			<option value="any">*/*</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Accept-Language: <select id="acceptlanguage">
+		<div><select id="acceptlanguage">
 			<option value="pass">Pass</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Accept-Encoding: <select id="acceptencoding">
+		<div><select id="acceptencoding">
 			<option value="pass">Pass</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div>Accept-Charset: <select id="acceptcharset">
+		<div><select id="acceptcharset">
 			<option value="pass">Pass</option>
 			<option value="remove">Remove</option>
 		</select></div>
-		<div><input type="submit" id="save" value="Save" /></div>
-		<div><input type="submit" id="delete" value="Delete" /></div>
+		<div>
+			<input type="submit" id="save" value="Save" style="float:right;"/>
+		</div>
 	</form>
 
 </body>
