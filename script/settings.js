@@ -115,7 +115,7 @@ if(filters[""] != null){
 	}
 
 	//remove old version of converted filters
-	//filters[""] = null;
+	filters[""] = null;
 
 	//Save changes
 	saveFilters();
