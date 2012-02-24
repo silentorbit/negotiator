@@ -81,12 +81,13 @@
 		fillTrackedTable(domain, document.getElementById('trackedTable'));
 	}
 
-	function deleteFilterFrom(fromWild, from){
-		b.deleteFilterFrom(fromWild, from);
-		updateFilters();
-	}
-
 	function deleteFilter(fromWild, from, toWild, to){
+		//Remove leading "* " for wildcard filters
+		if(fromWild)
+			from = from.substring(2);
+		if(toWild)
+			to = to.substring(2);
+			
 		b.deleteFilter(fromWild, from, toWild, to);
 		updateFilters();
 	}
@@ -230,14 +231,12 @@
 		row.removeAttribute('id');
 		row.style.background = b.actions[f.filter].color;
 		row.from.value = f.from;
-		//Collides with filterDelete
-		//if(f.fromWild)
-		//	row.from.value = "* " + row.from.value;
+		if(f.fromWild)
+			row.from.value = "* " + row.from.value;
 		row.fromWild.checked = f.fromWild;
 		row.to.value = f.to;
-		//Collides with filterDelete
-		//if(f.toWild)
-		//	row.to.value = "* " + row.to.value;
+		if(f.toWild)
+			row.to.value = "* " + row.to.value;
 		row.toWild.checked = f.toWild;
 		row.filter.options[0] = new Option(f.filter, f.filter);
 		row.filter.options[0].selected = true;

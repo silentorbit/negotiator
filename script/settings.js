@@ -92,8 +92,6 @@ if(filters[""] != null){
 	//Uppgrade from [""] to .wild[""]
 	var list = filters[""];
 	//Prepare .wild[""]
-	if(filters.wild == null)
-		filters.wild = {};
 	if(filters.wild[""] == null)
 		filters.wild[""] = {};
 	var fromWildList = filters.wild[""];

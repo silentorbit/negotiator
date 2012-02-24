@@ -185,11 +185,3 @@ function deleteFilter(fromWild, from, toWild, to){
 	saveFilters();
 }
 
-function deleteFilterFrom(fromWild, from){
-	if(fromWild)
-		delete filters.wild[from];
-	else
-		delete filters[from];
-	
-	saveFilters();
-}
