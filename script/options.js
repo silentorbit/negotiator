@@ -288,9 +288,10 @@
 			from = "";
 		var row = b.trackedTemplate.cloneNode(true);
 		row.removeAttribute('id');
+		row.del.style.display = "none";
 		row.from.value = from;
 		row.to.value = to;
-
+		
 		fillActionSelect(row.filter, b.defaultNewFilterAction);
 		
 		row.onsubmit=function(){

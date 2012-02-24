@@ -127,7 +127,7 @@ function onBeforeSendHeaders(d) {
 
 		//Don't block main_frame links
 		if(filter == "block" && d.type == "main_frame")
-			filter = "clear";
+			filter = defaultLocalAction;
 	}
 
 	//Get matching action
