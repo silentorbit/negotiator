@@ -99,6 +99,7 @@ function onBeforeSendHeaders(d) {
 	//Find matching filter
 	var filter = testFilter(referrer, domain)
 
+	//No matching filter
 	if(filter == null)
 	{
 		//Record attempt
@@ -109,10 +110,7 @@ function onBeforeSendHeaders(d) {
 			req = {from: referrer, to: domain};
 			TrackedRequests[reqKey] = req;
 		}
-	}
-
-	//No matching filter
-	if(filter == null) {
+	
 		//Empty referrer, we assume it is user entered requests
 		if((referrer == undefined || referrer == ""))
 			filter = defaultLocalAction;

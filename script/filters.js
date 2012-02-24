@@ -50,7 +50,6 @@ function getRequestFilter(from, to)
 {
 	//From direct match
 	var f = filters[from];
-
 	if(f != null){
 		//To 
 		var t = getRequestFilterTo(f, to);
@@ -59,11 +58,24 @@ function getRequestFilter(from, to)
 	}
 
 	//From wildcard match
-	f = getWild(filters, from);
-	if(f == null)
+	if(filters.wild == null)
 		return null;
-
-	return getRequestFilterTo(f, to);
+	while(from != ""){
+		var toList = filters.wild[from];
+		if(toList != null){
+			t = getRequestFilterTo(toList, to);
+			if(t != null)
+				return t;
+		}
+		//remove one subdomain level
+		var p = from.indexOf(".");
+		if(p < 0)
+			break;
+		from = from.substring(p + 1);
+	}
+	if(filters.wild[""] == null)
+		return null;
+	return getRequestFilterTo(filters.wild[""], to);
 }
 
 function getRequestFilterTo(fromList, to)

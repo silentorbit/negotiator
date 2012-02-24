@@ -269,8 +269,7 @@
 	//Tracked requests
 	function fillTrackedTable(table)
 	{
-		insertTrackedRow(table, domain, "");
-		insertTrackedRow(table, "", domain);
+		insertTrackedRow(table, domain, domain);
 		
 		for(var i in b.TrackedRequests)
 		{
