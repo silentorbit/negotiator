@@ -7,9 +7,14 @@
 	<script src="script/popup.js" ></script>
 </head>
 <body class="popupBody">
-	
-	<div style="float:right;"><a class="button" href="javascript:showOptions('options.html');">Options</a></div>
-	<div style="float:right;"><a class="button" href="javascript:showOptions('filters.html');">All Filters</a></div>
+
+<div id="popupMenu" class="table">
+	<div>
+		<div><a class="button" href="javascript:showOptions('filters.html');">All Filters</a></div>
+		<div><a class="button" href="javascript:showOptions('tracked.html');">All Tracked</a></div>
+		<div><a class="button" href="javascript:showOptions('options.html');">Options</a></div>
+	</div>
+</div>
 
 	<div id="filters" class="table"></div>
 

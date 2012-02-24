@@ -7,10 +7,18 @@
 </head>
 <body>
 <div id="mainpanel">
-	<div class="mainmenu">
-		<a href="options.html" class="active">Options</a>
+	<div>
 		<a href="filters.html">Filters</a>
+		<a href="tracked.html">Tracked</a>
+		<a href="options.html" class="active">Options</a>
+		<h1>Kiss Privacy</h1>
+		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
+		<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
+		<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
+		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
 	</div>
+</div>
+<div class="columns">
 	<p>
 		Cross domain request with no matching filter<br/>
 		<strong>Default action:</strong>
@@ -31,43 +39,29 @@
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" onClick="b.setIgnoreWWW(this.checked)" />
 		<label for="ignoreWWW">Ignore leading www.</label>
 	</fieldset>
-
-	<div class="mainmenu" id="extensionMenu">
-		<h1>Kiss Privacy</h1>
-		<div>
-			<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
-			<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
-		</div>
-		<div>
-			<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
-			<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
-		</div>
-	</div>
 </div>
-<div>
-	<div id="actionsTab">
-		<h1>Actions</h1>
-		<form id="actionTemplate" onSubmit="addAction(this);">
-			<div>
-				Action name: <input id="actionName" value="name" size="10"/>
-				<input type="submit" id="add" value="Add" />
-			</div>
-		</form>
-		<div id="actions" class="table">
-			<div>
-				<span></span>
-				<span>Name</span>
-				<span>Color</span>
-				<span>Block</span>
-				<span>User-Agent</span>
-				<span>Referer</span>
-				<span>Cookie</span>
-				<span>Accept</span>
-				<span>Language</span>
-				<span>Encoding</span>
-				<span>Charset</span>
-				<span></span>
-			</div>
+<div id="actionsTab">
+	<h1>Actions</h1>
+	<form id="actionTemplate" onSubmit="addAction(this);">
+		<div>
+			New action: <input id="actionName" value="name" size="10"/>
+			<input type="submit" id="add" value="Add" />
+		</div>
+	</form>
+	<div id="actions" class="table">
+		<div>
+			<span></span>
+			<span>Name</span>
+			<span>Color</span>
+			<span>Block</span>
+			<span>User-Agent</span>
+			<span>Referer</span>
+			<span>Cookie</span>
+			<span>Accept</span>
+			<span>Language</span>
+			<span>Encoding</span>
+			<span>Charset</span>
+			<span></span>
 		</div>
 	</div>
 </div>

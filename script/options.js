@@ -10,6 +10,8 @@
 			updateOptionsPage();
 		if(window.location.pathname.indexOf('filters.html') > 0)
 			updateFiltersPage();
+		if(window.location.pathname.indexOf('tracked.html') > 0)
+			updateTrackedPage();
 	}
 	//Called at the end of the options page load
 	function updateOptionsPage()
@@ -28,11 +30,14 @@
 
 	function updateFiltersPage()
 	{
-		//Tracked Requests
-		fillTrackedTable(document.getElementById('trackedTable'));
-
 		//Filters
 		updateFilters();
+	}
+
+	function updateTrackedPage()
+	{
+		//Tracked Requests
+		fillTrackedTable(document.getElementById('trackedTable'));
 	}
 
 	function addFilter(form)
@@ -289,7 +294,8 @@
 		row.removeAttribute('id');
 		row.del.style.display = "none";
 		row.from.value = from;
-		row.to.value = to;
+		if(to != undefined)
+			row.to.value = to;
 		
 		fillActionSelect(row.filter, b.defaultNewFilterAction);
 		
