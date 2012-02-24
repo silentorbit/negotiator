@@ -49,7 +49,6 @@
 			return;
 
 		b.addFilter(f);
-		updateFilters();
 
 		//Remove tracked requests matching filter
 		for(var i in b.TrackedRequests){
@@ -77,9 +76,6 @@
 			//Remove record
 			delete b.TrackedRequests[i];
 		}
-
-		//Update tracked requests list
-		fillTrackedTable(domain, document.getElementById('trackedTable'));
 	}
 
 	function deleteFilter(fromWild, from, toWild, to){
@@ -90,7 +86,6 @@
 			to = to.substring(2);
 			
 		b.deleteFilter(fromWild, from, toWild, to);
-		updateFilters();
 	}
 
 	function clearTrackedRequests()
@@ -223,6 +218,8 @@
 		for(var i in list) {
 			if(i == "wild")
 				continue;
+			if(list[i] == undefined)
+				continue;
 			table.appendChild(generateFilterItem(list[i]));
 		}
 	}
@@ -239,18 +236,33 @@
 		if(f.toWild)
 			row.to.value = "* " + row.to.value;
 		row.toWild.checked = f.toWild;
-		row.filter.options[0] = new Option(f.filter, f.filter);
-		row.filter.options[0].selected = true;
-		row.add.value = "delete";
+		fillActionSelect(row.filter, f.filter);
+		row.add.value = "save";
 
 		//Disable all but delete button
+		/*
 		row.from.disabled = true;
 		row.fromWild.disabled = true;
 		row.to.disabled = true;
 		row.toWild.disabled = true;
 		row.filter.disabled = true;
+		*/
+
+		var orig = {};
+		orig.fromWild = row.fromWild.checked;
+		orig.from = row.from.value;
+		orig.toWild = row.toWild.checked;
+		orig.to = row.to.value;
 		
-		row.onsubmit = function(){deleteFilter(row.fromWild.checked, row.from.value, row.toWild.checked, row.to.value);};
+		row.del.onclick = function(){
+			deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+			location.reload();
+		};
+		row.onsubmit = function(){
+			deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+			addFilter(row);
+			location.reload();
+		};
 		return row;
 	}
 
@@ -281,7 +293,10 @@
 
 		fillActionSelect(row.filter, b.defaultNewFilterAction);
 		
-		row.onsubmit=function(){addFilter(row);};
+		row.onsubmit=function(){
+			addFilter(row);
+			location.reload();
+		};
 		
 		table.appendChild(row);
 	}
