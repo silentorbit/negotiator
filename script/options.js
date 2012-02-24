@@ -16,6 +16,7 @@
 	{
 		//Default Actions
 		fillActionSelect(document.getElementById('defaultAction'), b.defaultAction);
+		fillActionSelect(document.getElementById('defaultLocalAction'), b.defaultLocalAction);
 		fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.defaultNewFilterAction);
 
 		//Ignore WWW
@@ -257,11 +258,12 @@
 	function fillTrackedTable(table)
 	{
 		insertTrackedRow(table, domain, "");
+		insertTrackedRow(table, "", domain);
 		
 		for(var i in b.TrackedRequests)
 		{
 			var r = b.TrackedRequests[i];
-			if(domain != null && r.from != domain)
+			if(domain != null && r.from != domain && r.to != domain)
 				continue;
 				
 			insertTrackedRow(table, r.from, r.to);

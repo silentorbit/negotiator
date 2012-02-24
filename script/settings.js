@@ -7,9 +7,16 @@
 //Default filter: what action to take when no filter match
 //We changed the storage key from defaultFilter to defaultAction
 var defaultAction = localStorage.getItem('defaultAction') || localStorage.getItem('defaultFilter') || "pass";
-function setDefaultFilter(f){
+function setDefaultAction(f){
 	defaultAction = f;
 	localStorage.defaultAction = f;
+}
+
+//This one is used when the referer is empty or the request is within the same domain
+var defaultLocalAction = localStorage.getItem('defaultLocalAction') || "pass";
+function setDefaultLocalAction(f){
+	defaultLocalAction = f;
+	localStorage.defaultLocalAction = f;
 }
 
 //Default new filter: what the preselected action for new filters are
@@ -44,7 +51,7 @@ if(actions == null){
 		referer: "remove",
 		cookie: "remove",
 		accept: "pass",
-		ccceptlanguage: "pass",
+		acceptlanguage: "pass",
 		acceptencoding: "pass",
 		acceptcharset: "pass"
 	}

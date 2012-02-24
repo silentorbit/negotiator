@@ -12,9 +12,14 @@
 		<a href="filters.html">Filters</a>
 	</div>
 	<p>
-		When there is no matching filter<br/>
+		Cross domain request with no matching filter<br/>
 		<strong>Default action:</strong>
-		<select id="defaultAction" onclick="b.setDefaultFilter(this.value);"></select>
+		<select id="defaultAction" onclick="b.setDefaultAction(this.value);"></select>
+	</p>
+	<p>
+		Same domain request with no matching filter<br/>
+		<strong>Default local action:</strong>
+		<select id="defaultLocalAction" onclick="b.setDefaultLocalAction(this.value);"></select>
 	</p>
 	<p>
 		The preset action for new filters<br/>

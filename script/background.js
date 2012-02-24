@@ -96,10 +96,6 @@ function onBeforeSendHeaders(d) {
 		}
 	}
 
-	//Allow all within the same domain
-	if(domain === referrer)
-		return {requestHeaders: d.requestHeaders};
-
 	//Find matching filter
 	var filter = testFilter(referrer, domain)
 
@@ -115,9 +111,15 @@ function onBeforeSendHeaders(d) {
 		}
 	}
 
-	//Allow empty referrer, we assume it is user entered requests
-	if(filter == null && (referrer == undefined || referrer == ""))
-		return {requestHeaders: d.requestHeaders};
+	//No matching filter
+	if(filter == null) {
+		//Empty referrer, we assume it is user entered requests
+		if((referrer == undefined || referrer == ""))
+			filter = defaultLocalAction;
+		//Allow all within the same domain
+		if(domain === referrer)
+			filter = defaultLocalAction;
+	}
 
 	//Load default
 	if(filter == null){
@@ -145,57 +147,57 @@ function onBeforeSendHeaders(d) {
 	
 	for(var i = 0; i < d.requestHeaders.length; i++){
 		if(d.requestHeaders[i].name == "Referer"){
-			if(action.Referer == "remove"){
+			if(action.referer == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Cookie"){
-			if(action.Cookie == "remove"){
+			if(action.cookie == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
 		if(d.requestHeaders[i].name == "User-Agent"){
-			if(action.UserAgent == "remove"){
+			if(action.agent == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
-			if(action.UserAgent == "random")
+			if(action.agent == "random")
 				d.requestHeaders[i].value = getRandomUserAgent();
-			if(action.UserAgent == "simple")
+			if(action.agent == "simple")
 				d.requestHeaders[i].value = userAgent;
-			if(action.UserAgent == "minimal")
+			if(action.agent == "minimal")
 				d.requestHeaders[i].value = "Mozilla/5.0";
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Accept"){
-			if(action.Accept == "remove"){
+			if(action.accept == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
-			if(action.Accept == "any")
+			if(action.accept == "any")
 				d.requestHeaders[i].value = "*/*";
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Accept-Encoding"){
-			if(action.AcceptEncoding == "remove"){
+			if(action.acceptencoding == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Accept-Language"){
-			if(action.AcceptLanguage == "remove"){
+			if(action.acceptlanguage == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Accept-Charset"){
-			if(action.AcceptCharset == "remove"){
+			if(action.acceptcharset == "remove"){
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}

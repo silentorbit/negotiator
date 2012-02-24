@@ -19,6 +19,12 @@ function listDomainFilters(domain){
 	//Add wildcard match
 	ret.wild = listWild(filters, domain);
 
+	//Add filters *to* the domain
+	if(ret.wild[""] === undefined)
+		ret.wild[""] = {};
+	ret.wild[""][domain] = filters.wild[""][domain];
+	ret.wild[""].wild = listWild(filters.wild[""], domain);
+	
 	return ret; 
 }
 
