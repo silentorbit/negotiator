@@ -96,7 +96,6 @@
 	function clearTrackedRequests()
 	{
 		b.TrackedRequests = {};
-		location.reload()
 	}
 
 	function test(){
