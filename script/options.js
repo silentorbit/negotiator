@@ -243,15 +243,6 @@
 		fillActionSelect(row.filter, f.filter);
 		row.add.value = "save";
 
-		//Disable all but delete button
-		/*
-		row.from.disabled = true;
-		row.fromWild.disabled = true;
-		row.to.disabled = true;
-		row.toWild.disabled = true;
-		row.filter.disabled = true;
-		*/
-
 		var orig = {};
 		orig.fromWild = row.fromWild.checked;
 		orig.from = row.from.value;

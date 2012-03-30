@@ -80,7 +80,7 @@ if(filters == null){
 	{
 		var f = {
 			from: "",
-			fromWild: false,
+			fromWild: true,
 			to: blockedDomains[i],
 			toWild: true,
 			filter: "block"
@@ -125,6 +125,15 @@ if(filters[""] != null){
 	//Save changes
 	saveFilters();
 }
+
+//Bugfix: All filters under filters.wild[""][... should have fromWild = true
+for(ti in filters.wild[""]){
+	if(ti == "wild")
+		continue;
+	filters.wild[""][ti].fromWild = true;
+}
+saveFilters();
+
 
 	
 function saveFilters(){
