@@ -29,7 +29,6 @@ var uaBrowser = [ "Safari/533.16", "Safari/533.4", "Safari/533.3", "Safari/534.1
 var uaOS = [ "Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu/9.10 (karmic)", "Gentoo", "Ubuntu/9.25 (jaunty)", "Ubuntu/10.04 (lucid)", "Fedora/3.6.3-4.fc13", "SUSE/3.6.3-1.1", "", "", "" ];
 		
 
-chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
 
@@ -63,23 +62,6 @@ function getDomain(url){
 
 	return domain;
 }
-
-
-function onBeforeRequest(d) {
-	//Skip google result click tracking
-	if(d.url.indexOf("google.com/url") != -1)
-	{
-		var re = /url=([^&]*)/g;
-		var p = re.exec(d.url);
-		p = decodeURIComponent(p[1]);
-
-		console.log("Skipping Google clicktrack: " + p);
-
-		chrome.tabs.update(d.tabId, {url: p});
-		return {cancel: true};
-	}
-}
-
 
 function onBeforeSendHeaders(d) {
 
