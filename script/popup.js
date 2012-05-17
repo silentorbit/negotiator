@@ -1,6 +1,6 @@
 
 	//load options page in a new tab
-	function showOptions(path){
+	function showOptionsPage(path){
 		var optionsUrl = chrome.extension.getURL(path);
 
 		var extviews = chrome.extension.getViews({"type": "tab"}) 
@@ -29,3 +29,31 @@ window.onload = function() {
 		}
 	);
 }
+
+function showFilters()
+{
+	showOptionsPage('filters.html');
+}
+
+function showTracked()
+{
+	showOptionsPage('tracked.html');
+}
+
+function showOptions()
+{
+	showOptionsPage('options.html');
+}
+
+function clearTrackedClose()
+{
+		clearTrackedRequests();
+		window.close();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelector('#showFilters').addEventListener('click', showFilters);
+  document.querySelector('#showTracked').addEventListener('click', showTracked);
+  document.querySelector('#showOptions').addEventListener('click', showOptions);
+  document.querySelector('#clearButton').addEventListener('click', clearTrackedClose);
+});

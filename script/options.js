@@ -3,6 +3,68 @@
 // in the options page and the popup
 //
 
+
+document.addEventListener('DOMContentLoaded', function () {
+	var b;
+
+	b = document.querySelector('#testButton');
+	if(b) b.addEventListener('click', test);
+
+	b = document.querySelector('#clearTrackedReload');
+	if(b) b.addEventListener('click', clearTrackedReload);
+	
+	b = document.querySelector('#defaultAction');
+	if(b) b.addEventListener('click', defaultActionClick);
+	
+	b = document.querySelector('#defaultLocalAction');
+	if(b) b.addEventListener('click', defaultLocalActionClick);
+	
+	b = document.querySelector('#defaultNewFilterAction');
+	if(b) b.addEventListener('click', defaultNewFilterActionClick);
+	
+	b = document.querySelector('#ignoreWWW');
+	if(b) b.addEventListener('click', ignoreWWWClick);
+
+	b = document.querySelector('#actionTemplate');
+	if(b) b.addEventListener('onsubmit', addNewAction);
+
+	b = document.querySelector('#add');
+	if(b) b.addEventListener('click', addNewAction);
+
+});
+
+function clearTrackedReload()
+{
+	clearTrackedRequests();
+	location.reload();
+}
+
+function defaultActionClick()
+{
+	b.setDefaultAction(this.value);
+}
+
+function defaultLocalActionClick()
+{
+	b.setDefaultLocalAction(this.value);
+}
+
+function defaultNewFilterActionClick()
+{
+	b.setDefaultNewFilterAction(this.value);
+}
+
+function ignoreWWWClick()
+{
+	b.setIgnoreWWW(this.checked);
+}
+
+function addNewAction()
+{
+	addAction(document.getElementById("actionName").value);
+}
+
+
 	var b = chrome.extension.getBackgroundPage();
 
 	window.onload = function(){
@@ -180,16 +242,15 @@
 		}
 	}
 
-	function addAction(form){
-		var n = form.actionName.value;
-		if(b.actions[n] != undefined){
-			alert(n + " does already exist");
+	function addAction(a){
+		if(b.actions[a] != undefined){
+			alert(a + " does already exist");
 			return;
 		}
 
-		b.actions[n] = {};
-		b.actions[n].color = "green";
-		b.actions[n].block = "false";
+		b.actions[a] = {};
+		b.actions[a].color = "green";
+		b.actions[a].block = "false";
 	}
 
 	//Populate filters list

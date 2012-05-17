@@ -22,27 +22,27 @@
 	<p>
 		Cross domain request with no matching filter<br/>
 		<strong>Default action:</strong>
-		<select id="defaultAction" onclick="b.setDefaultAction(this.value);"></select>
+		<select id="defaultAction"></select>
 	</p>
 	<p>
 		Same domain request with no matching filter<br/>
 		<strong>Default local action:</strong>
-		<select id="defaultLocalAction" onclick="b.setDefaultLocalAction(this.value);"></select>
+		<select id="defaultLocalAction"></select>
 	</p>
 	<p>
 		The preset action for new filters<br/>
 		<strong>Preset action</strong>
-		<select id="defaultNewFilterAction" onclick="b.setDefaultNewFilterAction(this.value);"></select>
+		<select id="defaultNewFilterAction"></select>
 	</p>
 
 	<fieldset id="ignoreWWWSetting">
-		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" onClick="b.setIgnoreWWW(this.checked)" />
+		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
 		<label for="ignoreWWW">Ignore leading www.</label>
 	</fieldset>
 </div>
 <div id="actionsTab">
 	<h1>Actions</h1>
-	<form id="actionTemplate" onSubmit="addAction(this);">
+	<form id="actionTemplate">
 		<div>
 			New action: <input id="actionName" value="name" size="10"/>
 			<input type="submit" id="add" value="Add" />

@@ -1,7 +1,8 @@
 {
-	"version": "0.0.2.5",
+	"manifest_version": 2,
+	"version": "0.0.2.6",
 	"name": "KISS Privacy",
-	"minimum_chrome_version": "17.0.0.0",
+	"minimum_chrome_version": "18.0.0.0",
 	"icons": {
 		"16": "images/icon16.png",
 		"48": "images/icon48.png",
@@ -15,7 +16,9 @@
 	},
 	"update_url": "http://silentorbit.com/extensions/updates",
 	"homepage_url": "http://silentorbit.com/kiss/",
-	"background_page": "background.html",
+	"background": {
+		"page": "background.html"
+	},
 	"options_page": "options.html",
 	"permissions": [
 		"webRequest",
