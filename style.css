@@ -12,11 +12,15 @@ body{
 	min-width: 300px;
 	padding: 0 1em 1em 1em;
 }
+.popupBody h2{
+	clear: both;
+}
 
 #popupMenu{
 	height: 40px;
 	border-collapse: separate;
-	border-spacing: 5px;	
+	border-spacing: 5px;
+	float: right;
 }
 
 #mainpanel{
@@ -108,6 +112,7 @@ fieldset{
 
 #filters ul{
 	list-style-type: none;
+	clear: both;
 }
 #filters li{padding: 0 0.5em 0 1em;}
 #filters li a,

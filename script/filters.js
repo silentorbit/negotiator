@@ -153,8 +153,6 @@ function addFilter(f)
 		return;
 	}
 	//Empty is interpreted as wildcard(which includes empty
-	if(f.from == "")
-		f.fromWild = true;
 	if(f.to == "")
 		f.toWild = true;
 	
