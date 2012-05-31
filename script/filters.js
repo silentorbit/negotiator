@@ -34,14 +34,20 @@ function getFilter(from, to)
 {
 	//Remove leading www.
 	if(ignoreWWW){
-		if(from !== undefined && from.lastIndexOf("www.", 0) == 0)
+		if(from != null && from.lastIndexOf("www.", 0) == 0)
 			from = from.substring(4);
 		if(to.lastIndexOf("www.", 0) == 0)
 			to = to.substring(4);
 	}
 
 	if(from == null)
+	{
+		//First check for within the domain filter
+		var f = getRequestFilter(to, to);
+		if(f != null)
+			return f;
 		return getRequestFilterTo(filters.wild[""], to);
+	}
 	else
 		return getRequestFilter(from, to);
 }	
@@ -152,7 +158,7 @@ function addFilter(f)
 		alert("domains can't contain spaces");
 		return;
 	}
-	//Empty is interpreted as wildcard(which includes empty
+	//Empty is interpreted as wildcard(which includes empty)
 	if(f.to == "")
 		f.toWild = true;
 	

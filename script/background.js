@@ -43,8 +43,8 @@ function getRandomUserAgent () {
 
 
 function getDomain(url){
-	if(url === undefined)
-		return "";
+	if(url == null)
+		return null;
 	var domain = url.split("://");
 	if(domain.length > 1)
 		domain = domain[1];
@@ -60,6 +60,8 @@ function getDomain(url){
 	if(ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
 		domain = domain.substring(4);
 
+	if(domain == "")
+		return null;
 	return domain;
 }
 
@@ -67,7 +69,7 @@ function onBeforeSendHeaders(d) {
 
 	//Get domain for target and referrer
 	var domain = getDomain(d.url);
-	var referrer;
+	var referrer = null;
 	//Get header
 	var header = {};
 	for(var i = 0; i < d.requestHeaders.length; i++){
@@ -87,14 +89,14 @@ function onBeforeSendHeaders(d) {
 		//Record attempt
 		var reqKey = referrer + " " + domain;
 		var req = TrackedRequests[reqKey];
-		if(req == undefined)
+		if(req == null)
 		{
 			req = {from: referrer, to: domain};
 			TrackedRequests[reqKey] = req;
 		}
 	
 		//Empty referrer, we assume it is user entered requests
-		if((referrer == undefined || referrer == ""))
+		if((referrer == null))
 			filter = defaultLocalAction;
 		//Allow all within the same domain
 		if(domain === referrer)
@@ -198,7 +200,7 @@ function onHeadersReceived(d){
 	delete requestFilter[d.requestId];
 
 	var action = actions[f];
-	if(action == undefined)
+	if(action == null)
 		return;
 
 	if(action.Cookie == "remove"){

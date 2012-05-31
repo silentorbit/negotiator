@@ -121,7 +121,7 @@ function addNewAction()
 		for(var i in b.TrackedRequests){
 			var t = b.TrackedRequests[i];
 
-			if(f.from != undefined && f.from != ""){
+			if(f.from != null && f.from != ""){
 				if(f.fromWild){
 					if(endsWith(t.from, f.from) == false)
 						continue;
@@ -130,7 +130,7 @@ function addNewAction()
 						continue;
 				}
 			}
-			if(f.to != undefined && f.to != ""){
+			if(f.to != null && f.to != ""){
 				if(f.toWild){
 					if(endsWith(t.to, f.to) == false)
 						continue;
@@ -188,7 +188,6 @@ function addNewAction()
 	}
 
 	//Populate Actions list
-	
 	function updateActions(){
 		var tag = document.getElementById('actions');
 		if(tag == null)
@@ -243,7 +242,7 @@ function addNewAction()
 	}
 
 	function addAction(a){
-		if(b.actions[a] != undefined){
+		if(b.actions[a] != null){
 			alert(a + " does already exist");
 			return;
 		}
@@ -276,19 +275,24 @@ function addNewAction()
 		}
 	}
 
+	//Fill table with html representaton of a filter list
 	function generateFilterList(table, list){
+		if(list == null)
+			return;
+			
 		for(var i in list.wild)
 			table.appendChild(generateFilterItem(list.wild[i]));
 			
 		for(var i in list) {
 			if(i == "wild")
 				continue;
-			if(list[i] == undefined)
+			if(list[i] == null)
 				continue;
 			table.appendChild(generateFilterItem(list[i]));
 		}
 	}
 
+	//Return html representation of a filter
 	function generateFilterItem(f){
 		var row = b.trackedTemplate.cloneNode(true);
 		row.removeAttribute('id');
@@ -339,13 +343,13 @@ function addNewAction()
 
 	function insertTrackedRow(table, from, to)
 	{
-		if(from == undefined)
+		if(from == null)
 			from = "";
 		var row = b.trackedTemplate.cloneNode(true);
 		row.removeAttribute('id');
 		row.del.style.display = "none";
 		row.from.value = from;
-		if(to != undefined)
+		if(to != null)
 			row.to.value = to;
 		
 		fillActionSelect(row.filter, b.defaultNewFilterAction);
@@ -372,7 +376,7 @@ function addNewAction()
 	}
 
 	function endsWith(str, suffix) {
-		if(str == undefined)
+		if(str == null)
 			return false;
 		return str.indexOf(suffix, str.length - suffix.length) !== -1;
 	}
