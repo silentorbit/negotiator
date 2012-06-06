@@ -110,6 +110,9 @@ function onBeforeSendHeaders(d) {
 		//Don't block main_frame links
 		if(filter == "block" && d.type == "main_frame")
 			filter = defaultLocalAction;
+		//Catch download/save as... requests
+		if(filter == "block" && d.type == "other" && d.frameId == -1)
+			filter = defaultLocalAction;
 	}
 
 	//Get matching action
