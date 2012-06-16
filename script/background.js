@@ -96,7 +96,7 @@ function onBeforeSendHeaders(d) {
 		}
 	
 		//Empty referrer, we assume it is user entered requests
-		if((referrer == null))
+		if(referrer == null  && d.type == "main_frame")
 			filter = defaultLocalAction;
 		//Allow all within the same domain
 		if(domain === referrer)
@@ -218,4 +218,3 @@ function onHeadersReceived(d){
 
 	return {requestHeaders: d.responseHeaders};
 }
-
