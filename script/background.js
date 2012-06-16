@@ -17,6 +17,10 @@ var requestFilter = {};
 //Written before redirecting and used/cleared in blocked.html
 var blockReport = {};
 
+//Cache of the current url for every tab
+//Since retrieving the current URL of a tab is done asynchronously we store it here for faster access
+var tabUrl = {};
+
 //Choices for random User-Agent
 var uaPlatform = [ "Windows", "X11", "Macintosh" ];
 //, "iPad", "iPhone" 
@@ -78,6 +82,13 @@ function onBeforeSendHeaders(d) {
 			referrer = getDomain(h.value);
 			break;
 		}
+	}
+
+	//for empty referer to non top fram targets, use the cached tab url
+	if(referrer == null  && d.type != "main_frame")
+	{
+		//This modified referrer is only used in filter matching it does not affect the request being sent
+		referrer = getDomain(tabUrl[d.tabId]);		
 	}
 
 	//Find matching filter
@@ -202,6 +213,10 @@ function onHeadersReceived(d){
 	var f = requestFilter[d.requestId];
 	delete requestFilter[d.requestId];
 
+	//Cache tab URL
+	if(d.type == "main_frame")
+		tabUrl[d.tabId] = d.url;
+	
 	var action = actions[f];
 	if(action == null)
 		return;
