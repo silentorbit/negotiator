@@ -14,31 +14,35 @@
 		<h1>Kiss Privacy</h1>
 		<a href="http://silentorbit.com/kiss/" target="_new">Website</a>
 		<a href="mailto:phq@silentorbit.com">Email<br/><small>Feedback</small></a>
-		<a href="https://github.com/hultqvist/Kiss" target="_new">Source<br/>Code</a>
-		<a href="https://github.com/hultqvist/Kiss/issues" target="_new">Bugs &amp;<br/><small>Features</small></a>
+		<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
 	</div>
 </div>
 <div class="columns">
-	<p>
-		Cross domain request with no matching filter<br/>
-		<strong>Default action:</strong>
-		<select id="defaultAction"></select>
-	</p>
-	<p>
-		Same domain request with no matching filter<br/>
-		<strong>Default local action:</strong>
-		<select id="defaultLocalAction"></select>
-	</p>
-	<p>
-		The preset action for new filters<br/>
-		<strong>Preset action</strong>
-		<select id="defaultNewFilterAction"></select>
-	</p>
-
+<div>
+	<h1>Filter matching</h1>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
 		<label for="ignoreWWW">Ignore leading www.</label>
 	</fieldset>
+</div>
+<div>
+	<h1>Default action</h1>
+	<p>
+		<strong>Cross domain:</strong>
+		<select id="defaultAction"></select>
+	</p>
+	<p>
+		<strong>Same domain:</strong>
+		<select id="defaultLocalAction"></select>
+	</p>
+</div>
+<div>
+	<h1>New filters</h1>
+	<p>
+		<strong>Preset action</strong>
+		<select id="defaultNewFilterAction"></select>
+	</p>
+</div>
 </div>
 <div id="actionsTab">
 	<h1>Actions</h1>
