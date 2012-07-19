@@ -219,20 +219,30 @@ function generateActionRow(i){
 	setSelected(row.acceptencoding, a.acceptencoding);	//Accept-Encoding
 	setSelected(row.acceptcharset, a.acceptcharset);	//Accept-Charset
 
-	row.onsubmit = function(){
-		this.filterAction.color = this.color.value;
-		this.filterAction.block = this.block.value;
-		this.filterAction.agent = this.agent.value;
-		this.filterAction.referer = this.referer.value;
-		this.filterAction.cookie = this.cookie.value;
-		this.filterAction.accept = this.accept.value;
-		this.filterAction.acceptlanguage = this.acceptlanguage.value;
-		this.filterAction.acceptencoding = this.acceptencoding.value;
-		this.filterAction.acceptcharset = this.acceptcharset.value;
-		
+	//Automatically save settings when changed
+	var save = function(){
+		row.filterAction.color = row.color.value;
+		row.style.backgroundColor = row.color.value;
+		row.filterAction.block = row.block.value;
+		row.filterAction.agent = row.agent.value;
+		row.filterAction.referer = row.referer.value;
+		row.filterAction.cookie = row.cookie.value;
+		row.filterAction.accept = row.accept.value;
+		row.filterAction.acceptlanguage = row.acceptlanguage.value;
+		row.filterAction.acceptencoding = row.acceptencoding.value;
+		row.filterAction.acceptcharset = row.acceptcharset.value;
 		b.saveActions();
 		return true;
 	};
+	row.color.oninput = save;
+	row.block.onclick = save;
+	row.agent.onclick = save;
+	row.referer.onclick = save;
+	row.cookie.onclick = save;
+	row.accept.onclick = save;
+	row.acceptlanguage.onclick = save;
+	row.acceptencoding.onclick = save;
+	row.acceptcharset.onclick = save;
 
 	row.delete.onclick = function(){
 		delete b.actions[this.form.actionName.value];
