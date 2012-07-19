@@ -53,7 +53,15 @@ function updateFiltersPage()
 function updateTrackedPage()
 {
 	//Tracked Requests
-	fillTrackedTable(document.getElementById('trackedTable'));
+	var table = document.getElementById('trackedTable');
+	for(var i in b.TrackedRequests)
+	{
+		var r = b.TrackedRequests[i];
+		if(domain != null && r.from != domain && r.to != domain)
+			continue;
+			
+		insertTrackedRow(table, r.from, r.to);
+	}
 
 	var button = document.querySelector('#clearTrackedReload');
 	if(button) button.addEventListener('click', clearTrackedReload);
@@ -61,8 +69,6 @@ function updateTrackedPage()
 
 function updatePopupPage()
 {
-	var button = document.querySelector('#clearTrackedReload');
-	if(button) button.addEventListener('click', clearTrackedReload);
 }
 
 function clearTrackedReload()
@@ -152,6 +158,8 @@ function deleteFilter(fromWild, from, toWild, to){
 function clearTrackedRequests()
 {
 	b.TrackedRequests = {};
+	b.tabRequests = {};
+	b.tabFilters = {};
 }
 
 function test(){
@@ -250,15 +258,10 @@ function addAction(a){
 	return false;
 }
 
-//Populate filters list
+//Populate filters list in filter page
 function updateFilters(){
-	var list;
-	if(domain == null)
-		list = b.filters;
-	else
-		list = b.listDomainFilters(domain);
-		
-		
+	var list = b.filters;
+
 	var filterTag = document.getElementById('filters');
 	if(filterTag == null)
 		return;
@@ -325,19 +328,6 @@ function generateFilterItem(f){
 }
 
 //Tracked requests
-function fillTrackedTable(table)
-{
-	insertTrackedRow(table, domain, domain);
-	
-	for(var i in b.TrackedRequests)
-	{
-		var r = b.TrackedRequests[i];
-		if(domain != null && r.from != domain && r.to != domain)
-			continue;
-			
-		insertTrackedRow(table, r.from, r.to);
-	}
-}
 
 function insertTrackedRow(table, from, to)
 {

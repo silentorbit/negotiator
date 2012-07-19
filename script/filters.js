@@ -1,32 +1,3 @@
-	
-
-function testFilter(from, to){
-	var f = getFilter(from, to);
-	if(f == null)
-		return null;
-	return f.filter;
-}
-
-//Return a list of all filter object matching the domain name
-function listDomainFilters(domain){
-	var ret = {};
-
-	//Add exact match
-	d = filters[domain];
-	if(d != null)
-		ret[domain] = d;
-
-	//Add wildcard match
-	ret.wild = listWild(filters, domain);
-
-	//Add filters *to* the domain
-	if(ret.wild[""] === undefined)
-		ret.wild[""] = {};
-	ret.wild[""][domain] = filters.wild[""][domain];
-	ret.wild[""].wild = listWild(filters.wild[""], domain);
-	
-	return ret; 
-}
 
 //Return the filter string for a given domain
 //Return null if no filter matched
@@ -113,27 +84,6 @@ function getWild(source, domain){
 	return source[""];
 }
 
-//Same as getWild but return every match in a list
-function listWild(source, domain){
-	var ret = {};
-	
-	source = source.wild;
-	if(source == null)
-		return ret;
-	while(domain != ""){
-		var t = source[domain];
-		if(t != null)
-			ret[domain] = t;
-		//remove one subdomain
-		var p = domain.indexOf(".");
-		if(p < 0)
-			return ret;
-		domain = domain.substring(p + 1);
-	}
-	
-	return ret;
-}
-
 function addFilter(f)
 {
 	//Remove whitespace
@@ -206,4 +156,3 @@ function deleteFilter(fromWild, from, toWild, to){
 
 	saveFilters();
 }
-

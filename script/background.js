@@ -21,6 +21,10 @@ var blockReport = {};
 //Since retrieving the current URL of a tab is done asynchronously we store it here for faster access
 var tabUrl = {};
 
+//Cache requests and applied filters since the last page load
+var tabRequests = {};
+var tabFilters = {};
+
 //Choices for random User-Agent
 var uaPlatform = [ "Windows", "X11", "Macintosh" ];
 //, "iPad", "iPhone" 
@@ -83,7 +87,14 @@ function onBeforeSendHeaders(d) {
 		}
 	}
 
-	//for empty referer to non top fram targets, use the cached tab url
+	//Clear requests and applied filters
+	if(d.type == "main_frame" || tabRequests[d.tabId] == null)
+	{
+		tabRequests[d.tabId] = {};
+		tabFilters[d.tabId] = [];
+	}
+	
+	//for empty referer to non top frame targets, use the cached tab url
 	if(referrer == null && d.type != "main_frame")
 	{
 		//This modified referrer is only used in filter matching it does not affect the request being sent
@@ -91,8 +102,11 @@ function onBeforeSendHeaders(d) {
 	}
 
 	//Find matching filter
-	var filter = testFilter(referrer, domain)
-
+	var filter = null;
+	var f = getFilter(referrer, domain);
+	if(f != null)
+		filter = f.filter;
+	
 	//No matching filter
 	if(filter == null)
 	{
@@ -104,26 +118,30 @@ function onBeforeSendHeaders(d) {
 			req = {from: referrer, to: domain};
 			TrackedRequests[reqKey] = req;
 		}
+		//Record attempt in tab
+		if(tabRequests[d.tabId][reqKey] == null)
+			tabRequests[d.tabId][reqKey] = req;
 	
 		//Empty referrer, we assume it is user entered requests
 		if(referrer == null && d.type == "main_frame")
 			filter = defaultLocalAction;
 		//Allow all within the same domain
-		if(domain === referrer)
+		else if(domain === referrer)
 			filter = defaultLocalAction;
-	}
+		else{
+			//Load default
+			filter = defaultAction;
 
-	//Load default
-	if(filter == null){
-		filter = defaultAction;
-
-		//Don't block main_frame links
-		if(filter == "block" && d.type == "main_frame")
-			filter = defaultLocalAction;
-		//Catch download/save as... requests
-		if(filter == "block" && d.type == "other" && d.frameId == -1)
-			filter = defaultLocalAction;
+			//Don't block main_frame links
+			if(filter == "block" && d.type == "main_frame")
+				filter = defaultLocalAction;
+			//Catch download/save as... requests
+			if(filter == "block" && d.type == "other" && d.frameId == -1)
+				filter = defaultLocalAction;
+		}
 	}
+	else
+		tabFilters[d.tabId].push(f);
 
 	//Get matching action
 	var action = actions[filter];
