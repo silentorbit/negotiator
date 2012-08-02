@@ -150,16 +150,6 @@ function addFilter(form)
 	return f;
 }
 
-function deleteFilter(fromWild, from, toWild, to){
-	//Remove leading "* " for wildcard filters
-	if(fromWild)
-		from = from.substring(2);
-	if(toWild)
-		to = to.substring(2);
-		
-	b.deleteFilter(fromWild, from, toWild, to);
-}
-
 function clearTrackedRequests()
 {
 	b.TrackedRequests = {};
@@ -313,19 +303,13 @@ function generateFilterItem(table, f){
 	var row = b.trackedTemplate.cloneNode(true);
 	updateFilterRow(row, f);
 	
-	var orig = {};
-	orig.fromWild = row.fromWild.checked;
-	orig.from = row.from.value;
-	orig.toWild = row.toWild.checked;
-	orig.to = row.to.value;
-	
 	row.del.onclick = function(){
-		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
 		table.removeChild(row);
 		return false;
 	};
 	row.onsubmit = function(){
-		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
 		var newFilter = addFilter(row);
 		updateFilterRow(row, newFilter);
 		return false;
