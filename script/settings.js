@@ -63,11 +63,15 @@ if(actions == null){
 	saveActions();
 }
 function saveActions(){
-	localStorage.actions = JSON.stringify(actions);
+	localStorage.actions = JSON.stringify(actions, null, '\t');
 }
 
 //Load filters
 var filters = JSON.parse(localStorage.getItem("filters"));
+
+function saveFilters(){
+	localStorage.filters = JSON.stringify(filters, null, '\t');
+}
 
 //First time the filter is filled with entries from blockedDomains
 if(filters == null){
@@ -75,6 +79,8 @@ if(filters == null){
 	filters = {};
 	filters.wild = {};
 	filters.wild[""] = {};
+	filters.wild[""].wild = {};
+	var wildToWild = filters.wild[""].wild;
 	
 	for(var i in blockedDomains)
 	{
@@ -85,7 +91,7 @@ if(filters == null){
 			toWild: true,
 			filter: "block"
 		};
-		filters.wild[""][f.to] = f;
+		wildToWild[f.to] = f;
 	}
 
 	//By default new installs ignore www
@@ -126,16 +132,22 @@ if(filters[""] != null){
 	saveFilters();
 }
 
-//Bugfix: All filters under filters.wild[""][... should have fromWild = true
-for(ti in filters.wild[""]){
-	if(ti == "wild")
-		continue;
-	filters.wild[""][ti].fromWild = true;
-}
-saveFilters();
 
+bugFix();
+function bugFix()
+{
+	//Bugfix: toWild=true filters in filters.wild[""]["asd.com"] should be moved to  filters.wild[""].wild["asd.com"]
 
+	var wrong = filters.wild[""];
+	var right = filters.wild[""].wild;
 	
-function saveFilters(){
-	localStorage.filters = JSON.stringify(filters);
+	for(i in wrong){
+		if(i == "wild")
+			continue;
+		if(wrong[i].toWild == false)
+			continue;
+		right[i] = wrong[i];
+		delete wrong[i];
+	}
+	saveFilters();
 }
