@@ -86,32 +86,6 @@ function getWild(source, domain){
 
 function addFilter(f)
 {
-	//Remove whitespace
-	f.from = f.from.trim();
-	f.to = f.to.trim();
-
-	//Interpret leading * as wildcard
-	if(f.from.indexOf("*") == 0){
-		f.fromWild = true;
-		f.from = f.from.substring(1);
-	}
-	if(f.to.indexOf("*") == 0){
-		f.toWild = true;
-		f.to = f.to.substring(1);
-	}
-
-	//Remove leading dots
-	f.from = f.from.replace(/^[\.]+/,'').trim();
-	f.to = f.to.replace(/^[\.]+/,'').trim();
-
-	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
-		alert("domains can't contain spaces");
-		return;
-	}
-	//Empty is interpreted as wildcard(which includes empty)
-	if(f.to == "")
-		f.toWild = true;
-	
 	//From...
 	var fr;
 	if(f.fromWild){
@@ -138,6 +112,7 @@ function addFilter(f)
 		fr[f.to] = f;
 	
 	saveFilters();
+	return true;
 }
 
 function deleteFilter(fromWild, from, toWild, to){

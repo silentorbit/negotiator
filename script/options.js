@@ -61,7 +61,7 @@ function updateTrackedPage()
 			continue;
 			
 		insertTrackedRow(table, r.from, r.to, function (row) {
-			addFilter(row);
+			addFilterFromForm(row);
 			table.removeChild(row);
 		});
 	}
@@ -105,19 +105,50 @@ function addNewAction()
 	return addAction(document.getElementById("actionName").value);
 }
 
-function addFilter(form)
+function addFilterFromForm(form)
 {
 	var f = {
 		from: form.from.value,
-		fromWild: form.fromWild.checked,
+		fromWild: false, //changed later if from starts with *
 		to: form.to.value,
-		toWild: form.toWild.checked,
+		toWild: false, //changed later if to starts with *
 		filter: form.filter.value
 	};
 
 	if(f.from == "" && f.to == "")
 		return;
 
+	//Remove whitespace
+	f.from = f.from.trim();
+	f.to = f.to.trim();
+
+	//Interpret leading * as wildcard
+	if(f.from.indexOf("*") == 0){
+		f.fromWild = true;
+		f.from = f.from.substring(1).trim();
+	}
+	if(f.to.indexOf("*") == 0){
+		f.toWild = true;
+		f.to = f.to.substring(1).trim();
+	}
+
+	//Remove leading dots
+	f.from = f.from.replace(/^[\.]+/,'').trim();
+	f.to = f.to.replace(/^[\.]+/,'').trim();
+
+	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
+		alert("domains can't contain spaces");
+		return false;
+	}
+	if(f.from.indexOf("*") >= 0 || f.to.indexOf("*") >= 0){
+		alert("domains can only start with wildcard *");
+		return false;
+	}
+	//Empty is interpreted as wildcard(which includes empty)
+	if(f.to == "")
+		f.toWild = true;
+
+	//Filter prepared, save it
 	b.addFilter(f);
 
 	//Remove tracked requests matching filter
@@ -310,7 +341,7 @@ function generateFilterItem(table, f){
 	};
 	row.onsubmit = function(){
 		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
-		var newFilter = addFilter(row);
+		var newFilter = addFilterFromForm(row);
 		updateFilterRow(row, newFilter);
 		return false;
 	};
@@ -326,11 +357,9 @@ function updateFilterRow(row, f)
 	row.from.value = f.from;
 	if(f.fromWild)
 		row.from.value = "* " + row.from.value;
-	row.fromWild.checked = f.fromWild;
 	row.to.value = f.to;
 	if(f.toWild)
 		row.to.value = "* " + row.to.value;
-	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
 	row.add.value = "save";
 }
@@ -344,9 +373,11 @@ function insertTrackedRow(table, from, to, submitAction)
 	var row = b.trackedTemplate.cloneNode(true);
 	row.removeAttribute('id');
 	row.del.style.display = "none";
-	row.from.value = from;
-	if(to != null)
-		row.to.value = to;
+	row.from.value = "* " + from;
+	if(to == null)
+		row.to.value = "*";
+	else
+		row.to.value = "* " + to;
 	
 	fillActionSelect(row.filter, b.defaultNewFilterAction);
 	

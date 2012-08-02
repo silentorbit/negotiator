@@ -17,7 +17,7 @@ window.onload = function() {
 
 			var newFilterAdded = function (row)
 			{
-				var filter = addFilter(row);
+				var filter = addFilterFromForm(row);
 				b.tabFilters[tab.id].push(filter);
 				updateTabFilters(tab);
 			};
