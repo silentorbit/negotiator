@@ -60,7 +60,10 @@ function updateTrackedPage()
 		if(domain != null && r.from != domain && r.to != domain)
 			continue;
 			
-		insertTrackedRow(table, r.from, r.to);
+		insertTrackedRow(table, r.from, r.to, function (row) {
+			addFilter(row);
+			table.removeChild(row);
+		});
 	}
 
 	var button = document.querySelector('#clearTrackedReload');
@@ -143,6 +146,8 @@ function addFilter(form)
 		//Remove record
 		delete b.TrackedRequests[i];
 	}
+
+	return f;
 }
 
 function deleteFilter(fromWild, from, toWild, to){
@@ -172,7 +177,7 @@ function test(){
 		result.innerHTML = "no match, default";
 	else {
 		result.innerHTML = "";
-		result.appendChild(generateFilterItem(filter));
+		generateFilterItem(result, filter);
 	}
 }
 
@@ -292,20 +297,46 @@ function generateFilterList(table, list){
 		return;
 		
 	for(var i in list.wild)
-		table.appendChild(generateFilterItem(list.wild[i]));
+		generateFilterItem(table, list.wild[i]);
 		
 	for(var i in list) {
 		if(i == "wild")
 			continue;
 		if(list[i] == null)
 			continue;
-		table.appendChild(generateFilterItem(list[i]));
+		generateFilterItem(table, list[i]);
 	}
 }
 
 //Return html representation of a filter
-function generateFilterItem(f){
+function generateFilterItem(table, f){
 	var row = b.trackedTemplate.cloneNode(true);
+	updateFilterRow(row, f);
+	
+	var orig = {};
+	orig.fromWild = row.fromWild.checked;
+	orig.from = row.from.value;
+	orig.toWild = row.toWild.checked;
+	orig.to = row.to.value;
+	
+	row.del.onclick = function(){
+		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+		table.removeChild(row);
+		return false;
+	};
+	row.onsubmit = function(){
+		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
+		var newFilter = addFilter(row);
+		updateFilterRow(row, newFilter);
+		return false;
+	};
+
+	table.appendChild(row);
+	return row;
+}
+
+function updateFilterRow(row, f)
+{
 	row.removeAttribute('id');
 	row.style.background = b.actions[f.filter].color;
 	row.from.value = f.from;
@@ -318,28 +349,11 @@ function generateFilterItem(f){
 	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
 	row.add.value = "save";
-
-	var orig = {};
-	orig.fromWild = row.fromWild.checked;
-	orig.from = row.from.value;
-	orig.toWild = row.toWild.checked;
-	orig.to = row.to.value;
-	
-	row.del.onclick = function(){
-		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
-		location.reload();
-	};
-	row.onsubmit = function(){
-		deleteFilter(orig.fromWild, orig.from, orig.toWild, orig.to);
-		addFilter(row);
-		location.reload();
-	};
-	return row;
 }
 
 //Tracked requests
 
-function insertTrackedRow(table, from, to)
+function insertTrackedRow(table, from, to, submitAction)
 {
 	if(from == null)
 		from = "";
@@ -353,8 +367,9 @@ function insertTrackedRow(table, from, to)
 	fillActionSelect(row.filter, b.defaultNewFilterAction);
 	
 	row.onsubmit=function(){
-		addFilter(row);
-		location.reload();
+		table.removeChild(row);
+		submitAction(row);
+		return false;
 	};
 	
 	table.appendChild(row);

@@ -13,35 +13,48 @@ window.onload = function() {
 			if(domain == null)
 				domain = b.getDomain(tab.url);
 
-			//Update list of filters for domain
-			var tabFilterArray = b.tabFilters[tab.id];
-			if(tabFilterArray){
-				var table = document.getElementById('filters');
-				var added = [];
-				for(var i in tabFilterArray){
-					var filter = tabFilterArray[i];
-					if(added.indexOf(filter) < 0)
-					{
-						table.appendChild(generateFilterItem(filter));
-						added.push(filter);
-					}
-				}
-			}
+			updateTabFilters(tab);
 
+			var newFilterAdded = function (row)
+			{
+				var filter = addFilter(row);
+				b.tabFilters[tab.id].push(filter);
+				updateTabFilters(tab);
+			};
+			
 			//Tracked requests
 			var trackedArray = b.tabRequests[tab.id];
-			var table = document.getElementById('trackedTable');
-			insertTrackedRow(table, domain, domain);
+			var tableTracked = document.getElementById('trackedTable');
+			insertTrackedRow(tableTracked, domain, domain, newFilterAdded);
 			if(trackedArray)
 			{
 				for(var i in trackedArray)
 				{
 					var t = trackedArray[i];
-					insertTrackedRow(table, t.from, t.to);
+					insertTrackedRow(tableTracked, t.from, t.to, newFilterAdded);
 				}
 			}
 		}
 	);
+}
+
+function updateTabFilters(tab)
+{
+	//Update list of filters for domain
+	var tabFilterArray = b.tabFilters[tab.id];
+	if(tabFilterArray){
+		var tableFilters = document.getElementById('filters');
+		tableFilters.innerHTML = '';
+		var added = [];
+		for(var i in tabFilterArray){
+			var filter = tabFilterArray[i];
+			if(added.indexOf(filter) < 0)
+			{
+				generateFilterItem(tableFilters, filter);
+				added.push(filter);
+			}
+		}
+	}
 }
 
 function showFilters()
