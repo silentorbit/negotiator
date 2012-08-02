@@ -92,13 +92,14 @@ function onBeforeSendHeaders(d) {
 	{
 		tabRequests[d.tabId] = {};
 		tabFilters[d.tabId] = [];
+		tabUrl[d.tabId] = getDomain(d.url);
 	}
 	
 	//for empty referer to non top frame targets, use the cached tab url
 	if(referrer == null && d.type != "main_frame")
 	{
 		//This modified referrer is only used in filter matching it does not affect the request being sent
-		referrer = getDomain(tabUrl[d.tabId]);		
+		referrer = tabUrl[d.tabId];
 	}
 
 	//Find matching filter
@@ -230,10 +231,6 @@ function onHeadersReceived(d){
 	var f = requestFilter[d.requestId];
 	delete requestFilter[d.requestId];
 
-	//Cache tab URL
-	if(d.type == "main_frame")
-		tabUrl[d.tabId] = d.url;
-	
 	var action = actions[f];
 	if(action == null)
 		return;
