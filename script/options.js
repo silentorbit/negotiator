@@ -339,6 +339,11 @@ function generateFilterItem(table, f){
 		table.removeChild(row);
 		return false;
 	};
+	row.fromWild.onchange=function(){wildcardCheckHelper(row.fromWild, row.from);};
+	row.from.oninput=function(){wildcardTextHelper(row.fromWild, row.from);};
+	row.toWild.onchange=function(){wildcardCheckHelper(row.toWild, row.to);};
+	row.to.oninput=function(){wildcardTextHelper(row.toWild, row.to);};
+
 	row.onsubmit = function(){
 		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
 		var newFilter = addFilterFromForm(row);
@@ -357,9 +362,11 @@ function updateFilterRow(row, f)
 	row.from.value = f.from;
 	if(f.fromWild)
 		row.from.value = "* " + row.from.value;
+	row.fromWild.checked = f.fromWild;
 	row.to.value = f.to;
 	if(f.toWild)
 		row.to.value = "* " + row.to.value;
+	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
 	row.add.value = "save";
 }
@@ -373,11 +380,9 @@ function insertTrackedRow(table, from, to, submitAction)
 	var row = b.trackedTemplate.cloneNode(true);
 	row.removeAttribute('id');
 	row.del.style.display = "none";
-	row.from.value = "* " + from;
-	if(to == null)
-		row.to.value = "*";
-	else
-		row.to.value = "* " + to;
+	row.from.value = from;
+	if(to != null)
+		row.to.value = to;
 	
 	fillActionSelect(row.filter, b.defaultNewFilterAction);
 	
@@ -387,9 +392,50 @@ function insertTrackedRow(table, from, to, submitAction)
 		return false;
 	};
 	
+	//Helpers for wildcard checkbox
+	row.fromWild.onchange=function(){wildcardCheckHelper(row.fromWild, row.from);};
+	row.from.oninput=function(){wildcardTextHelper(row.fromWild, row.from);};
+	row.toWild.onchange=function(){wildcardCheckHelper(row.toWild, row.to);};
+	row.to.oninput=function(){wildcardTextHelper(row.toWild, row.to);};
 	table.appendChild(row);
 }
 
+//Handle click on the wildcard checkbox
+function wildcardCheckHelper(check, text)
+{
+	//Get text and remove space and leading *
+	var f = text.value;
+	f = f.trim();
+	if(f.indexOf("*") == 0)
+		f = f.substring(1).trim();
+	f = f.replace("*", "");
+	
+	if(check.checked)
+		text.value="* " + f;
+	else
+		text.value=f;
+}
+//Chandle changes in the domain textbox
+function wildcardTextHelper (check, text)
+{
+	//Get text and remove space and leading *
+	var f = text.value;
+	f = f.trim();
+	if(f.indexOf("*") == 0)
+	{
+		f = f.substring(1).trim();
+		check.checked = true;
+	}
+	else
+		check.checked = false;
+	f = f.replace("*", "");
+	
+	if(check.checked)
+		text.value="* " + f;
+	else
+		text.value=f;
+}
+	
 function fillActionSelect(select, selectedAction, action)
 {
 	var i = 0;
