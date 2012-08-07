@@ -245,10 +245,18 @@ function generateActionRow(i){
 	setSelected(row.acceptencoding, a.acceptencoding);	//Accept-Encoding
 	setSelected(row.acceptcharset, a.acceptcharset);	//Accept-Charset
 
+	var isBlocked = row.block.value == "true";
+	row.agent.disabled = isBlocked;
+	row.referer.disabled = isBlocked;
+	row.cookie.disabled = isBlocked;
+	row.accept.disabled = isBlocked;
+	row.acceptlanguage.disabled = isBlocked;
+	row.acceptencoding.disabled = isBlocked;
+	row.acceptcharset.disabled = isBlocked;
+
 	//Automatically save settings when changed
 	var save = function(){
 		row.filterAction.color = row.color.value;
-		row.style.backgroundColor = row.color.value;
 		row.filterAction.block = row.block.value;
 		row.filterAction.agent = row.agent.value;
 		row.filterAction.referer = row.referer.value;
@@ -258,6 +266,18 @@ function generateActionRow(i){
 		row.filterAction.acceptencoding = row.acceptencoding.value;
 		row.filterAction.acceptcharset = row.acceptcharset.value;
 		b.saveActions();
+		
+		row.style.backgroundColor = row.color.value;
+		
+		var isBlocked = row.block.value == "true";
+		row.agent.disabled = isBlocked;
+		row.referer.disabled = isBlocked;
+		row.cookie.disabled = isBlocked;
+		row.accept.disabled = isBlocked;
+		row.acceptlanguage.disabled = isBlocked;
+		row.acceptencoding.disabled = isBlocked;
+		row.acceptcharset.disabled = isBlocked;
+
 		return true;
 	};
 	row.color.oninput = save;
@@ -298,34 +318,46 @@ function addAction(a){
 function updateFilters(){
 	var list = b.filters;
 
-	var filterTag = document.getElementById('filters');
-	if(filterTag == null)
-		return;
-		
-	for(var i in list.wild)
-		generateFilterList(filterTag, list.wild[i]);
-		
-	for(var i in list){
-		if(i == "wild")
-			continue;
-		generateFilterList(filterTag, list[i]);
+	var filtersBlockedTag = document.getElementById('filtersBlocked');
+	var filtersTag = document.getElementById('filters');
+	if(filtersTag != null && filtersBlockedTag != null)
+	{
+		for(var i in list.wild)
+			generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
+			
+		for(var i in list){
+			if(i == "wild")
+				continue;
+			generateFilterList(filtersBlockedTag, filtersTag, list[i]);
+		}
 	}
 }
 
 //Fill table with html representaton of a filter list
-function generateFilterList(table, list){
+function generateFilterList(tableBlocked, table, list){
 	if(list == null)
 		return;
 		
 	for(var i in list.wild)
-		generateFilterItem(table, list.wild[i]);
+	{
+		var f = list.wild[i];
+		if(f.filter == "block")
+			generateFilterItem(tableBlocked, f);
+		else
+			generateFilterItem(table, f);
+	}
 		
 	for(var i in list) {
 		if(i == "wild")
 			continue;
 		if(list[i] == null)
 			continue;
-		generateFilterItem(table, list[i]);
+			
+		var f = list[i];
+		if(f.filter == "block")
+			generateFilterItem(tableBlocked, f);
+		else
+			generateFilterItem(table, f);
 	}
 }
 

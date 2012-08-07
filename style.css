@@ -94,6 +94,10 @@ fieldset{
 #actionsTab{
 	clear:both;
 }
+.filtersTab{
+	float:left;
+	margin-right: 2em;
+}
 
 
 .defaultAction input[type="radio"] {display:none;}
