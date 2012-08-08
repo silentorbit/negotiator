@@ -136,8 +136,10 @@ if(filters[""] != null){
 bugFix();
 function bugFix()
 {
-	//Bugfix: toWild=true filters in filters.wild[""]["asd.com"] should be moved to  filters.wild[""].wild["asd.com"]
+	if(filters.wild[""].wild == null)
+		filters.wild[""].wild = {};
 
+	//Bugfix: toWild=true filters in filters.wild[""]["asd.com"] should be located in filters.wild[""].wild["asd.com"]
 	var wrong = filters.wild[""];
 	var right = filters.wild[""].wild;
 	
