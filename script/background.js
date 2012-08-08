@@ -52,16 +52,18 @@ function getRandomUserAgent () {
 function getDomain(url){
 	if(url == null)
 		return null;
-	var domain = url.split("://");
-	if(domain.length > 1)
-		domain = domain[1];
-	else
-		domain = domain[0];	
-	domain = domain.split("/")[0];
-	var pos = domain.indexOf("@");
-	if(pos != -1) domain = domain.substr(pos + 1);
-	pos = domain.indexOf(":");
-	if(pos != -1) domain = domain.substr(0, pos);
+	var length = url.length;
+	var start = url.indexOf("://");
+	if(start < 0) return url;
+	start = start + 3;
+	var pos = url.indexOf("/", start);
+	if(pos > 0 && pos < length) length = pos;
+	pos = url.indexOf(":", start);
+	if(pos > 0 && pos < length) length = pos;
+	pos = url.indexOf("@", start);
+	if(pos > 0 && pos < length) length = pos;
+	
+	var domain = url.substr(start, length - start);
 
 	//Remove leading www.
 	if(ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
@@ -70,6 +72,23 @@ function getDomain(url){
 	if(domain == "")
 		return null;
 	return domain;
+}
+
+function getProtocolDomain(url){
+	if(url == null)
+		return null;
+	var length = url.length;
+	var start = url.indexOf("://");
+	if(start < 0) return url;
+	start = start + 3;
+	var pos = url.indexOf("/", start);
+	if(pos > 0 && pos < length) length = pos;
+	pos = url.indexOf(":", start);
+	if(pos > 0 && pos < length) length = pos;
+	pos = url.indexOf("@", start);
+	if(pos > 0 && pos < length) length = pos;
+	
+	return url.substr(0, length);
 }
 
 function onBeforeSendHeaders(d) {
@@ -165,6 +184,12 @@ function onBeforeSendHeaders(d) {
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
+			if(action.referer == "dest")
+				d.requestHeaders[i].value = d.url;
+			if(action.referer == "destclean")
+				d.requestHeaders[i].value = getProtocolDomain(d.url);
+			if(action.referer == "clean")
+				d.requestHeaders[i].value = getProtocolDomain(d.requestHeaders[i].value);
 			continue;
 		}
 		if(d.requestHeaders[i].name == "Cookie"){
