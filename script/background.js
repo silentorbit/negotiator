@@ -125,7 +125,14 @@ function onBeforeSendHeaders(d) {
 	var filter = null;
 	var f = getFilter(referrer, domain);
 	if(f != null)
-		filter = f.filter;
+	{
+		if(alwaysPassSame && f.from == "" && actions[f.filter].block && (referrer == domain || referrer == null))
+		{
+			//Experimental feature, dangerous
+		}
+		else
+			filter = f.filter;
+	}
 	
 	//No matching filter
 	if(filter == null)

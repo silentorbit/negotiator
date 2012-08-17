@@ -33,6 +33,13 @@ function setIgnoreWWW(enabled){
 	localStorage.ignoreWWW = enabled;
 }
 
+//Experimental: allow bar>bar when block:*>bar is set
+var alwaysPassSame = (localStorage.getItem('alwaysPassSame') == "true");
+function setAlwaysPassSame(enabled){
+	alwaysPassSame = enabled;
+	localStorage.alwaysPassSame = enabled;
+}
+
 //Load actions
 var actions = JSON.parse(localStorage.getItem("actions"));
 if(actions == null){

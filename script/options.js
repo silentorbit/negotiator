@@ -28,6 +28,11 @@ function updateOptionsPage()
 	var www = document.getElementById('ignoreWWW');
 	www.checked = b.ignoreWWW;
 	www.addEventListener('click', ignoreWWWClick);
+
+	//Experimental, pass same
+	var passSame = document.getElementById('alwaysPassSame');
+	passSame.checked = b.alwaysPassSame;
+	passSame.addEventListener('click', alwaysPassSameClick);
 	
 	//Action List
 	updateActions();
@@ -98,6 +103,11 @@ function defaultNewFilterActionClick()
 function ignoreWWWClick()
 {
 	b.setIgnoreWWW(this.checked);
+}
+
+function alwaysPassSameClick()
+{
+	b.setAlwaysPassSame(this.checked);
 }
 
 function addNewAction()
