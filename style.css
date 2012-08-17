@@ -171,6 +171,7 @@ input[type="checkbox"] {
 	background: transparent;
 	border: 1px solid transparent;
 	width: 15em;
+	padding: 0 5pt;
 }
 .table form:hover input[type="text"]{
 	border: 1px solid gray;
