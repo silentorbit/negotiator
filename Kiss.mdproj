@@ -27,5 +27,6 @@
     <None Include="script\options.js" />
     <None Include="script\popup.js" />
     <None Include="script\settings.js" />
+    <None Include="updates.xml" />
   </ItemGroup>
 </Project>

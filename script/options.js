@@ -490,7 +490,7 @@ function fillActionSelect(select, selectedAction, action)
 	}
 	setSelected(select, selectedAction);
 	if(action)
-		select.addEventListener('click', action);
+		select.addEventListener('change', action);
 }
 
 function endsWith(str, suffix) {
