@@ -25,6 +25,20 @@ function getFilter(from, to)
 
 function getRequestFilter(from, to)
 {
+	//From ip
+	/*
+	var a = ipsub.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)/);
+	if(a !== null)
+	{
+		//TODO: Decide
+		//Either: Loop through an entire list if ip filters(up to n tests)
+		//Or  interpret as 32 bit - up to 32 tests
+		//Or interpret as bytes - up to 4 tests
+		//Or compare as domains but start cutting off at the end instead.
+		//We go with the last option
+	}*/
+	
+	
 	//From direct match
 	var f = filters[from];
 	if(f != null){
@@ -130,4 +144,16 @@ function deleteFilter(fromWild, from, toWild, to){
 		delete f[to];
 
 	saveFilters();
+}
+
+function parseSubnet(ipsub)
+{
+	var a = ipsub.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)(\/(\d+))?/);
+	if(a === null)
+		return null;
+	var n = (a[1] << 24) + (a[2] << 16) + (a[3] << 8) + (a[4]);
+	if(a[5] === undefined)
+		return {ip: n, mask:0xFFFFFFFF};
+	var m = ~((1 << (32 - a[5])) - 1);
+	return {ip: n, mask:m};
 }

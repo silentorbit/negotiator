@@ -291,14 +291,14 @@ function generateActionRow(i){
 		return true;
 	};
 	row.color.oninput = save;
-	row.block.onclick = save;
-	row.agent.onclick = save;
-	row.referer.onclick = save;
-	row.cookie.onclick = save;
-	row.accept.onclick = save;
-	row.acceptlanguage.onclick = save;
-	row.acceptencoding.onclick = save;
-	row.acceptcharset.onclick = save;
+	row.block.onchange = save;
+	row.agent.onchange = save;
+	row.referer.onchange = save;
+	row.cookie.onchange = save;
+	row.accept.onchange = save;
+	row.acceptlanguage.onchange = save;
+	row.acceptencoding.onchange = save;
+	row.acceptcharset.onchange = save;
 
 	row.delete.onclick = function(){
 		delete b.actions[this.form.actionName.value];
