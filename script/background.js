@@ -74,6 +74,31 @@ function getDomain(url){
 	return domain;
 }
 
+//Return true if d1 and d2 with only one dot is the same
+function sameTLD(d1, d2){
+	console.log("Same?: " + d1 + " -> " + d2);
+	d1 = "." + d1;
+	d2 = "." + d2;
+	var p1, p2 = 0, p3 = d1.indexOf(".", 1);
+	if(p3 < 0)
+		return false; //no dots in domain
+	while(true)
+	{
+		p1 = p2;
+		p2 = p3;
+		p3 = d1.indexOf(".", p3 + 1);
+		if(p3 < 0)
+			break; //found last dot
+	}
+	var topDomain = d1.substr(p1);
+	if(d2.length < topDomain.length)
+		return false;
+	if(d2.indexOf(topDomain, d2.length - topDomain.length) === -1)
+		return false;
+	console.log("SAME");
+	return true;
+}
+
 function getProtocolDomain(url){
 	if(url == null)
 		return null;
@@ -155,7 +180,10 @@ function onBeforeSendHeaders(d) {
 		//Allow all within the same domain
 		else if(domain === referrer)
 			filter = defaultLocalAction;
-		else{
+		else if(sameTLD(referrer, domain))
+			filter = defaultLocalTLDAction;
+		else
+		{
 			//Load default
 			filter = defaultAction;
 

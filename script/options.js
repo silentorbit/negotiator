@@ -22,6 +22,7 @@ function updateOptionsPage()
 	//Default Actions
 	fillActionSelect(document.getElementById('defaultAction'), b.defaultAction, defaultActionClick);
 	fillActionSelect(document.getElementById('defaultLocalAction'), b.defaultLocalAction, defaultLocalActionClick);
+	fillActionSelect(document.getElementById('defaultLocalTLDAction'), b.defaultLocalTLDAction, defaultLocalTLDActionClick);
 	fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.defaultNewFilterAction, defaultNewFilterActionClick);
 
 	//Ignore WWW
@@ -93,6 +94,11 @@ function defaultActionClick()
 function defaultLocalActionClick()
 {
 	b.setDefaultLocalAction(this.value);
+}
+
+function defaultLocalTLDActionClick()
+{
+	b.setDefaultLocalTLDAction(this.value);
 }
 
 function defaultNewFilterActionClick()

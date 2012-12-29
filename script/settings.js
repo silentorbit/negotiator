@@ -19,6 +19,13 @@ function setDefaultLocalAction(f){
 	localStorage.defaultLocalAction = f;
 }
 
+//This one is used when the TLD is the same such as www.example.com -> static.example.com
+var defaultLocalTLDAction = localStorage.getItem('defaultLocalTLDAction') || defaultAction;
+function setDefaultLocalTLDAction(f){
+	defaultLocalTLDAction = f;
+	localStorage.defaultLocalTLDAction = f;
+}
+
 //Default new filter: what the preselected action for new filters are
 var defaultNewFilterAction = localStorage.getItem('defaultNewFilterAction') || "block";
 function setDefaultNewFilterAction(f){
