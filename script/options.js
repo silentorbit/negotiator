@@ -459,9 +459,8 @@ function wildcardCheckHelper(check, text)
 	f = f.replace("*", "");
 	
 	if(check.checked)
-		text.value="* " + f;
-	else
-		text.value=f;
+		f = "* " + f;
+	text.value=f;
 }
 //Chandle changes in the domain textbox
 function wildcardTextHelper (check, text)
@@ -479,8 +478,8 @@ function wildcardTextHelper (check, text)
 	f = f.replace("*", "");
 	
 	if(check.checked)
-		text.value="* " + f;
-	else
+		f = "* " + f;
+	if(text.value != f)
 		text.value=f;
 }
 	
