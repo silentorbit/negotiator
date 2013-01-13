@@ -177,23 +177,19 @@ function onBeforeSendHeaders(d) {
 		//Empty referrer, we assume it is user entered requests
 		if(referrer == null && d.type == "main_frame")
 			filter = defaultLocalAction;
-		//Allow all within the same domain
-		else if(domain === referrer)
+		else if(domain === referrer) //Allow all within the same domain
 			filter = defaultLocalAction;
 		else if(sameTLD(referrer, domain))
 			filter = defaultLocalTLDAction;
 		else
-		{
-			//Load default
-			filter = defaultAction;
-
-			//Don't block main_frame links
-			if(filter == "block" && d.type == "main_frame")
-				filter = defaultLocalAction;
-			//Catch download/save as... requests
-			if(filter == "block" && d.type == "other" && d.frameId == -1)
-				filter = defaultLocalAction;
-		}
+			filter = defaultAction; //Load default
+		
+		//Don't block main_frame links
+		if(filter == "block" && d.type == "main_frame")
+			filter = defaultLocalAction;
+		//Catch download/save as... requests
+		if(filter == "block" && d.type == "other" && d.frameId == -1)
+			filter = defaultLocalAction;	
 	}
 	else
 		tabFilters[d.tabId].push(f);
