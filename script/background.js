@@ -52,18 +52,27 @@ function getRandomUserAgent () {
 function getDomain(url){
 	if(url == null)
 		return null;
-	var length = url.length;
 	var start = url.indexOf("://");
 	if(start < 0) return url;
-	start = start + 3;
-	var pos = url.indexOf("/", start);
-	if(pos > 0 && pos < length) length = pos;
-	pos = url.indexOf(":", start);
-	if(pos > 0 && pos < length) length = pos;
-	pos = url.indexOf("@", start);
-	if(pos > 0 && pos < length) length = pos;
+	start = start + 3; //Past http://
+	var end = url.length;
 	
-	var domain = url.substr(start, length - start);
+	//not further than first "/"
+	var pos = url.indexOf("/", start);
+	if(pos > 0 && pos < end) end = pos;
+	
+	//Detect ipv6 address
+	if(url[start] == "[")
+	{
+		//ipv6
+		pos = url.indexOf("]", start);
+		return url.substr(start, pos - start);
+	}	
+	//Strip port number
+	pos = url.indexOf(":", start);
+	if(pos > 0 && pos < end) end = pos;
+
+	var domain = url.substr(start, end - start);
 
 	//Remove leading www.
 	if(ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
@@ -99,6 +108,7 @@ function sameTLD(d1, d2){
 	return true;
 }
 
+//Used to clean the path from the referer header
 function getProtocolDomain(url){
 	if(url == null)
 		return null;
