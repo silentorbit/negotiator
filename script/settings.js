@@ -87,7 +87,7 @@ function saveFilters(){
 	localStorage.filters = JSON.stringify(filters, null, '\t');
 }
 
-//First time the filter is filled with entries from blockedDomains
+//First time
 if(filters == null){
 	//Fill with embedded block list
 	filters = {};
@@ -95,18 +95,6 @@ if(filters == null){
 	filters.wild[""] = {};
 	filters.wild[""].wild = {};
 	var wildToWild = filters.wild[""].wild;
-	
-	for(var i in blockedDomains)
-	{
-		var f = {
-			from: "",
-			fromWild: true,
-			to: blockedDomains[i],
-			toWild: true,
-			filter: "block"
-		};
-		wildToWild[f.to] = f;
-	}
 
 	//By default new installs ignore www
 	setIgnoreWWW(true);

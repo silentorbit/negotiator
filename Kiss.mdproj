@@ -22,7 +22,6 @@
     <None Include="style.css" />
     <None Include="tracked.html" />
     <None Include="script\background.js" />
-    <None Include="script\blockedDomains.js" />
     <None Include="script\filters.js" />
     <None Include="script\options.js" />
     <None Include="script\popup.js" />
