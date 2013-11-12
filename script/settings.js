@@ -80,8 +80,36 @@ function saveActions(){
 	localStorage.actions = JSON.stringify(actions, null, '\t');
 }
 
+//Filter storage, if true use chrome.storage.sync, otherwise use localStorage
+var useChromeSync = localStorage.getItem('useChromeSync') || false;
+function setUseChromeSync(val, callback){
+	//Save setting
+	useChromeSync = val;
+	localStorage.useChromeSync = val;
+	//Reload filters
+	loadFilters(callback);
+}
+
 //Load filters
-var filters = JSON.parse(localStorage.getItem("filters"));
+var filters;
+loadFilters(prepareFilters);
+
+function loadFilters(callback)
+{
+	if(useChromeSync)
+		chrome.storage.sync.get('filters', function(json){ 
+			filters = JSON.parse(json.filters);
+			if(callback != null)
+				callback();
+		});
+	else
+	{
+		filters = JSON.parse(localStorage.getItem("filters"));
+		if(callback != null)
+			callback();
+	}
+}
+
 var importer = {
 	get json() {
 		return JSON.stringify(filters, null, '\t');
@@ -93,67 +121,73 @@ var importer = {
 }
 
 function saveFilters(){
-	localStorage.filters = JSON.stringify(filters, null, '\t');
+	var json = JSON.stringify(filters, null, '\t');
+
+	if(useChromeSync)
+		chrome.storage.sync.set({'filters': json});
+	else
+		localStorage.filters = json;
 }
 
-//First time
-if(filters == null){
-	//Fill with embedded block list
-	filters = {};
-	filters.wild = {};
-	filters.wild[""] = {};
-	filters.wild[""].wild = {};
-	var wildToWild = filters.wild[""].wild;
-
-	//By default new installs ignore www
-	setIgnoreWWW(true);
-}
-
-if(filters.wild == null)
-	filters.wild = {};
-
-if(filters[""] != null){
-	//Uppgrade from [""] to .wild[""]
-	var list = filters[""];
-	//Prepare .wild[""]
-	if(filters.wild[""] == null)
+function prepareFilters()
+{
+	//First time
+	if(filters == null){
+		//Fill with embedded block list
+		filters = {};
+		filters.wild = {};
 		filters.wild[""] = {};
-	var fromWildList = filters.wild[""];
-	if(fromWildList.wild == null)
-		fromWildList.wild = {};
+		filters.wild[""].wild = {};
+		var wildToWild = filters.wild[""].wild;
 
-	//Format old wildcard [""]
-	for(ti in list){
-		if(ti == "wild"){
-			//toWild
-			for(twi in list.wild){
-				fromWildList.wild[twi] = list.wild[twi];
-				fromWildList.wild[twi].fromWild = true;
-			}
-		}else{
-			fromWildList[ti] = list[ti];
-			fromWildList[ti].fromWild = true;
-		}
+		//By default new installs ignore www
+		setIgnoreWWW(true);
 	}
 
-	//remove old version of converted filters
-	filters[""] = null;
+	if(filters.wild == null)
+		filters.wild = {};
 
-	//Save changes
-	saveFilters();
-}
+	if(filters[""] != null){
+		//Uppgrade from [""] to .wild[""]
+		var list = filters[""];
+		//Prepare .wild[""]
+		if(filters.wild[""] == null)
+			filters.wild[""] = {};
+		var fromWildList = filters.wild[""];
+		if(fromWildList.wild == null)
+			fromWildList.wild = {};
 
+		//Format old wildcard [""]
+		for(ti in list){
+			if(ti == "wild"){
+				//toWild
+				for(twi in list.wild){
+					fromWildList.wild[twi] = list.wild[twi];
+					fromWildList.wild[twi].fromWild = true;
+				}
+			}else{
+				fromWildList[ti] = list[ti];
+				fromWildList[ti].fromWild = true;
+			}
+		}
 
-bugFix();
-function bugFix()
-{
+		//remove old version of converted filters
+		filters[""] = null;
+
+		//Save changes
+		saveFilters();
+	}
+
+	//bugFix
+	if(filters.wild[""] == null)
+		filters.wild[""] = {};
 	if(filters.wild[""].wild == null)
 		filters.wild[""].wild = {};
 
 	//Bugfix: toWild=true filters in filters.wild[""]["asd.com"] should be located in filters.wild[""].wild["asd.com"]
 	var wrong = filters.wild[""];
 	var right = filters.wild[""].wild;
-	
+
 	for(i in wrong){
 		if(i == "wild")
 			continue;
