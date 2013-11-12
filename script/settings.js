@@ -82,6 +82,15 @@ function saveActions(){
 
 //Load filters
 var filters = JSON.parse(localStorage.getItem("filters"));
+var importer = {
+	get json() {
+		return JSON.stringify(filters, null, '\t');
+	},
+	set json(val) {
+		filters = JSON.parse(val);
+		saveFilters();
+	}
+}
 
 function saveFilters(){
 	localStorage.filters = JSON.stringify(filters, null, '\t');

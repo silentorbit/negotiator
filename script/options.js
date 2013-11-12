@@ -52,8 +52,13 @@ function updateFiltersPage()
 	//Filters
 	updateFilters();
 
+	//Test button
 	var button = document.querySelector('#testButton');
 	if(button) button.addEventListener('click', test);
+
+	//Filter Storage
+	document.querySelector('#exportJSON').addEventListener('click', exportJSON);
+	document.querySelector('#importJSON').addEventListener('click', importJSON);
 }
 
 function updateTrackedPage()
@@ -330,22 +335,39 @@ function addAction(a){
 	return false;
 }
 
+//Filter Import/Export
+function exportJSON()
+{
+	var textJson = document.querySelector('#filterJSON');
+	textJson.value = b.importer.json;
+}
+
+function importJSON()
+{
+	var textJson = document.querySelector('#filterJSON');
+	b.importer.json = textJson.value;
+	updateFilters();
+}
+
 //Populate filters list in filter page
 function updateFilters(){
 	var list = b.filters;
 
 	var filtersBlockedTag = document.getElementById('filtersBlocked');
 	var filtersTag = document.getElementById('filters');
-	if(filtersTag != null && filtersBlockedTag != null)
-	{
-		for(var i in list.wild)
-			generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
-			
-		for(var i in list){
-			if(i == "wild")
-				continue;
-			generateFilterList(filtersBlockedTag, filtersTag, list[i]);
-		}
+	if(filtersTag == null || filtersBlockedTag == null)
+		return;
+	
+	filtersTag.innerHTML = "";
+	filtersBlockedTag.innerHTML = "";
+
+	for(var i in list.wild)
+		generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
+		
+	for(var i in list){
+		if(i == "wild")
+			continue;
+		generateFilterList(filtersBlockedTag, filtersTag, list[i]);
 	}
 }
 

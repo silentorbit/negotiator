@@ -18,15 +18,26 @@
 	</div>
 </div>
 
+<div class="filtersTab">
 <h1>Test</h1>
 <div>
-	<input id="testFrom" value="example.com">
-	<input id="testTo" value="doubleclick.net">
+	<input id="testFrom" value="example.com" />
+	<input id="testTo" value="doubleclick.net" />
 	<input type="button" id="testButton" value="Test" />
 	<div id="testResult" class="table"></div>
 </div>
+</div>
 
 <div class="filtersTab">
+	<h1>Filter Storage</h1>
+	<div style="display:inline-block;">
+		<input type="button" id="exportJSON" value="Export to JSON" /><br/>
+		<input type="button" id="importJSON" value="Import from JSON" />
+	</div>
+	<textarea id="filterJSON" style="display:inline-block; height: 4em;"></textarea>
+</div>
+
+<div class="filtersTab" style="clear: both;">
 	<h1>Blocked</h1>
 	<div id="filtersBlocked" class="table"></div>
 </div>
