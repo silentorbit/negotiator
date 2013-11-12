@@ -39,6 +39,15 @@ var uaOS = [ "Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
 
+//Clear cache of tracked requests if no new ones are registerred for 5 minutes
+var lastTracked = new Date();
+setInterval(clearTracked, 10*1000);
+function clearTracked() {
+	var diff = new Date() - lastTracked;
+	if(diff > 5*60*1000)
+		TrackedRequests = {};
+}
+
 function getRandom (list) {
 	var index = Math.floor(Math.random() * list.length);
 	return list[index];
@@ -179,6 +188,7 @@ function onBeforeSendHeaders(d) {
 		{
 			req = {from: referrer, to: domain};
 			TrackedRequests[reqKey] = req;
+			lastTracked = new Date();
 		}
 		//Record attempt in tab
 		if(tabRequests[d.tabId][reqKey] == null)
