@@ -81,7 +81,7 @@ function saveActions(){
 }
 
 //Filter storage, if true use chrome.storage.sync, otherwise use localStorage
-var useChromeSync = localStorage.getItem('useChromeSync') || false;
+var useChromeSync = (localStorage.getItem('useChromeSync') == "true");
 function setUseChromeSync(val, callback){
 	//Save setting
 	useChromeSync = val;
