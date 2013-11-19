@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"version": "0.0.4.5",
+	"version": "0.0.5.0",
 	"name": "KISS Privacy",
 	"minimum_chrome_version": "20.0.0.0",
 	"icons": {
@@ -10,7 +10,10 @@
 	},
 	"description": "Simple ad-blocking/privacy filter for advanced users.",
 	"browser_action": {
-		"default_icon": "images/icon16.png",
+		"default_icon": {
+			"19": "images/action19.png",
+			"38": "images/action38.png"
+		},
 		"default_title": "Kiss Privacy",
 		"default_popup": "popup.html"
 	},

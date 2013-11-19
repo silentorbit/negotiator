@@ -223,7 +223,10 @@ function onBeforeSendHeaders(d) {
 			blockReport[d.tabId] = d.url;
 			chrome.browserAction.setIcon({
 				tabId: d.tabId,
-				path: 'images/red.png'
+				path: {
+					'19': 'images/red38.png',
+					'38': 'images/red38.png'
+				}
 			});
 		}
 		return {cancel: true};

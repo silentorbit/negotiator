@@ -1,3 +1,10 @@
+/*
+Green	8bc53f
+Blue 00adee
+Red eb008b
+Orange f6921e
+*/
+
 body{
 	background: #fff url(images/panel.png) repeat-x;
 	background-position: 0 -35px; 
@@ -24,29 +31,27 @@ body{
 }
 
 #mainpanel{
-	display: table-row;
 	height: 80px;
+	padding-top: 10px;
 	color: #fff;
-	border-collapse: separate;
-	border-spacing: 5px;	
+	line-height: 1em;
 }
-#mainpanel>div{
-	display: table-row;
-	padding: 0 20px 20px 20px;
-	margin: 0 0 20px 0;
-	border-bottom: 1px solid gray;
-}
-#mainpanel>div>*{
-	display: table-cell;
-	border-bottom: 0;
-	padding: 0 20px 0 20px;
+#mainpanel>*{
+	display: inline-block;
+	vertical-align: top;
 }
 
 #mainpanel a {
 	color:#fff;
-	padding: 0;
+}
+#mainpanel a:hover {
+	color:#00adee;
+}
+#mainpanel .buttons a {
+	display: inline-block;
+	padding: 12px 0 8px 0;
 	width: 90px;
-	height: 50px;
+	height: 20px;
 	text-align: center;
 	vertical-align: middle;
 	font: Geneva, Verdana, sans-serif;
@@ -59,26 +64,19 @@ body{
 	color: #eee;
 	text-shadow: 0 1px 0 #333;
 
-	box-shadow: inset 0 0 10px white;
+	box-shadow: inset 0 0 5px white;
 }
 .options>div{
 	padding: 0 20px 0 0;
 }
 
-#mainpanel a:hover {
+#mainpanel a.buttons:hover {
 	color: #fff;
-	box-shadow: inset 0 0 5px white, 0 0 20px #bc2274;
+	box-shadow: inset 0 0 5px #8bc53f;
 }
-#mainpanel a.active {
-	background-color: #762b53;
-	box-shadow: inset 0 0 5px white, 0 0 20px purple;
-}
-#mainpanel span {
-	background: #aaa;
-	color: #bbb;
-	border-radius: 0.5em;
-	text-shadow: 0px 0px 5px #bbb;
-	box-shadow: inset 0 0 10px #888;
+#mainpanel a.buttons.active {
+	background-color: #00adee;
+	box-shadow: 0 0 0 transparent;
 }
 
 fieldset{
