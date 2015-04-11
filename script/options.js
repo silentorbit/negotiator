@@ -252,7 +252,7 @@ function updateActions(){
 }
 
 function generateActionRow(i){
-	var row = b.actionTemplate.cloneNode(true);
+	var row = document.getElementById('actionTemplate').cloneNode(true);
 	var a = b.actions[i];
 	row.filterAction = a;
 	

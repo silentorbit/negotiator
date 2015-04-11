@@ -51,7 +51,7 @@
 </div>
 <div>
 	<h1>Always pass same</h1>
-	<p><strong>Warning: experimental, may cause less blocking than expected.</p>
+	<p><strong>Warning: experimental, may cause less blocking than expected.</strong></p>
 	<fieldset id="alwaysPassSameSetting">
 		<input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
 		<label for="alwaysPassSame">Allow request within same domain even though "block:*&gt;domain" is set.</label>
@@ -60,7 +60,7 @@
 </div>
 <div id="actionsTab">
 	<h1>Actions</h1>
-	<form id="actionTemplate">
+	<form>
 		<div>
 			New action: <input id="actionName" value="name" size="10"/>
 			<input type="submit" id="add" value="Add" />
@@ -80,6 +80,52 @@
 			<span>Encoding</span>
 			<span>Charset</span>
 		</div>
+	</div>
+	<div style="display: none;">
+		<form id="actionTemplate">
+			<div><input type="submit" id="delete" value="Delete" /></div>
+			<div><input id="actionName" size="10"/></div>
+			<div><input id="color" value="#fff" size="10"/></div>
+			<div><select id="block">
+				<option value="false">No</option>
+				<option value="true">Yes</option>
+			</select></div>
+			<div><select id="agent">
+				<option value="pass">Pass(Everything)</option>
+				<option value="random">Random(Request)</option>
+				<option value="simple">Simple(Chrome, Webkit)</option>
+				<option value="minimal">Minimal(Mozilla/5.0)</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="referer">
+				<option value="pass">Pass</option>
+				<option value="dest">Destination</option>
+				<option value="destclean">Clean Destination</option>
+				<option value="clean">Clean</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="cookie">
+				<option value="pass">Pass</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="accept">
+				<option value="pass">Pass</option>
+				<option value="any">*/*</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="acceptlanguage">
+				<option value="pass">Pass</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="acceptencoding">
+				<option value="pass">Pass</option>
+				<option value="remove">Remove</option>
+			</select></div>
+			<div><select id="acceptcharset">
+				<option value="pass">Pass</option>
+				<option value="remove">Remove</option>
+			</select></div>
+		</form>
 	</div>
 	<div>
 		<h2>Color</h2>
