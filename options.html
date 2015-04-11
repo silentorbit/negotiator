@@ -79,6 +79,7 @@
 			<span>Language</span>
 			<span>Encoding</span>
 			<span>Charset</span>
+			<span>CSP</span>
 		</div>
 	</div>
 	<div style="display: none;">
@@ -125,6 +126,14 @@
 				<option value="pass">Pass</option>
 				<option value="remove">Remove</option>
 			</select></div>
+			<div><select id="csp">
+				<option value="pass">Pass</option>
+				<option value="force">Force</option>
+				<option value="none">None</option>
+				<option value="self">Self</option>
+				<option value="custom">Custom CSP</option>
+			</select>
+			<input id="customcsp" size="50"/></div>
 		</form>
 	</div>
 	<div>
@@ -163,6 +172,12 @@
 
 		<h2>Charset</h2>
 		<p>Remove - Remove the Accept-Charset header</p>
+
+		<h2>CSP</h2>
+		<p>Force - Remove "Report-Only", enforcing policy.</p>
+		<p>None - default-src: 'none'</p>
+		<p>Self - default-src: 'self'</p>
+		<p>Custom - see <a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">policy directives</a></p>
 	</div>
 </div>
 	

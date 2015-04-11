@@ -313,14 +313,42 @@ function onHeadersReceived(d){
 	var action = actions[f];
 	if(action == null)
 		return;
-
-	if(action.Cookie == "remove"){
-		for(var i = 0; i < d.responseHeaders.length; i++){
-			if(d.responseHeaders[i].name == "Set-Cookie"){
+	if((action.csp == "pass" || action.csp == null) && action.Cookie == "pass")
+		return;
+	
+	for(var i = 0; i < d.responseHeaders.length; i++)
+	{
+		var h = d.responseHeaders[i];
+		switch(h.name.toLowerCase())
+		{
+		case "set-cookie":
+			if(action.Cookie == "remove")
+			{
 				d.responseHeaders.splice(i, 1);
 				i--;
+			}
+			continue;
+
+		case "content-security-policy":
+		case "content-security-policy-report-only":
+			//Remove report-only
+			h.name = "Content-Security-Policy";
+
+			switch(action.csp)
+			{
+			case "force":
+				continue;
+			case "none":
+				h.value = "default-src: 'none'";
+				continue;
+			case "self":
+				h.value = "default-src: 'self'";
+				continue;
+			case "custom":
+				h.value = action.customcsp;
 				continue;
 			}
+			continue;
 		}
 	}
 

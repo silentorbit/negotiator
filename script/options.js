@@ -251,6 +251,21 @@ function updateActions(){
 		tag.appendChild(generateActionRow(i));
 }
 
+function updateEnabled(row)
+{
+	var isBlocked = row.block.value == "true";
+	var vis = isBlocked ? "hidden" : "visible";
+	row.agent.style.visibility = vis;
+	row.referer.style.visibility = vis;
+	row.cookie.style.visibility = vis;
+	row.accept.style.visibility = vis;
+	row.acceptlanguage.style.visibility = vis;
+	row.acceptencoding.style.visibility = vis;
+	row.acceptcharset.style.visibility = vis;
+	row.csp.style.visibility = vis;
+	row.customcsp.style.visibility = (isBlocked || row.csp.value != "custom") ? "collapse":"visible";
+}
+
 function generateActionRow(i){
 	var row = document.getElementById('actionTemplate').cloneNode(true);
 	var a = b.actions[i];
@@ -273,15 +288,11 @@ function generateActionRow(i){
 	setSelected(row.acceptlanguage, a.acceptlanguage);	//Accept-Language
 	setSelected(row.acceptencoding, a.acceptencoding);	//Accept-Encoding
 	setSelected(row.acceptcharset, a.acceptcharset);	//Accept-Charset
+	setSelected(row.csp, a.csp);	//CSP
+	if(a.customcsp != null)
+		row.customcsp.value = a.customcsp;
 
-	var isBlocked = row.block.value == "true";
-	row.agent.disabled = isBlocked;
-	row.referer.disabled = isBlocked;
-	row.cookie.disabled = isBlocked;
-	row.accept.disabled = isBlocked;
-	row.acceptlanguage.disabled = isBlocked;
-	row.acceptencoding.disabled = isBlocked;
-	row.acceptcharset.disabled = isBlocked;
+	updateEnabled(row);
 
 	//Automatically save settings when changed
 	var save = function(){
@@ -294,19 +305,13 @@ function generateActionRow(i){
 		row.filterAction.acceptlanguage = row.acceptlanguage.value;
 		row.filterAction.acceptencoding = row.acceptencoding.value;
 		row.filterAction.acceptcharset = row.acceptcharset.value;
+		row.filterAction.csp = row.csp.value;
+		row.filterAction.customcsp = row.customcsp.value;
 		b.saveActions();
 		
 		row.style.backgroundColor = row.color.value;
-		
-		var isBlocked = row.block.value == "true";
-		row.agent.disabled = isBlocked;
-		row.referer.disabled = isBlocked;
-		row.cookie.disabled = isBlocked;
-		row.accept.disabled = isBlocked;
-		row.acceptlanguage.disabled = isBlocked;
-		row.acceptencoding.disabled = isBlocked;
-		row.acceptcharset.disabled = isBlocked;
 
+		updateEnabled(row);
 		return true;
 	};
 	row.color.oninput = save;
@@ -318,6 +323,8 @@ function generateActionRow(i){
 	row.acceptlanguage.onchange = save;
 	row.acceptencoding.onchange = save;
 	row.acceptcharset.onchange = save;
+	row.csp.onchange = save;
+	row.customcsp.onchange = save;
 
 	row.delete.onclick = function(){
 		delete b.actions[this.form.actionName.value];
