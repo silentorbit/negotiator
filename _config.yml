@@ -1,0 +1,28 @@
+# Dependencies
+markdown:         kramdown
+highlighter:      rouge
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Negotiator
+tagline:          'Naming is hard'
+description:      ''
+url:              https://silentorbit.com/negotiator
+baseurl:          /negotiator
+
+author:
+  name:           'Peter Hultqvist'
+  url:            https://silentorbit.com/hultqvist/
+
+paginate:         5
+paginate_path:    "/updates/page:num"
+
+# Custom vars
+version:          1.2.3
+
+github:
+  repo:           https://github.com/hultqvist/negotiator
+  page:           https://github.com/hultqvist/negotiator/tree/gh-pages
+  branch:         gh-pages

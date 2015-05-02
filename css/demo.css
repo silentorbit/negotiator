@@ -1,0 +1,20 @@
+iframe,form{
+	font-size: 12pt;
+	width: 80%;
+}
+textarea{
+	font-size: 12pt;
+	width: 100%;
+}
+iframe,textarea{
+	background: #fff;
+	border: 1px solid #000;
+	padding: 1em;
+}
+
+input[type=submit]{
+	padding: 1em;
+	background:#ff0;
+	border: 1px solid #000;
+	margin: 1em;
+}

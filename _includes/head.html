@@ -1,0 +1,19 @@
+﻿<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if page.title == "Home" %}
+        {{ site.title }} &middot; {{ site.tagline }}
+        {% else %}
+        {{ page.title }} &middot; {{ site.title }}
+        {% endif %}
+    </title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/poole.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/syntax.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/hyde.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/demo.css">
+    <!--link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.baseurl }}/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="{{ site.baseurl }}/favicon.ico"-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}/atom.xml">
+</head>
