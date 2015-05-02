@@ -3,4 +3,6 @@ Kiss
 
 Keep it simple privacy extension for google chrome
 
-Contact me directly on phq@silentorbit.com
+Email questions to support@silentorbit.com
+
+[Wiki](https://github.com/hultqvist/Kiss/wiki).
