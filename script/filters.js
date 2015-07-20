@@ -153,7 +153,15 @@ function addFilter(f)
 	return true;
 }
 
-function deleteFilter(from, to){
+function updateFilter(before, after)
+{
+	if(before.from != after.from || before.to != after.to)
+		deleteFilter(before.from, before.to);
+	addFilter(after);
+}
+
+function deleteFilter(from, to)
+{
 	var f;
 	if(isWild(from))
 		f = filters.wild[withoutWild(from)];
@@ -166,6 +174,9 @@ function deleteFilter(from, to){
 		delete f.wild[withoutWild(to)];
 	else
 		delete f[withoutWild(to)];
+
+	if(useChromeSync)
+		chrome.storage.sync.remove(from + filterFromToSeparator + to);
 }
 
 function parseSubnet(ipsub)

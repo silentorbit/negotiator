@@ -456,9 +456,7 @@ function onFilterChange(row, f)
 	var newFilter = getFilterFromForm(row);
 	if(newFilter != null)
 	{
-		b.deleteFilter(f.from, f.to);
-		//Filter prepared, save it
-		b.addFilter(newFilter);
+		b.updateFilter(f, newFilter);
 		b.saveFilters();
 
 		updateFilterRow(row, newFilter);

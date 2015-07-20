@@ -99,7 +99,31 @@ chrome.storage.onChanged.addListener(syncChanged);
 
 function syncChanged(changed, namespace)
 {
-	console.log(useChromeSync, namespace, changed);
+	if(namespace != "sync")
+		return;
+	if(!useChromeSync)
+		return;
+
+	for(var k in changed)
+	{
+		var c = changed[k];
+		var sep = k.indexOf(filterFromToSeparator);
+		if(sep < 0)
+			continue;
+		var from = k.substring(0, sep);
+		var to = k.substring(sep + filterFromToSeparator.length);
+		if(c.oldValue)
+		{
+			deleteFilter(from, to);
+		}
+		if(c.newValue)
+		{
+			var f = c.newValue;
+			f.from = from;
+			f.to = to;
+			addFilter(f);
+		}
+	}
 }
 
 function loadFilters(callback)
@@ -107,9 +131,18 @@ function loadFilters(callback)
 	if(useChromeSync)
 	{
 		//Try legacy format first
-		chrome.storage.sync.get('filters', function(json){ 
-			filters = JSON.parse(json.filters);
-			prepareFilters();
+		chrome.storage.sync.get(null, function(list){ 
+			if(list.filters != null)
+			{
+				//Legacy filters
+				filters = JSON.parse(list.filters);
+				prepareFilters();
+				fixLegacyWildcard();
+				return;
+			}
+
+			filters = {};
+			importFilters(list);
 		});
 	}
 	else
@@ -212,8 +245,20 @@ function generateExportItem(f)
 function saveFilters(){
 	if(useChromeSync)
 	{
-		var json = JSON.stringify(filters, null, '\t');
-		chrome.storage.sync.set({'filters': json});
+		var list = exportFilters();
+		chrome.storage.sync.set(list, function()
+		{
+			if(chrome.runtime.lastError)
+			{
+				console.log(chrome.runtime.lastError);
+			}
+			else
+			{
+				//Remove legacy code
+				if(!chrome.runtime.lastError)
+					chrome.storage.sync.remove("filters");
+			}
+		});
 	}
 	else
 	{
