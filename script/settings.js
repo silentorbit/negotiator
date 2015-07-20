@@ -82,26 +82,34 @@ function saveActions(){
 
 //Filter storage, if true use chrome.storage.sync, otherwise use localStorage
 var useChromeSync = (localStorage.getItem('useChromeSync') == "true");
-function setUseChromeSync(val, callback){
+function setUseChromeSync(val){
 	//Save setting
 	useChromeSync = val;
 	localStorage.useChromeSync = val;
 	//Reload filters
-	loadFilters(callback);
+	loadFilters();
 }
 
 //Load filters
 var filterFromToSeparator = " > ";
 var filters;
-loadFilters(prepareFilters);
+loadFilters();
+
+chrome.storage.onChanged.addListener(syncChanged);
+
+function syncChanged(changed, namespace)
+{
+	console.log(useChromeSync, namespace, changed);
+}
 
 function loadFilters(callback)
 {
 	if(useChromeSync)
 	{
+		//Try legacy format first
 		chrome.storage.sync.get('filters', function(json){ 
 			filters = JSON.parse(json.filters);
-			callback();
+			prepareFilters();
 		});
 	}
 	else
@@ -118,9 +126,9 @@ function loadFilters(callback)
 			//Legacy format
 			var json = localStorage.getItem("filters");
 			filters = JSON.parse(json);
+			prepareFilters();
 			fixLegacyWildcard();
 		}
-		callback();
 	}
 }
 
@@ -146,6 +154,7 @@ function importFilters(list)
 		f.to = k.substring(sep + filterFromToSeparator.length);
 		addFilter(f);
 	}
+	prepareFilters();
 }
 function exportFilters()
 {
@@ -225,6 +234,11 @@ function prepareFilters()
 		//By default new installs ignore www
 		setIgnoreWWW(true);
 	}
+
+	if(filters == null)					filters = {};
+	if(filters.wild == null)			filters.wild = {};
+	if(filters.wild[""] == null)		filters.wild[""] = {};
+	if(filters.wild[""].wild == null)	filters.wild[""].wild = {};
 }
 
 function fixLegacyWildcard()

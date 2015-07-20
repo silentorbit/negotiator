@@ -113,7 +113,7 @@ function sameTLD(d1, d2){
 		return false;
 	if(d2.indexOf(topDomain, d2.length - topDomain.length) === -1)
 		return false;
-	console.log("SAME");
+	//console.log("SAME");
 	return true;
 }
 

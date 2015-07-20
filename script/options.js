@@ -62,7 +62,7 @@ function updateFiltersPage()
 	useChromeSync.addEventListener('click', 
 		function()
 		{
-			b.setUseChromeSync(useChromeSync.checked, updateFilters);
+			b.setUseChromeSync(useChromeSync.checked);
 		});
 	
 	document.querySelector('#exportJSON').addEventListener('click', exportJSON);

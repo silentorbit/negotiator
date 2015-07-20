@@ -120,30 +120,35 @@ function addFilter(f)
 	//f.from = f.from.replace(/\*+/, "*");
 	//f.to = f.to.replace(/\*+/, "*");
 
-	//From...
 	var fr;
+	
+	//From...
+	var fromWithout = withoutWild(f.from);
 	if(isWild(f.from)){
 		//From Wildcard
-		fr = filters.wild[f.from];
+		if(filters.wild == null)
+			filters.wild = {};
+		fr = filters.wild[fromWithout];
 		if(fr == null){
 			fr = {};
-			filters.wild[f.from] = fr;
+			filters.wild[fromWithout] = fr;
 		}
 	}else{
-		fr = filters[f.from];
+		fr = filters[fromWithout];
 		if(fr == null){
 			fr = {};
-			filters[f.from] = fr;
+			filters[fromWithout] = fr;
 		}
 	}
 	if(fr.wild == null)
 		fr.wild = {};
 	
 	//...To: add filter
+	var toWithout = withoutWild(f.to);
 	if(isWild(f.to))
-		fr.wild[f.to] = f;
+		fr.wild[toWithout] = f;
 	else
-		fr[f.to] = f;
+		fr[toWithout] = f;
 	
 	return true;
 }
