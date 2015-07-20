@@ -7,12 +7,12 @@
 </head>
 <body>
 <div id="mainpanel">
-	<div class="buttons">
-		<a href="filters.html" class="buttons active">Filters</a>
-		<a href="tracked.html" class="buttons">Tracked</a>
-		<a href="options.html" class="buttons">Options</a>
-	</div>
 	<img src="images/title.png" />
+	<div class="buttons">
+		<a href="filters.html" class="button active">Filters</a>
+		<a href="tracked.html" class="button">Tracked</a>
+		<a href="options.html" class="button">Options</a>
+	</div>
 	<div>
 		<a href="http://silentorbit.com/kiss/" target="_blank">Website</a><br/>
 		<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
@@ -24,18 +24,18 @@
 <div>
 	<input id="testFrom" value="example.com" />
 	<input id="testTo" value="doubleclick.net" />
-	<input type="button" id="testButton" value="Test" />
+	<input type="button" id="testButton" value="Test" class="button" />
 	<div id="testResult" class="table"></div>
 </div>
 </div>
 
 <div class="filtersTab">
 	<h1>Filter Storage</h1>
-	<p><strong>Chrome sync supports a maximum of 512 filter rules.</strong></p>
-	<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync">Use Chrome Sync for filter storage</label><br/>
-	<div style="display:inline-block;">
-		<input type="button" id="exportJSON" value="Export to JSON" /><br/>
-		<input type="button" id="importJSON" value="Import from JSON" />
+	<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync">Use Chrome Sync for filter storage</label>
+	<strong>Chrome sync supports a maximum of 512 filter rules.</strong>
+	<div>
+		<input type="button" id="exportJSON" value="Export to JSON" class="button" />
+		<input type="button" id="importJSON" value="Import from JSON" class="button" />
 	</div>
 	<textarea id="filterJSON" style="display:inline-block; height: 4em;"></textarea>
 </div>

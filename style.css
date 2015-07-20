@@ -9,18 +9,20 @@ body{
 	background: #fff url(images/panel.png) repeat-x;
 	background-position: 0 -35px; 
 	font-family: sans-serif;
+	font-size: 13pt;
 
 	margin: 0 auto;
 	padding: 0 0 0 1em;
 }
 
 .popupBody{
-	background-position: 0 -68px; 
-	min-width: 300px;
+	background: #fff;
+	min-width: 600px;
 	padding: 0 1em 1em 1em;
 }
-.popupBody h2{
-	clear: both;
+.popupBody h2 {
+	clear: left;
+	margin: 0;
 }
 
 #popupMenu{
@@ -47,33 +49,12 @@ body{
 #mainpanel a:hover {
 	color:#00adee;
 }
-#mainpanel .buttons a {
-	display: inline-block;
-	padding: 12px 0 8px 0;
-	width: 90px;
-	height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	font: Geneva, Verdana, sans-serif;
-	font-weight: bold;
-
-	text-decoration: none;
-
-	background-color: #000;
-	border-radius: 0.5em;
-	color: #eee;
-	text-shadow: 0 1px 0 #333;
-
-	box-shadow: inset 0 0 5px white;
+#mainpanel .button{
+	font-size: 14pt;
+	font-weight: normal;
 }
-
-#mainpanel a.buttons:hover {
-	color: #fff;
-	box-shadow: inset 0 0 5px #8bc53f;
-}
-#mainpanel a.buttons.active {
-	background-color: #00adee;
-	box-shadow: 0 0 0 transparent;
+#mainpanel img{
+	float: right;
 }
 
 fieldset{
@@ -126,33 +107,6 @@ fieldset{
 #filters li:hover a,
 #filters h3:hover a{opacity: 1;color: #00f;}
 
-/* Buttons */
-
-#mainpanel .button {
-	font-size: 100%;
-    color: #000;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 5px;
-    vertical-align: middle;
-    text-decoration: none;
-}
-
-.button {
-    background: #fff;
-    color: #000;
-    border: 1px solid gray;
-    border-radius: 30px;
-    cursor: pointer;
-    display: inline-block;
-    padding: 0 1em;
-    vertical-align: middle;
-    text-decoration: none;
-}
-.button:hover {background: #eee;}
-
 /* Table */
 .table{
 	display: table;
@@ -161,15 +115,31 @@ fieldset{
 .table>*>*{display: table-cell;} 
 
 input[type="checkbox"] {
-	padding: 1em;
-	margin: 0;
+	width: 18px;
+	height: 18px;
+	background: #fff;
+	border: 1px solid #000;
+	margin: 0 0 0 1em;
+	padding: 0;
+	position: relative;
+	vertical-align: middle;
+}
+
+select
+{
+	background: transparent;
+	padding: 2pt 5pt;
+}
+.table form:hover select
+{
+	background: #fff;
 }
 
 .table input[type="text"]{
 	background: transparent;
 	border: 1px solid transparent;
 	width: 15em;
-	padding: 0 5pt;
+	padding: 2pt 5pt;
 }
 .table form:hover input[type="text"]{
 	border: 1px solid gray;
@@ -180,4 +150,43 @@ input[type="checkbox"] {
 	width: 45%;
 	margin: 0 3% 0 0;
 	float:left;
+}
+
+.button {
+	background-color:#fff;
+	border-radius: 3px;
+	border: 1px solid #337fed;
+	color:#000 !important;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 2pt 3pt;
+	margin: 2pt;
+}
+.button:hover{
+	background-color:#8cf;
+	border-radius: 1px;
+}
+.button.active,
+#mainpanel .active {
+	background-color:#7cf;
+}
+#mainpanel .button{
+	padding: 3pt 5pt;
+	margin: 5pt 0 0 0;
+}
+.table .button{
+	padding: 1pt 3pt;
+	margin: 0;
+}
+
+.dangerButton {
+	cursor:pointer;
+	background-color:#fff;
+	color: #f00;
+	border: 1px solid #f00;
+}
+.dangerButton:hover {
+	background-color:#f24537;
+	color: #fff;
+	border: 1px solid #fff;
 }

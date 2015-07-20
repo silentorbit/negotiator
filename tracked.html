@@ -7,34 +7,22 @@
 </head>
 <body>
 <div id="mainpanel">
-	<div class="buttons">
-		<a href="filters.html" class="buttons">Filters</a>
-		<a href="tracked.html" class="buttons active">Tracked</a>
-		<a href="options.html" class="buttons">Options</a>
-	</div>
 	<img src="images/title.png" />
+	<div class="buttons">
+		<a href="filters.html" class="button">Filters</a>
+		<a href="tracked.html" class="button active">Tracked</a>
+		<a href="options.html" class="button">Options</a>
+	</div>
 	<div>
 		<a href="http://silentorbit.com/kiss/" target="_blank">Website</a><br/>
 		<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
 	</div>
 </div>
 
-<h1>
-	Tracked Requests
-	<small><a class="button" id="clearTrackedReload"><span>Clear</span></a></small>
-</h1>
+<h1>Tracked Requests</h1>
+<a class="button" id="clearTrackedReload"><span>Clear</span></a>
 
-<div id="trackedTable" class="table">
-	<div class="header">
-		<span></span>
-		<span title="Wildcard">*</span>
-		<span>From</span>
-		<span title="Wildcard">*</span>
-		<span>To</span>
-		<span>Type</span>
-		<span></span>
-	</div>
-</div>
+<div id="trackedTable" class="table"></div>
 
 </body>
 </html>

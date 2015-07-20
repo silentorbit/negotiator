@@ -73,6 +73,7 @@ function updateTrackedPage()
 {
 	//Tracked Requests
 	var table = document.getElementById('trackedTable');
+	table.appendChild(b.filterHeader.cloneNode(true));//Add headers
 	for(var i in b.TrackedRequests)
 	{
 		var r = b.TrackedRequests[i];
@@ -80,7 +81,9 @@ function updateTrackedPage()
 			continue;
 			
 		insertTrackedRow(table, r.from, r.to, function (row) {
-			getFilterFromForm(row);
+			var filter = getFilterFromForm(row);
+			b.addFilter(filter);
+			b.saveFilters();
 			table.removeChild(row);
 		});
 	}
