@@ -17,7 +17,11 @@ window.onload = function() {
 
 			var newFilterAdded = function (row)
 			{
-				var filter = addFilterFromForm(row);
+				var filter = getFilterFromForm(row);
+				if(filter == null)
+					return;
+				b.addFilter(filter);
+				b.saveFilters();
 				b.tabFilters[tab.id].push(filter);
 				updateTabFilters(tab);
 			};

@@ -80,7 +80,7 @@ function updateTrackedPage()
 			continue;
 			
 		insertTrackedRow(table, r.from, r.to, function (row) {
-			addFilterFromForm(row);
+			getFilterFromForm(row);
 			table.removeChild(row);
 		});
 	}
@@ -136,64 +136,76 @@ function addNewAction()
 
 function cleanDomain(domain)
 {
-	domain = domain.replace(/^[\.]+/,'').trim();
+	domain = domain.trim();
+	var wild = domain.indexOf("*") == 0;
+	domain = domain.replace(/^[\*\.]+/,'').trim();
 	var sep = domain.indexOf("/");
 	if(sep >= 0)
 		domain = domain.substring(0, sep);
+	if(wild)
+		domain = "*"+domain;
 	return domain;
 }
 
-function addFilterFromForm(form)
+//return whether the domain contain a leading wildcard
+function isWild(domain)
+{
+	if(domain.length = 0)
+		return false;
+	return domain.indexOf("*") == 0;
+}
+
+//return domain without leading wildcard
+function withoutWild(domain)
+{
+	if(isWild(domain))
+		return domain.substring(1);
+	else
+		return domain;
+}
+
+//Create a new filter based on the form data
+//Return false if the form entry is invalid.
+function getFilterFromForm(form)
 {
 	var f = {
 		from: form.from.value,
-		fromWild: false, //changed later if from starts with *
 		to: form.to.value,
-		toWild: false, //changed later if to starts with *
 		filter: form.filter.value,
 		track: form.track.checked
 	};
 
 	if(f.from == "" && f.to == "")
-		return;
+		return null;
 
-	//Remove whitespace
-	f.from = f.from.trim();
-	f.to = f.to.trim();
-
-	//Interpret leading * as wildcard
-	if(f.from.indexOf("*") == 0){
-		f.fromWild = true;
-		f.from = f.from.substring(1).trim();
-	}
-	if(f.to.indexOf("*") == 0){
-		f.toWild = true;
-		f.to = f.to.substring(1).trim();
-	}
-
-	//Remove leading dots
+	//Remove leading dots, and everything after slash
 	f.from = cleanDomain(f.from);
 	f.to = cleanDomain(f.to);
 
 	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
 		alert("domains can't contain spaces");
-		return false;
+		return null;
 	}
-	if(f.from.indexOf("*") >= 0 || f.to.indexOf("*") >= 0){
+	if(f.from.indexOf("*") > 0 || f.to.indexOf("*") > 0){
 		alert("domains can only start with wildcard *");
-		return false;
+		return null;
 	}
 	//Empty is interpreted as wildcard(which includes empty)
 	if(f.to == "")
-		f.toWild = true;
+		f.to = "*";
+
+	var toWild = isWild(f.to);
+	var toWithout = withoutWild(f.to);
+	var fromWild = isWild(f.from);
+	var fromWithout = withoutWild(f.from);
 
 	//Remove tracked requests matching filter
 	for(var i in b.TrackedRequests){
 		var t = b.TrackedRequests[i];
 
 		if(f.from != null && f.from != ""){
-			if(f.fromWild){
-				if(endsWith(t.from, f.from) == false)
+			if(fromWild){
+				if(endsWith(t.from, withoutWild(f.from)) == false)
 					continue;
 			}else{
 				if(f.from != t.from)
@@ -201,8 +213,8 @@ function addFilterFromForm(form)
 			}
 		}
 		if(f.to != null && f.to != ""){
-			if(f.toWild){
-				if(endsWith(t.to, f.to) == false)
+			if(toWild){
+				if(endsWith(t.to, toWithout) == false)
 					continue;
 			}else{
 				if(f.to != t.to)
@@ -362,13 +374,14 @@ function addAction(a){
 function exportJSON()
 {
 	var textJson = document.querySelector('#filterJSON');
-	textJson.value = b.importer.json;
+	textJson.value = b.exportJson();
 }
 
 function importJSON()
 {
 	var textJson = document.querySelector('#filterJSON');
-	b.importer.json = textJson.value;
+	b.importJson(textJson.value);
+	b.saveFilters();
 	updateFilters();
 }
 
@@ -414,10 +427,11 @@ function generateFilterList(tableBlocked, table, list){
 	for(var i in list) {
 		if(i == "wild")
 			continue;
-		if(list[i] == null)
-			continue;
-			
+
 		var f = list[i];
+		if(f == null)
+			continue;
+		
 		if(f.filter == "block")
 			generateFilterItem(tableBlocked, f);
 		else
@@ -439,15 +453,16 @@ function onFilterChange(row, f)
 	wildcardTextHelper(row.from);
 	wildcardTextHelper(row.to);
 
-	var newFilter = addFilterFromForm(row);
+	var newFilter = getFilterFromForm(row);
 	if(newFilter != null)
 	{
-		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
+		b.deleteFilter(f.from, f.to);
 		//Filter prepared, save it
 		b.addFilter(newFilter);
-	}
+		b.saveFilters();
 
-	updateFilterRow(row, newFilter);
+		updateFilterRow(row, newFilter);
+	}
 }
 
 function updateFilterRow(row, f)
@@ -463,11 +478,7 @@ function updateFilterRow(row, f)
 	row.removeAttribute('id');
 	row.style.background = b.actions[f.filter].color;
 	row.from.value = f.from;
-	if(f.fromWild)
-		row.from.value = "* " + row.from.value;
 	row.to.value = f.to;
-	if(f.toWild)
-		row.to.value = "* " + row.to.value;
 	fillActionSelect(row.filter, f.filter);
 	row.track.checked = f.track;
 	if(row.add != null)
@@ -475,8 +486,9 @@ function updateFilterRow(row, f)
 
 	//Update events with the new filter settings (f)
 	row.del.onclick = function(){
-		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
-		table.removeChild(row);
+		b.deleteFilter(f.from, f.to);
+		b.saveFilters();
+		row.parentNode.removeChild(row);
 		return false;
 	};
 	row.from.oninput=function(){onFilterChange(row, f);};
@@ -519,19 +531,19 @@ function insertTrackedRow(table, from, to, submitAction)
 //Chandle changes in the domain textbox
 function wildcardTextHelper (text)
 {
-	var checked = false;
+	var wild = false;
 	//Get text and remove space and leading *
 	var f = text.value;
 	f = f.trim();
 	if(f.indexOf("*") == 0)
 	{
 		f = f.substring(1).trim();
-		checked = true;
+		wild = true;
 	}
 	f = f.replace("*", "");
 	
-	if(checked)
-		f = "* " + f;
+	if(wild)
+		f = "*" + f;
 	if(text.value != f)
 		text.value = f;
 }

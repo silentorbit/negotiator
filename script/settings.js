@@ -91,42 +91,125 @@ function setUseChromeSync(val, callback){
 }
 
 //Load filters
+var filterFromToSeparator = " > ";
 var filters;
 loadFilters(prepareFilters);
 
 function loadFilters(callback)
 {
 	if(useChromeSync)
+	{
 		chrome.storage.sync.get('filters', function(json){ 
 			filters = JSON.parse(json.filters);
-			if(callback != null)
-				callback();
+			callback();
 		});
+	}
 	else
 	{
-		filters = JSON.parse(localStorage.getItem("filters"));
-		if(callback != null)
-			callback();
+		var json = localStorage.getItem("filter-list");
+		if(json != null)
+		{
+			//New format
+			filters = {};
+			importJson(json);
+		}
+		else
+		{
+			//Legacy format
+			var json = localStorage.getItem("filters");
+			filters = JSON.parse(json);
+			fixLegacyWildcard();
+		}
+		callback();
 	}
 }
 
-var importer = {
-	get json() {
-		return JSON.stringify(filters, null, '\t');
-	},
-	set json(val) {
-		filters = JSON.parse(val);
-		saveFilters();
+function importJson(json)
+{
+	var list = JSON.parse(json);
+	importFilters(list);
+}
+function exportJson()
+{
+	return JSON.stringify(exportFilters(), null, '\t');
+}
+
+function importFilters(list)
+{
+	for(var k in list)
+	{
+		var f = list[k];
+		var sep = k.indexOf(filterFromToSeparator);
+		if(sep < 0)
+			continue;
+		f.from = k.substring(0, sep);
+		f.to = k.substring(sep + filterFromToSeparator.length);
+		addFilter(f);
 	}
 }
+function exportFilters()
+{
+	//Scan all filters and generate a single list
+	var list = {};
+
+	for(var f in filters)
+	{
+		if(f == "wild")
+			continue;
+		exportFiltersTo(f, filters[f], list);
+	}
+	var fw = filters.wild;
+	for(var f in fw)
+	{
+		exportFiltersTo(f, fw[f], list);
+	}
+
+	return list;
+}
+function exportFiltersTo(from, filters, list)
+{
+	if(filters == null)
+		return;
+
+	for(var f in filters)
+	{
+		if(f == "wild")
+			continue;
+		var filter = filters[f];
+		if(filter == null)
+			continue;
+		list[from + filterFromToSeparator + f] = generateExportItem(filter);
+	}
+	var fw = filters.wild;
+	for(var f in fw)
+	{
+		var filter = fw[f];
+		if(filter == null)
+			continue;
+		list[from + filterFromToSeparator + f] = generateExportItem(filter);
+	}
+}
+function generateExportItem(f)
+{
+	var i = {
+		filter: f.filter,
+	};
+	if(f.track)
+		i.track = true;
+	return i;
+}
+
 
 function saveFilters(){
-	var json = JSON.stringify(filters, null, '\t');
-
 	if(useChromeSync)
+	{
+		var json = JSON.stringify(filters, null, '\t');
 		chrome.storage.sync.set({'filters': json});
+	}
 	else
-		localStorage.filters = json;
+	{
+		localStorage.setItem("filter-list", exportJson());
+	}
 }
 
 function prepareFilters()
@@ -138,63 +221,51 @@ function prepareFilters()
 		filters.wild = {};
 		filters.wild[""] = {};
 		filters.wild[""].wild = {};
-		var wildToWild = filters.wild[""].wild;
 
 		//By default new installs ignore www
 		setIgnoreWWW(true);
 	}
+}
 
-	if(filters.wild == null)
-		filters.wild = {};
-
-	if(filters[""] != null){
-		//Uppgrade from [""] to .wild[""]
-		var list = filters[""];
-		//Prepare .wild[""]
-		if(filters.wild[""] == null)
-			filters.wild[""] = {};
-		var fromWildList = filters.wild[""];
-		if(fromWildList.wild == null)
-			fromWildList.wild = {};
-
-		//Format old wildcard [""]
-		for(ti in list){
-			if(ti == "wild"){
-				//toWild
-				for(twi in list.wild){
-					fromWildList.wild[twi] = list.wild[twi];
-					fromWildList.wild[twi].fromWild = true;
-				}
-			}else{
-				fromWildList[ti] = list[ti];
-				fromWildList[ti].fromWild = true;
-			}
-		}
-
-		//remove old version of converted filters
-		filters[""] = null;
-
-		//Save changes
-		saveFilters();
-	}
-
-	//bugFix
-	if(filters.wild[""] == null)
-		filters.wild[""] = {};
-	if(filters.wild[""].wild == null)
-		filters.wild[""].wild = {};
-
-	//Bugfix: toWild=true filters in filters.wild[""]["asd.com"] should be located in filters.wild[""].wild["asd.com"]
-	var wrong = filters.wild[""];
-	var right = filters.wild[""].wild;
-
-	for(i in wrong){
+function fixLegacyWildcard()
+{
+	//Fix from, to wildcards
+	for(var i in filters)
+	{
 		if(i == "wild")
 			continue;
-		if(wrong[i].toWild == false)
-			continue;
-		right[i] = wrong[i];
-		delete wrong[i];
+		fixLegacyWildcardFrom(filters[i], false);
 	}
-	saveFilters();
+	var fw = filters.wild;
+	for(var i in fw)
+	{
+		fixLegacyWildcardFrom(fw[i], true);
+	}
+}
+function fixLegacyWildcardFrom(list, fromWild)
+{
+	if(list == null)
+		return;
+
+	//Fix from, to wildcards
+	for(var i in list)
+	{
+		if(i == "wild")
+			continue;
+		fixLegacyWildcardTo(list[i], fromWild, false);
+	}
+	var fw = list.wild;
+	for(var i in fw)
+	{
+		fixLegacyWildcardTo(fw[i], fromWild, true);
+	}
+}
+function fixLegacyWildcardTo(f, fromWild, toWild)
+{
+	if(f == null)
+		return;
+	if(fromWild && !isWild(f.from))
+		f.from = "*" + f.from;
+	if(toWild && !isWild(f.to))
+		f.to = "*" + f.to;
 }

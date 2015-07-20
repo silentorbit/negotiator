@@ -94,7 +94,7 @@ function getDomain(url){
 
 //Return true if d1 and d2 with only one dot is the same
 function sameTLD(d1, d2){
-	console.log("Same?: " + d1 + " -> " + d2);
+	//console.log("Same?: " + d1 + " -> " + d2);
 	d1 = "." + d1;
 	d2 = "." + d2;
 	var p1, p2 = 0, p3 = d1.indexOf(".", 1);

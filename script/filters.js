@@ -1,4 +1,21 @@
 
+//return whether the domain contain a leading wildcard
+function isWild(domain)
+{
+	if(domain.length = 0)
+		return false;
+	return domain.indexOf("*") == 0;
+}
+
+//return domain without leading wildcard
+function withoutWild(domain)
+{
+	if(isWild(domain))
+		return domain.substring(1);
+	else
+		return domain;
+}
+
 //Return the filter string for a given domain
 //Return null if no filter matched
 function getFilter(from, to)
@@ -100,9 +117,12 @@ function getWild(source, domain){
 
 function addFilter(f)
 {
+	//f.from = f.from.replace(/\*+/, "*");
+	//f.to = f.to.replace(/\*+/, "*");
+
 	//From...
 	var fr;
-	if(f.fromWild){
+	if(isWild(f.from)){
 		//From Wildcard
 		fr = filters.wild[f.from];
 		if(fr == null){
@@ -120,30 +140,27 @@ function addFilter(f)
 		fr.wild = {};
 	
 	//...To: add filter
-	if(f.toWild)
+	if(isWild(f.to))
 		fr.wild[f.to] = f;
 	else
 		fr[f.to] = f;
 	
-	saveFilters();
 	return true;
 }
 
-function deleteFilter(fromWild, from, toWild, to){
+function deleteFilter(from, to){
 	var f;
-	if(fromWild)
-		f = filters.wild[from];
+	if(isWild(from))
+		f = filters.wild[withoutWild(from)];
 	else
-		f = filters[from];
+		f = filters[withoutWild(from)];
 	if(f == null)
 		return;
 		
-	if(toWild)
-		delete f.wild[to];
+	if(isWild(to))
+		delete f.wild[withoutWild(to)];
 	else
-		delete f[to];
-
-	saveFilters();
+		delete f[withoutWild(to)];
 }
 
 function parseSubnet(ipsub)
