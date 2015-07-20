@@ -187,9 +187,6 @@ function addFilterFromForm(form)
 	if(f.to == "")
 		f.toWild = true;
 
-	//Filter prepared, save it
-	b.addFilter(f);
-
 	//Remove tracked requests matching filter
 	for(var i in b.TrackedRequests){
 		var t = b.TrackedRequests[i];
@@ -428,26 +425,27 @@ function generateFilterList(tableBlocked, table, list){
 function generateFilterItem(table, f){
 	var row = b.trackedTemplate.cloneNode(true);
 	updateFilterRow(row, f);
-	
-	row.del.onclick = function(){
-		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
-		table.removeChild(row);
-		return false;
-	};
-	row.fromWild.onchange=function(){wildcardCheckHelper(row.fromWild, row.from);};
-	row.from.oninput=function(){wildcardTextHelper(row.fromWild, row.from);};
-	row.toWild.onchange=function(){wildcardCheckHelper(row.toWild, row.to);};
-	row.to.oninput=function(){wildcardTextHelper(row.toWild, row.to);};
-
-	row.onsubmit = function(){
-		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
-		var newFilter = addFilterFromForm(row);
-		updateFilterRow(row, newFilter);
-		return false;
-	};
 
 	table.appendChild(row);
 	return row;
+}
+
+function onFilterChange(row, f)
+{
+	wildcardCheckHelper(row.fromWild, row.from);
+	wildcardTextHelper(row.fromWild, row.from);
+	wildcardCheckHelper(row.toWild, row.to);
+	wildcardTextHelper(row.toWild, row.to);
+
+	var newFilter = addFilterFromForm(row);
+	if(newFilter != null)
+	{
+		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
+		//Filter prepared, save it
+		b.addFilter(newFilter);
+	}
+
+	updateFilterRow(row, newFilter);
 }
 
 function updateFilterRow(row, f)
@@ -464,7 +462,25 @@ function updateFilterRow(row, f)
 	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
 	row.track.checked = f.track;
-	row.add.value = "save";
+	if(row.add != null)
+		row.add.parentNode.removeChild(row.add); //Remove "add"/"save" button
+
+	//Update events with the new filter settings (f)
+	row.del.onclick = function(){
+		b.deleteFilter(f.fromWild, f.from, f.toWild, f.to);
+		table.removeChild(row);
+		return false;
+	};
+	row.fromWild.onchange=function(){onFilterChange(row, f);};
+	row.from.oninput=function(){onFilterChange(row, f);};
+	row.toWild.onchange=function(){onFilterChange(row, f);};
+	row.to.oninput=function(){onFilterChange(row, f);};
+	row.filter.onchange=function(){onFilterChange(row, f);};
+	row.track.onchange=function(){onFilterChange(row, f);};
+	row.onsubmit = function(){
+		onFilterChange(row, f);
+		return false;
+	};
 }
 
 //Tracked requests
