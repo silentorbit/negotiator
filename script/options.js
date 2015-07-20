@@ -134,6 +134,15 @@ function addNewAction()
 	return addAction(document.getElementById("actionName").value);
 }
 
+function cleanDomain(domain)
+{
+	domain = domain.replace(/^[\.]+/,'').trim();
+	var sep = domain.indexOf("/");
+	if(sep >= 0)
+		domain = domain.substring(0, sep);
+	return domain;
+}
+
 function addFilterFromForm(form)
 {
 	var f = {
@@ -162,8 +171,8 @@ function addFilterFromForm(form)
 	}
 
 	//Remove leading dots
-	f.from = f.from.replace(/^[\.]+/,'').trim();
-	f.to = f.to.replace(/^[\.]+/,'').trim();
+	f.from = cleanDomain(f.from);
+	f.to = cleanDomain(f.to);
 
 	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
 		alert("domains can't contain spaces");
