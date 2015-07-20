@@ -234,6 +234,7 @@ function test(){
 		result.innerHTML = "no match, default";
 	else {
 		result.innerHTML = "";
+		result.appendChild(b.filterHeader.cloneNode(true));//Add headers
 		generateFilterItem(result, filter);
 	}
 }
@@ -382,6 +383,9 @@ function updateFilters(){
 	
 	filtersTag.innerHTML = "";
 	filtersBlockedTag.innerHTML = "";
+	//Add headers
+	filtersTag.appendChild(b.filterHeader.cloneNode(true));
+	filtersBlockedTag.appendChild(b.filterHeader.cloneNode(true));
 
 	for(var i in list.wild)
 		generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
@@ -397,7 +401,7 @@ function updateFilters(){
 function generateFilterList(tableBlocked, table, list){
 	if(list == null)
 		return;
-		
+	
 	for(var i in list.wild)
 	{
 		var f = list.wild[i];
@@ -423,7 +427,7 @@ function generateFilterList(tableBlocked, table, list){
 
 //Return html representation of a filter
 function generateFilterItem(table, f){
-	var row = b.trackedTemplate.cloneNode(true);
+	var row = b.filterTemplate.cloneNode(true);
 	updateFilterRow(row, f);
 
 	table.appendChild(row);
@@ -491,7 +495,7 @@ function insertTrackedRow(table, from, to, submitAction)
 {
 	if(from == null)
 		from = "";
-	var row = b.trackedTemplate.cloneNode(true);
+	var row = b.filterTemplate.cloneNode(true);
 	row.removeAttribute('id');
 	row.del.style.display = "none";
 	row.from.value = from;

@@ -25,6 +25,8 @@ window.onload = function() {
 			//Tracked requests
 			var trackedArray = b.tabRequests[tab.id];
 			var tableTracked = document.getElementById('trackedTable');
+			tableTracked.appendChild(b.filterHeader.cloneNode(true));//Add headers
+
 			insertTrackedRow(tableTracked, domain, domain, newFilterAdded);
 			if(trackedArray)
 			{
@@ -45,6 +47,7 @@ function updateTabFilters(tab)
 	if(tabFilterArray){
 		var tableFilters = document.getElementById('filters');
 		tableFilters.innerHTML = '';
+		tableFilters.appendChild(b.filterHeader.cloneNode(true));//Add headers
 		var added = [];
 		for(var i in tabFilterArray){
 			var filter = tabFilterArray[i];
