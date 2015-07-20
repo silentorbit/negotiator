@@ -150,7 +150,8 @@ function addFilterFromForm(form)
 		fromWild: false, //changed later if from starts with *
 		to: form.to.value,
 		toWild: false, //changed later if to starts with *
-		filter: form.filter.value
+		filter: form.filter.value,
+		track: form.track.checked
 	};
 
 	if(f.from == "" && f.to == "")
@@ -462,6 +463,7 @@ function updateFilterRow(row, f)
 		row.to.value = "* " + row.to.value;
 	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
+	row.track.checked = f.track;
 	row.add.value = "save";
 }
 

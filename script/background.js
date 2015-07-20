@@ -173,13 +173,14 @@ function onBeforeSendHeaders(d) {
 		if(alwaysPassSame && f.from == "" && actions[f.filter].block && (referrer == domain || referrer == null))
 		{
 			//Experimental feature, dangerous
+			f = null;
 		}
 		else
 			filter = f.filter;
 	}
 	
 	//No matching filter
-	if(filter == null)
+	if(f == null || f.track)
 	{
 		//Record attempt
 		var reqKey = referrer + " " + domain;
@@ -193,7 +194,10 @@ function onBeforeSendHeaders(d) {
 		//Record attempt in tab
 		if(tabRequests[d.tabId][reqKey] == null)
 			tabRequests[d.tabId][reqKey] = req;
-	
+	}
+
+	if(filter == null)
+	{
 		//Empty referrer, we assume it is user entered requests
 		if(referrer == null && d.type == "main_frame")
 			filter = defaultLocalAction;
@@ -209,7 +213,7 @@ function onBeforeSendHeaders(d) {
 			filter = defaultLocalAction;
 		//Catch download/save as... requests
 		if(filter == "block" && d.type == "other" && d.frameId == -1)
-			filter = defaultLocalAction;	
+			filter = defaultLocalAction;
 	}
 	else
 		tabFilters[d.tabId].push(f);
