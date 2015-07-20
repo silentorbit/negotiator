@@ -432,10 +432,8 @@ function generateFilterItem(table, f){
 
 function onFilterChange(row, f)
 {
-	wildcardCheckHelper(row.fromWild, row.from);
-	wildcardTextHelper(row.fromWild, row.from);
-	wildcardCheckHelper(row.toWild, row.to);
-	wildcardTextHelper(row.toWild, row.to);
+	wildcardTextHelper(row.from);
+	wildcardTextHelper(row.to);
 
 	var newFilter = addFilterFromForm(row);
 	if(newFilter != null)
@@ -450,16 +448,22 @@ function onFilterChange(row, f)
 
 function updateFilterRow(row, f)
 {
+	//Clear events, new ones are added in the end
+	row.from.oninput=null;
+	row.to.oninput=null;
+	row.filter.onchange=null;
+	row.track.onchange=null;
+	row.onsubmit = null;
+
+	//Update fields
 	row.removeAttribute('id');
 	row.style.background = b.actions[f.filter].color;
 	row.from.value = f.from;
 	if(f.fromWild)
 		row.from.value = "* " + row.from.value;
-	row.fromWild.checked = f.fromWild;
 	row.to.value = f.to;
 	if(f.toWild)
 		row.to.value = "* " + row.to.value;
-	row.toWild.checked = f.toWild;
 	fillActionSelect(row.filter, f.filter);
 	row.track.checked = f.track;
 	if(row.add != null)
@@ -471,9 +475,7 @@ function updateFilterRow(row, f)
 		table.removeChild(row);
 		return false;
 	};
-	row.fromWild.onchange=function(){onFilterChange(row, f);};
 	row.from.oninput=function(){onFilterChange(row, f);};
-	row.toWild.onchange=function(){onFilterChange(row, f);};
 	row.to.oninput=function(){onFilterChange(row, f);};
 	row.filter.onchange=function(){onFilterChange(row, f);};
 	row.track.onchange=function(){onFilterChange(row, f);};
@@ -505,46 +507,29 @@ function insertTrackedRow(table, from, to, submitAction)
 	};
 	
 	//Helpers for wildcard checkbox
-	row.fromWild.onchange=function(){wildcardCheckHelper(row.fromWild, row.from);};
-	row.from.oninput=function(){wildcardTextHelper(row.fromWild, row.from);};
-	row.toWild.onchange=function(){wildcardCheckHelper(row.toWild, row.to);};
-	row.to.oninput=function(){wildcardTextHelper(row.toWild, row.to);};
+	row.from.oninput=function(){wildcardTextHelper(row.from);};
+	row.to.oninput=function(){wildcardTextHelper(row.to);};
 	table.appendChild(row);
 }
 
-//Handle click on the wildcard checkbox
-function wildcardCheckHelper(check, text)
-{
-	//Get text and remove space and leading *
-	var f = text.value;
-	f = f.trim();
-	if(f.indexOf("*") == 0)
-		f = f.substring(1).trim();
-	f = f.replace("*", "");
-	
-	if(check.checked)
-		f = "* " + f;
-	text.value=f;
-}
 //Chandle changes in the domain textbox
-function wildcardTextHelper (check, text)
+function wildcardTextHelper (text)
 {
+	var checked = false;
 	//Get text and remove space and leading *
 	var f = text.value;
 	f = f.trim();
 	if(f.indexOf("*") == 0)
 	{
 		f = f.substring(1).trim();
-		check.checked = true;
+		checked = true;
 	}
-	else
-		check.checked = false;
 	f = f.replace("*", "");
 	
-	if(check.checked)
+	if(checked)
 		f = "* " + f;
 	if(text.value != f)
-		text.value=f;
+		text.value = f;
 }
 	
 function fillActionSelect(select, selectedAction, action)
