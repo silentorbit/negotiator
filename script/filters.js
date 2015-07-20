@@ -156,8 +156,13 @@ function addFilter(f)
 function updateFilter(before, after)
 {
 	if(before.from != after.from || before.to != after.to)
+	{
+		//Delete old location
 		deleteFilter(before.from, before.to);
+		syncDelete(before.from, before.to);
+	}
 	addFilter(after);
+	saveFilter(after);
 }
 
 function deleteFilter(from, to)
@@ -174,9 +179,15 @@ function deleteFilter(from, to)
 		delete f.wild[withoutWild(to)];
 	else
 		delete f[withoutWild(to)];
+}
 
+function syncDelete(from, to)
+{
 	if(useChromeSync)
+	{
+		//console.log("Sync: delete: " + from + filterFromToSeparator + to);
 		chrome.storage.sync.remove(from + filterFromToSeparator + to);
+	}
 }
 
 function parseSubnet(ipsub)

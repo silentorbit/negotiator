@@ -106,6 +106,7 @@ function syncChanged(changed, namespace)
 
 	for(var k in changed)
 	{
+	//console.log("Filters: changed: " + k);
 		var c = changed[k];
 		var sep = k.indexOf(filterFromToSeparator);
 		if(sep < 0)
@@ -126,14 +127,23 @@ function syncChanged(changed, namespace)
 	}
 }
 
-function loadFilters(callback)
+function loadFilters()
 {
+	//console.log("Filters: loading");
 	if(useChromeSync)
 	{
 		//Try legacy format first
 		chrome.storage.sync.get(null, function(list){ 
+			if(chrome.runtime.lastError)
+			{
+				//console.log("Filters: ", chrome.runtime.lastError);
+				return;
+			}
+
 			if(list.filters != null)
 			{
+				//console.log("Filters: loaded legacy");
+			
 				//Legacy filters
 				filters = JSON.parse(list.filters);
 				prepareFilters();
@@ -141,18 +151,22 @@ function loadFilters(callback)
 				return;
 			}
 
+			//console.log("Filters: loaded", list);
 			filters = {};
 			importFilters(list);
 		});
 	}
 	else
 	{
+		//console.log("Local: loading...");
+
 		var json = localStorage.getItem("filter-list");
 		if(json != null)
 		{
 			//New format
 			filters = {};
 			importJson(json);
+			//console.log("Local: new format loaded");
 		}
 		else
 		{
@@ -203,7 +217,7 @@ function exportFilters()
 	var fw = filters.wild;
 	for(var f in fw)
 	{
-		exportFiltersTo(f, fw[f], list);
+		exportFiltersTo("*" + f, fw[f], list);
 	}
 
 	return list;
@@ -228,7 +242,7 @@ function exportFiltersTo(from, filters, list)
 		var filter = fw[f];
 		if(filter == null)
 			continue;
-		list[from + filterFromToSeparator + f] = generateExportItem(filter);
+		list[from + filterFromToSeparator + "*" + f] = generateExportItem(filter);
 	}
 }
 function generateExportItem(f)
@@ -246,6 +260,7 @@ function saveFilters(){
 	if(useChromeSync)
 	{
 		var list = exportFilters();
+		//console.log("Filters: saving all", list);
 		chrome.storage.sync.set(list, function()
 		{
 			if(chrome.runtime.lastError)
@@ -256,7 +271,10 @@ function saveFilters(){
 			{
 				//Remove legacy code
 				if(!chrome.runtime.lastError)
+				{
+					//console.log("Filters: removing legacy, filters");
 					chrome.storage.sync.remove("filters");
+				}
 			}
 		});
 	}
@@ -264,6 +282,23 @@ function saveFilters(){
 	{
 		localStorage.setItem("filter-list", exportJson());
 	}
+}
+
+function saveFilter(filter)
+{
+	if(!useChromeSync)
+		return;
+
+	var i = {};
+	i[filter.from + filterFromToSeparator + filter.to] = generateExportItem(filter);
+	//console.log("Sync: Saving single filter", i);
+	chrome.storage.sync.set(i, function()
+	{
+		if(chrome.runtime.lastError)
+		{
+			console.log(chrome.runtime.lastError);
+		}
+	});
 }
 
 function prepareFilters()

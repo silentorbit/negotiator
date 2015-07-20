@@ -460,7 +460,8 @@ function onFilterChange(row, f)
 	if(newFilter != null)
 	{
 		b.updateFilter(f, newFilter);
-		b.saveFilters();
+		if(!b.useChromeSync)
+			b.saveFilters();
 
 		updateFilterRow(row, newFilter);
 	}
@@ -473,7 +474,7 @@ function updateFilterRow(row, f)
 	row.to.oninput=null;
 	row.filter.onchange=null;
 	row.track.onchange=null;
-	row.onsubmit = null;
+	row.onsubmit = function(){return false;};
 
 	//Update fields
 	row.removeAttribute('id');
@@ -488,6 +489,7 @@ function updateFilterRow(row, f)
 	//Update events with the new filter settings (f)
 	row.del.onclick = function(){
 		b.deleteFilter(f.from, f.to);
+		b.syncDelete(f.from, f.to);
 		b.saveFilters();
 		row.parentNode.removeChild(row);
 		return false;
