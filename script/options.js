@@ -479,8 +479,20 @@ function updateFilterRow(row, f)
 	//Update fields
 	row.removeAttribute('id');
 	row.style.background = b.actions[f.filter].color;
+	var selFrom = row.from.selectionEnd;
+	var selTo = row.to.selectionEnd;
 	row.from.value = f.from;
 	row.to.value = f.to;
+	if(selFrom != 0)
+	{
+		row.from.selectionStart = selFrom;
+		row.from.selectionEnd = selFrom;
+	}
+	if(selTo != 0)
+	{
+		row.to.selectionStart = selTo;
+		row.to.selectionEnd = selTo;
+	}
 	fillActionSelect(row.filter, f.filter);
 	row.track.checked = f.track;
 	if(row.add != null)
