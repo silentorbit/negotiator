@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ItemType>GenericProject</ItemType>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2D799203-21A4-4A10-8B3F-B9F8ADCA7B5C}</ProjectGuid>
   </PropertyGroup>
@@ -21,11 +21,19 @@
     <None Include="popup.html" />
     <None Include="style.css" />
     <None Include="tracked.html" />
-    <None Include="script\background.js" />
-    <None Include="script\filters.js" />
     <None Include="script\options.js" />
     <None Include="script\popup.js" />
     <None Include="script\settings.js" />
     <None Include="updates.xml" />
+    <None Include="script\filters.query.js" />
+    <None Include="script\filters.modify.js" />
+    <None Include="script\filters.storage.js" />
+    <None Include="script\errors.js" />
+    <None Include="script\tracked.js" />
+    <None Include="script\actions.js" />
+    <None Include="script\sync.js" />
+    <None Include="script\legacy.js" />
+    <None Include="script\export.js" />
+    <None Include="script\requests.js" />
   </ItemGroup>
 </Project>

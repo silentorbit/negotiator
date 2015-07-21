@@ -7,7 +7,8 @@ var b = chrome.extension.getBackgroundPage();
 
 window.onerror = b.logUncaught;
 
-window.onload = function(){
+window.onload = function()
+{
 	b.showErrors(document);
 
 	if(window.location.pathname.indexOf('options.html') > 0)
@@ -24,25 +25,45 @@ window.onload = function(){
 function updateOptionsPage()
 {
 	//Default Actions
-	fillActionSelect(document.getElementById('defaultAction'), b.defaultAction, defaultActionClick);
-	fillActionSelect(document.getElementById('defaultLocalAction'), b.defaultLocalAction, defaultLocalActionClick);
-	fillActionSelect(document.getElementById('defaultLocalTLDAction'), b.defaultLocalTLDAction, defaultLocalTLDActionClick);
-	fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.defaultNewFilterAction, defaultNewFilterActionClick);
+	fillActionSelect(document.getElementById('defaultAction'), b.settings.defaultAction, function(){
+		b.settings.defaultAction = this.value;
+		b.saveSettings();
+	});
+	fillActionSelect(document.getElementById('defaultLocalAction'), b.settings.defaultLocalAction, function(){
+		b.settings.defaultLocalAction = this.value;
+		b.saveSettings();
+	});
+	fillActionSelect(document.getElementById('defaultLocalTLDAction'), b.settings.defaultLocalTLDAction, function(){
+		b.settings.defaultLocalTLDAction = this.value;
+		b.saveSettings();
+	});
+	fillActionSelect(document.getElementById('defaultNewFilterAction'),	b.settings.defaultNewFilterAction, function(){
+		b.settings.defaultNewFilterAction = this.value;
+		b.saveSettings();
+	});
 
 	//Ignore WWW
 	var www = document.getElementById('ignoreWWW');
-	www.checked = b.ignoreWWW;
-	www.addEventListener('click', ignoreWWWClick);
+	www.checked = b.settings.ignoreWWW;
+	www.addEventListener('click', function(){
+		b.settings.ignoreWWW = this.checked;
+		b.saveSettings();
+	});
 
 	//Experimental, pass same
 	var passSame = document.getElementById('alwaysPassSame');
-	passSame.checked = b.alwaysPassSame;
-	passSame.addEventListener('click', alwaysPassSameClick);
+	passSame.checked = b.settings.alwaysPassSame;
+	passSame.addEventListener('click', function(){
+		b.settings.alwaysPassSame = this.checked;
+		b.saveSettings();
+	});
 	
 	//Action List
 	updateActions();
 	//New action
-	document.querySelector('#add').addEventListener('click', addNewAction);
+	document.querySelector('#add').addEventListener('click', function(){
+		return addAction(document.getElementById("actionName").value);
+	});
 
 	//Help examples:
 	document.querySelector('#examplePass').innerHTML = navigator.userAgent;
@@ -63,11 +84,9 @@ function updateFiltersPage()
 	//Filter Storage
 	var useChromeSync = document.getElementById('useChromeSync');
 	useChromeSync.checked = b.useChromeSync;
-	useChromeSync.addEventListener('click', 
-		function()
-		{
-			b.setUseChromeSync(useChromeSync.checked);
-		});
+	useChromeSync.addEventListener('click', function(){
+		b.setUseChromeSync(useChromeSync.checked);
+	});
 	
 	document.querySelector('#exportJSON').addEventListener('click', exportJSON);
 	document.querySelector('#importJSON').addEventListener('click', importJSON);
@@ -100,41 +119,6 @@ function clearTrackedReload()
 {
 	clearTrackedRequests();
 	location.reload();
-}
-
-function defaultActionClick()
-{
-	b.setDefaultAction(this.value);
-}
-
-function defaultLocalActionClick()
-{
-	b.setDefaultLocalAction(this.value);
-}
-
-function defaultLocalTLDActionClick()
-{
-	b.setDefaultLocalTLDAction(this.value);
-}
-
-function defaultNewFilterActionClick()
-{
-	b.setDefaultNewFilterAction(this.value);
-}
-
-function ignoreWWWClick()
-{
-	b.setIgnoreWWW(this.checked);
-}
-
-function alwaysPassSameClick()
-{
-	b.setAlwaysPassSame(this.checked);
-}
-
-function addNewAction()
-{
-	return addAction(document.getElementById("actionName").value);
 }
 
 function cleanDomain(domain)
@@ -185,11 +169,13 @@ function getFilterFromForm(form)
 	f.from = cleanDomain(f.from);
 	f.to = cleanDomain(f.to);
 
-	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0){
+	if(f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0)
+	{
 		alert("domains can't contain spaces");
 		return null;
 	}
-	if(f.from.indexOf("*") > 0 || f.to.indexOf("*") > 0){
+	if(f.from.indexOf("*") > 0 || f.to.indexOf("*") > 0)
+	{
 		alert("domains can only start with wildcard *");
 		return null;
 	}
@@ -203,20 +189,27 @@ function getFilterFromForm(form)
 	var fromWithout = withoutWild(f.from);
 
 	//Remove tracked requests matching filter
-	for(var i in b.TrackedRequests){
+	for(var i in b.TrackedRequests)
+	{
 		var t = b.TrackedRequests[i];
 
-		if(f.from != null && f.from != ""){
-			if(fromWild){
+		if(f.from != null && f.from != "")
+		{
+			if(fromWild)
+			{
 				if(endsWith(t.from, withoutWild(f.from)) == false)
 					continue;
-			}else{
+			}
+			else
+			{
 				if(f.from != t.from)
 					continue;
 			}
 		}
-		if(f.to != null && f.to != ""){
-			if(toWild){
+		if(f.to != null && f.to != "")
+		{
+			if(toWild)
+			{
 				if(endsWith(t.to, toWithout) == false)
 					continue;
 			}else{
@@ -239,7 +232,8 @@ function clearTrackedRequests()
 	b.tabFilters = {};
 }
 
-function test(){
+function test()
+{
 	var referrer = b.getDomain(document.getElementById("testFrom").value);
 	var domain = b.getDomain(document.getElementById("testTo").value);
 	var filter = b.getFilter(referrer, domain);
@@ -257,10 +251,13 @@ function test(){
 //Set by popup page when only filters for one domain is to be shown
 var domain;
 
-function setSelected(list, value){
-	for(var i = 0; i < list.length; i++){
+function setSelected(list, value)
+{
+	for(var i = 0; i < list.length; i++)
+	{
 		var li = list[i];
-		if(li.value == value){
+		if(li.value == value)
+		{
 			list[i].selected = true;
 			return;
 		}
@@ -268,7 +265,8 @@ function setSelected(list, value){
 }
 
 //Populate Actions list
-function updateActions(){
+function updateActions()
+{
 	var tag = document.getElementById('actions');
 	for(var i in b.actions)
 		tag.appendChild(generateActionRow(i));
@@ -289,7 +287,8 @@ function updateEnabled(row)
 	row.customcsp.style.visibility = (isBlocked || row.csp.value != "custom") ? "collapse":"visible";
 }
 
-function generateActionRow(i){
+function generateActionRow(i)
+{
 	var row = document.getElementById('actionTemplate').cloneNode(true);
 	var a = b.actions[i];
 	row.filterAction = a;
@@ -356,10 +355,11 @@ function generateActionRow(i){
 	
 	return row;
 }
-		
 
-function addAction(a){
-	if(b.actions[a] != null){
+function addAction(a)
+{
+	if(b.actions[a] != null)
+	{
 		alert(a + " does already exist");
 		return false;
 	}
@@ -389,7 +389,8 @@ function importJSON()
 }
 
 //Populate filters list in filter page
-function updateFilters(){
+function updateFilters()
+{
 	var list = b.filters;
 
 	var filtersBlockedTag = document.getElementById('filtersBlocked');
@@ -406,7 +407,8 @@ function updateFilters(){
 	for(var i in list.wild)
 		generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
 		
-	for(var i in list){
+	for(var i in list)
+	{
 		if(i == "wild")
 			continue;
 		generateFilterList(filtersBlockedTag, filtersTag, list[i]);
@@ -414,7 +416,8 @@ function updateFilters(){
 }
 
 //Fill table with html representaton of a filter list
-function generateFilterList(tableBlocked, table, list){
+function generateFilterList(tableBlocked, table, list)
+{
 	if(list == null)
 		return;
 	
@@ -443,7 +446,8 @@ function generateFilterList(tableBlocked, table, list){
 }
 
 //Return html representation of a filter
-function generateFilterItem(table, f){
+function generateFilterItem(table, f)
+{
 	var row = b.filterTemplate.cloneNode(true);
 	updateFilterRow(row, f);
 
@@ -544,7 +548,7 @@ function insertTrackedRow(table, from, to, submitAction)
 }
 
 //Chandle changes in the domain textbox
-function wildcardTextHelper (text)
+function wildcardTextHelper(text)
 {
 	var wild = false;
 	//Get text and remove space and leading *

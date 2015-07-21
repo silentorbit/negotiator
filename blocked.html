@@ -22,10 +22,8 @@
 			var f = b.getDomainFilter(b.getDomain(url));
 			var html = '<p><a href="'+url+'">'+url+'</a></p>';
 			report.innerHTML = html;
-			if(f != null){
+			if(f != null)
 				report.appendChild(generateFilterItem(f));
-			}
-			
 		});
 	</script>
 </body>

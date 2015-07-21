@@ -1,27 +1,11 @@
 
-//return whether the domain contain a leading wildcard
-function isWild(domain)
-{
-	if(domain.length = 0)
-		return false;
-	return domain.indexOf("*") == 0;
-}
-
-//return domain without leading wildcard
-function withoutWild(domain)
-{
-	if(isWild(domain))
-		return domain.substring(1);
-	else
-		return domain;
-}
-
 //Return the filter string for a given domain
 //Return null if no filter matched
 function getFilter(from, to)
 {
 	//Remove leading www.
-	if(ignoreWWW){
+	if(settings.ignoreWWW)
+	{
 		if(from != null && from.lastIndexOf("www.", 0) == 0)
 			from = from.substring(4);
 		if(to.lastIndexOf("www.", 0) == 0)
@@ -58,7 +42,8 @@ function getRequestFilter(from, to)
 	
 	//From direct match
 	var f = filters[from];
-	if(f != null){
+	if(f != null)
+	{
 		//To 
 		var t = getRequestFilterTo(f, to);
 		if(t != null)
@@ -68,9 +53,11 @@ function getRequestFilter(from, to)
 	//From wildcard match
 	if(filters.wild == null)
 		return null;
-	while(from != ""){
+	while(from != "")
+	{
 		var toList = filters.wild[from];
-		if(toList != null){
+		if(toList != null)
+		{
 			t = getRequestFilterTo(toList, to);
 			if(t != null)
 				return t;
@@ -98,11 +85,13 @@ function getRequestFilterTo(fromList, to)
 }
 
 //Helper for getFilter
-function getWild(source, domain){
+function getWild(source, domain)
+{
 	source = source.wild;
 	if(source == null)
 		return null;
-	while(true){
+	while(true)
+	{
 		var t = source[domain];
 		if(t != null)
 			return t;
@@ -113,81 +102,6 @@ function getWild(source, domain){
 		domain = domain.substring(p + 1);
 	}
 	return source[""];
-}
-
-function addFilter(f)
-{
-	//f.from = f.from.replace(/\*+/, "*");
-	//f.to = f.to.replace(/\*+/, "*");
-
-	var fr;
-	
-	//From...
-	var fromWithout = withoutWild(f.from);
-	if(isWild(f.from)){
-		//From Wildcard
-		if(filters.wild == null)
-			filters.wild = {};
-		fr = filters.wild[fromWithout];
-		if(fr == null){
-			fr = {};
-			filters.wild[fromWithout] = fr;
-		}
-	}else{
-		fr = filters[fromWithout];
-		if(fr == null){
-			fr = {};
-			filters[fromWithout] = fr;
-		}
-	}
-	if(fr.wild == null)
-		fr.wild = {};
-	
-	//...To: add filter
-	var toWithout = withoutWild(f.to);
-	if(isWild(f.to))
-		fr.wild[toWithout] = f;
-	else
-		fr[toWithout] = f;
-	
-	return true;
-}
-
-function updateFilter(before, after)
-{
-	if(before.from != after.from || before.to != after.to)
-	{
-		//Delete old location
-		deleteFilter(before.from, before.to);
-		syncDelete(before.from, before.to);
-	}
-	addFilter(after);
-	saveFilter(after);
-}
-
-function deleteFilter(from, to)
-{
-	var f;
-	if(isWild(from))
-		f = filters.wild[withoutWild(from)];
-	else
-		f = filters[withoutWild(from)];
-	if(f == null)
-		return;
-		
-	if(isWild(to))
-		delete f.wild[withoutWild(to)];
-	else
-		delete f[withoutWild(to)];
-}
-
-function syncDelete(from, to)
-{
-	if(useChromeSync)
-	{
-		//console.log("Sync: delete: " + from + filterFromToSeparator + to);
-		chrome.storage.sync.remove(from + filterFromToSeparator + to, syncError);
-	}
 }
 
 function parseSubnet(ipsub)

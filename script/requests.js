@@ -1,66 +1,4 @@
-
-// List of errors to present to the user
-var errorList = [];
-var errorListUpdated = null; //Callback if an error occurred
-
-window.onerror = logUncaught;
-
-function logUncaught(message, url, line)
-{
-	logError(line + ": " + url + "\n" + message);
-}
-
-function logError(message)
-{
-	console.log("Error", message);
-	errorList.push(message);
-	if(errorListUpdated != null)
-		errorListUpdated(errorList);
-}
-
-function syncError()
-{
-	var err = chrome.runtime.lastError;
-	if(err)
-		logError(err);
-}
-
-function showErrors(document)//If any
-{
-	var list = document.createElement("div");
-
-	//Listen to new errors even if we don't have any right now
-	errorListUpdated = function(){
-		showErrors(document);
-		if(document.body.contains(list))
-			document.body.removeChild(list);
-	};
-
-	if(errorList.length == 0)
-		return;
-
-	list.classList.add("errorList");
-	document.body.insertBefore(list, document.body.firstChild);
-	var clear = document.createElement("button");
-	clear.textContent = "Clear Errors";
-	clear.classList.add("button");
-	clear.onclick = function(){
-		document.body.removeChild(list);
-		errorList = [];
-	};
-	list.appendChild(clear);
-	//List of errors
-	for(var i in errorList)
-	{
-		var item = document.createElement("div");
-		item.textContent = errorList[i];
-		list.appendChild(item);
-	}
-}
-
-//setInterval(function(){
-//	logError("tick" + new Date());
-//}, 3000);
+//Here is all code that filters requests
 
 //Keep a few parameters to allow login to google accounts
 var ua = navigator.userAgent;
@@ -121,7 +59,8 @@ function getRandomUserAgent () {
 }
 
 
-function getDomain(url){
+function getDomain(url)
+{
 	if(url == null)
 		return null;
 	var start = url.indexOf("://");
@@ -147,7 +86,7 @@ function getDomain(url){
 	var domain = url.substr(start, end - start);
 
 	//Remove leading www.
-	if(ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
+	if(settings.ignoreWWW && domain.lastIndexOf("www.", 0) == 0)
 		domain = domain.substring(4);
 
 	if(domain == "")
@@ -156,7 +95,8 @@ function getDomain(url){
 }
 
 //Return true if d1 and d2 with only one dot is the same
-function sameTLD(d1, d2){
+function sameTLD(d1, d2)
+{
 	//console.log("Same?: " + d1 + " -> " + d2);
 	d1 = "." + d1;
 	d2 = "." + d2;
@@ -181,7 +121,8 @@ function sameTLD(d1, d2){
 }
 
 //Used to clean the path from the referer header
-function getProtocolDomain(url){
+function getProtocolDomain(url)
+{
 	if(url == null)
 		return null;
 	var length = url.length;
@@ -205,9 +146,11 @@ function onBeforeSendHeaders(d) {
 	var referrer = null;
 	//Get header
 	var header = {};
-	for(var i = 0; i < d.requestHeaders.length; i++){
+	for(var i = 0; i < d.requestHeaders.length; i++)
+	{
 		var h = d.requestHeaders[i];
-		if(h.name == "Referer"){
+		if(h.name == "Referer")
+		{
 			referrer = getDomain(h.value);
 			break;
 		}
@@ -263,20 +206,20 @@ function onBeforeSendHeaders(d) {
 	{
 		//Empty referrer, we assume it is user entered requests
 		if(referrer == null && d.type == "main_frame")
-			filter = defaultLocalAction;
+			filter = settings.defaultLocalAction;
 		else if(domain === referrer) //Allow all within the same domain
-			filter = defaultLocalAction;
+			filter = settings.defaultLocalAction;
 		else if(sameTLD(referrer, domain))
-			filter = defaultLocalTLDAction;
+			filter = settings.defaultLocalTLDAction;
 		else
-			filter = defaultAction; //Load default
+			filter = settings.defaultAction; //Load default
 		
 		//Don't block main_frame links
 		if(filter == "block" && d.type == "main_frame")
-			filter = defaultLocalAction;
+			filter = settings.defaultLocalAction;
 		//Catch download/save as... requests
 		if(filter == "block" && d.type == "other" && d.frameId == -1)
-			filter = defaultLocalAction;
+			filter = settings.defaultLocalAction;
 	}
 	else
 		tabFilters[d.tabId].push(f);
@@ -285,8 +228,10 @@ function onBeforeSendHeaders(d) {
 	var action = actions[filter];
 
 	//Apply filters
-	if(action.block == "true"){
-		if(d.type == "main_frame"){
+	if(action.block == "true")
+	{
+		if(d.type == "main_frame")
+		{
 			blockReport[d.tabId] = d.url;
 			chrome.browserAction.setIcon({
 				tabId: d.tabId,
@@ -299,9 +244,12 @@ function onBeforeSendHeaders(d) {
 		return {cancel: true};
 	}
 	
-	for(var i = 0; i < d.requestHeaders.length; i++){
-		if(d.requestHeaders[i].name == "Referer"){
-			if(action.referer == "remove"){
+	for(var i = 0; i < d.requestHeaders.length; i++)
+	{
+		if(d.requestHeaders[i].name == "Referer")
+		{
+			if(action.referer == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
@@ -313,15 +261,19 @@ function onBeforeSendHeaders(d) {
 				d.requestHeaders[i].value = getProtocolDomain(d.requestHeaders[i].value);
 			continue;
 		}
-		if(d.requestHeaders[i].name == "Cookie"){
-			if(action.cookie == "remove"){
+		if(d.requestHeaders[i].name == "Cookie")
+		{
+			if(action.cookie == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
-		if(d.requestHeaders[i].name == "User-Agent"){
-			if(action.agent == "remove"){
+		if(d.requestHeaders[i].name == "User-Agent")
+		{
+			if(action.agent == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
@@ -333,8 +285,10 @@ function onBeforeSendHeaders(d) {
 				d.requestHeaders[i].value = "Mozilla/5.0";
 			continue;
 		}
-		if(d.requestHeaders[i].name == "Accept"){
-			if(action.accept == "remove"){
+		if(d.requestHeaders[i].name == "Accept")
+		{
+			if(action.accept == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
@@ -342,22 +296,28 @@ function onBeforeSendHeaders(d) {
 				d.requestHeaders[i].value = "*/*";
 			continue;
 		}
-		if(d.requestHeaders[i].name == "Accept-Encoding"){
-			if(action.acceptencoding == "remove"){
+		if(d.requestHeaders[i].name == "Accept-Encoding")
+		{
+			if(action.acceptencoding == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
-		if(d.requestHeaders[i].name == "Accept-Language"){
-			if(action.acceptlanguage == "remove"){
+		if(d.requestHeaders[i].name == "Accept-Language")
+		{
+			if(action.acceptlanguage == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
 			continue;
 		}
-		if(d.requestHeaders[i].name == "Accept-Charset"){
-			if(action.acceptcharset == "remove"){
+		if(d.requestHeaders[i].name == "Accept-Charset")
+		{
+			if(action.acceptcharset == "remove")
+			{
 				d.requestHeaders.splice(i, 1);
 				i--;
 			}
@@ -373,7 +333,8 @@ function onBeforeSendHeaders(d) {
 }
 
 
-function onHeadersReceived(d){
+function onHeadersReceived(d)
+{
 	var f = requestFilter[d.requestId];
 	delete requestFilter[d.requestId];
 
