@@ -136,7 +136,7 @@ function loadFilters()
 		chrome.storage.sync.get(null, function(list){ 
 			if(chrome.runtime.lastError)
 			{
-				//console.log("Filters: ", chrome.runtime.lastError);
+				syncError();
 				return;
 			}
 
@@ -265,7 +265,7 @@ function saveFilters(){
 		{
 			if(chrome.runtime.lastError)
 			{
-				console.log(chrome.runtime.lastError);
+				logError(chrome.runtime.lastError);
 			}
 			else
 			{
@@ -273,7 +273,7 @@ function saveFilters(){
 				if(!chrome.runtime.lastError)
 				{
 					//console.log("Filters: removing legacy, filters");
-					chrome.storage.sync.remove("filters");
+					chrome.storage.sync.remove("filters", syncError);
 				}
 			}
 		});
@@ -296,7 +296,7 @@ function saveFilter(filter)
 	{
 		if(chrome.runtime.lastError)
 		{
-			console.log(chrome.runtime.lastError);
+			logError(chrome.runtime.lastError);
 		}
 	});
 }

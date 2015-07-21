@@ -25,6 +25,22 @@ body{
 	margin: 0;
 }
 
+.errorList{
+	background: #f88;
+	border: 2px solid #000;
+	position: absolute;
+	margin: 1em;
+	padding: 1em;
+	z-index: 9999;
+}
+.errorList>*{
+	margin: 3px 0 0 0;
+	padding: 3px;
+	background: #fff;
+	border: 1px solid #444;
+	white-space: pre;
+}
+
 #popupMenu{
 	height: 40px;
 	border-collapse: separate;

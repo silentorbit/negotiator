@@ -5,7 +5,11 @@
 
 var b = chrome.extension.getBackgroundPage();
 
+window.onerror = b.logUncaught;
+
 window.onload = function(){
+	b.showErrors(document);
+
 	if(window.location.pathname.indexOf('options.html') > 0)
 		updateOptionsPage();
 	if(window.location.pathname.indexOf('filters.html') > 0)
@@ -90,10 +94,6 @@ function updateTrackedPage()
 
 	var button = document.querySelector('#clearTrackedReload');
 	if(button) button.addEventListener('click', clearTrackedReload);
-}
-
-function updatePopupPage()
-{
 }
 
 function clearTrackedReload()

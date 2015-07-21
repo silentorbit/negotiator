@@ -186,7 +186,7 @@ function syncDelete(from, to)
 	if(useChromeSync)
 	{
 		//console.log("Sync: delete: " + from + filterFromToSeparator + to);
-		chrome.storage.sync.remove(from + filterFromToSeparator + to);
+		chrome.storage.sync.remove(from + filterFromToSeparator + to, syncError);
 	}
 }
 

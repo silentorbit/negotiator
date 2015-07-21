@@ -1,6 +1,6 @@
 
-window.onload = function() {
-
+function updatePopupPage()
+{
 	document.querySelector('#showFilters').addEventListener('click', showFilters);
 	document.querySelector('#showTracked').addEventListener('click', showTracked);
 	document.querySelector('#showOptions').addEventListener('click', showOptions);
