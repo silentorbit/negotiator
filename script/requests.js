@@ -165,6 +165,7 @@ function onBeforeSendHeaders(d)
 		tabRequests[d.tabId] = {};
 		tabFilters[d.tabId] = [];
 		tabUrl[d.tabId] = getDomain(d.url);
+		chrome.browserAction.setBadgeText({text: ""});
 	}
 	
 	//for empty referer to non top frame targets, use the cached tab url
@@ -209,6 +210,8 @@ function onBeforeSendHeaders(d)
 			chrome.browserAction.setBadgeText({text: "" + Object.keys(tr).length, tabId: d.tabId});
 			chrome.browserAction.setBadgeBackgroundColor({color: "#880", tabId: d.tabId});
 		}
+		else
+			chrome.browserAction.setBadgeText({text: ""});
 	}
 
 	if(filter == null)

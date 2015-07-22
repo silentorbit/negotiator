@@ -14,7 +14,7 @@
 			"19": "images/action19.png",
 			"38": "images/action38.png"
 		},
-		"default_title": "Kiss Privacy",
+		"default_title": "KISS Privacy",
 		"default_popup": "popup.html"
 	},
 	"update_url": "http://silentorbit.com/extensions/updates",
