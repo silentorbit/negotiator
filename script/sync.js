@@ -41,8 +41,40 @@ function loadAll()
 }
 function fixSettings()
 {
+	//Settings
+	if(settings.ignoreWWW === undefined)
+		settings.ignoreWWW = true;//By default new installs ignore www
 	if(settings.countIndicator === undefined)
 		settings.countIndicator = "unfiltered";
+
+	//Actions
+	if(actions == null || Object.keys(actions).length == 0)
+	{
+		//Load default actions
+		actions = {};
+		
+		actions.pass = {
+			color: "#4f4",
+			block: "false"
+		}
+
+		actions.clear = {
+			color: "#8ce",
+			block: "false",
+			agent: "pass",
+			referer: "remove",
+			cookie: "remove",
+			accept: "pass",
+			acceptlanguage: "pass",
+			acceptencoding: "pass",
+			acceptcharset: "pass"
+		}
+
+		actions.block = {
+			color: "#f64",
+			block: "true"
+		}
+	}
 }
 
 function importAll(list)

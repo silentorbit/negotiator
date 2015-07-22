@@ -71,9 +71,6 @@ function prepareFilters()
 		filters.wild = {};
 		filters.wild[""] = {};
 		filters.wild[""].wild = {};
-
-		//By default new installs ignore www
-		setIgnoreWWW(true);
 	}
 
 	if(filters == null)					filters = {};
