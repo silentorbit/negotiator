@@ -8,16 +8,12 @@
 </head>
 <body>
 <div id="mainpanel">
-	<img src="images/title.png" />
-	<div class="buttons">
-		<a href="filters.html" class="button">Filters</a>
-		<a href="tracked.html" class="button">Tracked</a>
-		<a href="options.html" class="button active">Options</a>
-	</div>
-	<div>
-		<a href="http://silentorbit.com/kiss/" target="_blank">Website</a><br/>
-		<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
-	</div>
+	<a href="http://silentorbit.com/kiss/" target="_blank" class="title"><img src="images/title.png" /></a>
+	<a href="filters.html" class="button">Filters</a>
+	<a href="tracked.html" class="button">Tracked</a>
+	<a href="options.html" class="button active">Options</a>
+	<a href="http://silentorbit.com/kiss/" target="_blank">Website</a>
+	<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
 </div>
 
 <div class="columns">
@@ -25,7 +21,7 @@
 	<h1>Filter matching</h1>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-		<label for="ignoreWWW">Ignore leading www.</label>
+		<label for="ignoreWWW">Ignore leading www.<br/>Treat www.example.com as example.com</label>
 	</fieldset>
 </div>
 <div>
@@ -52,7 +48,7 @@
 </div>
 <div>
 	<h1>Always pass same</h1>
-	<p><strong>Warning: experimental, may cause less blocking than expected.</strong></p>
+	<p><strong>Warning:</strong> experimental, may cause less blocking than expected.</p>
 	<fieldset id="alwaysPassSameSetting">
 		<input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
 		<label for="alwaysPassSame">Allow request within same domain even though "block:*&gt;domain" is set.</label>
@@ -71,16 +67,89 @@
 		<div>
 			<span></span>
 			<span>Name</span>
-			<span>Color</span>
-			<span>Block</span>
-			<span>User-Agent</span>
-			<span>Referer</span>
-			<span>Cookie</span>
-			<span>Accept</span>
-			<span>Language</span>
-			<span>Encoding</span>
-			<span>Charset</span>
-			<span>CSP</span>
+			<span class="tooltip">Color<div>
+				<h2>Color</h2>
+				<p>HTML color code, #0f0, #00ff00, or green.</p>
+				<p>Used in the extension for visualization</p>
+			</div></span>
+			<span class="tooltip">Block<div>
+				<h2>Block</h2>
+				<p>Block the request entirely</p>
+			</div></span>
+			<span class="tooltip">User-Agent<div>
+				<h2>User-Agent</h2>
+				<code>User-Agent</code>
+				<dl>
+				<dt>Pass</dt><dd>Send the original: <code id="examplePass"></code></dd>
+				<dt>Random</dt><dd>Random User-Agent for every request:<br/><code id="exampleRandom"></code></dd>
+				<dt>Simple</dt><dd><code id="exampleSimple"></code></dd>
+				<dt>Minimal</dt><dd><code id="exampleMinimal"></code></dd>
+			</div></span>
+			<span class="tooltip">Referer<div>
+				<h2>Referer</h2>
+				<code>Referer</code>
+				<p>For a request from <strong>http://example.com/page.html</strong> to <strong>http://target.com/subpage.php</strong></p>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified <code>http://example.com/page.html</code></dd>
+					<dt>Remove</dt><dd>Remove the header, naturally occurs when you enter the address manually.</dd>
+					<dt>Clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+					<dt>Clean Destination</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+					<dt>Destination</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+				</dl>
+			</div></span>
+			<span class="tooltip">Cookie<div>
+				<h2>Cookie</h2>
+				<code>Cookie<br/>Set-Cookie</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>Remove</dt><dd>Remove the header.<br/>
+					Prevent cookies from being set and, if already set, being sent to the remote server.</dd>
+				</dl>
+				<p>Cookies set before you add this filter is still in the browser and can be accessed by javascript, unless they are HTTP-Only</p>
+			</div></span>
+			<span class="tooltip">Accept<div>
+				<h2>Accept</h2>
+				<code>Accept</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>*/*</dt><dd>Send <code>Accept: */*</code></dd>
+				</dl>
+			</div></span>
+			<span class="tooltip">Language<div>
+				<h2>Language</h2>
+				<code>Accept-Language</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>Remove</dt><dd>Remove the header</dd>
+				</dl>
+			</div></span>
+			<span class="tooltip">Encoding<div>
+				<h2>Encoding</h2>
+				<code>Accept-Encoding</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>Remove</dt><dd>Remove the header</dd>
+				</dl>
+			</div></span>
+			<span class="tooltip">Charset<div>
+				<h2>Charset</h2>
+				<code>Accept-Charset</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>Remove</dt><dd>Remove the header</dd>
+				</dl>
+			</div></span>
+			<div class="tooltip"><a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">CSP</a><div>
+				<h2>CSP</h2>
+				<code>Content-Security-Policy</code>
+				<dl>
+					<dt>Pass</dt><dd>Send the header unmodified</dd>
+					<dt>Force</dt><dd>Remove "Report-Only",<br/> thus enforcing policy.</dd>
+					<dt>None</dt><dd>default-src: 'none'</dd>
+					<dt>Self</dt><dd>default-src: 'self'</dd>
+					<dt>Custom</dt><dd>see <a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">policy directives</a>(click CSP)</dd>
+				</dl>
+			</div></div>
 		</div>
 	</div>
 	<div style="display: none;">
@@ -136,49 +205,6 @@
 			</select>
 			<input id="customcsp" size="50"/></div>
 		</form>
-	</div>
-	<div>
-		<h2>Color</h2>
-		<p>HTML color code, #0f0, #00ff00, or green.</p>
-		<p>Used in the extension for visualization</p>
-		
-		<h2>Block</h2>
-		<p>Block the request entirely</p>
-		<p>If yes/blocks, no other settings are relevant.</p>
-
-		<h2>User-Agent</h2>
-		<p>Pass - Send the original User-Agent: <kbd id="examplePass"></kbd></p>
-		<p>Random - Random User-Agent for every request: <kbd id="exampleRandom"></kbd></p>
-		<p>Simple - <kbd id="exampleSimple"></kbd></p>
-		<p>Minimal - <kbd id="exampleMinimal"></kbd></p>
-
-		<h2>Referer</h2>
-		<p><em>For a request from http://example.com/name/of/page.html to http://target.com/subpage.php</em></p>
-		<p>Remove - Remove the "Referer:" header completely, naturally occurs when you enter the address manually.</p>
-		<p>Clean - Only send the domain of the referrer, http://example.com</p>
-		<p>Clean Destination - Send the domain of the <strong>destination</strong>, http://target.com</p>
-		<p>Destination - Send the entire <strong>destination</strong>, http://target.com/subpage.php</p>
-
-		<h2>Cookie</h2>
-		<p>Remove - Prevent cookies from being set and, if already set, being sent to the remote server.</p>
-
-		<h2>Accept</h2>
-		<p>*/* - Send the "*/*" Accept header rather than the browser specific one.</p>
-
-		<h2>Language</h2>
-		<p>Remove - Remove the Accept-Language header</p>
-
-		<h2>Encoding</h2>
-		<p>Remove - Remove the Accept-Encoding header</p>
-
-		<h2>Charset</h2>
-		<p>Remove - Remove the Accept-Charset header</p>
-
-		<h2>CSP</h2>
-		<p>Force - Remove "Report-Only", enforcing policy.</p>
-		<p>None - default-src: 'none'</p>
-		<p>Self - default-src: 'self'</p>
-		<p>Custom - see <a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">policy directives</a></p>
 	</div>
 </div>
 	

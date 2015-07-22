@@ -56,7 +56,7 @@ body{
 }
 #mainpanel>*{
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: bottom;
 }
 
 #mainpanel a {
@@ -69,7 +69,7 @@ body{
 	font-size: 14pt;
 	font-weight: normal;
 }
-#mainpanel img{
+#mainpanel .title{
 	float: right;
 }
 
@@ -205,4 +205,55 @@ select
 	background-color:#f24537;
 	color: #fff;
 	border: 1px solid #fff;
+}
+
+/* Thanks to http://www.menucool.com/tooltip/css-tooltip */
+.tooltip {
+	outline:none;
+	text-decoration: underline dotted gray;
+	cursor: help;
+	position:relative;
+}
+.tooltip:hover {text-decoration:none;} 
+.tooltip div
+{
+	z-index:10;
+	display:none;
+	padding:14px 20px;
+	width:300px;
+
+	line-height:16px;
+}
+.tooltip:hover div
+{
+	display:inline;
+	position:absolute;
+	bottom: 2em;
+	left: 0;
+	color:#111;
+	border:1px solid #DCA;
+	background:#fffAF0;
+}
+.popupBody .tooltip:hover div
+{
+	bottom: auto;
+	top: 1em;
+	left: auto;
+	right: 0;
+}
+
+.tooltip div
+{
+	border-radius:4px;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+code
+{
+	background: #ccc;
+	display: block;
+}
+dt
+{
+	font-weight: bold;
 }
