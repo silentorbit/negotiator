@@ -28,6 +28,7 @@ function loadAll()
 			filters = {};
 			actions = {};
 			importAll(list);
+			fixSettings();
 		});
 	}
 	else
@@ -35,7 +36,13 @@ function loadAll()
 		loadLocalSettings();
 		loadLocalActions();
 		loadLocalFilters();
+		fixSettings();
 	}
+}
+function fixSettings()
+{
+	if(settings.countIndicator === undefined)
+		settings.countIndicator = "unfiltered";
 }
 
 function importAll(list)
@@ -65,10 +72,11 @@ function importAll(list)
 			c.from = k.substring(0, sep);
 			c.to = k.substring(sep + filterFromToSeparator.length);
 			addFilter(c);
+			continue;
 		}
 
 		//Unknown
-		console.log("Error, unkonwn key", k, c)
+		console.log("Error, unknown key", k, c)
 	}
 	prepareFilters();
 }

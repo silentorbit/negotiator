@@ -13,7 +13,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="background.html" />
-    <None Include="blocked.html" />
     <None Include="COPYING.GPLv3.html" />
     <None Include="filters.html" />
     <None Include="manifest.json" />
@@ -37,6 +36,21 @@
     <None Include="script\page-tracked.js" />
     <None Include="script\page-filters.js" />
     <None Include="script\page.js" />
-    <None Include="script\page-blocked.js" />
+    <None Include="images\action19.png" />
+    <None Include="images\action38.png" />
+    <None Include="images\gray.png" />
+    <None Include="images\green.png" />
+    <None Include="images\icon128.png" />
+    <None Include="images\icon16.png" />
+    <None Include="images\icon48.png" />
+    <None Include="images\panel.png" />
+    <None Include="images\panel.xcf" />
+    <None Include="images\red.png" />
+    <None Include="images\red19.png" />
+    <None Include="images\red38.png" />
+    <None Include="images\title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
   </ItemGroup>
 </Project>

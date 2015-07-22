@@ -4,6 +4,14 @@ window.addEventListener("load", loadOptionsPage, false);
 //Called at the end of the options page load
 function loadOptionsPage()
 {
+	//Count unfiltered
+	var www = document.getElementById("counterIndicator");
+	www.checked = b.settings.countIndicator == "unfiltered";
+	www.addEventListener("click", function(){
+		b.settings.countIndicator = this.checked ? "unfiltered" : "";
+		b.syncUpdateSettings();
+	});
+
 	//Default Actions
 	fillActionSelect(document.getElementById("defaultAction"), b.settings.defaultAction, function(){
 		b.settings.defaultAction = this.value;

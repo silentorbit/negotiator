@@ -18,10 +18,20 @@
 
 <div class="columns">
 <div>
+	<h1>Options</h1>
+	<fieldset id="counterIndicatorField">
+		<input type="checkbox" name="counterIndicator" id="counterIndicator" />
+		<label for="counterIndicator">Count <span class="tooltip">unfiltered<div>
+		Unfiltered requests are those that does not match any filters.
+		Requests that match a "pass" filter are considered "filtered".
+		</div></span> requests.</label>
+	</fieldset>
+</div>
+<div>
 	<h1>Filter matching</h1>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-		<label for="ignoreWWW">Ignore leading www.<br/>Treat www.example.com as example.com</label>
+		<label for="ignoreWWW" class="tooltip">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
 	</fieldset>
 </div>
 <div>

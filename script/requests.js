@@ -37,6 +37,9 @@ var uaEngine = [ "AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0", "AppleWeb
 var uaBrowser = [ "Safari/533.16", "Safari/533.4", "Safari/533.3", "Safari/534.1", "Safari/534.2", "Safari/528.16", "Firefox/4.0 (.NET CLR 3.5.30729)", "Firefox/3.5", "Firefox/3.6", "Firefox/3.5", "Firefox/3.5.6", "Chrome/6.0.428.0", "Chrome/6.0.422.0", "Chrome/6.0", "Chrome/5.0.357.0" ];
 var uaOS = [ "Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu/9.10 (karmic)", "Ubuntu/12.04", "Gentoo", "Ubuntu/10.04 (lucid)", "Fedora/3.6.3-4.fc13", "SUSE/3.6.3-1.1", "", "", "" ];
 
+//This one can redirect but since we can't get the referer here we can't be sure that we have the correct filter.
+//chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
+
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
 
@@ -139,8 +142,8 @@ function getProtocolDomain(url)
 	return url.substr(0, length);
 }
 
-function onBeforeSendHeaders(d) {
-
+function onBeforeSendHeaders(d)
+{
 	//Get domain for target and referrer
 	var domain = getDomain(d.url);
 	var referrer = null;
@@ -193,12 +196,19 @@ function onBeforeSendHeaders(d) {
 		var req = TrackedRequests[reqKey];
 		if(req == null)
 		{
-			req = {from: referrer, to: domain, track: f.track};
+			req = { from: referrer, to: domain, track: f != null && f.track || false };
 			TrackedRequests[reqKey] = req;
 			lastTracked = new Date();
 		}
 		//Record attempt in tab
-		tabRequests[d.tabId][reqKey] = req;
+		var tr = tabRequests[d.tabId];
+		tr[reqKey] = req;
+
+		if(settings.countIndicator == "unfiltered")
+		{
+			chrome.browserAction.setBadgeText({text: "" + Object.keys(tr).length, tabId: d.tabId});
+			chrome.browserAction.setBadgeBackgroundColor({color: "#880", tabId: d.tabId});
+		}
 	}
 
 	if(filter == null)
@@ -246,8 +256,8 @@ function onBeforeSendHeaders(d) {
 				}
 			});
 		}
-		//return {cancel: true};
-		return {redirectUrl: chrome.extension.getURL("blocked.html")};
+		//Only cancel is possible here, no redirectUrl
+		return {cancel: true};
 	}
 	
 	for(var i = 0; i < d.requestHeaders.length; i++)

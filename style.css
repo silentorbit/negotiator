@@ -22,7 +22,7 @@ body{
 }
 .popupBody h2 {
 	clear: left;
-	margin: 0;
+	margin: 5pt 0 0 0;
 }
 
 .errorList{
@@ -151,6 +151,11 @@ select
 	background: #fff;
 }
 
+.header>*
+{
+	padding: 2pt 5pt;
+}
+
 .table input[type="text"]{
 	background: transparent;
 	border: 1px solid transparent;
@@ -223,6 +228,8 @@ select
 	width:300px;
 
 	line-height:16px;
+	font-size: 1rem;
+	font-weight: normal;
 }
 .tooltip:hover div
 {
@@ -240,6 +247,13 @@ select
 	top: 1em;
 	left: auto;
 	right: 0;
+}
+.popupBody .tooltip-left:hover div
+{
+	bottom: auto;
+	top: 1em;
+	left: 0;
+	right: auto;
 }
 
 .tooltip div
