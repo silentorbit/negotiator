@@ -12,6 +12,13 @@ function loadOptionsPage()
 		b.syncUpdateSettings();
 	});
 
+	//Filter Storage
+	var useChromeSync = document.getElementById("useChromeSync");
+	useChromeSync.checked = b.useChromeSync;
+	useChromeSync.addEventListener("click", function(){
+		b.setUseChromeSync(useChromeSync.checked);
+	});
+	
 	//Default Actions
 	fillActionSelect(document.getElementById("defaultAction"), b.settings.defaultAction, function(){
 		b.settings.defaultAction = this.value;

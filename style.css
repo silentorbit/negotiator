@@ -227,7 +227,6 @@ select
 	padding:14px 20px;
 	width:300px;
 
-	line-height:16px;
 	font-size: 1rem;
 	font-weight: normal;
 }
@@ -248,7 +247,8 @@ select
 	left: auto;
 	right: 0;
 }
-.popupBody .tooltip-left:hover div
+.popupBody .tooltip-left:hover div,
+.tooltip-left:hover div
 {
 	bottom: auto;
 	top: 1em;
@@ -256,10 +256,15 @@ select
 	right: auto;
 }
 
-.tooltip div
+.tooltip>div
 {
 	border-radius:4px;
 	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+.tooltip>div>h2
+{
+	margin-top: 0;
 }
 
 code

@@ -10,13 +10,6 @@ function loadFiltersPage()
 	var button = document.querySelector("#testButton");
 	if(button) button.addEventListener("click", testFilter);
 
-	//Filter Storage
-	var useChromeSync = document.getElementById("useChromeSync");
-	useChromeSync.checked = b.useChromeSync;
-	useChromeSync.addEventListener("click", function(){
-		b.setUseChromeSync(useChromeSync.checked);
-	});
-	
 	document.querySelector("#exportJSON").addEventListener("click", exportJSON);
 	document.querySelector("#importJSON").addEventListener("click", importJSON);
 }

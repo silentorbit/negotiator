@@ -21,10 +21,26 @@
 	<h1>Options</h1>
 	<fieldset id="counterIndicatorField">
 		<input type="checkbox" name="counterIndicator" id="counterIndicator" />
-		<label for="counterIndicator">Count <span class="tooltip">unfiltered<div>
+		<label for="counterIndicator">Count <span class="tooltip tooltip-left">unfiltered<div>
 		Unfiltered requests are those that does not match any filters.
 		Requests that match a "pass" filter are considered "filtered".
 		</div></span> requests.</label>
+	</fieldset>
+	<fieldset>
+		<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync" class="tooltip tooltip-left">Use Chrome Sync<div>
+			<h2>Use Chrome Sync Storage</h2>
+			<p>Store settings, filters and actions in chrome.storage.sync which will be synchronized between your computers.</p>
+			<p>Chrome sync supports a total of 500 filters and actions combined.</p>
+		</div></label>
+	</fieldset>
+	<br/>
+	<fieldset id="alwaysPassSameSetting">
+		<input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
+		<label for="alwaysPassSame" class="tooltip tooltip-left">Pass same domain requests.<div><h2>Pass requests within the same domain.</h2>
+			<p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
+		 	<p><strong>Warning</strong> this may cause less blocking than expected.</p>
+		 	<p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
+		 </div></label>
 	</fieldset>
 </div>
 <div>
@@ -55,14 +71,6 @@
 		<strong>Preset action</strong>
 		<select id="defaultNewFilterAction"></select>
 	</p>
-</div>
-<div>
-	<h1>Always pass same</h1>
-	<p><strong>Warning:</strong> experimental, may cause less blocking than expected.</p>
-	<fieldset id="alwaysPassSameSetting">
-		<input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
-		<label for="alwaysPassSame">Allow request within same domain even though "block:*&gt;domain" is set.</label>
-	</fieldset>
 </div>
 </div>
 <div id="actionsTab">
