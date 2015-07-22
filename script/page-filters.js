@@ -9,9 +9,6 @@ function loadFiltersPage()
 	//Test button
 	var button = document.querySelector("#testButton");
 	if(button) button.addEventListener("click", testFilter);
-
-	document.querySelector("#exportJSON").addEventListener("click", exportJSON);
-	document.querySelector("#importJSON").addEventListener("click", importJSON);
 }
 
 function testFilter()
@@ -28,21 +25,6 @@ function testFilter()
 		result.appendChild(b.filterHeader.cloneNode(true));//Add headers
 		generateFilterItem(result, filter);
 	}
-}
-
-//Filter Import/Export
-function exportJSON()
-{
-	var textJson = document.querySelector("#filterJSON");
-	textJson.value = b.exportJson();
-}
-
-function importJSON()
-{
-	var textJson = document.querySelector("#filterJSON");
-	b.importJson(textJson.value);
-	b.saveAll();
-	updateFilters();
 }
 
 //Populate filters list in filter page

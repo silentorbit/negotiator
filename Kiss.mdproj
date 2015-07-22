@@ -49,6 +49,8 @@
     <None Include="images\red19.png" />
     <None Include="images\red38.png" />
     <None Include="images\title.png" />
+    <None Include="script\page-export.js" />
+    <None Include="export.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />

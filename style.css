@@ -29,6 +29,7 @@ body{
 	background: #f88;
 	border: 2px solid #000;
 	position: absolute;
+	top: 5em;
 	margin: 1em;
 	padding: 1em;
 	z-index: 9999;
@@ -275,4 +276,11 @@ code
 dt
 {
 	font-weight: bold;
+}
+
+#exportedJSON
+{
+	display:inline-block;
+	width: 90%;
+	height: 40em;
 }
