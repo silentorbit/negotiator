@@ -3,3 +3,8 @@
 *~
 *.xcf
 *.userprefs
+
+.git*
+Store
+*.mdproj
+

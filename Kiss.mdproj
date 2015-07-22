@@ -51,6 +51,10 @@
     <None Include="images\title.png" />
     <None Include="script\page-export.js" />
     <None Include="export.html" />
+    <None Include="release.exclude.txt" />
+    <None Include="build-release.sh" />
+    <None Include="README.md" />
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
