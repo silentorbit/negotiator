@@ -56,7 +56,7 @@ function loadLegacySettings()
 	s.defaultLocalAction = localStorage.defaultLocalAction || "pass";
 
 	//This one is used when the TLD is the same such as www.example.com -> static.example.com
-	s.defaultLocalTLDAction = localStorage.defaultLocalTLDAction || defaultAction;
+	s.defaultLocalTLDAction = localStorage.defaultLocalTLDAction || s.defaultAction;
 
 	//Default new filter: what the preselected action for new filters are
 	s.defaultNewFilterAction = localStorage.defaultNewFilterAction || "block";
