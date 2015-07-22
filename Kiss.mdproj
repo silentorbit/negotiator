@@ -21,19 +21,22 @@
     <None Include="popup.html" />
     <None Include="style.css" />
     <None Include="tracked.html" />
-    <None Include="script\options.js" />
-    <None Include="script\popup.js" />
     <None Include="script\settings.js" />
     <None Include="updates.xml" />
-    <None Include="script\filters.query.js" />
-    <None Include="script\filters.modify.js" />
-    <None Include="script\filters.storage.js" />
     <None Include="script\errors.js" />
-    <None Include="script\tracked.js" />
     <None Include="script\actions.js" />
     <None Include="script\sync.js" />
     <None Include="script\legacy.js" />
     <None Include="script\export.js" />
     <None Include="script\requests.js" />
+    <None Include="script\storage.js" />
+    <None Include="script\query.js" />
+    <None Include="script\filters.js" />
+    <None Include="script\page-options.js" />
+    <None Include="script\page-popup.js" />
+    <None Include="script\page-tracked.js" />
+    <None Include="script\page-filters.js" />
+    <None Include="script\page.js" />
+    <None Include="script\page-blocked.js" />
   </ItemGroup>
 </Project>

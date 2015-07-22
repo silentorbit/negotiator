@@ -13,6 +13,8 @@ function logUncaught(message, url, line)
 function logError(message)
 {
 	console.log("Error", message);
+	if(errorList.indexOf(message) >= 0)
+		return; //Prevent duplicates
 	errorList.push(message);
 	if(errorListUpdated != null)
 		errorListUpdated(errorList);
@@ -29,7 +31,7 @@ function showErrors(document)//If any
 {
 	var list = document.createElement("div");
 
-	//Listen to new errors even if we don't have any right now
+	//Listen to new errors even if we don"t have any right now
 	errorListUpdated = function(){
 		showErrors(document);
 		if(document.body.contains(list))
@@ -40,7 +42,7 @@ function showErrors(document)//If any
 		return;
 
 	list.classList.add("errorList");
-	document.body.insertBefore(list, document.body.firstChild);
+	document.body.appendChild(list);
 	var clear = document.createElement("button");
 	clear.textContent = "Clear Errors";
 	clear.classList.add("button");

@@ -3,7 +3,8 @@
 	<meta charset="UTF-8" />
 	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Kiss Options</title>
-	<script src="script/options.js" ></script>
+	<script src="script/page-options.js" ></script>
+	<script src="script/page.js" ></script>
 </head>
 <body>
 <div id="mainpanel">
@@ -60,10 +61,10 @@
 </div>
 <div id="actionsTab">
 	<h1>Actions</h1>
-	<form>
+	<form id="addActionForm">
 		<div>
-			New action: <input id="actionName" value="name" size="10"/>
-			<input type="submit" id="add" value="Add" />
+			New action: <input id="actionName" value="" size="10" placeholder="name"/>
+			<input type="submit" value="Add" />
 		</div>
 	</form>
 	<div id="actions" class="table">

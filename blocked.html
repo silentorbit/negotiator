@@ -4,7 +4,8 @@
 	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Blocked</title>
 	<link rel="icon" type="image/png" href="images/red.png">
-	<script src="script/options.js" ></script>
+	<script src="script/page-blocked.js" ></script>
+	<script src="script/page.js" ></script>
 </head>
 <body>
 	<div id="mainpanel"></div>
@@ -13,18 +14,5 @@
 		<p><a class="button" href="javascript: history.back();">Go back</a></p>
 		<div id="blockReport" class="table">nothing to report</div>
 	</div>
-	
-	<script>
-		chrome.tabs.getCurrent(function(tab){
-			var report = document.getElementById("blockReport");
-			
-			var url = b.blockReport[tab.id];
-			var f = b.getDomainFilter(b.getDomain(url));
-			var html = '<p><a href="'+url+'">'+url+'</a></p>';
-			report.innerHTML = html;
-			if(f != null)
-				report.appendChild(generateFilterItem(f));
-		});
-	</script>
 </body>
 </html>

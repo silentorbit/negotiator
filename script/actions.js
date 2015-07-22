@@ -1,10 +1,12 @@
 
 var actions = {};
 
-loadActions();
-
-function loadActions()
+//Only called from loadAll()
+function loadLocalActions()
 {
+	if(useChromeSync)
+		return; //Loaded in loadAll()
+
 	try
 	{
 		actions = JSON.parse(localStorage.getItem("actions"));
@@ -39,11 +41,10 @@ function loadActions()
 		color: "#f64",
 		block: "true"
 	}
-	saveActions();
 }
 
-function saveActions()
+function saveLocalActions()
 {
-	localStorage.actions = JSON.stringify(actions, null, '\t');
+	localStorage.actions = JSON.stringify(actions, null, "\t");
 }
 

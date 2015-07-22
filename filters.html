@@ -3,7 +3,8 @@
 	<meta charset="UTF-8" />
 	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Kiss Filters</title>
-	<script src="script/options.js" ></script>
+	<script src="script/page-filters.js" ></script>
+	<script src="script/page.js" ></script>
 </head>
 <body>
 <div id="mainpanel">
@@ -31,13 +32,15 @@
 
 <div class="filtersTab">
 	<h1>Filter Storage</h1>
-	<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync">Use Chrome Sync for filter storage</label>
-	<strong>Chrome sync supports a maximum of 512 filter rules.</strong>
 	<div>
-		<input type="button" id="exportJSON" value="Export to JSON" class="button" />
-		<input type="button" id="importJSON" value="Import from JSON" class="button" />
+		<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync">Use Chrome Sync for filter storage</label>
+		<strong>Chrome sync supports a maximum of about 500 filter rules.</strong>
 	</div>
-	<textarea id="filterJSON" style="display:inline-block; height: 4em;"></textarea>
+	<div>
+		<input type="button" id="exportJSON" value="Export" class="button" />
+		<textarea id="filterJSON" style="display:inline-block; height: 4em;"></textarea>
+		<input type="button" id="importJSON" value="Import" class="button" />
+	</div>
 </div>
 
 <div class="filtersTab" style="clear: both;">

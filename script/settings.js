@@ -3,7 +3,7 @@
 //UI to configure settings is options.html/js
 
 //Filter storage, if true use chrome.storage.sync, otherwise use localStorage
-var useChromeSync = (localStorage.getItem('useChromeSync') == "true");
+var useChromeSync = (localStorage.getItem("useChromeSync") == "true");
 function setUseChromeSync(val)
 {
 	//Save setting
@@ -11,16 +11,14 @@ function setUseChromeSync(val)
 	localStorage.useChromeSync = val;
 
 	//Reload
-	loadSettings();
-	loadActions();
-	loadFilters();
+	loadAll();
 }
 
 //Settings
 var settings;
-loadSettings();
 
-function loadSettings()
+//Only called from loadAll()
+function loadLocalSettings()
 {
 	try
 	{
@@ -40,7 +38,7 @@ function loadSettings()
 	settings = loadLegacySettings();
 }
 
-function saveSettings()
+function saveLocalSettings()
 {
 	localStorage.settings = JSON.stringify(settings);
 }

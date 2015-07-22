@@ -176,7 +176,7 @@ function onBeforeSendHeaders(d) {
 	var f = getFilter(referrer, domain);
 	if(f != null)
 	{
-		if(alwaysPassSame && f.from == "" && actions[f.filter].block && (referrer == domain || referrer == null))
+		if(settings.alwaysPassSame && f.from == "" && actions[f.filter].block && (referrer == domain || referrer == null))
 		{
 			//Experimental feature, dangerous
 			f = null;
@@ -193,13 +193,12 @@ function onBeforeSendHeaders(d) {
 		var req = TrackedRequests[reqKey];
 		if(req == null)
 		{
-			req = {from: referrer, to: domain};
+			req = {from: referrer, to: domain, track: f.track};
 			TrackedRequests[reqKey] = req;
 			lastTracked = new Date();
 		}
 		//Record attempt in tab
-		if(tabRequests[d.tabId][reqKey] == null)
-			tabRequests[d.tabId][reqKey] = req;
+		tabRequests[d.tabId][reqKey] = req;
 	}
 
 	if(filter == null)
@@ -214,7 +213,7 @@ function onBeforeSendHeaders(d) {
 		else
 			filter = settings.defaultAction; //Load default
 		
-		//Don't block main_frame links
+		//Don"t block main_frame links
 		if(filter == "block" && d.type == "main_frame")
 			filter = settings.defaultLocalAction;
 		//Catch download/save as... requests
@@ -227,6 +226,12 @@ function onBeforeSendHeaders(d) {
 	//Get matching action
 	var action = actions[filter];
 
+	if(action == null)
+	{
+		logError("missing action for filter: " + filter);
+		action = {};
+	}
+
 	//Apply filters
 	if(action.block == "true")
 	{
@@ -236,12 +241,13 @@ function onBeforeSendHeaders(d) {
 			chrome.browserAction.setIcon({
 				tabId: d.tabId,
 				path: {
-					'19': 'images/red38.png',
-					'38': 'images/red38.png'
+					"19": "images/red38.png",
+					"38": "images/red38.png"
 				}
 			});
 		}
-		return {cancel: true};
+		//return {cancel: true};
+		return {redirectUrl: chrome.extension.getURL("blocked.html")};
 	}
 	
 	for(var i = 0; i < d.requestHeaders.length; i++)

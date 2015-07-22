@@ -3,49 +3,44 @@
 function importJson(json)
 {
 	var list = JSON.parse(json);
-	importFilters(list);
+	importAll(list);
 }
 
 function exportJson()
 {
-	return JSON.stringify(exportFilters(), null, '\t');
+	return JSON.stringify(exportAll(), null, "\t");
 }
 
-function importFilters(list)
-{
-	for(var k in list)
-	{
-		var f = list[k];
-		var sep = k.indexOf(filterFromToSeparator);
-		if(sep < 0)
-			continue;
-		f.from = k.substring(0, sep);
-		f.to = k.substring(sep + filterFromToSeparator.length);
-		addFilter(f);
-	}
-	prepareFilters();
-}
-
-function exportFilters()
+function exportAll()
 {
 	//Scan all filters and generate a single list
 	var list = {};
 
+	//Settings
+	list.settings = settings;
+
+	//Actions
+	for(var a in actions)
+	{
+		list[syncActionPrefix + a] = actions[a];
+	}
+
+	//Filters
 	for(var f in filters)
 	{
 		if(f == "wild")
 			continue;
-		exportFiltersTo(f, filters[f], list);
+		exportAllTo(f, filters[f], list);
 	}
 	var fw = filters.wild;
 	for(var f in fw)
 	{
-		exportFiltersTo("*" + f, fw[f], list);
+		exportAllTo("*" + f, fw[f], list);
 	}
 
 	return list;
 }
-function exportFiltersTo(from, filters, list)
+function exportAllTo(from, filters, list)
 {
 	if(filters == null)
 		return;

@@ -1,10 +1,15 @@
+﻿
+//Set by popup page when only filters for one domain is to be shown
+var domain;
 
-function updatePopupPage()
+window.addEventListener("load", loadPopupPage, false);
+
+function loadPopupPage()
 {
-	document.querySelector('#showFilters').addEventListener('click', function(){ showOptionsPage('filters.html'); });
-	document.querySelector('#showTracked').addEventListener('click', function(){ showOptionsPage('tracked.html'); });
-	document.querySelector('#showOptions').addEventListener('click', function(){ showOptionsPage('options.html'); 	});
-	document.querySelector('#clearButton').addEventListener('click', function(){
+	document.querySelector("#showFilters").addEventListener("click", function(){ showOptionsPage("filters.html"); });
+	document.querySelector("#showTracked").addEventListener("click", function(){ showOptionsPage("tracked.html"); });
+	document.querySelector("#showOptions").addEventListener("click", function(){ showOptionsPage("options.html"); 	});
+	document.querySelector("#clearButton").addEventListener("click", function(){
 		clearTrackedRequests();
 		window.close();
 	});
@@ -22,24 +27,30 @@ function updatePopupPage()
 			var filter = getFilterFromForm(row);
 			if(filter == null)
 				return;
+
 			b.addFilter(filter);
-			b.saveFilters();
-			b.tabFilters[tab.id].push(filter);
-			updateTabFilters(tab);
+			b.syncUpdateFilter(filter);
+
+			var tf = b.tabFilters[tab.id];
+			if(tf)
+			{
+				tf.push(filter);
+				updateTabFilters(tab);
+			}
 		};
 		
 		//Tracked requests
 		var trackedArray = b.tabRequests[tab.id];
-		var tableTracked = document.getElementById('trackedTable');
+		var tableTracked = document.getElementById("trackedTable");
 		tableTracked.appendChild(b.filterHeader.cloneNode(true));//Add headers
 
-		insertTrackedRow(tableTracked, domain, domain, newFilterAdded);
+		insertTrackedRow(tableTracked, { from: domain, to: domain, track: false }, newFilterAdded);
 		if(trackedArray)
 		{
 			for(var i in trackedArray)
 			{
 				var t = trackedArray[i];
-				insertTrackedRow(tableTracked, t.from, t.to, newFilterAdded);
+				insertTrackedRow(tableTracked, t, newFilterAdded);
 			}
 		}
 	});
@@ -51,8 +62,8 @@ function updateTabFilters(tab)
 	var tabFilterArray = b.tabFilters[tab.id];
 	if(tabFilterArray)
 	{
-		var tableFilters = document.getElementById('filters');
-		tableFilters.innerHTML = '';
+		var tableFilters = document.getElementById("filters");
+		tableFilters.innerHTML = "";
 		tableFilters.appendChild(b.filterHeader.cloneNode(true));//Add headers
 		var added = [];
 		for(var i in tabFilterArray)

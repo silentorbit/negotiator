@@ -66,10 +66,10 @@ function updateFilter(before, after)
 	{
 		//Delete old location
 		deleteFilter(before.from, before.to);
-		syncDelete(before.from, before.to);
+		syncDeleteFilter(before.from, before.to);
 	}
 	addFilter(after);
-	syncUpdate(after);
+	syncUpdateFilter(after);
 }
 
 //Delete filter from live tree
