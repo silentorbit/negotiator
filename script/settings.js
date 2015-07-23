@@ -15,7 +15,7 @@ function setUseChromeSync(val)
 }
 
 //Settings
-var settings;
+var settings = {};
 
 //Only called from loadAll()
 function loadLocalSettings()

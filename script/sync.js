@@ -42,6 +42,7 @@ function loadAll()
 function fixSettings()
 {
 	//Settings
+	if(settings == null) settings = {};
 	if(settings.ignoreWWW === undefined)
 		settings.ignoreWWW = true;//By default new installs ignore www
 	if(settings.countIndicator === undefined)
