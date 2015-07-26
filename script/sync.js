@@ -47,6 +47,16 @@ function fixSettings()
 		settings.ignoreWWW = true;//By default new installs ignore www
 	if(settings.countIndicator === undefined)
 		settings.countIndicator = "unfiltered";
+	if(settings.defaultAction == undefined)
+		settings.defaultAction = "pass";
+	if(settings.defaultLocalAction == undefined)
+		settings.defaultLocalAction = "passs";
+	if(settings.defaultLocalTLDAction == undefined)
+		settings.defaultLocalTLDAction = "pass";
+	if(settings.defaultNewFilterAction == undefined)
+		settings.defaultNewFilterAction = "block";
+	if(settings.alwaysPassSame == undefined)
+		settings.alwaysPassSame = false;
 
 	//Actions
 	if(actions == null || Object.keys(actions).length == 0)
