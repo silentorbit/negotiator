@@ -24,7 +24,7 @@ function syncError()
 {
 	var err = chrome.runtime.lastError;
 	if(err)
-		logError(err);
+		logError(err.message);
 }
 
 function showErrors(document)//If any
