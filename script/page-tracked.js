@@ -10,12 +10,7 @@ function loadTrackedPage()
 	{
 		var r = b.TrackedRequests[i];
 			
-		insertTrackedRow(table, r, function (row) {
-			var filter = getFilterFromForm(row);
-			b.addFilter(filter);
-			b.syncUpdateFilter(filter);
-			table.removeChild(row);
-		});
+		insertTrackedRow(table, r, null);
 	}
 
 	var button = document.querySelector("#clearTrackedReload");

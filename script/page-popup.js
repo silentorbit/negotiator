@@ -22,15 +22,8 @@ function loadPopupPage()
 
 		updateTabFilters(tab);
 
-		var newFilterAdded = function (row)
+		var newFilterAdded = function (filter)
 		{
-			var filter = getFilterFromForm(row);
-			if(filter == null)
-				return;
-
-			b.addFilter(filter);
-			b.syncUpdateFilter(filter);
-
 			var tf = b.tabFilters[tab.id];
 			if(tf)
 			{

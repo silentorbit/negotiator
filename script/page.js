@@ -195,8 +195,15 @@ function insertTrackedRow(table, req, submitAction)
 	fillActionSelect(row.filter, b.settings.defaultNewFilterAction);
 	
 	row.onsubmit=function(){
+		var filter = getFilterFromForm(row);
+		if(filter == null)
+			return;
+		b.addFilter(filter);
+		b.syncUpdateFilter(filter);
+
 		table.removeChild(row);
-		submitAction(row);
+		if(submitAction != null)
+			submitAction(filter);
 		return false;
 	};
 	
