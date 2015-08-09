@@ -241,7 +241,7 @@ function onBeforeSendHeaders(d)
 
 	if(action == null)
 	{
-		logError("missing action for filter: " + filter);
+		logError("missing action for filter: " + filter + ": " + JSON.stringify(f));
 		action = {};
 	}
 
