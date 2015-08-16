@@ -29,6 +29,9 @@ function loadAll()
 			actions = {};
 			importAll(list);
 			fixSettings();
+
+			//Always save locally
+			saveLocalAll();
 		});
 	}
 	else
@@ -175,6 +178,8 @@ chrome.storage.onChanged.addListener(function(changed, namespace)
 		//Unknown storage key
 		console.log("Error, unknown sync storage key", k, c);
 	}
+
+	saveLocalAll();
 });
 
 //Delete single filter item from sync storage
@@ -192,14 +197,11 @@ function syncDeleteAction(action)
 //Delete single action
 function syncDelete(key)
 {
+	//Always save locally
+	saveLocalAll();
+
 	if(useChromeSync)
-	{
 		chrome.storage.sync.remove(key, syncError);
-	}
-	else
-	{
-		saveAll();
-	}
 }
 
 function syncUpdateFilter(filter)
@@ -221,14 +223,13 @@ function syncUpdateSettings()
 
 function syncUpdate(key, value)
 {
+	//Always save locally
+	saveLocalAll();
+
 	if(useChromeSync)
 	{
 		var i = {};
 		i[key] = value;
 		chrome.storage.sync.set(i, syncError);
-	}
-	else
-	{
-		saveAll();
 	}
 }

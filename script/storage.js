@@ -32,6 +32,9 @@ function saveLocalFilters()
 
 function saveAll()
 {
+	//Always save locally
+	saveLocalAll();
+
 	if(useChromeSync)
 	{
 		var list = exportAll();
@@ -53,12 +56,12 @@ function saveAll()
 			}
 		});
 	}
-	else
-	{
-		saveLocalSettings();
-		saveLocalActions();
-		saveLocalFilters();
-	}
+}
+function saveLocalAll()
+{
+	saveLocalSettings();
+	saveLocalActions();
+	saveLocalFilters();
 }
 
 function prepareFilters()
