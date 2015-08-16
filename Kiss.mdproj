@@ -43,8 +43,6 @@
     <None Include="images\icon128.png" />
     <None Include="images\icon16.png" />
     <None Include="images\icon48.png" />
-    <None Include="images\panel.png" />
-    <None Include="images\panel.xcf" />
     <None Include="images\red.png" />
     <None Include="images\red19.png" />
     <None Include="images\red38.png" />

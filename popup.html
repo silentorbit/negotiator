@@ -6,29 +6,21 @@
 	<script src="script/page-popup.js" ></script>
 	<script src="script/page.js" ></script>
 </head>
-<body class="popupBody">
+<body id="popupBody">
 
-<div id="popupMenu" class="table">
-	<div>
-		<div><a class="button" id="showFilters">All Filters</a></div>
-		<div><a class="button" id="showTracked">All Tracked</a></div>
-		<div><a class="button" id="showOptions">Options</a></div>
-	</div>
+<div id="popupMenu">
+	<a class="button" id="clearButton">Clear Tracked</a>
+	<span class="filler"></span>
+	<a class="button" id="showFilters">All Filters</a>
+	<a class="button" id="showTracked">All Tracked</a>
+	<a class="button" id="showOptions">Options</a>
 </div>
 
-	<h2>Tracked: <span class="tooltip tooltip-left"><span id="unfiltered"></span><div>
-	Unique requests without a filter
-	</div></span></h2>
 	<div id="trackedTable" class="table"></div>
-	<p><a class="button" id="clearButton"><span>Clear</span></a></p>
-	<hr/>
-
-	<h2>Used filters</h2>
 
 	<div id="filters" class="table"></div>
-	<hr/>
 
-	<center><a href="http://silentorbit.com/kiss/" target="_blank"><img src="images/title.png" /></a></center>
+	<center id="logo"><a href="http://silentorbit.com/kiss/" target="_blank"><img src="images/title.png" /></a></center>
 	
 </body>
 </html>

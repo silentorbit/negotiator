@@ -8,13 +8,14 @@
 </head>
 <body>
 <div id="mainpanel">
-	<a href="http://silentorbit.com/kiss/" target="_blank" class="title"><img src="images/title.png" /></a>
 	<a href="filters.html" class="button">Filters</a>
 	<a href="tracked.html" class="button">Tracked</a>
 	<a href="options.html" class="button active">Options</a>
 	<a href="export.html" class="button">Export</a>
 	<a href="http://silentorbit.com/kiss/" target="_blank">Website</a>
 	<a href="https://github.com/hultqvist/Kiss" target="_new" title="Source Code">GitHub</a>
+	<span class="filler"></span>
+	<a href="http://silentorbit.com/kiss/" target="_blank" class="title"><img src="images/title.png" /></a>
 </div>
 
 <div class="columns">
@@ -48,7 +49,7 @@
 	<h1>Filter matching</h1>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-		<label for="ignoreWWW" class="tooltip">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
+		<label for="ignoreWWW" class="tooltip tooltip-left">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
 	</fieldset>
 </div>
 <div>
@@ -74,7 +75,7 @@
 	</p>
 </div>
 </div>
-<div id="actionsTab">
+<div class="main-full">
 	<h1>Actions</h1>
 	<form id="addActionForm">
 		<div>
@@ -95,7 +96,7 @@
 				<h2>Block</h2>
 				<p>Block the request entirely</p>
 			</div></span>
-			<span class="tooltip">User-Agent<div>
+			<span class="tooltip tooltip-wide">User-Agent<div>
 				<h2>User-Agent</h2>
 				<code>User-Agent</code>
 				<dl>
@@ -104,7 +105,7 @@
 				<dt>Simple</dt><dd><code id="exampleSimple"></code></dd>
 				<dt>Minimal</dt><dd><code id="exampleMinimal"></code></dd>
 			</div></span>
-			<span class="tooltip">Referer<div>
+			<span class="tooltip tooltip-wide">Referer<div>
 				<h2>Referer</h2>
 				<code>Referer</code>
 				<p>For a request from <strong>http://example.com/page.html</strong> to <strong>http://target.com/subpage.php</strong></p>

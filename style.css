@@ -6,24 +6,31 @@ Orange f6921e
 */
 
 body{
-	background: #fff url(images/panel.png) repeat-x;
-	background-position: 0 -35px; 
 	font-family: sans-serif;
 	font-size: 13pt;
 
 	margin: 0 auto;
-	padding: 0 0 0 1em;
+	padding: 0 0 0 0;
 }
 
-.popupBody{
+#popupBody{
 	background: #fff;
 	min-width: 600px;
-	padding: 0 1em 1em 1em;
+	padding: 0;
 }
-.popupBody h2 {
+#popupBody h2 {
 	clear: left;
 	margin: 5pt 0 0 0;
 }
+#popupBody #logo{
+	margin: 1em 0;
+	text-align: center;
+}
+#popupBody #logo img{
+	max-width: 90%;
+	width: 90%;
+}
+
 
 .errorList{
 	background: #f88;
@@ -43,21 +50,38 @@ body{
 }
 
 #popupMenu{
-	height: 40px;
-	border-collapse: separate;
-	border-spacing: 5px;
-	float: right;
+	background: #000;
+	padding: 3px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+#popupMenu>*{
+}
+.filler{
+	flex-grow: 1;
+}
+#popupBody .table{
+	width: 100%;
 }
 
 #mainpanel{
-	height: 80px;
-	padding-top: 10px;
+	background: #000;
+	padding: 5px 5px 5px 9px;
 	color: #fff;
 	line-height: 1em;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: space-between;
 }
 #mainpanel>*{
-	display: inline-block;
-	vertical-align: bottom;
+	align-self: flex-end;
+	margin: 0 5px 0 0;
+}
+#mainpanel .title{
+	order: 50;
 }
 
 #mainpanel a {
@@ -69,6 +93,7 @@ body{
 #mainpanel .button{
 	font-size: 14pt;
 	font-weight: normal;
+	align-self: center;
 }
 #mainpanel .title{
 	float: right;
@@ -84,15 +109,18 @@ fieldset{
 	float:left;
 	padding: 1em;
 }
-#actionsTab{
-	clear:both;
+
+#actions>*>*{
+	padding: 5px 0;
 }
-	#actions>*>*{
-		padding: 5px 0;
-	}
-.filtersTab{
-	float:left;
-	margin-right: 2em;
+
+.main-full{
+	margin: 1em;
+}
+.main-half{
+	margin: 1em;
+	display: inline-block;
+	max-width: 50%;
 }
 
 
@@ -127,8 +155,12 @@ fieldset{
 /* Table */
 .table{
 	display: table;
+	border-collapse: separate;
+	border-spacing: 0 1px;
 } 
-.table>*{display: table-row;}
+.table>*{
+	display: table-row;
+}
 .table>*>*{display: table-cell;} 
 
 input[type="checkbox"] {
@@ -145,11 +177,7 @@ input[type="checkbox"] {
 select
 {
 	background: transparent;
-	padding: 2pt 5pt;
-}
-.table form:hover select
-{
-	background: #fff;
+	padding: 2pt;
 }
 
 .header>*
@@ -157,13 +185,17 @@ select
 	padding: 2pt 5pt;
 }
 
-.table input[type="text"]{
+.table input[type="text"],
+.table select{
 	background: transparent;
 	border: 1px solid transparent;
+}
+.table input[type="text"]{
 	width: 15em;
 	padding: 2pt 5pt;
 }
-.table form:hover input[type="text"]{
+.table form:hover input[type="text"],
+.table form:hover select{
 	border: 1px solid gray;
 	background: #fff;
 }
@@ -176,8 +208,8 @@ select
 
 .button {
 	background-color:#fff;
-	border-radius: 3px;
-	border: 1px solid #337fed;
+	border-radius: 6px;
+	border: 2px solid #337fed;
 	color:#000 !important;
 	text-decoration: none;
 	cursor: pointer;
@@ -186,15 +218,20 @@ select
 }
 .button:hover{
 	background-color:#8cf;
-	border-radius: 1px;
+}
+#mainpanel .button,
+#popupMenu .button{
+	background: #ddd;
+	border: 2px solid transparent;
 }
 .button.active,
 #mainpanel .active {
 	background-color:#7cf;
 }
-#mainpanel .button{
-	padding: 3pt 5pt;
-	margin: 5pt 0 0 0;
+#mainpanel .button:hover,
+#popupMenu .button:hover{
+	background: #fff;
+	border: 2px solid #337fed;
 }
 .table .button{
 	padding: 1pt 3pt;
@@ -220,18 +257,22 @@ select
 	cursor: help;
 	position:relative;
 }
-.tooltip:hover {text-decoration:none;} 
-.tooltip div
+.tooltip:hover {text-decoration:none;}
+.tooltip>div
 {
 	z-index:10;
 	display:none;
-	padding:14px 20px;
+	padding: 0 5px 5px 5px;
 	width:300px;
 
 	font-size: 1rem;
 	font-weight: normal;
 }
-.tooltip:hover div
+.tooltip-wide>div
+{
+	width:600px;
+}
+.tooltip:hover>div
 {
 	display:inline;
 	position:absolute;
@@ -241,14 +282,21 @@ select
 	border:1px solid #DCA;
 	background:#fffAF0;
 }
-.popupBody .tooltip:hover div
+.tooltip>div p{
+	margin: 1em 0 0 0;
+}
+.tooltip>div h1,
+.tooltip>div h2{
+	margin: 0;
+}
+#popupBody .tooltip:hover div
 {
 	bottom: auto;
 	top: 1em;
 	left: auto;
 	right: 0;
 }
-.popupBody .tooltip-left:hover div,
+#popupBody .tooltip-left:hover div,
 .tooltip-left:hover div
 {
 	bottom: auto;
@@ -263,6 +311,7 @@ select
 	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
 }
 
+.tooltip>div>h1,
 .tooltip>div>h2
 {
 	margin-top: 0;

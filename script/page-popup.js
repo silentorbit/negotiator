@@ -45,9 +45,6 @@ function loadPopupPage()
 				var t = trackedArray[i];
 				insertTrackedRow(tableTracked, t, newFilterAdded);
 			}
-
-			var unfiltered = document.querySelector("#unfiltered");
-			unfiltered.textContent = Object.keys(trackedArray).length;
 		}
 	});
 }
