@@ -8,7 +8,7 @@ function loadPopupPage()
 {
 	document.querySelector("#showFilters").addEventListener("click", function(){ showOptionsPage("filters.html"); });
 	document.querySelector("#showTracked").addEventListener("click", function(){ showOptionsPage("tracked.html"); });
-	document.querySelector("#showOptions").addEventListener("click", function(){ showOptionsPage("options.html"); 	});
+	document.querySelector("#showOptions").addEventListener("click", function(){ showOptionsPage("options.html"); });
 	document.querySelector("#clearButton").addEventListener("click", function(){
 		clearTrackedRequests();
 		window.close();
