@@ -106,7 +106,7 @@ fieldset{
 }
 
 .columns>*{
-	float:left;
+	display: inline-block;
 	padding: 1em;
 }
 
