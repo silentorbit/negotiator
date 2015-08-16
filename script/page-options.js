@@ -71,7 +71,6 @@ function loadOptionsPage()
 	document.querySelector("#examplePass").innerHTML = navigator.userAgent;
 	document.querySelector("#exampleRandom").innerHTML = b.getRandomUserAgent();
 	document.querySelector("#exampleSimple").innerHTML = b.userAgent;
-	document.querySelector("#exampleMinimal").innerHTML = "Mozilla/5.0";
 }
 
 
@@ -86,15 +85,8 @@ function updateEnabled(row)
 {
 	var isBlocked = row.block.value == "true";
 	var vis = isBlocked ? "hidden" : "visible";
-	row.agent.style.visibility = vis;
-	row.referer.style.visibility = vis;
-	row.cookie.style.visibility = vis;
-	row.accept.style.visibility = vis;
-	row.acceptlanguage.style.visibility = vis;
-	row.acceptencoding.style.visibility = vis;
-	row.acceptcharset.style.visibility = vis;
-	row.csp.style.visibility = vis;
-	row.customcsp.style.visibility = (isBlocked || row.csp.value != "custom") ? "collapse":"visible";
+	row.request.style.visibility = vis;
+	row.response.style.visibility = vis;
 }
 
 function addActionRow(a)
@@ -111,16 +103,9 @@ function addActionRow(a)
 	row.color.value = action.color;
 	
 	setSelected(row.block, action.block);	//Block request
-	setSelected(row.agent, action.agent);	//User-Agent
-	setSelected(row.referer, action.referer);	//Referer
-	setSelected(row.cookie, action.cookie);	//Cookie, Cookie-Set
-	setSelected(row.accept, action.accept);	//Accept
-	setSelected(row.acceptlanguage, action.acceptlanguage);	//Accept-Language
-	setSelected(row.acceptencoding, action.acceptencoding);	//Accept-Encoding
-	setSelected(row.acceptcharset, action.acceptcharset);	//Accept-Charset
-	setSelected(row.csp, action.csp);	//CSP
-	if(action.customcsp != null)
-		row.customcsp.value = action.customcsp;
+
+	row.request.value = formatActionFilters(action.request);
+	row.response.value = formatActionFilters(action.response);
 
 	updateEnabled(row);
 
@@ -130,15 +115,11 @@ function addActionRow(a)
 
 		action.color = row.color.value;
 		action.block = row.block.value;
-		action.agent = row.agent.value;
-		action.referer = row.referer.value;
-		action.cookie = row.cookie.value;
-		action.accept = row.accept.value;
-		action.acceptlanguage = row.acceptlanguage.value;
-		action.acceptencoding = row.acceptencoding.value;
-		action.acceptcharset = row.acceptcharset.value;
-		action.csp = row.csp.value;
-		action.customcsp = row.customcsp.value;
+		action.request = parseActionFilters(row.request.value);
+		action.response = parseActionFilters(row.response.value);
+		//Debug
+		row.querySelector("#requestParsed").textContent = JSON.stringify(action.request);
+		row.querySelector("#responseParsed").textContent = JSON.stringify(action.response);
 		b.syncUpdateAction(a, action);
 		
 		row.style.backgroundColor = row.color.value;
@@ -147,15 +128,8 @@ function addActionRow(a)
 	};
 	row.color.oninput = save;
 	row.block.onchange = save;
-	row.agent.onchange = save;
-	row.referer.onchange = save;
-	row.cookie.onchange = save;
-	row.accept.onchange = save;
-	row.acceptlanguage.onchange = save;
-	row.acceptencoding.onchange = save;
-	row.acceptcharset.onchange = save;
-	row.csp.onchange = save;
-	row.customcsp.onchange = save;
+	row.request.oninput = save;
+	row.response.oninput = save;
 
 	var table = document.getElementById("actions");
 	
@@ -168,6 +142,35 @@ function addActionRow(a)
 	}
 
 	table.appendChild(row);
+}
+
+function formatActionFilters(headerFilter)
+{
+	if(headerFilter == null)
+		return "";
+	var text = "";
+	for(var k in headerFilter)
+	{
+		text += k + ": " + headerFilter[k] + "\n";
+	}
+	return text;
+}
+function parseActionFilters(text)
+{
+	var headerFilter = {};
+	var lines = text.replace("\r", "\n").split("\n");
+	for(var l in lines)
+	{
+		var line = lines[l].trim();
+		if(line == "")
+			continue;
+		var sep = line.indexOf(":")
+		if(sep < 0)
+			headerFilter[line] = "";
+		else
+			headerFilter[line.substring(0, sep).toLowerCase()] = line.substring(sep + 1).trim();
+	}
+	return headerFilter;
 }
 
 function addAction(a)

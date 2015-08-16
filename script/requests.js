@@ -265,82 +265,45 @@ function onBeforeSendHeaders(d)
 	
 	for(var i = 0; i < d.requestHeaders.length; i++)
 	{
-		if(d.requestHeaders[i].name == "Referer")
+		var headerName = d.requestHeaders[i].name.toLowerCase();
+		var headerAction = action.request[headerName];
+		if(headerAction == null)
+			continue;
+
+		switch(headerAction)
 		{
-			if(action.referer == "remove")
-			{
+			case "":
+			case "remove":
 				d.requestHeaders.splice(i, 1);
 				i--;
-			}
-			if(action.referer == "dest")
+				break;
+
+			case "dest":
 				d.requestHeaders[i].value = d.url;
-			if(action.referer == "destclean")
+				break;
+
+			case "destclean":
 				d.requestHeaders[i].value = getProtocolDomain(d.url);
-			if(action.referer == "clean")
+				break;
+
+			case "clean":
 				d.requestHeaders[i].value = getProtocolDomain(d.requestHeaders[i].value);
-			continue;
-		}
-		if(d.requestHeaders[i].name == "Cookie")
-		{
-			if(action.cookie == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			continue;
-		}
-		if(d.requestHeaders[i].name == "User-Agent")
-		{
-			if(action.agent == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			if(action.agent == "random")
+				break;
+
+			case "random":
 				d.requestHeaders[i].value = getRandomUserAgent();
-			if(action.agent == "simple")
+				break;
+
+			case "simple":
 				d.requestHeaders[i].value = userAgent;
-			if(action.agent == "minimal")
-				d.requestHeaders[i].value = "Mozilla/5.0";
-			continue;
-		}
-		if(d.requestHeaders[i].name == "Accept")
-		{
-			if(action.accept == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			if(action.accept == "any")
-				d.requestHeaders[i].value = "*/*";
-			continue;
-		}
-		if(d.requestHeaders[i].name == "Accept-Encoding")
-		{
-			if(action.acceptencoding == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			continue;
-		}
-		if(d.requestHeaders[i].name == "Accept-Language")
-		{
-			if(action.acceptlanguage == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			continue;
-		}
-		if(d.requestHeaders[i].name == "Accept-Charset")
-		{
-			if(action.acceptcharset == "remove")
-			{
-				d.requestHeaders.splice(i, 1);
-				i--;
-			}
-			continue;
+				break;
+			
+			case "pass":
+				break;
+
+			default:
+				d.requestHeaders[i].value = headerAction;
+				continue;
 		}
 	}
 		
@@ -365,39 +328,30 @@ function onHeadersReceived(d)
 	
 	for(var i = 0; i < d.responseHeaders.length; i++)
 	{
-		var h = d.responseHeaders[i];
-		switch(h.name.toLowerCase())
+		var header = d.responseHeaders[i];
+		var headerAction = action.request[header.name.toLowerCase()];
+		if(headerAction == null)
+			continue;
+
+		switch(headerAction)
 		{
-		case "set-cookie":
-			if(action.Cookie == "remove")
-			{
+			case "pass":
+				break;
+
+			case "remove":
 				d.responseHeaders.splice(i, 1);
 				i--;
-			}
-			continue;
+				break;
 
-		case "content-security-policy":
-		case "content-security-policy-report-only":
-			//Remove report-only
-			h.name = "Content-Security-Policy";
+			case "force-csp":
+				if(header.name.toLowerCase() == "content-security-policy-report")
+					header.name = "Content-Security-Policy";
+				break;
 
-			switch(action.csp)
-			{
-			case "force":
-				continue;
-			case "none":
-				h.value = "default-src: 'none'";
-				continue;
-			case "self":
-				h.value = "default-src: 'self'";
-				continue;
-			case "custom":
-				h.value = action.customcsp;
-				continue;
-			}
-			continue;
+			default:
+				header.value = headerAction;
+				break;
 		}
 	}
-
 	return {requestHeaders: d.responseHeaders};
 }

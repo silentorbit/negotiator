@@ -96,80 +96,31 @@
 				<h2>Block</h2>
 				<p>Block the request entirely</p>
 			</div></span>
-			<span class="tooltip tooltip-wide">User-Agent<div>
-				<h2>User-Agent</h2>
-				<code>User-Agent</code>
+			<span class="tooltip tooltip-wide tooltip-left">Request Filter<div>
+				<h2>Filters</h2>
+				<p>Format:</p>
+				<code>header: value</code>
+				<p><kbd>header</kbd> is the http header. <kbd>value</kbd> is either the new value of the header or one of the following keywords:</p>
 				<dl>
-				<dt>Pass</dt><dd>Send the original: <code id="examplePass"></code></dd>
-				<dt>Random</dt><dd>Random User-Agent for every request:<br/><code id="exampleRandom"></code></dd>
-				<dt>Simple</dt><dd><code id="exampleSimple"></code></dd>
-				<dt>Minimal</dt><dd><code id="exampleMinimal"></code></dd>
-			</div></span>
-			<span class="tooltip tooltip-wide">Referer<div>
-				<h2>Referer</h2>
-				<code>Referer</code>
-				<p>For a request from <strong>http://example.com/page.html</strong> to <strong>http://target.com/subpage.php</strong></p>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified <code>http://example.com/page.html</code></dd>
-					<dt>Remove</dt><dd>Remove the header, naturally occurs when you enter the address manually.</dd>
-					<dt>Clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-					<dt>Clean Destination</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-					<dt>Destination</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+					<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
+					<dt>remove</dt><dd>Remove the header.</dd>
+					<dt>clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+					<dt>destclean</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+					<dt>dest</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+					<dt>random</dt><dd>Random User-Agent for every request:<br/><code id="exampleRandom"></code></dd>
+					<dt>simple</dt><dd><code id="exampleSimple"></code></dd>
 				</dl>
 			</div></span>
-			<span class="tooltip">Cookie<div>
-				<h2>Cookie</h2>
-				<code>Cookie<br/>Set-Cookie</code>
+			<span class="tooltip">Response Filter<div>
+				<h2>Response Filter</h2>
+				<p>Format:</p>
+				<code>header: value</code>
+				<p><kbd>header</kbd> is the http header. <kbd>value</kbd> is either the new value of the header or one of the following keywords:</p>
 				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>Remove</dt><dd>Remove the header.<br/>
-					Prevent cookies from being set and, if already set, being sent to the remote server.</dd>
-				</dl>
-				<p>Cookies set before you add this filter is still in the browser and can be accessed by javascript, unless they are HTTP-Only</p>
-			</div></span>
-			<span class="tooltip">Accept<div>
-				<h2>Accept</h2>
-				<code>Accept</code>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>*/*</dt><dd>Send <code>Accept: */*</code></dd>
+					<dt>pass</dt><dd>Send the header unmodified</dd>
+					<dt>remove</dt><dd>Remove the header.</dd>
 				</dl>
 			</div></span>
-			<span class="tooltip">Language<div>
-				<h2>Language</h2>
-				<code>Accept-Language</code>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>Remove</dt><dd>Remove the header</dd>
-				</dl>
-			</div></span>
-			<span class="tooltip">Encoding<div>
-				<h2>Encoding</h2>
-				<code>Accept-Encoding</code>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>Remove</dt><dd>Remove the header</dd>
-				</dl>
-			</div></span>
-			<span class="tooltip">Charset<div>
-				<h2>Charset</h2>
-				<code>Accept-Charset</code>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>Remove</dt><dd>Remove the header</dd>
-				</dl>
-			</div></span>
-			<div class="tooltip"><a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">CSP</a><div>
-				<h2>CSP</h2>
-				<code>Content-Security-Policy</code>
-				<dl>
-					<dt>Pass</dt><dd>Send the header unmodified</dd>
-					<dt>Force</dt><dd>Remove "Report-Only",<br/> thus enforcing policy.</dd>
-					<dt>None</dt><dd>default-src: 'none'</dd>
-					<dt>Self</dt><dd>default-src: 'self'</dd>
-					<dt>Custom</dt><dd>see <a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives" target="_blank">policy directives</a>(click CSP)</dd>
-				</dl>
-			</div></div>
 		</div>
 	</div>
 	<div style="display: none;">
@@ -181,49 +132,8 @@
 				<option value="false">No</option>
 				<option value="true">Yes</option>
 			</select></div>
-			<div><select id="agent">
-				<option value="pass">Pass(Everything)</option>
-				<option value="random">Random(Request)</option>
-				<option value="simple">Simple(Chrome, Webkit)</option>
-				<option value="minimal">Minimal(Mozilla/5.0)</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="referer">
-				<option value="pass">Pass</option>
-				<option value="dest">Destination</option>
-				<option value="destclean">Clean Destination</option>
-				<option value="clean">Clean</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="cookie">
-				<option value="pass">Pass</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="accept">
-				<option value="pass">Pass</option>
-				<option value="any">*/*</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="acceptlanguage">
-				<option value="pass">Pass</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="acceptencoding">
-				<option value="pass">Pass</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="acceptcharset">
-				<option value="pass">Pass</option>
-				<option value="remove">Remove</option>
-			</select></div>
-			<div><select id="csp">
-				<option value="pass">Pass</option>
-				<option value="force">Force</option>
-				<option value="none">None</option>
-				<option value="self">Self</option>
-				<option value="custom">Custom CSP</option>
-			</select>
-			<input id="customcsp" size="50"/></div>
+			<div><textarea id="request" rows="10" cols="50"></textarea><div id="requestParsed"></div></div>
+			<div><textarea id="response" rows="10" cols="50"></textarea><div id="responseParsed"></div></div>
 		</form>
 	</div>
 </div>
