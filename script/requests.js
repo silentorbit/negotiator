@@ -208,7 +208,7 @@ function onBeforeSendHeaders(d)
 		if(settings.countIndicator == "unfiltered")
 		{
 			chrome.browserAction.setBadgeText({text: "" + Object.keys(tr).length, tabId: d.tabId});
-			chrome.browserAction.setBadgeBackgroundColor({color: "#880", tabId: d.tabId});
+			chrome.browserAction.setBadgeBackgroundColor({color: "#000", tabId: d.tabId});
 		}
 		else
 			chrome.browserAction.setBadgeText({text: ""});

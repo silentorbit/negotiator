@@ -1,25 +1,26 @@
 {
 	"manifest_version": 2,
 	"version": "0.0.7.6",
-	"name": "KISS Privacy",
-	"short_name": "KISS Privacy",
+	"name": "Negotiator",
+	"short_name": "Negotiator",
 	"minimum_chrome_version": "20.0.0.0",
 	"icons": {
 		"16": "images/icon16.png",
+		"32": "images/icon32.png",
 		"48": "images/icon48.png",
 		"128": "images/icon128.png"
 	},
-	"description": "Simple ad-blocking/privacy filter for advanced users.",
+	"description": "Take it or leave it.",
 	"browser_action": {
 		"default_icon": {
 			"19": "images/action19.png",
 			"38": "images/action38.png"
 		},
-		"default_title": "KISS Privacy",
+		"default_title": "Negotiator",
 		"default_popup": "popup.html"
 	},
 	"update_url": "http://silentorbit.com/extensions/updates",
-	"homepage_url": "http://silentorbit.com/kiss/",
+	"homepage_url": "http://silentorbit.com/negotiator/",
 	"background": {
 		"page": "background.html"
 	},

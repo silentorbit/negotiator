@@ -1,8 +1,13 @@
-Kiss
+Negotiator
 ====
 
-Keep it simple privacy extension for google chrome
+*The web is not a done deal.*
 
-Email questions to support@silentorbit.com
+You no longer need to blindly accept what the web offers.
+This extension allows you to set your own terms.
 
-Read the [documentation on the wiki](https://github.com/hultqvist/Kiss/wiki).
+Simple http request and response filtering for advanced users..
+
+Send your questions to support@silentorbit.com
+
+Read the [documentation on the wiki](https://github.com/hultqvist/negotiator/wiki).

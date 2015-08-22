@@ -2,23 +2,23 @@
 set -e
 cd /tmp
 
-rm -r /tmp/Kiss || true
-mkdir Kiss 
-rsync -rv $1 --exclude-from $1/release.exclude.txt Kiss/ || true
+rm -r /tmp/Negotiator || true
+mkdir Negotiator
+rsync -rv $1 --exclude-from $1/release.exclude.txt Negotiator/ || true
 
-google-chrome --pack-extension=Kiss --pack-extension-key=$2
+google-chrome --pack-extension=Negotiator --pack-extension-key=$2
 
-mv Kiss.crx $1/
+mv Negotiator.crx $1/
 
 #remove update_url for chrome web store
-cp Kiss/manifest.json .
-cat manifest.json |grep -v update_url > Kiss/manifest.json
+cp Negotiator/manifest.json .
+cat manifest.json |grep -v update_url > Negotiator/manifest.json
 rm manifest.json
 
-rm /tmp/kiss.zip || true
+rm /tmp/Negotiator.zip || true
 
-zip -r kiss.zip Kiss/
+zip -r Negotiator.zip Negotiator/
 
-rm -r /tmp/Kiss
+rm -r /tmp/Negotiator
 
-mv kiss.zip $1/kiss-chrome-release.zip
+mv Negotiator.zip $1/negotiator-chrome-release.zip
