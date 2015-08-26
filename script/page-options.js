@@ -97,8 +97,7 @@ function addActionRow(a)
 	row.removeAttribute("id");
 	row.style.background = action.color;
 
-	row.actionName.value = a;
-	row.actionName.disabled = true;
+	row.querySelector(".name").textContent = a;
 
 	row.color.value = action.color;
 	

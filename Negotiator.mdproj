@@ -38,12 +38,9 @@
     <None Include="script\page.js" />
     <None Include="images\action19.png" />
     <None Include="images\action38.png" />
-    <None Include="images\gray.png" />
-    <None Include="images\green.png" />
     <None Include="images\icon128.png" />
     <None Include="images\icon16.png" />
     <None Include="images\icon48.png" />
-    <None Include="images\red.png" />
     <None Include="images\red19.png" />
     <None Include="images\red38.png" />
     <None Include="script\page-export.js" />

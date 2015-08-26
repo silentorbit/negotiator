@@ -204,7 +204,12 @@ select
 	padding: 2pt 5pt;
 }
 
+.table>form>*{
+	vertical-align: top;
+}
+.table inputx,
 .table input[type="text"],
+.table textarea,
 .table select{
 	background: transparent;
 	border: 1px solid transparent;
@@ -213,7 +218,11 @@ select
 	width: 15em;
 	padding: 2pt 5pt;
 }
+.table input[type="text"].color{
+	width: 5em;
+}
 .table form:hover input[type="text"],
+.table form:hover textarea,
 .table form:hover select{
 	border: 1px solid gray;
 	background: #fff;
