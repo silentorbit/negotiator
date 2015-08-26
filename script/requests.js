@@ -41,7 +41,7 @@ var uaOS = [ "Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu
 //chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
 
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {urls: ["<all_urls>"]}, ["requestHeaders", "blocking"]);
-chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders"]);
+chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["<all_urls>"]}, ["responseHeaders", "blocking"]);
 
 //Clear cache of tracked requests if no new ones are registerred for 5 minutes
 var lastTracked = new Date();
@@ -262,13 +262,27 @@ function onBeforeSendHeaders(d)
 		//Only cancel is possible here, no redirectUrl
 		return {cancel: true};
 	}
-	
+
+	var alreadyAdded = {};
+
 	for(var i = 0; i < d.requestHeaders.length; i++)
 	{
-		var headerName = d.requestHeaders[i].name.toLowerCase();
+		var header = d.requestHeaders[i];
+		var headerName = header.name.toLowerCase();
+		alreadyAdded[header.name] = true;
+
 		var headerAction = action.request[headerName];
 		if(headerAction == null)
+		{
+			//Find with + prefix, remove if found
+			headerAction = action.request["+" + header.name.toLowerCase()];
+			if(headerAction != null)
+			{
+				d.requestHeaders.splice(i, 1);
+				i--;
+			}
 			continue;
+		}
 
 		switch(headerAction)
 		{
@@ -279,23 +293,23 @@ function onBeforeSendHeaders(d)
 				break;
 
 			case "dest":
-				d.requestHeaders[i].value = d.url;
+				header.value = d.url;
 				break;
 
 			case "destclean":
-				d.requestHeaders[i].value = getProtocolDomain(d.url);
+				header.value = getProtocolDomain(d.url);
 				break;
 
 			case "clean":
-				d.requestHeaders[i].value = getProtocolDomain(d.requestHeaders[i].value);
+				header.value = getProtocolDomain(header.value);
 				break;
 
 			case "random":
-				d.requestHeaders[i].value = getRandomUserAgent();
+				header.value = getRandomUserAgent();
 				break;
 
 			case "simple":
-				d.requestHeaders[i].value = userAgent;
+				header.value = userAgent;
 				break;
 			
 			case "pass":
@@ -306,14 +320,53 @@ function onBeforeSendHeaders(d)
 				continue;
 		}
 	}
-		
+
+	//Insert add headers, those with + prefix
+	for(var h in action.request)
+	{
+		if(h[0] != "+")
+			continue;
+		var headerName = h.substring(1);
+		if(alreadyAdded[headerName])
+			continue;
+
+		var headerAction = action.request[h];
+		switch(headerAction)
+		{
+			case "":
+			case "remove":
+			case "pass":
+				//doesn't make any sense, but just in case so we don't add the header value "remove", or "pass"
+				break;
+
+			case "dest":
+				d.requestHeaders.push({name: headerName, value: d.url});
+				break;
+
+			case "destclean":
+				d.requestHeaders.push({name: headerName, value: getProtocolDomain(d.url)});
+				break;
+
+			case "random":
+				d.requestHeaders.push({name: headerName, value: getRandomUserAgent()});
+				break;
+
+			case "simple":
+				d.requestHeaders.push({name: headerName, value: userAgent});
+				break;
+			
+			default:
+				d.requestHeaders.push({name: headerName, value: headerAction});
+				continue;
+		}
+	}
+
 	//Save filter for onHeadersReceived below
 	requestFilter[d.requestId] = filter;
 	
 	//Allow with modified headers
 	return {requestHeaders: d.requestHeaders};
 }
-
 
 function onHeadersReceived(d)
 {
@@ -325,13 +378,27 @@ function onHeadersReceived(d)
 		return;
 	if((action.csp == "pass" || action.csp == null) && action.Cookie == "pass")
 		return;
-	
+
+	var alreadyAdded = {};
+
 	for(var i = 0; i < d.responseHeaders.length; i++)
 	{
 		var header = d.responseHeaders[i];
-		var headerAction = action.request[header.name.toLowerCase()];
+		var headerName = header.name.toLowerCase();
+		alreadyAdded[headerName] = true;
+
+		var headerAction = action.response[headerName];
 		if(headerAction == null)
+		{
+			//Find with + prefix, remove if found
+			headerAction = action.response["+" + headerName];
+			if(headerAction != null)
+			{
+				d.responseHeaders.splice(i, 1);
+				i--;
+			}
 			continue;
+		}
 
 		switch(headerAction)
 		{
@@ -344,7 +411,7 @@ function onHeadersReceived(d)
 				break;
 
 			case "force-csp":
-				if(header.name.toLowerCase() == "content-security-policy-report")
+				if(headerName == "content-security-policy-report")
 					header.name = "Content-Security-Policy";
 				break;
 
@@ -353,5 +420,30 @@ function onHeadersReceived(d)
 				break;
 		}
 	}
-	return {requestHeaders: d.responseHeaders};
+	//Insert add headers, those with + prefix
+	for(var h in action.response)
+	{
+		if(h[0] != "+")
+			continue;
+		var headerName = h.substring(1);
+		if(alreadyAdded[headerName])
+			continue;
+
+		var headerAction = action.response[h];
+		switch(headerAction)
+		{
+			case "":
+			case "remove":
+			case "pass":
+			case "force-csp":
+				//doesn't make any sense, but just in case so we don't add the header value "remove", or "pass"
+				break;
+			
+			default:
+				d.responseHeaders.push({name: headerName, value: headerAction});
+				continue;
+		}
+	}
+
+	return {responseHeaders: d.responseHeaders};
 }
