@@ -46,6 +46,11 @@
 	</fieldset>
 </div>
 <div>
+	<h1>New filters</h1>
+	<p>
+		<strong>Preset action</strong>
+		<select id="defaultNewFilterAction"></select>
+	</p>
 	<h1>Filter matching</h1>
 	<fieldset id="ignoreWWWSetting">
 		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
@@ -65,13 +70,6 @@
 	<p>
 		<strong>Same top domain:</strong>
 		<select id="defaultLocalTLDAction"></select>
-	</p>
-</div>
-<div>
-	<h1>New filters</h1>
-	<p>
-		<strong>Preset action</strong>
-		<select id="defaultNewFilterAction"></select>
 	</p>
 </div>
 </div>
@@ -97,33 +95,41 @@
 				<h2>Block</h2>
 				<p>Block the request entirely</p>
 			</div></span>
-			<span class="tooltip tooltip-wide tooltip-left">Request Filter<div>
-				<h2>Filters</h2>
-				<p>Format:</p>
-				<code>header: value</code>
-				<p><kbd>header</kbd> is the http header. <kbd>value</kbd> is either the new value of the header or one of the following keywords:</p>
-				<dl>
-					<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
-					<dt>remove</dt><dd>Remove the header.</dd>
-					<dt>clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-					<dt>destclean</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-					<dt>dest</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
-					<dt>random</dt><dd>Random User-Agent for every request:<br/><code id="exampleRandom"></code></dd>
-					<dt>simple</dt><dd><code id="exampleSimple"></code></dd>
-				</dl>
+			<span class="tooltip">Request Filter<div>
+				<h2>Request Filters</h2>
+				<p>See below the table</p>
 			</div></span>
 			<span class="tooltip">Response Filter<div>
 				<h2>Response Filter</h2>
-				<p>Format:</p>
-				<code>header: value</code>
-				<p><kbd>header</kbd> is the http header. <kbd>value</kbd> is either the new value of the header or one of the following keywords:</p>
-				<dl>
-					<dt>pass</dt><dd>Send the header unmodified</dd>
-					<dt>remove</dt><dd>Remove the header.</dd>
-				</dl>
+				<p>See below the table</p>
 			</div></span>
 		</div>
 	</div>
+	<h2>Filters</h2>
+	<p>Format:</p>
+	<code>header: value</code>
+	<code>+header: value</code>
+	<p><kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before. 
+		<kbd>value</kbd> is the value of the header or one of the following keywords:</p>
+	<h2>Request Filters</h2>
+	<p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+	<dl>
+		<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
+		<dt>remove</dt><dd>Remove the header.</dd>
+		<dt>clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+		<dt>destclean</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+		<dt>dest</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+		<dt>random</dt><dd>New one for every request, <code id="exampleRandom"></code></dd>
+		<dt>simple</dt><dd><code id="exampleSimple"></code></dd>
+		<dt>force-csp</dt><dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+	</dl>
+	<h2>Response Filters</h2>
+	<p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+	<dl>
+		<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
+		<dt>remove</dt><dd>Remove the header.</dd>
+		<dt>force-csp</dt><dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+	</dl>
 	<div style="display: none;">
 		<form id="actionTemplate">
 			<div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
