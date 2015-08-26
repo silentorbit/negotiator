@@ -95,8 +95,10 @@ function fixSettings()
 		for(var k in actions)
 		{
 			var a = actions[k];
-			a.request = {};
-			a.response = {};
+			if(a.request == null)
+				a.request = {};
+			if(a.response == null)
+				a.response = {};
 
 			switch(a.agent)
 			{
