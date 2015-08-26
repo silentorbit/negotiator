@@ -2,6 +2,9 @@
 window.addEventListener("load", function(){
 	document.querySelector("#exportJSON").addEventListener("click", exportJSON);
 	document.querySelector("#importJSON").addEventListener("click", importJSON);
+
+	//Export directly when the page is loaded
+	exportJSON();
 }, false);
 
 //Filter Import/Export
