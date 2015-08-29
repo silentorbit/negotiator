@@ -3,3 +3,6 @@
 *~
 *.xcf
 *.userprefs
+.vs/
+obj/
+bin/
