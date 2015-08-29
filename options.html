@@ -1,148 +1,178 @@
-<html>
+﻿<html>
 <head>
-	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="style.css" type="text/css" />
-	<title>Options - Negotiator</title>
-	<script src="script/page-options.js" ></script>
-	<script src="script/page.js" ></script>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <title>Options - Negotiator</title>
+    <script src="script/page-options.js"></script>
+    <script src="script/page.js"></script>
 </head>
 <body>
-<div id="mainpanel">
-	<a href="filters.html" class="button">Filters</a>
-	<a href="tracked.html" class="button">Tracked</a>
-	<a href="options.html" class="button active">Options</a>
-	<a href="export.html" class="button">Export</a>
-	<a href="http://silentorbit.com/negotiator/" target="_blank">Website</a>
-	<a href="https://github.com/hultqvist/negotiator" target="_new" title="Source Code">GitHub</a>
-	<span class="filler"></span>
-	<a href="http://silentorbit.com/negotiator/" target="_blank" class="title">NEGOTIATOR</a>
-</div>
-
-<div class="columns">
-<div>
-	<h1>Options</h1>
-	<fieldset id="counterIndicatorField">
-		<input type="checkbox" name="counterIndicator" id="counterIndicator" />
-		<label for="counterIndicator">Count <span class="tooltip tooltip-left">unfiltered<div>
-		Unfiltered requests are those that does not match any filters.
-		Requests that match a "pass" filter are considered "filtered".
-		</div></span> requests.</label>
-	</fieldset>
-	<fieldset>
-		<input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync" class="tooltip tooltip-left">Use Chrome Sync<div>
-			<h2>Use Chrome Sync Storage</h2>
-			<p>Store settings, filters and actions in chrome.storage.sync which will be synchronized between your computers.</p>
-			<p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>(local storage supports more).</p>
-		</div></label>
-	</fieldset>
-	<br/>
-	<fieldset id="alwaysPassSameSetting">
-		<input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
-		<label for="alwaysPassSame" class="tooltip tooltip-left">Pass same domain requests.<div><h2>Pass requests within the same domain.</h2>
-			<p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
-		 	<p><strong>Warning</strong> this may cause less blocking than expected.</p>
-		 	<p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
-		 </div></label>
-	</fieldset>
-</div>
-<div>
-	<h1>New filters</h1>
-	<p>
-		<strong>Preset action</strong>
-		<select id="defaultNewFilterAction"></select>
-	</p>
-	<h1>Filter matching</h1>
-	<fieldset id="ignoreWWWSetting">
-		<input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-		<label for="ignoreWWW" class="tooltip tooltip-left">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
-	</fieldset>
-</div>
-<div>
-	<h1>Default action</h1>
-	<p>
-		<strong>Cross domain:</strong>
-		<select id="defaultAction"></select>
-	</p>
-	<p>
-		<strong>Same exact domain:</strong>
-		<select id="defaultLocalAction"></select>
-	</p>
-	<p>
-		<strong>Same top domain:</strong>
-		<select id="defaultLocalTLDAction"></select>
-	</p>
-</div>
-</div>
-<div class="main-full">
-	<h1>Actions</h1>
-	<form id="addActionForm">
-		<div>
-			New action: <input id="actionName" value="" size="10" placeholder="name"/>
-			<input type="submit" value="Add" />
-		</div>
-	</form>
-
-	<div id="actions" class="table">
-		<div>
-			<span></span>
-			<span>Name</span>
-			<span class="tooltip">Color<div>
-				<h2>Color</h2>
-				<p>HTML color code, #0f0, #00ff00, or green.</p>
-				<p>Used in the extension for visualization</p>
-			</div></span>
-			<span class="tooltip">Block<div>
-				<h2>Block</h2>
-				<p>Block the request entirely</p>
-			</div></span>
-			<span class="tooltip">Request Filter<div>
-				<h2>Request Filters</h2>
-				<p>See below the table</p>
-			</div></span>
-			<span class="tooltip">Response Filter<div>
-				<h2>Response Filter</h2>
-				<p>See below the table</p>
-			</div></span>
-		</div>
-	</div>
-	<h2>Filters</h2>
-	<p>Format:</p>
-	<code>header: value</code>
-	<code>+header: value</code>
-	<p><kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before. 
-		<kbd>value</kbd> is the value of the header or one of the following keywords:</p>
-	<h2>Request Filters</h2>
-	<p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-	<dl>
-		<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
-		<dt>remove</dt><dd>Remove the header.</dd>
-		<dt>clean</dt><dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-		<dt>destclean</dt><dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-		<dt>dest</dt><dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
-		<dt>random</dt><dd>New one for every request, <code id="exampleRandom"></code></dd>
-		<dt>simple</dt><dd><code id="exampleSimple"></code></dd>
-		<dt>force-csp</dt><dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-	</dl>
-	<h2>Response Filters</h2>
-	<p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-	<dl>
-		<dt>pass</dt><dd>Send the header unmodified, for User-Agent that is<br/><code id="examplePass"></code></dd>
-		<dt>remove</dt><dd>Remove the header.</dd>
-		<dt>force-csp</dt><dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-	</dl>
-	<div style="display: none;">
-		<form id="actionTemplate">
-			<div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
-			<div class="name"></div>
-			<div><input id="color" class="color" type="text" value="#fff" size="10"/></div>
-			<div><select id="block">
-				<option value="false">No</option>
-				<option value="true">Yes</option>
-			</select></div>
-			<div><textarea id="request" rows="10" cols="50"></textarea><div id="requestParsed"></div></div>
-			<div><textarea id="response" rows="10" cols="50"></textarea><div id="responseParsed"></div></div>
-		</form>
-	</div>
-</div>
+    <div id="mainpanel">
+        <a href="filters.html" class="button">Filters</a>
+        <a href="tracked.html" class="button">Tracked</a>
+        <a href="options.html" class="button active">Options</a>
+        <a href="export.html" class="button">Export</a>
+        <a href="http://silentorbit.com/negotiator/" target="_blank">Website</a>
+        <a href="https://github.com/hultqvist/negotiator" target="_new" title="Source Code">GitHub</a>
+        <span class="filler"></span>
+        <a href="http://silentorbit.com/negotiator/" target="_blank" class="title">NEGOTIATOR</a>
+    </div>
+    <div class="columns">
+        <div>
+            <h1>Options</h1>
+            <fieldset id="counterIndicatorField">
+                <input type="checkbox" name="counterIndicator" id="counterIndicator" />
+                <label for="counterIndicator">
+                    Count <span class="tooltip tooltip-left">
+                        unfiltered<div>
+                            Unfiltered requests are those that does not match any filters.
+                            Requests that match a "pass" filter are considered "filtered".
+                        </div>
+                    </span> requests.
+                </label>
+            </fieldset>
+            <fieldset>
+                <input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync" class="tooltip tooltip-left">
+                    Use Chrome Sync<div>
+                        <h2>Use Chrome Sync Storage</h2>
+                        <p>Store settings, filters and actions in chrome.storage.sync which will be synchronized between your computers.</p>
+                        <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>(local storage supports more).</p>
+                    </div>
+                </label>
+            </fieldset>
+            <br />
+            <fieldset id="alwaysPassSameSetting">
+                <input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
+                <label for="alwaysPassSame" class="tooltip tooltip-left">
+                    Pass same domain requests.<div>
+                        <h2>Pass requests within the same domain.</h2>
+                        <p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
+                        <p><strong>Warning</strong> this may cause less blocking than expected.</p>
+                        <p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
+                    </div>
+                </label>
+            </fieldset>
+        </div>
+        <div>
+            <h1>New filters</h1>
+            <p>
+                <strong>Preset action</strong>
+                <select id="defaultNewFilterAction"></select>
+            </p>
+            <h1>Filter matching</h1>
+            <fieldset id="ignoreWWWSetting">
+                <input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
+                <label for="ignoreWWW" class="tooltip tooltip-left">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
+            </fieldset>
+        </div>
+        <div>
+            <h1>Default action</h1>
+            <p>
+                <strong>Cross domain:</strong>
+                <select id="defaultAction"></select>
+            </p>
+            <p>
+                <strong>Same exact domain:</strong>
+                <select id="defaultLocalAction"></select>
+            </p>
+            <p>
+                <strong>Same top domain:</strong>
+                <select id="defaultLocalTLDAction"></select>
+            </p>
+        </div>
+    </div>
+    <div class="main-full">
+        <h1>Actions</h1>
+        <form id="addActionForm">
+            <div>
+                New action: <input id="actionName" value="" size="10" placeholder="name" />
+                <input type="submit" value="Add" />
+            </div>
+        </form>
+        <div id="actions" class="table">
+            <div>
+                <span></span>
+                <span>Name</span>
+                <span class="tooltip">
+                    Color<div>
+                        <h2>Color</h2>
+                        <p>HTML color code, #0f0, #00ff00, or green.</p>
+                        <p>Used in the extension for visualization</p>
+                    </div>
+                </span>
+                <span class="tooltip">
+                    Block<div>
+                        <h2>Block</h2>
+                        <p>Block the request entirely</p>
+                    </div>
+                </span>
+                <span class="tooltip">
+                    Request Filter<div>
+                        <h2>Request Filters</h2>
+                        <p>See below the table</p>
+                    </div>
+                </span>
+                <span class="tooltip">
+                    Response Filter<div>
+                        <h2>Response Filter</h2>
+                        <p>See below the table</p>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <h2>Filters</h2>
+        <p>Format:</p>
+        <code>header: value</code>
+        <code>+header: value</code>
+        <p>
+            <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
+            <kbd>value</kbd> is the value of the header or one of the following keywords:
+        </p>
+        <h2>Request Filters</h2>
+        <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+        <dl>
+            <dt>pass</dt>
+            <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+            <dt>remove</dt>
+            <dd>Remove the header.</dd>
+            <dt>clean</dt>
+            <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+            <dt>destclean</dt>
+            <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+            <dt>dest</dt>
+            <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+            <dt>random</dt>
+            <dd>New one for every request, <code id="exampleRandom"></code></dd>
+            <dt>simple</dt>
+            <dd><code id="exampleSimple"></code></dd>
+            <dt>force-csp</dt>
+            <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+        </dl>
+        <h2>Response Filters</h2>
+        <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+        <dl>
+            <dt>pass</dt>
+            <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+            <dt>remove</dt>
+            <dd>Remove the header.</dd>
+            <dt>force-csp</dt>
+            <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+        </dl>
+        <div style="display: none;">
+            <form id="actionTemplate">
+                <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
+                <div class="name"></div>
+                <div><input id="color" class="color" type="text" value="#fff" size="10" /></div>
+                <div>
+                    <select id="block">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div><textarea id="request" rows="10" cols="50"></textarea><div id="requestParsed"></div></div>
+                <div><textarea id="response" rows="10" cols="50"></textarea><div id="responseParsed"></div></div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

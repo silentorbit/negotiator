@@ -1,36 +1,36 @@
 {
-	"manifest_version": 2,
-	"version": "0.0.7.9",
-	"name": "Negotiator",
-	"short_name": "Negotiator",
-	"minimum_chrome_version": "20.0.0.0",
-	"icons": {
-		"16": "images/icon16.png",
-		"32": "images/icon32.png",
-		"48": "images/icon48.png",
-		"128": "images/icon128.png"
-	},
-	"description": "Take it or leave it. Make your offer to the web.",
-	"browser_action": {
-		"default_icon": {
-			"19": "images/action19.png",
-			"38": "images/action38.png"
-		},
-		"default_title": "Negotiator",
-		"default_popup": "popup.html"
-	},
-	"update_url": "http://silentorbit.com/extensions/updates",
-	"homepage_url": "http://silentorbit.com/negotiator/",
-	"background": {
-		"page": "background.html"
-	},
-	"options_page": "options.html",
-	"permissions": [
-		"webRequest",
-		"webRequestBlocking",
-		"tabs",
-		"storage",
-		"<all_urls>"
-	],
-	"incognito": "spanning"
+    "manifest_version": 2,
+    "version": "0.0.7.9",
+    "name": "Negotiator",
+    "short_name": "Negotiator",
+    "minimum_chrome_version": "20.0.0.0",
+    "icons": {
+        "16": "images/icon16.png",
+        "32": "images/icon32.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+    "description": "Take it or leave it. Make your offer to the web.",
+    "browser_action": {
+        "default_icon": {
+            "19": "images/action19.png",
+            "38": "images/action38.png"
+        },
+        "default_title": "Negotiator",
+        "default_popup": "popup.html"
+    },
+    "update_url": "http://silentorbit.com/extensions/updates",
+    "homepage_url": "http://silentorbit.com/negotiator/",
+    "background": {
+        "page": "background.html"
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "tabs",
+        "storage",
+        "<all_urls>"
+    ],
+    "incognito": "spanning"
 }

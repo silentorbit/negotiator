@@ -1,34 +1,36 @@
 <html>
 <head>
-	<script src="script/errors.js"></script>
-	<script src="script/legacy.js"></script>
-	<script src="script/settings.js"></script>
-	<script src="script/export.js"></script>
-	<script src="script/filters.js"></script>
-	<script src="script/query.js"></script>
-	<script src="script/storage.js"></script>
-	<script src="script/actions.js"></script>
-	<script src="script/requests.js"></script>
-	<script src="script/sync.js"></script>
+    <script src="script/errors.js"></script>
+    <script src="script/legacy.js"></script>
+    <script src="script/settings.js"></script>
+    <script src="script/export.js"></script>
+    <script src="script/filters.js"></script>
+    <script src="script/query.js"></script>
+    <script src="script/storage.js"></script>
+    <script src="script/actions.js"></script>
+    <script src="script/requests.js"></script>
+    <script src="script/sync.js"></script>
 </head>
 <body>
-	<form id="filterTemplate">
-		<div><input type="checkbox" id="track"/></div>
-		<div><input type="text" id="from" value="" /></div>
-		<div><input type="text" id="to" value="" /></div>
-		<div><select id="filter"></select></div>
-		<div><input type="submit" id="add" value="Add" class="button" /><input type="button" id="del" value="delete" class="dangerButton" /></div>
-	</form>
-	<div id="filterHeader" class="header">
-		<span class="tooltip tooltip-left">Track<div>
-			<h1>Track requests</h1>
-			<p>Requests matching this filter will be tracked.</p>
-			<p>By default only requests that does not match any filter are tracked.</p>
-		</div></span>
-		<span>From</span>
-		<span>To</span>
-		<span>Action</span>
-		<span></span>
-	</div>
+    <form id="filterTemplate">
+        <div><input type="checkbox" id="track" /></div>
+        <div><input type="text" id="from" value="" /></div>
+        <div><input type="text" id="to" value="" /></div>
+        <div><select id="filter"></select></div>
+        <div><input type="submit" id="add" value="Add" class="button" /><input type="button" id="del" value="delete" class="dangerButton" /></div>
+    </form>
+    <div id="filterHeader" class="header">
+        <span class="tooltip tooltip-left">
+            Track<div>
+                <h1>Track requests</h1>
+                <p>Requests matching this filter will be tracked.</p>
+                <p>By default only requests that does not match any filter are tracked.</p>
+            </div>
+        </span>
+        <span>From</span>
+        <span>To</span>
+        <span>Action</span>
+        <span></span>
+    </div>
 </body>
 </html>
