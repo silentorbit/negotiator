@@ -120,44 +120,53 @@
                 </span>
             </div>
         </div>
-        <h2>Filters</h2>
-        <p>Format:</p>
-        <code>header: value</code>
-        <code>+header: value</code>
-        <p>
-            <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
-            <kbd>value</kbd> is the value of the header or one of the following keywords:
-        </p>
-        <h2>Request Filters</h2>
-        <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-        <dl>
-            <dt>pass</dt>
-            <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-            <dt>remove</dt>
-            <dd>Remove the header.</dd>
-            <dt>clean</dt>
-            <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-            <dt>destclean</dt>
-            <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-            <dt>dest</dt>
-            <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
-            <dt>random</dt>
-            <dd>New one for every request, <code id="exampleRandom"></code></dd>
-            <dt>simple</dt>
-            <dd><code id="exampleSimple"></code></dd>
-            <dt>force-csp</dt>
-            <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-        </dl>
-        <h2>Response Filters</h2>
-        <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-        <dl>
-            <dt>pass</dt>
-            <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-            <dt>remove</dt>
-            <dd>Remove the header.</dd>
-            <dt>force-csp</dt>
-            <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-        </dl>
+
+        <div class="columns">
+            <div>
+                <h2>Filters</h2>
+                <p>Format:</p>
+                <code>header: value</code>
+                <code>+header: value</code>
+                <p>
+                    <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
+                    <kbd>value</kbd> is the value of the header or one of the following keywords:
+                </p>
+            </div>
+            <div>
+                <h2>Request Filters</h2>
+                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+                <dl>
+                    <dt>pass</dt>
+                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                    <dt>remove</dt>
+                    <dd>Remove the header.</dd>
+                    <dt>clean</dt>
+                    <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+                    <dt>destclean</dt>
+                    <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+                    <dt>dest</dt>
+                    <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+                    <dt>random</dt>
+                    <dd>New one for every request, <code id="exampleRandom"></code></dd>
+                    <dt>simple</dt>
+                    <dd><code id="exampleSimple"></code></dd>
+                    <dt>force-csp</dt>
+                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+                </dl>
+            </div>
+            <div>
+                <h2>Response Filters</h2>
+                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+                <dl>
+                    <dt>pass</dt>
+                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                    <dt>remove</dt>
+                    <dd>Remove the header.</dd>
+                    <dt>force-csp</dt>
+                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+                </dl>
+            </div>
+        </div>
         <div style="display: none;">
             <form id="actionTemplate">
                 <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>

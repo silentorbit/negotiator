@@ -138,6 +138,7 @@ fieldset {
     display: inline-block;
     padding: 1em;
     vertical-align: top;
+    max-width: 30em;
 }
 
 #actions > * > * {
@@ -318,66 +319,46 @@ select {
     position: relative;
 }
 
-    .tooltip:hover {
-        text-decoration: none;
-    }
-
-    .tooltip > div {
+    .tooltip > * {
         z-index: 10;
         display: none;
         padding: 0 5px 5px 5px;
         width: 300px;
         font-size: 1rem;
         font-weight: normal;
+        border-radius: 4px;
+        box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
     }
 
-.tooltip-wide > div {
-    width: 600px;
-}
+    .tooltip h1,
+    .tooltip h2 {
+        margin: 0;
+    }
 
-.tooltip:hover > div {
-    display: inline;
-    position: absolute;
-    bottom: 2em;
-    left: 0;
-    color: #111;
-    border: 1px solid #DCA;
-    background: #fffAF0;
-}
+    .tooltip p {
+        margin: 1em 0 0 0;
+    }
 
-.tooltip > div p {
-    margin: 1em 0 0 0;
-}
+    .tooltip:hover {
+        text-decoration: none;
+    }
 
-.tooltip > div h1,
-.tooltip > div h2 {
-    margin: 0;
-}
+    .tooltip:hover > * {
+        display: inline;
+        position: absolute;
+        bottom: 2em;
+        left: 0;
+        color: #111;
+        border: 1px solid #DCA;
+        background: #fffAF0;
+    }
 
-#popupBody .tooltip:hover div {
-    bottom: auto;
-    top: 1em;
-    left: auto;
-    right: 0;
-}
-
-#popupBody .tooltip-left:hover div,
-.tooltip-left:hover div {
+.tooltip-left:hover > * {
     bottom: auto;
     top: 1em;
     left: 0;
     right: auto;
 }
-
-.tooltip > div {
-    border-radius: 4px;
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-}
-
-    .tooltip > div > h1,
-    .tooltip > div > h2 {
-        margin-top: 0;
-    }
 
 code {
     background: #ccc;

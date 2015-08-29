@@ -81,9 +81,9 @@ function updateActions() {
 
 function updateEnabled(row) {
     var isBlocked = row.block.value == "true";
-    var vis = isBlocked ? "hidden" : "visible";
-    row.request.style.visibility = vis;
-    row.response.style.visibility = vis;
+    var display = isBlocked ? "none" : "";
+    row.request.style.display = display;
+    row.response.style.display = display;
 }
 
 function addActionRow(a) {
