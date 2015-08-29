@@ -220,12 +220,15 @@ function onBeforeSendHeaders(d) {
     else
         tabFilters[d.tabId].push(f);
 
+    //Save filter for onHeadersReceived below
+    requestFilter[d.requestId] = filter;
+
     //Get matching action
     var action = actions[filter];
 
-    if (action == null) {
+    if (action == null || action.request == null) {
         logError("missing action for filter: " + filter + ": " + JSON.stringify(f));
-        action = {};
+        return; //No use in running the filters
     }
 
     //Apply filters
@@ -336,9 +339,6 @@ function onBeforeSendHeaders(d) {
         }
     }
 
-    //Save filter for onHeadersReceived below
-    requestFilter[d.requestId] = filter;
-
     //Allow with modified headers
     return { requestHeaders: d.requestHeaders };
 }
@@ -348,11 +348,9 @@ function onHeadersReceived(d) {
     delete requestFilter[d.requestId];
 
     var action = actions[f];
-    if (action == null)
+    if (action == null || action.response == null)
         return;
-    if ((action.csp == "pass" || action.csp == null) && action.Cookie == "pass")
-        return;
-
+    
     var alreadyAdded = {};
 
     for (var i = 0; i < d.responseHeaders.length; i++) {
