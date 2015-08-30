@@ -77,8 +77,6 @@ function sendCustomRequest(request) {
         if (req.status == 200) {
             if (req.response.version != null && req.response.version != "" && req.response.version != "0")
                 localStorage.syncCustomVersion = req.response.version;
-            else
-                logError("Null version");
 
             var total = importAll(req.response.list);
 
@@ -89,7 +87,7 @@ function sendCustomRequest(request) {
         }
         else {
             setSyncStatus("Sync error " + req.statusText + "(" + req.status + ")");
-            logError(url + "\n" + req.statusText + "(" + req.status + ")");
+            logError("Custom Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
         }
     };
     request.version = localStorage.syncCustomVersion;
