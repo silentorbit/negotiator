@@ -18,6 +18,7 @@ function setStorage(type, url) {
     storageUrl = url;
     localStorage.storageType = storageType;
     localStorage.storageUrl = storageUrl;
+    localStorage.syncCustomVersion = "0";
 
     //Reload
     loadAll();

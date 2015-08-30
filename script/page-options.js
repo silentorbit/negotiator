@@ -41,7 +41,7 @@ function loadOptionsPage() {
 
     //Custom sync
     document.getElementById("syncNow").onclick = function () {
-        b.syncIntervalCustom();
+        b.syncCustomNow(true);
     };
     var syncStatus = document.getElementById("syncStatus");
     setInterval(function () {

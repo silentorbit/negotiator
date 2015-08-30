@@ -1,6 +1,7 @@
 ﻿"use strict";
 
-setInterval(syncIntervalCustom, 60000);
+setInterval(function () { syncCustomNow(false); }, 15 * 1000); //15 seconds
+setInterval(function () { syncCustomNow(true); }, 15 * 60 * 1000); //15 minutes
 
 var syncCustomStatus = "";
 
@@ -18,7 +19,8 @@ function zeropad(value) {
     }
 }
 
-function syncIntervalCustom() {
+//download, check with remote server even if we have no local changes
+function syncCustomNow(download) {
     if (storageType != "custom") {
         setSyncStatus("Custom sync not enabled");
         return;
@@ -37,7 +39,7 @@ function syncIntervalCustom() {
         total += 1;
     }
 
-    if (total === 0) {
+    if ((download == false) && (total === 0)) {
         setSyncStatus("Nothing to sync");
         return;
     }
@@ -46,17 +48,25 @@ function syncIntervalCustom() {
     sendCustomRequest({ list: sync });
 }
 
-function fullStorageUrl(request) {
+function syncUploadIntervalCustom() {
+    if (storageType != "custom") {
+        setSyncStatus("Custom sync not enabled");
+        return;
+    }
+
+}
+
+function fullStorageUrl() {
     var url = storageUrl;
     if (url[url.length - 1] != "/")
         url += "/";
-    url += "beta/" + request;
+    url += "beta";
     return url;
 }
 
 function sendCustomRequest(request) {
     var req = new XMLHttpRequest();
-    var url = fullStorageUrl("update");
+    var url = fullStorageUrl();
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.responseType = "json";
@@ -65,12 +75,12 @@ function sendCustomRequest(request) {
             return;
 
         if (req.status == 200) {
-            var list = req.response.list;
-            if (list == null) {
-                logError("Empty list: " + JSON.stringify(req.response, null, "\t"));
-                return;
-            }
-            var total = importAll(list);
+            if (req.response.version != null && req.response.version != "" && req.response.version != "0")
+                localStorage.syncCustomVersion = req.response.version;
+            else
+                logError("Null version");
+
+            var total = importAll(req.response.list);
 
             setSyncStatus("Completed " + total + " items");
 
@@ -82,36 +92,8 @@ function sendCustomRequest(request) {
             logError(url + "\n" + req.statusText + "(" + req.status + ")");
         }
     };
+    request.version = localStorage.syncCustomVersion;
     req.send(JSON.stringify(request, null, "\t"));
-}
-
-function loadAllCustom() {
-    var req = new XMLHttpRequest();
-    var url = fullStorageUrl("get");
-    req.open("GET", url, true);
-    req.responseType = "json";
-    req.onreadystatechange = function () {
-        if (req.readyState != 4)
-            return;
-
-        if (req.status == 200) {
-            var list = req.response.list;
-            if (list == null) {
-                logError("Empty list: " + JSON.stringify(req.response, null, "\t"));
-                return;
-            }
-            filters = {};
-            actions = {};
-            importAll(list);
-
-            //Always save locally
-            saveAllLocal();
-        }
-        else {
-            logError(url + "\n" + req.statusText + "(" + req.status + ")");
-        }
-    };
-    req.send();
 }
 
 function saveAllCustom() {
@@ -123,18 +105,18 @@ function saveAllCustom() {
 
 function syncDeleteCustom(key, value) {
     value.sync = "deleted";
-    var dlist = {};
+    /*var dlist = {};
     dlist[key] = { sync: "deleted", version: value.version };
     sendCustomRequest({
         list: dlist,
-    });
+    });*/
 }
 
 function syncUpdateCustom(key, value) {
     value.sync = "modified";
-    var dlist = {};
+    /*var dlist = {};
     dlist[key] = value;
     sendCustomRequest({
         list: dlist,
-    });
+    });*/
 }

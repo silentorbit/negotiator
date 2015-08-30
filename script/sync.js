@@ -16,7 +16,7 @@ function loadAll() {
             loadAllChrome();
             break;
         case "custom":
-            loadAllCustom();
+            syncCustomNow(true);
             break;
     }
 }
