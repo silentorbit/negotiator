@@ -4,7 +4,7 @@ window.addEventListener("load", loadFiltersPage, false);
 
 function loadFiltersPage() {
     //Filters
-    updateFilters();
+    setTimeout(updateFilters, 0);
 
     //Test button
     var button = document.querySelector("#testButton");

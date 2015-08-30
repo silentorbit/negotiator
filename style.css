@@ -36,9 +36,9 @@ h1, h2, h3 {
     }
 
 #popupBody {
-    background: #fff;
     min-width: 600px;
     padding: 0;
+    box-shadow: #fff 0 0 3px inset;
 }
 
     #popupBody h2 {
@@ -85,15 +85,12 @@ h1, h2, h3 {
     }
 
 #popupMenu {
-    background: #000;
     padding: 3px;
+    margin-bottom: 1em;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
 }
-
-    #popupMenu > * {
-    }
 
 .filler {
     flex-grow: 1;
@@ -103,17 +100,19 @@ h1, h2, h3 {
     width: 100%;
 }
 
+header {
+    background: #fff;
+    box-shadow: #00adee 0 -100px 20px 100px;
+}
+
 #mainpanel {
-    background: #000;
-    padding: 5px 9px;
-    color: #fff;
+    padding: 5px 9px 5px 1em;
     line-height: 1em;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: flex-start;
     align-content: space-between;
-    box-shadow: #00adee 0 -100px 20px 100px;
 }
 
     #mainpanel > * {
@@ -132,18 +131,12 @@ h1, h2, h3 {
     }
 
     #mainpanel a {
-        color: #fff;
+        color: #000;
     }
 
         #mainpanel a:hover {
             color: #00adee;
         }
-
-    #mainpanel .button {
-        font-size: 14pt;
-        font-weight: normal;
-        align-self: center;
-    }
 
 fieldset {
     border: 0;
@@ -313,7 +306,7 @@ select {
     border: 0;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
-    color: #000 !important;
+    color: #000;
     text-decoration: none;
     cursor: pointer;
     padding: 3pt 20pt;
@@ -343,26 +336,14 @@ select {
     border-top-right-radius: 0;
 }
 
-#mainpanel .button,
-#popupMenu .button {
-    background: #ddd;
-    padding: 2px;
-    border: 2px solid transparent;
-}
-
-.button.active,
-#mainpanel .active {
-    background-color: #7cf;
-}
-
-#mainpanel .button:hover,
-#popupMenu .button:hover {
-    background: #fff;
+.button.active {
+    background-color: #6af;
+    color: #fff !important;
 }
 
 .table .button {
     padding: 2pt 5pt;
-    margin: 0;
+    margin: 2pt;
 }
 
 .dangerButton {
@@ -479,6 +460,6 @@ dt {
     top: 1em;
 }
 
-.right{
+.right {
     float: right;
 }
