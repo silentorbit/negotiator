@@ -53,6 +53,7 @@
     <Content Include="script\requests.js" />
     <Content Include="script\settings.js" />
     <Content Include="script\storage.js" />
+    <Content Include="script\sync.chrome.js" />
     <Content Include="script\sync.custom.js" />
     <Content Include="script\sync.js" />
     <Content Include="Store\Large Tile.png" />

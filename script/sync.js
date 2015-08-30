@@ -5,36 +5,19 @@ var syncActionPrefix = "action:";
 loadAll();
 
 function loadAll() {
-    if (storageType == "chrome") {
-        chrome.storage.sync.get(null, function (list) {
-            if (chrome.runtime.lastError) {
-                syncError();
-                return;
-            }
+    //Always start with local
+    loadLocalSettings();
+    loadLocalActions();
+    loadLocalFilters();
+    fixAll();
 
-            if (list.filters != null) {
-                console.log("Filters: loaded legacy");
-
-                //Legacy filters
-                filters = JSON.parse(list.filters);
-                fixAll();
-                fixLegacyWildcard();
-                return;
-            }
-
-            //console.log("Filters: loaded", list);
-            filters = {};
-            actions = {};
-            importAll(list);
-            
-            //Always save locally
-            saveLocalAll();
-        });
-    }
-    else {
-        loadLocalSettings();
-        loadLocalActions();
-        loadLocalFilters();
+    switch (storageType) {
+        case "chrome":
+            loadAllChrome();
+            break;
+        case "custom":
+            loadAllCustom();
+            break;
     }
 }
 
@@ -69,52 +52,6 @@ function importAll(list) {
     fixAll();
 }
 
-
-chrome.storage.onChanged.addListener(function (changed, namespace) {
-    if (namespace != "sync")
-        return;
-    if (storageType != "chrome")
-        return;
-
-    for (var k in changed) {
-        var c = changed[k];
-        if (k.indexOf(syncActionPrefix) == 0) {
-            var action = k.substring(syncActionPrefix.length);
-            if (c.oldValue) {
-                delete actions[action];
-            }
-            if (c.newValue) {
-                actions[action] = c.newValue;
-            }
-            continue;
-        }
-        var sep = k.indexOf(filterFromToSeparator);
-        if (sep >= 0) {
-            var from = k.substring(0, sep);
-            var to = k.substring(sep + filterFromToSeparator.length);
-            if (c.oldValue) {
-                deleteFilter(from, to);
-            }
-            if (c.newValue) {
-                var f = c.newValue;
-                f.from = from;
-                f.to = to;
-                addFilter(f);
-            }
-            continue;
-        }
-        if (k == "settings") {
-            if (c.newValue)
-                settings = c.newValue;
-            continue;
-        }
-        //Unknown storage key
-        console.log("Error, unknown sync storage key", k, c);
-    }
-
-    saveLocalAll();
-});
-
 //Delete single filter item from sync storage
 function syncDeleteFilter(from, to) {
     syncDelete(from + filterFromToSeparator + to);
@@ -125,13 +62,18 @@ function syncDeleteAction(action) {
     syncDelete(syncActionPrefix + action);
 }
 
-//Delete single action
 function syncDelete(key) {
     //Always save locally
     saveLocalAll();
 
-    if (storageType == "chrome")
-        chrome.storage.sync.remove(key, syncError);
+    switch (storageType) {
+        case "chrome":
+            syncDeleteChrome(key);
+            break;
+        case "custom":
+            syncDeleteCustom(key);
+            break;
+    }
 }
 
 function syncUpdateFilter(filter) {
@@ -152,9 +94,12 @@ function syncUpdate(key, value) {
     //Always save locally
     saveLocalAll();
 
-    if (storageType == "chrome") {
-        var i = {};
-        i[key] = value;
-        chrome.storage.sync.set(i, syncError);
+    switch (storageType) {
+        case "chrome":
+            syncUpdateChrome(key);
+            break;
+        case "custom":
+            syncUpdateCustom(key);
+            break;
     }
 }
