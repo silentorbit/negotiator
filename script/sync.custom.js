@@ -40,7 +40,7 @@ function syncCustomNow(download) {
     }
 
     if ((download == false) && (total === 0)) {
-        setSyncStatus("Nothing to sync");
+        setSyncStatus("All synchronized");
         return;
     }
 
@@ -80,7 +80,7 @@ function sendCustomRequest(request) {
 
             var total = importAll(req.response.list);
 
-            setSyncStatus("Completed " + total + " items");
+            setSyncStatus("Done, " + total + " changes");
 
             //Always save locally
             saveAllLocal();
