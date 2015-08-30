@@ -22,9 +22,9 @@ function exportAll(includeVersion) {
     
     //Actions
     for (var a in actions) {
-        list[syncActionPrefix + a] = JSON.parse(JSON.stringify(actions[a]));
+        var item = list[syncActionPrefix + a] = JSON.parse(JSON.stringify(actions[a]));
         if (!includeVersion)
-            delete list[syncActionPrefix + a].version;
+            delete item.version;
     }
 
     //Filters

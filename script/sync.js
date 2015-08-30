@@ -26,18 +26,29 @@ function mergeUpdate(target, source) {
         target[k] = source[k];
 }
 
+//With Special handling of deletion
 function mergeListUpdate(list, index, source) {
+    if (source.sync == "deleted") {
+        delete list[index];
+        return;
+    }
+    
     var target = list[index];
     if (target == null)
-        list[index] = source;
+        target = list[index] = source;
     else
         mergeUpdate(target, source);
+
+    delete target.sync;
 }
 
 function importAll(list) {
 
+    var total = 0;
+
     for (var k in list) {
         var row = list[k];
+        total += 1;
 
         //Settings
         if (k == "settings")
@@ -63,6 +74,7 @@ function importAll(list) {
         console.log("Error, unknown key", k, row)
     }
     fixAll();
+    return total;
 }
 
 
@@ -81,25 +93,33 @@ function saveAll() {
 }
 
 //Delete single filter item from sync storage
-function syncDeleteFilter(from, to) {
-    syncDelete(from + filterFromToSeparator + to);
+function syncDeleteFilter(filter) {
+    syncDelete(filter.from + filterFromToSeparator + filter.to);
 }
 
 //Delete single action
-function syncDeleteAction(action) {
-    syncDelete(syncActionPrefix + action);
+function syncDeleteAction(actionKey) {
+    syncDelete(syncActionPrefix + actionKey, actions[actionKey]);
 }
 
-function syncDelete(key) {
-    //Always save locally
-    saveAllLocal();
-
+function syncDelete(key, value) {
     switch (storageType) {
+        default:
+            throw "Unknown storage type: " + storageType;
+
+        case "local":
+            saveAllLocal();
+            break;
+
         case "chrome":
+            saveAllLocal();
             syncDeleteChrome(key);
             break;
+
         case "custom":
-            syncDeleteCustom(key);
+            syncDeleteCustom(key, value);
+            //Save after sync flag has been set
+            saveAllLocal();
             break;
     }
 }
@@ -119,15 +139,23 @@ function syncUpdateSettings() {
 }
 
 function syncUpdate(key, value) {
-    //Always save locally
-    saveAllLocal();
-
     switch (storageType) {
-        case "chrome":
-            syncUpdateChrome(key);
+        default:
+            throw "Unknown storage type: " + storageType;
+
+        case "local":
+            saveAllLocal();
             break;
+
+        case "chrome":
+            saveAllLocal();
+            syncUpdateChrome(key, value);
+            break;
+
         case "custom":
-            syncUpdateCustom(key);
+            syncUpdateCustom(key, value);
+            //Save after sync flag has been set
+            saveAllLocal();
             break;
     }
 }

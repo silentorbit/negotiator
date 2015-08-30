@@ -149,7 +149,7 @@ function updateFilterRow(row, f) {
     //Update events with the new filter settings (f)
     row.del.onclick = function () {
         b.deleteFilter(f.from, f.to);
-        b.syncDeleteFilter(f.from, f.to);
+        b.syncDeleteFilter(f);
         row.parentNode.removeChild(row);
         return false;
     };

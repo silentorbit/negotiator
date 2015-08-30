@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 function saveAllLocal() {
-    localStorage.setItem("filter-list", exportJson());
+    localStorage.setItem("filter-list", JSON.stringify(exportAll(true), null, "\t"));
     removeLegacy();
 }
 

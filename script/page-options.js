@@ -39,6 +39,15 @@ function loadOptionsPage() {
         }
     };
 
+    //Custom sync
+    document.getElementById("syncNow").onclick = function () {
+        b.syncIntervalCustom();
+    };
+    var syncStatus = document.getElementById("syncStatus");
+    setInterval(function () {
+        syncStatus.textContent = b.syncCustomStatus;
+    }, 1000);
+
     //Default Actions
     fillActionSelect(document.getElementById("defaultAction"), b.settings.defaultAction, function () {
         b.settings.defaultAction = this.value;
@@ -158,7 +167,6 @@ function addActionRow(a) {
     row.delete.onclick = function (event) {
         event.preventDefault();
 
-        delete b.actions[a];
         b.syncDeleteAction(a)
         table.removeChild(row);
     }
