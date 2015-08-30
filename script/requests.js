@@ -229,7 +229,7 @@ function onBeforeSendHeaders(d) {
     var action = actions[filter];
 
     if (action == null || action.request == null) {
-        logError("missing action for filter: " + filter + ": " + JSON.stringify(f));
+        logError("missing action for filter: " + filter + ": " + JSON.stringify(f, null, "\t"));
         return; //No use in running the filters
     }
 

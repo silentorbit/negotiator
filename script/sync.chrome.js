@@ -23,7 +23,24 @@ function loadAllChrome() {
         importAll(list);
 
         //Always save locally
-        saveLocalAll();
+        saveAllLocal();
+    });
+}
+
+function saveAllChrome() {
+    var list = exportAll();
+    //console.log("Filters: saving all", list);
+    chrome.storage.sync.set(list, function () {
+        if (chrome.runtime.lastError) {
+            logError(chrome.runtime.lastError);
+        }
+        else {
+            //Remove legacy code
+            if (!chrome.runtime.lastError) {
+                //console.log("Filters: removing legacy, filters");
+                chrome.storage.sync.remove("filters", syncError);
+            }
+        }
     });
 }
 
@@ -79,5 +96,5 @@ chrome.storage.onChanged.addListener(function (changed, namespace) {
         console.log("Error, unknown sync storage key", k, c);
     }
 
-    saveLocalAll();
+    saveAllLocal();
 });

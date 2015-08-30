@@ -38,7 +38,6 @@
     <Content Include="options.html" />
     <Content Include="popup.html" />
     <Content Include="release.exclude.txt" />
-    <Content Include="script\actions.js" />
     <Content Include="script\errors.js" />
     <Content Include="script\export.js" />
     <Content Include="script\filters.js" />
@@ -52,7 +51,7 @@
     <Content Include="script\query.js" />
     <Content Include="script\requests.js" />
     <Content Include="script\settings.js" />
-    <Content Include="script\storage.js" />
+    <Content Include="script\sync.local.js" />
     <Content Include="script\sync.chrome.js" />
     <Content Include="script\sync.custom.js" />
     <Content Include="script\sync.js" />

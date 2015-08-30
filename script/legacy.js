@@ -41,6 +41,20 @@ function loadLegacySettings() {
     //Load old formats
     var s = {};
 
+    //Slightly newer format
+    try {
+        var json = localStorage.settings;
+        if (json) {
+            s = JSON.parse(json);
+            return s;
+        }
+    }
+    catch (error) {
+        logError(error);
+    }
+
+    //Original format
+
     //Default filter: what action to take when no filter match
     //We changed the storage key from defaultFilter to defaultAction
     s.defaultAction = localStorage.defaultAction || localStorage.defaultFilter || "pass";
@@ -61,4 +75,34 @@ function loadLegacySettings() {
     s.alwaysPassSame = (localStorage.alwaysPassSame == "true");
 
     return s;
+}
+
+//Only called from loadAll()
+function loadLegacyActions() {
+    try {
+        var json = localStorage.getItem("actions")
+        if (json != null) {
+            actions = JSON.parse(json);
+            return;
+        }
+    }
+    catch (error) {
+        logError(error);
+    }
+}
+
+//Call this once saving in the new format is successful
+function removeLegacy() {
+    //These are now items in filter-list
+    localStorage.removeItem("settings");
+    localStorage.removeItem("actions");
+    localStorage.removeItem("filters");
+    //Original settings
+    localStorage.removeItem("defaultAction");
+    localStorage.removeItem("defaultFilter");
+    localStorage.removeItem("defaultLocalAction");
+    localStorage.removeItem("defaultLocalTLDAction");
+    localStorage.removeItem("defaultNewFilterAction");
+    localStorage.removeItem("ignoreWWW");
+    localStorage.removeItem("alwaysPassSame");
 }

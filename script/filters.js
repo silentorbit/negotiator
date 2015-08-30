@@ -2,7 +2,7 @@
 
 //return whether the domain contain a leading wildcard
 function isWild(domain) {
-    if (domain.length = 0)
+    if (domain.length == 0)
         return false;
     return domain.indexOf("*") == 0;
 }
@@ -16,9 +16,6 @@ function withoutWild(domain) {
 }
 
 function addFilter(f) {
-    //f.from = f.from.replace(/\*+/, "*");
-    //f.to = f.to.replace(/\*+/, "*");
-
     var fr;
 
     //From...
@@ -46,9 +43,9 @@ function addFilter(f) {
     //...To: add filter
     var toWithout = withoutWild(f.to);
     if (isWild(f.to))
-        fr.wild[toWithout] = f;
+        mergeListUpdate(fr.wild, toWithout, f);
     else
-        fr[toWithout] = f;
+        mergeListUpdate(fr, toWithout, f);
 
     return true;
 }

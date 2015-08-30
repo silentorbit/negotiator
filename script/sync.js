@@ -6,8 +6,8 @@ loadAll();
 
 function loadAll() {
     //Always start with local
-    loadLocalSettings();
-    loadLocalActions();
+    loadLegacySettings();
+    loadLegacyActions();
     loadLocalFilters();
     fixAll();
 
@@ -21,35 +21,63 @@ function loadAll() {
     }
 }
 
+function mergeUpdate(target, source) {
+    for (var k in source)
+        target[k] = source[k];
+}
+
+function mergeListUpdate(list, index, source) {
+    var target = list[index];
+    if (target == null)
+        list[index] = source;
+    else
+        mergeUpdate(target, source);
+}
+
 function importAll(list) {
+
     for (var k in list) {
-        var c = list[k];
+        var row = list[k];
 
         //Settings
-        if (k == "settings") {
-            settings = c;
-            continue;
-        }
+        if (k == "settings")
+            mergeUpdate(settings, row);
+
         //Actions
         if (k.indexOf(syncActionPrefix) == 0) {
             var action = k.substring(syncActionPrefix.length);
-            actions[action] = c;
+            mergeListUpdate(actions, action, row);
             continue;
         }
 
         //Filters
         var sep = k.indexOf(filterFromToSeparator);
         if (sep >= 0) {
-            c.from = k.substring(0, sep);
-            c.to = k.substring(sep + filterFromToSeparator.length);
-            addFilter(c);
+            row.from = k.substring(0, sep);
+            row.to = k.substring(sep + filterFromToSeparator.length);
+            addFilter(row);
             continue;
         }
 
         //Unknown
-        console.log("Error, unknown key", k, c)
+        console.log("Error, unknown key", k, row)
     }
     fixAll();
+}
+
+
+function saveAll() {
+    //Always save locally
+    saveAllLocal();
+
+    switch (storageType) {
+        case "chrome":
+            saveAllChrome();
+            break;
+        case "custom":
+            saveAllCustom();
+            break;
+    }
 }
 
 //Delete single filter item from sync storage
@@ -64,7 +92,7 @@ function syncDeleteAction(action) {
 
 function syncDelete(key) {
     //Always save locally
-    saveLocalAll();
+    saveAllLocal();
 
     switch (storageType) {
         case "chrome":
@@ -92,7 +120,7 @@ function syncUpdateSettings() {
 
 function syncUpdate(key, value) {
     //Always save locally
-    saveLocalAll();
+    saveAllLocal();
 
     switch (storageType) {
         case "chrome":

@@ -140,8 +140,8 @@ function addActionRow(a) {
         action.request = parseActionFilters(row.request.value);
         action.response = parseActionFilters(row.response.value);
         //Debug
-        row.querySelector("#requestParsed").textContent = JSON.stringify(action.request);
-        row.querySelector("#responseParsed").textContent = JSON.stringify(action.response);
+        row.querySelector("#requestParsed").textContent = JSON.stringify(action.request, null, "\t");
+        row.querySelector("#responseParsed").textContent = JSON.stringify(action.response, null, "\t");
         b.syncUpdateAction(a, action);
 
         row.style.backgroundColor = row.color.value;
