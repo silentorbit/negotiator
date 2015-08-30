@@ -3,7 +3,7 @@ var filters = {};
 
 //Only called from loadAll()
 function loadLocalFilters() {
-    if (useChromeSync)
+    if (storageType != "local")
         return; //Loaded in loadAll();
 
     var json = localStorage.getItem("filter-list");
@@ -30,7 +30,7 @@ function saveAll() {
     //Always save locally
     saveLocalAll();
 
-    if (useChromeSync) {
+    if (storageType == "chrome") {
         var list = exportAll();
         //console.log("Filters: saving all", list);
         chrome.storage.sync.set(list, function () {

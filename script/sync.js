@@ -3,7 +3,7 @@
 loadAll();
 
 function loadAll() {
-    if (useChromeSync) {
+    if (storageType == "chrome") {
         chrome.storage.sync.get(null, function (list) {
             if (chrome.runtime.lastError) {
                 syncError();
@@ -71,7 +71,7 @@ function importAll(list) {
 chrome.storage.onChanged.addListener(function (changed, namespace) {
     if (namespace != "sync")
         return;
-    if (!useChromeSync)
+    if (storageType != "chrome")
         return;
 
     for (var k in changed) {
@@ -128,7 +128,7 @@ function syncDelete(key) {
     //Always save locally
     saveLocalAll();
 
-    if (useChromeSync)
+    if (storageType == "chrome")
         chrome.storage.sync.remove(key, syncError);
 }
 
@@ -150,7 +150,7 @@ function syncUpdate(key, value) {
     //Always save locally
     saveLocalAll();
 
-    if (useChromeSync) {
+    if (storageType == "chrome") {
         var i = {};
         i[key] = value;
         chrome.storage.sync.set(i, syncError);

@@ -3,7 +3,7 @@ var actions = {};
 
 //Only called from loadAll()
 function loadLocalActions() {
-    if (useChromeSync)
+    if (storageType != "local")
         return; //Loaded in loadAll()
 
     try {

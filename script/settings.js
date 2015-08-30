@@ -2,12 +2,24 @@
 //This is the backend settings
 //UI to configure settings is options.html/js
 
-//Filter storage, if true use chrome.storage.sync, otherwise use localStorage
-var useChromeSync = (localStorage.getItem("useChromeSync") == "true");
-function setUseChromeSync(val) {
+//Filter storage
+//Upgrade setting
+if (localStorage.getItem("useChromeSync") == "true") //if true use chrome.storage.sync, otherwise use localStorage
+{
+    localStorage.setItem("storageType", "chrome");
+    localStorage.removeItem("useChromeSync");
+}
+var storageType = localStorage.getItem("storageType");
+if (storageType == null)
+    storageType = "local";
+var storageUrl = localStorage.getItem("storageUrl");
+
+function setStorage(type, url) {
     //Save setting
-    useChromeSync = val;
-    localStorage.useChromeSync = val;
+    storageType = type;
+    storageUrl = url;
+    localStorage.storageType = storageType;
+    localStorage.storageUrl = storageUrl;
 
     //Reload
     loadAll();

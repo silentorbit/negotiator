@@ -20,38 +20,42 @@
     <div class="columns">
         <div>
             <h1>Options</h1>
-            <fieldset id="counterIndicatorField">
-                <input type="checkbox" name="counterIndicator" id="counterIndicator" />
-                <label for="counterIndicator">
-                    Count <span class="tooltip tooltip-left">
-                        unfiltered<div>
-                            Unfiltered requests are those that does not match any filters.
-                            Requests that match a "pass" filter are considered "filtered".
-                        </div>
-                    </span> requests.
-                </label>
-            </fieldset>
-            <fieldset>
-                <input type="checkbox" id="useChromeSync" name="useChromeSync" /> <label for="useChromeSync" class="tooltip tooltip-left">
-                    Use Chrome Sync<div>
-                        <h2>Use Chrome Sync Storage</h2>
-                        <p>Store settings, filters and actions in chrome.storage.sync which will be synchronized between your computers.</p>
-                        <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>(local storage supports more).</p>
+            <input type="checkbox" name="counterIndicator" id="counterIndicator" />
+            <label for="counterIndicator">
+                Show <span class="tooltip tooltip-below">
+                    unfiltered<div>
+                        Unfiltered requests are those that does not match any filters.
+                        Requests that match a "pass" filter are considered "filtered".
                     </div>
-                </label>
-            </fieldset>
-            <br />
-            <fieldset id="alwaysPassSameSetting">
-                <input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
-                <label for="alwaysPassSame" class="tooltip tooltip-left">
-                    Pass same domain requests.<div>
-                        <h2>Pass requests within the same domain.</h2>
-                        <p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
-                        <p><strong>Warning</strong> this may cause less blocking than expected.</p>
-                        <p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
-                    </div>
-                </label>
-            </fieldset>
+                </span> requests.
+            </label>
+            <h2>Storage Location</h2>
+            <select id="storageType">
+                <option value="local">Local Only</option>
+                <option value="chrome">Chrome Sync</option>
+                <option value="custom">Custom URL</option>
+            </select><br />
+            <div id="storageCustom">
+                <input type="text" id="storageUrl" value="" placeholder="https://" disabled="disabled" />
+                <button id="storageUrlButton">Change</button>
+            </div>
+            <span class="tooltip tooltip-below">
+                Help<div>
+                    <h2>Where to store your settings, actions and filters</h2>
+                    <p>These are always stored locally in addition to one of the following.</p>
+                    <dl>
+                        <dt>Local Only</dt>
+                        <dd>As it sounds</dd>
+                        <dt>Chrome Sync</dt>
+                        <dd>
+                            <p>Save remotely using chrome.storage.sync to your Google Chrome browsers where you are logged in.</p>
+                            <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>.</p>
+                        </dd>
+                        <dt>Custom URL</dt>
+                        <dd>Synchronize with a custom server. No limit of filters and actions.</dd>
+                    </dl>
+                </div>
+            </span>
         </div>
         <div>
             <h1>New filters</h1>
@@ -62,7 +66,7 @@
             <h1>Filter matching</h1>
             <fieldset id="ignoreWWWSetting">
                 <input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-                <label for="ignoreWWW" class="tooltip tooltip-left">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
+                <label for="ignoreWWW" class="tooltip tooltip-below">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
             </fieldset>
         </div>
         <div>
@@ -79,13 +83,25 @@
                 <strong>Same top domain:</strong>
                 <select id="defaultLocalTLDAction"></select>
             </p>
+            <h2>Experimental/Obsolete</h2>
+            <fieldset id="alwaysPassSameSetting">
+                <input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
+                <label for="alwaysPassSame" class="tooltip tooltip-below">
+                    Pass same domain requests.<div>
+                        <h2>Pass requests within the same domain.</h2>
+                        <p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
+                        <p><strong>Warning</strong> this may cause less blocking than expected.</p>
+                        <p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
+                    </div>
+                </label>
+            </fieldset>
         </div>
     </div>
     <div class="main-full">
         <h1>Actions</h1>
         <form id="addActionForm">
             <div>
-                New action: <input id="actionName" value="" size="10" placeholder="name" />
+                New action: <input type="text" id="actionName" value="" size="10" placeholder="name" />
                 <input type="submit" value="Add" />
             </div>
         </form>

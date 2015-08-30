@@ -1,6 +1,8 @@
 ﻿
 window.addEventListener("load", loadOptionsPage, false);
 
+var storageCustom;
+
 //Called at the end of the options page load
 function loadOptionsPage() {
     //Count unfiltered
@@ -12,11 +14,29 @@ function loadOptionsPage() {
     });
 
     //Filter Storage
-    var useChromeSync = document.getElementById("useChromeSync");
-    useChromeSync.checked = b.useChromeSync;
-    useChromeSync.addEventListener("click", function () {
-        b.setUseChromeSync(useChromeSync.checked);
+    var storageType = document.getElementById("storageType");
+    var storageUrl = document.getElementById("storageUrl");
+    var storageUrlButton = document.getElementById("storageUrlButton");
+    storageCustom = document.getElementById("storageCustom");
+
+    setSelected(storageType, b.storageType);
+    storageUrl.value = b.storageUrl;
+    showStorageUrl();
+    storageType.addEventListener("change", function () {
+        b.setStorage(storageType.value, storageUrl.value);
+        showStorageUrl();
     });
+    storageUrlButton.onclick = function () {
+        if (storageUrl.disabled) {
+            storageUrl.disabled = false;
+            storageUrlButton.textContent = "Save";
+        }
+        else {
+            storageUrl.disabled = true;
+            storageUrlButton.textContent = "Change";
+            b.setStorage(storageType.value, storageUrl.value);
+        }
+    };
 
     //Default Actions
     fillActionSelect(document.getElementById("defaultAction"), b.settings.defaultAction, function () {
@@ -72,6 +92,12 @@ function loadOptionsPage() {
     document.querySelector("#exampleSimple").innerHTML = b.userAgent;
 }
 
+function showStorageUrl() {
+    if (b.storageType == "custom")
+        storageCustom.style.display = "";
+    else
+        storageCustom.style.display = "none";
+}
 
 //Populate Actions list
 function updateActions() {

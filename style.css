@@ -22,9 +22,14 @@ body {
 h1, h2, h3 {
     font-family: 'Dhurjati';
     font-weight: normal;
+    line-height: 1em;
     padding: 0;
-    margin: 0;
+    margin: 0 0 6pt 0;
 }
+
+    h1 div, h2 div, h3 div {
+        font-family: sans-serif;
+    }
 
 #popupBody {
     background: #fff;
@@ -216,14 +221,11 @@ fieldset {
         }
 
 input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    background: #fff;
-    border: 1px solid #000;
+    width: 1.5em;
+    height: 1.5em;
     margin: 0 0 0 1em;
     padding: 0;
     position: relative;
-    vertical-align: middle;
 }
 
 select {
@@ -332,6 +334,12 @@ select {
     .tooltip > * {
         z-index: 10;
         display: none;
+        position: absolute;
+        bottom: 2em;
+        left: 0;
+        color: #111;
+        border: 1px solid #DCA;
+        background: #fffAF0;
         padding: 0 5px 5px 5px;
         width: 300px;
         font-size: 1rem;
@@ -346,7 +354,7 @@ select {
     }
 
     .tooltip p {
-        margin: 1em 0 0 0;
+        margin: 0 0 1em 0;
     }
 
     .tooltip:hover {
@@ -355,17 +363,11 @@ select {
 
         .tooltip:hover > * {
             display: inline;
-            position: absolute;
-            bottom: 2em;
-            left: 0;
-            color: #111;
-            border: 1px solid #DCA;
-            background: #fffAF0;
         }
 
-.tooltip-left:hover > * {
+.tooltip-below:hover > * {
     bottom: auto;
-    top: 1em;
+    top: 2em;
     left: 0;
     right: auto;
 }
