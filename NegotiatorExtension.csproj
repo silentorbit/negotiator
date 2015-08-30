@@ -53,6 +53,7 @@
     <Content Include="script\requests.js" />
     <Content Include="script\settings.js" />
     <Content Include="script\storage.js" />
+    <Content Include="script\sync.custom.js" />
     <Content Include="script\sync.js" />
     <Content Include="Store\Large Tile.png" />
     <Content Include="Store\Marquee.png" />
@@ -71,6 +72,9 @@
     <Content Include="images\Dhurjati-Regular.ttf" />
     <Content Include="manifest.json" />
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

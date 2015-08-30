@@ -1,4 +1,6 @@
-﻿var filterFromToSeparator = " > ";
+﻿"use strict";
+
+var filterFromToSeparator = " > ";
 
 function importJson(json) {
     var list = JSON.parse(json);

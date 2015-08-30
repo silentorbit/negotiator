@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 //Add "*" to wildcard filters .from and .to properties.
 function fixLegacyWildcard() {
     //Fix from, to wildcards

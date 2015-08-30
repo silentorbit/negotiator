@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 // List of errors to present to the user
 var errorList = [];
 var errorListUpdated = null; //Callback if an error occurred

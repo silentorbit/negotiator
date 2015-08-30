@@ -1,3 +1,5 @@
+"use strict";
+
 //
 // Script for user manipulation
 // in the options page and the popup

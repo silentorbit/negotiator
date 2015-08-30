@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 window.addEventListener("load", loadFiltersPage, false);
 
 function loadFiltersPage() {

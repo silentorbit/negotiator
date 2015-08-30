@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 window.addEventListener("load", function () {
     document.querySelector("#exportJSON").addEventListener("click", exportJSON);
     document.querySelector("#importJSON").addEventListener("click", importJSON);

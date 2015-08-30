@@ -1,4 +1,6 @@
-﻿var syncActionPrefix = "action:";
+﻿"use strict";
+
+var syncActionPrefix = "action:";
 
 loadAll();
 

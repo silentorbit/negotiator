@@ -1,4 +1,6 @@
-﻿//Load filters
+﻿"use strict";
+
+//Load filters
 var filters = {};
 
 //Only called from loadAll()

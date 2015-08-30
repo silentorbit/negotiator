@@ -1,3 +1,4 @@
+"use strict";
 
 //This is the backend settings
 //UI to configure settings is options.html/js

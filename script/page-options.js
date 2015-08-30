@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 window.addEventListener("load", loadOptionsPage, false);
 
 var storageCustom;

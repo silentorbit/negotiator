@@ -1,3 +1,5 @@
+"use strict";
+
 //Here is all code that filters requests
 
 //Keep a few parameters to allow login to google accounts

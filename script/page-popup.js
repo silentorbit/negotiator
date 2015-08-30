@@ -1,4 +1,5 @@
-﻿
+﻿"use strict";
+
 //Set by popup page when only filters for one domain is to be shown
 var domain;
 

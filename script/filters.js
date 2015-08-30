@@ -1,3 +1,4 @@
+"use strict";
 
 //return whether the domain contain a leading wildcard
 function isWild(domain) {

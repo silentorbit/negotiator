@@ -1,3 +1,4 @@
+"use strict";
 
 //Return the filter string for a given domain
 //Return null if no filter matched
