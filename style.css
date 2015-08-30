@@ -110,8 +110,8 @@ header {
     line-height: 1em;
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: flex-end;
+    align-items: flex-end;
     align-content: space-between;
 }
 

@@ -25,7 +25,8 @@
                     <option value="local">Local Only</option>
                     <option value="chrome">Chrome Sync</option>
                     <option value="custom">Custom URL</option>
-                </select> <span class="tooltip tooltip-below">Help<div>
+                </select> <span class="tooltip tooltip-below">
+                    Help<div>
                         <h2>Where to store your settings, actions and filters</h2>
                         <p>These are always stored locally in addition to one of the following.</p>
                         <dl>
@@ -97,40 +98,42 @@
             </fieldset>
         </div>
     </div>
-    <div class="main box">
-        <h1>Actions</h1>
-        <form id="addActionForm">
-            New action: <input type="text" id="actionName" value="" size="10" placeholder="name" /><input type="submit" value="Add" class="button button-left" />
-        </form>
-        <div id="actions" class="table">
-            <div>
-                <span></span>
-                <span>Name</span>
-                <span class="tooltip">
-                    Color<div>
-                        <h2>Color</h2>
-                        <p>HTML color code, #0f0, #00ff00, or green.</p>
-                        <p>Used in the extension for visualization</p>
-                    </div>
-                </span>
-                <span class="tooltip">
-                    Block<div>
-                        <h2>Block</h2>
-                        <p>Block the request entirely</p>
-                    </div>
-                </span>
-                <span class="tooltip">
-                    Request Filter<div>
-                        <h2>Request Filters</h2>
-                        <p>See below the table</p>
-                    </div>
-                </span>
-                <span class="tooltip">
-                    Response Filter<div>
-                        <h2>Response Filter</h2>
-                        <p>See below the table</p>
-                    </div>
-                </span>
+    <div class="columns">
+        <div class="main box">
+            <h1>Actions</h1>
+            <form id="addActionForm">
+                New action: <input type="text" id="actionName" value="" size="10" placeholder="name" /><input type="submit" value="Add" class="button button-left" />
+            </form>
+            <div id="actions" class="table">
+                <div>
+                    <span></span>
+                    <span>Name</span>
+                    <span class="tooltip">
+                        Color<div>
+                            <h2>Color</h2>
+                            <p>HTML color code, #0f0, #00ff00, or green.</p>
+                            <p>Used in the extension for visualization</p>
+                        </div>
+                    </span>
+                    <span class="tooltip">
+                        Block<div>
+                            <h2>Block</h2>
+                            <p>Block the request entirely</p>
+                        </div>
+                    </span>
+                    <span class="tooltip">
+                        Request Filter<div>
+                            <h2>Request Filters</h2>
+                            <p>See below the table</p>
+                        </div>
+                    </span>
+                    <span class="tooltip">
+                        Response Filter<div>
+                            <h2>Response Filter</h2>
+                            <p>See below the table</p>
+                        </div>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
