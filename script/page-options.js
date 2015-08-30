@@ -2,7 +2,7 @@
 
 window.addEventListener("load", loadOptionsPage, false);
 
-var storageCustom;
+var syncCustom;
 
 //Called at the end of the options page load
 function loadOptionsPage() {
@@ -14,28 +14,29 @@ function loadOptionsPage() {
         b.syncUpdateSettings();
     });
 
-    //Filter Storage
-    var storageType = document.getElementById("storageType");
-    var storageUrl = document.getElementById("storageUrl");
-    var storageUrlButton = document.getElementById("storageUrlButton");
-    storageCustom = document.getElementById("storageCustom");
+    //Filter Sync
+    var syncType = document.getElementById("syncType");
+    var syncUrl = document.getElementById("syncUrl");
+    var syncUrlButton = document.getElementById("syncUrlButton");
+    syncCustom = document.getElementById("syncCustom");
 
-    setSelected(storageType, b.storageType);
-    storageUrl.value = b.storageUrl;
-    showStorageUrl();
-    storageType.addEventListener("change", function () {
-        b.setStorage(storageType.value, storageUrl.value);
-        showStorageUrl();
+    setSelected(syncType, b.syncType);
+    syncUrl.value = b.syncUrl;
+    showSyncUrl();
+    syncType.addEventListener("change", function () {
+        b.setSync(syncType.value, syncUrl.value);
+        showSyncUrl();
     });
-    storageUrlButton.onclick = function () {
-        if (storageUrl.disabled) {
-            storageUrl.disabled = false;
-            storageUrlButton.textContent = "Save";
+    syncUrlButton.onclick = function () {
+        if (syncUrl.disabled) {
+            syncUrl.disabled = false;
+            syncUrlButton.textContent = "Save";
+            syncUrl.focus();
         }
         else {
-            storageUrl.disabled = true;
-            storageUrlButton.textContent = "Change";
-            b.setStorage(storageType.value, storageUrl.value);
+            syncUrl.disabled = true;
+            syncUrlButton.textContent = "Change";
+            b.setSync(syncType.value, syncUrl.value);
         }
     };
 
@@ -102,11 +103,11 @@ function loadOptionsPage() {
     document.querySelector("#exampleSimple").innerHTML = b.userAgent;
 }
 
-function showStorageUrl() {
-    if (b.storageType == "custom")
-        storageCustom.style.display = "";
+function showSyncUrl() {
+    if (b.syncType == "custom")
+        syncCustom.style.display = "";
     else
-        storageCustom.style.display = "none";
+        syncCustom.style.display = "none";
 }
 
 //Populate Actions list

@@ -11,7 +11,7 @@ function loadAll() {
     loadLocalFilters();
     fixAll();
 
-    switch (storageType) {
+    switch (syncType) {
         case "chrome":
             loadAllChrome();
             break;
@@ -82,7 +82,7 @@ function saveAll() {
     //Always save locally
     saveAllLocal();
 
-    switch (storageType) {
+    switch (syncType) {
         case "chrome":
             saveAllChrome();
             break;
@@ -103,9 +103,9 @@ function syncDeleteAction(actionKey) {
 }
 
 function syncDelete(key, value) {
-    switch (storageType) {
+    switch (syncType) {
         default:
-            throw "Unknown storage type: " + storageType;
+            throw "Unknown storage type: " + syncType;
 
         case "local":
             saveAllLocal();
@@ -139,9 +139,9 @@ function syncUpdateSettings() {
 }
 
 function syncUpdate(key, value) {
-    switch (storageType) {
+    switch (syncType) {
         default:
-            throw "Unknown storage type: " + storageType;
+            throw "Unknown storage type: " + syncType;
 
         case "local":
             saveAllLocal();

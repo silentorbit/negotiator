@@ -7,7 +7,7 @@ var syncCustomStatus = "";
 
 function setSyncStatus(message) {
     var now = new Date();
-    syncCustomStatus = now.getHours() + ":" + zeropad(now.getMinutes()) + ":" + (now.getSeconds()) + " " + message;
+    syncCustomStatus = now.getHours() + ":" + zeropad(now.getMinutes()) + ":" + zeropad(now.getSeconds()) + " " + message;
 }
 
 function zeropad(value) {
@@ -21,7 +21,7 @@ function zeropad(value) {
 
 //download, check with remote server even if we have no local changes
 function syncCustomNow(download) {
-    if (storageType != "custom") {
+    if (syncType != "custom") {
         setSyncStatus("Custom sync not enabled");
         return;
     }
@@ -49,15 +49,15 @@ function syncCustomNow(download) {
 }
 
 function syncUploadIntervalCustom() {
-    if (storageType != "custom") {
+    if (syncType != "custom") {
         setSyncStatus("Custom sync not enabled");
         return;
     }
 
 }
 
-function fullStorageUrl() {
-    var url = storageUrl;
+function fullSyncUrl() {
+    var url = syncUrl;
     if (url[url.length - 1] != "/")
         url += "/";
     url += "beta";
@@ -66,7 +66,7 @@ function fullStorageUrl() {
 
 function sendCustomRequest(request) {
     var req = new XMLHttpRequest();
-    var url = fullStorageUrl();
+    var url = fullSyncUrl();
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.responseType = "json";

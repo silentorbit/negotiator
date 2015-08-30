@@ -57,7 +57,7 @@ function syncUpdateChrome(key, value) {
 chrome.storage.onChanged.addListener(function (changed, namespace) {
     if (namespace != "sync")
         return;
-    if (storageType != "chrome")
+    if (syncType != "chrome")
         return;
 
     for (var k in changed) {

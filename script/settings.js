@@ -4,20 +4,20 @@
 //Upgrade setting
 if (localStorage.getItem("useChromeSync") == "true") //if true use chrome.storage.sync, otherwise use localStorage
 {
-    localStorage.setItem("storageType", "chrome");
+    localStorage.setItem("syncType", "chrome");
     localStorage.removeItem("useChromeSync");
 }
-var storageType = localStorage.getItem("storageType");
-if (storageType == null)
-    storageType = "local";
-var storageUrl = localStorage.getItem("storageUrl");
+var syncType = localStorage.getItem("syncType");
+if (syncType == null)
+    syncType = "local";
+var syncUrl = localStorage.getItem("syncUrl");
 
-function setStorage(type, url) {
+function setSync(type, url) {
     //Save setting
-    storageType = type;
-    storageUrl = url;
-    localStorage.storageType = storageType;
-    localStorage.storageUrl = storageUrl;
+    syncType = type;
+    syncUrl = url;
+    localStorage.syncType = syncType;
+    localStorage.syncUrl = syncUrl;
     localStorage.syncCustomVersion = "0";
 
     //Reload

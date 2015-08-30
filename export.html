@@ -17,15 +17,21 @@
         <span class="filler"></span>
         <a href="http://silentorbit.com/negotiator/" target="_blank" class="title">NEGOTIATOR</a>
     </div>
-    <div class="main-full">
-        <h1>Export and Import</h1>
-        <p>Settings, actions and filters</p>
-        <p>Use this tool to transfer settings between storage types.</p>
-        <div>
-            <input type="button" id="exportJSON" value="Export" class="button" />
-            <input type="button" id="importJSON" value="Import" class="button" />
-            <br />
-            <textarea id="exportedJSON" placeholder="Click Export or paste a previous export here and click Import"></textarea>
+    <div class="columns">
+        <div class="main-full box">
+            <p>Settings, actions and filters</p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="grow box exportedColumn">
+            <h1>Export</h1>
+            <input type="button" id="exportJSON" value="Export" class="button button-bottom" />
+            <textarea id="exportedJSON" placeholder="Click Export"></textarea>
+        </div>
+        <div class="grow box exportedColumn">
+            <h1>Import</h1>
+            <input type="button" id="importJSON" value="Import" class="button button-bottom" " />
+            <textarea id="importedJSON" placeholder="Paste a previous export here and click Import"></textarea>
         </div>
     </div>
 </body>

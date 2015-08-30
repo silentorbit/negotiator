@@ -18,94 +18,89 @@
         <a href="http://silentorbit.com/negotiator/" target="_blank" class="title">NEGOTIATOR</a>
     </div>
     <div class="columns">
-        <div>
-            <h1>Options</h1>
-            <input type="checkbox" name="counterIndicator" id="counterIndicator" />
+        <div class="box">
+            <h1>Filter synchronization</h1>
+            <fieldset>
+                <select id="syncType">
+                    <option value="local">Local Only</option>
+                    <option value="chrome">Chrome Sync</option>
+                    <option value="custom">Custom URL</option>
+                </select> <span class="tooltip tooltip-below">Help<div>
+                        <h2>Where to store your settings, actions and filters</h2>
+                        <p>These are always stored locally in addition to one of the following.</p>
+                        <dl>
+                            <dt>Local Only</dt>
+                            <dd>As it sounds</dd>
+                            <dt>Chrome Sync</dt>
+                            <dd>
+                                <p>Save remotely using chrome.storage.sync to your Google Chrome browsers where you are logged in.</p>
+                                <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>.</p>
+                            </dd>
+                            <dt>Custom URL</dt>
+                            <dd>Synchronize with a custom server. No limit of filters and actions.</dd>
+                        </dl>
+                    </div>
+                </span>
+            </fieldset>
+            <fieldset id="syncCustom">
+                <button id="syncUrlButton" class="button button-bottom">Change</button>
+                <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
+                <div id="syncStatus"></div>
+                <button id="syncNow" class="button button-top">Sync Now</button>
+            </fieldset>
+        </div>
+        <div class="box">
+            <h1>New filters</h1>
+            <p>
+                <label for="defaultNewFilterAction">Preset action</label>
+                <select id="defaultNewFilterAction"></select>
+            </p>
+            <h1>Filter matching</h1>
+            <fieldset id="ignoreWWWSetting">
+                <label for="ignoreWWW"><input type="checkbox" name="ignoreWWW" id="ignoreWWW" /> <span class="tooltip tooltip-below">Ignore leading www.<div>Treat www.example.com as example.com</div></span></label>
+            </fieldset>
             <label for="counterIndicator">
-                Show <span class="tooltip tooltip-below">
+                <input type="checkbox" name="counterIndicator" id="counterIndicator" /> Show <span class="tooltip tooltip-below">
                     unfiltered<div>
                         Unfiltered requests are those that does not match any filters.
                         Requests that match a "pass" filter are considered "filtered".
                     </div>
                 </span> requests.
             </label>
-            <h2>Storage Location</h2>
-            <select id="storageType">
-                <option value="local">Local Only</option>
-                <option value="chrome">Chrome Sync</option>
-                <option value="custom">Custom URL</option>
-            </select><br />
-            <div id="storageCustom">
-                <input type="text" id="storageUrl" value="" placeholder="https://" disabled="disabled" />
-                <button id="storageUrlButton">Change</button><br />
-                <button id="syncNow">Sync Now</button>
-                <div id="syncStatus"></div>
-            </div>
-            <span class="tooltip tooltip-below">
-                Help<div>
-                    <h2>Where to store your settings, actions and filters</h2>
-                    <p>These are always stored locally in addition to one of the following.</p>
-                    <dl>
-                        <dt>Local Only</dt>
-                        <dd>As it sounds</dd>
-                        <dt>Chrome Sync</dt>
-                        <dd>
-                            <p>Save remotely using chrome.storage.sync to your Google Chrome browsers where you are logged in.</p>
-                            <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>.</p>
-                        </dd>
-                        <dt>Custom URL</dt>
-                        <dd>Synchronize with a custom server. No limit of filters and actions.</dd>
-                    </dl>
-                </div>
-            </span>
         </div>
-        <div>
-            <h1>New filters</h1>
-            <p>
-                <strong>Preset action</strong>
-                <select id="defaultNewFilterAction"></select>
-            </p>
-            <h1>Filter matching</h1>
-            <fieldset id="ignoreWWWSetting">
-                <input type="checkbox" name="ignoreWWW" id="ignoreWWW" />
-                <label for="ignoreWWW" class="tooltip tooltip-below">Ignore leading www.<div>Treat www.example.com as example.com</div></label>
-            </fieldset>
-        </div>
-        <div>
+        <div class="box">
             <h1>Default action</h1>
             <p>
-                <strong>Cross domain:</strong>
+                <label for="defaultAction">Cross domain:</label>
                 <select id="defaultAction"></select>
             </p>
             <p>
-                <strong>Same exact domain:</strong>
+                <label for="defaultLocalAction">Same exact domain:</label>
                 <select id="defaultLocalAction"></select>
             </p>
             <p>
-                <strong>Same top domain:</strong>
+                <label for="defaultLocalTLDAction">Same top domain:</label>
                 <select id="defaultLocalTLDAction"></select>
             </p>
             <h2>Experimental/Obsolete</h2>
             <fieldset id="alwaysPassSameSetting">
-                <input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" />
-                <label for="alwaysPassSame" class="tooltip tooltip-below">
-                    Pass same domain requests.<div>
-                        <h2>Pass requests within the same domain.</h2>
-                        <p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
-                        <p><strong>Warning</strong> this may cause less blocking than expected.</p>
-                        <p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
-                    </div>
+                <label for="alwaysPassSame">
+                    <input type="checkbox" name="alwaysPassSame" id="alwaysPassSame" /> <span class="tooltip tooltip-below">
+                        Pass same domain requests.<div>
+                            <h2>Pass requests within the same domain.</h2>
+                            <p>Allow request within same domain even though "block:*&gt;domain" is set.</p>
+                            <p><strong>Warning</strong> this may cause less blocking than expected.</p>
+                            <p>It is not suggested that you use this option, there are no plans to improve it. Though pull requests are welcome.</p>
+                        </div>
+                    </span>
                 </label>
             </fieldset>
         </div>
     </div>
-    <div class="main-full">
+    <div class="main box">
         <h1>Actions</h1>
         <form id="addActionForm">
-            <div>
-                New action: <input type="text" id="actionName" value="" size="10" placeholder="name" />
-                <input type="submit" value="Add" />
-            </div>
+            New action: <input type="text" id="actionName" value="" size="10" placeholder="name" /><input type="submit" value="Add" class="button button-left" />
         </form>
         <div id="actions" class="table">
             <div>
@@ -138,68 +133,67 @@
                 </span>
             </div>
         </div>
-
-        <div class="columns">
-            <div>
-                <h2>Filters</h2>
-                <p>Format:</p>
-                <code>header: value</code>
-                <code>+header: value</code>
-                <p>
-                    <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
-                    <kbd>value</kbd> is the value of the header or one of the following keywords:
-                </p>
-            </div>
-            <div>
-                <h2>Request Filters</h2>
-                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-                <dl>
-                    <dt>pass</dt>
-                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-                    <dt>remove</dt>
-                    <dd>Remove the header.</dd>
-                    <dt>clean</dt>
-                    <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-                    <dt>destclean</dt>
-                    <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-                    <dt>dest</dt>
-                    <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
-                    <dt>random</dt>
-                    <dd>New one for every request, <code id="exampleRandom"></code></dd>
-                    <dt>simple</dt>
-                    <dd><code id="exampleSimple"></code></dd>
-                    <dt>force-csp</dt>
-                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-                </dl>
-            </div>
-            <div>
-                <h2>Response Filters</h2>
-                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-                <dl>
-                    <dt>pass</dt>
-                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-                    <dt>remove</dt>
-                    <dd>Remove the header.</dd>
-                    <dt>force-csp</dt>
-                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-                </dl>
-            </div>
+    </div>
+    <div class="columns">
+        <div class="box">
+            <h2>Filters</h2>
+            <p>Format:</p>
+            <code>header: value</code>
+            <code>+header: value</code>
+            <p>
+                <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
+                <kbd>value</kbd> is the value of the header or one of the following keywords:
+            </p>
         </div>
-        <div style="display: none;">
-            <form id="actionTemplate">
-                <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
-                <div class="name"></div>
-                <div><input id="color" class="color" type="text" value="#fff" size="10" /></div>
-                <div>
-                    <select id="block">
-                        <option value="false">No</option>
-                        <option value="true">Yes</option>
-                    </select>
-                </div>
-                <div><textarea id="request" rows="10" cols="50"></textarea><div id="requestParsed"></div></div>
-                <div><textarea id="response" rows="10" cols="50"></textarea><div id="responseParsed"></div></div>
-            </form>
+        <div class="box">
+            <h2>Request Filters</h2>
+            <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+            <dl>
+                <dt>pass</dt>
+                <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                <dt>remove</dt>
+                <dd>Remove the header.</dd>
+                <dt>clean</dt>
+                <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+                <dt>destclean</dt>
+                <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+                <dt>dest</dt>
+                <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+                <dt>random</dt>
+                <dd>New one for every request, <code id="exampleRandom"></code></dd>
+                <dt>simple</dt>
+                <dd><code id="exampleSimple"></code></dd>
+                <dt>force-csp</dt>
+                <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+            </dl>
         </div>
+        <div class="box">
+            <h2>Response Filters</h2>
+            <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+            <dl>
+                <dt>pass</dt>
+                <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                <dt>remove</dt>
+                <dd>Remove the header.</dd>
+                <dt>force-csp</dt>
+                <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+            </dl>
+        </div>
+    </div>
+    <div style="display: none;">
+        <form id="actionTemplate">
+            <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
+            <div class="name"></div>
+            <div><input id="color" class="color" type="text" value="#fff" size="10" /></div>
+            <div>
+                <select id="block">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+            <div><textarea id="request" rows="10" cols="50"></textarea><div id="requestParsed"></div></div>
+            <div><textarea id="response" rows="10" cols="50"></textarea><div id="responseParsed"></div></div>
+        </form>
     </div>
 </body>
 </html>

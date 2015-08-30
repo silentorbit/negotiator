@@ -12,10 +12,11 @@ window.addEventListener("load", function () {
 function exportJSON() {
     var textJson = document.querySelector("#exportedJSON");
     textJson.value = b.exportJson();
+    textJson.select();
 }
 
 function importJSON() {
-    var textJson = document.querySelector("#exportedJSON");
+    var textJson = document.querySelector("#importedJSON");
     b.importJson(textJson.value);
     b.saveAll();
 }
