@@ -19,6 +19,7 @@ function setSync(type, url) {
     localStorage.syncType = syncType;
     localStorage.syncUrl = syncUrl;
     localStorage.syncCustomVersion = "0";
+    localChanges = true;
 
     //Reload
     loadAll();

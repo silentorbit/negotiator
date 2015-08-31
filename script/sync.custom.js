@@ -4,6 +4,7 @@ setInterval(function () { syncCustomNow(false); }, 15 * 1000); //15 seconds
 setInterval(function () { syncCustomNow(true); }, 15 * 60 * 1000); //15 minutes
 
 var syncCustomStatus = "";
+var localChanges = true; //First time we scan for changes
 
 function setSyncStatus(message) {
     var now = new Date();
@@ -26,18 +27,21 @@ function syncCustomNow(download) {
         return;
     }
 
-    var all = exportAll();
     var sync = {};
     var total = 0;
-    for (var k in all) {
-        var value = all[k];
+    if (localChanges) {
+        var all = exportAll();
+        for (var k in all) {
+            var value = all[k];
 
-        if (value.sync == null)
-            continue;
+            if (value.sync == null)
+                continue;
 
-        sync[k] = value;
-        total += 1;
+            sync[k] = value;
+            total += 1;
+        }
     }
+    localChanges = false;
 
     if ((download == false) && (total === 0)) {
         setSyncStatus("All synchronized");
@@ -78,9 +82,16 @@ function sendCustomRequest(request) {
             if (req.response.version != null && req.response.version != "" && req.response.version != "0")
                 localStorage.syncCustomVersion = req.response.version;
 
+            if (request.version == "0") {
+                filters = {};
+                actions = {};
+            }
             var total = importAll(req.response.list);
 
-            setSyncStatus("Done, " + total + " changes");
+            if (request.version == "0")
+                setSyncStatus("Complete download, " + total + " items");
+            else
+                setSyncStatus("Done, " + total + " changes");
 
             //Always save locally
             saveAllLocal();
@@ -88,6 +99,7 @@ function sendCustomRequest(request) {
         else {
             setSyncStatus("Sync error " + req.statusText + "(" + req.status + ")");
             logError("Custom Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
+            localChanges = true;
         }
     };
     request.version = localStorage.syncCustomVersion;
@@ -103,18 +115,10 @@ function saveAllCustom() {
 
 function syncDeleteCustom(key, value) {
     value.sync = "deleted";
-    /*var dlist = {};
-    dlist[key] = { sync: "deleted", version: value.version };
-    sendCustomRequest({
-        list: dlist,
-    });*/
+    localChanges = true;    //Sync will trigger every 15 seconds if there are changes
 }
 
 function syncUpdateCustom(key, value) {
     value.sync = "modified";
-    /*var dlist = {};
-    dlist[key] = value;
-    sendCustomRequest({
-        list: dlist,
-    });*/
+    localChanges = true;    //Sync will trigger every 15 seconds if there are changes
 }

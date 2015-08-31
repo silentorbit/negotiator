@@ -42,6 +42,7 @@ function loadOptionsPage() {
 
     //Custom sync
     document.getElementById("syncNow").onclick = function () {
+        b.localChanges = true;
         b.syncCustomNow(true);
     };
     var syncStatus = document.getElementById("syncStatus");
