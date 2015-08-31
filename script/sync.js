@@ -94,7 +94,7 @@ function saveAll() {
 
 //Delete single filter item from sync storage
 function syncDeleteFilter(filter) {
-    syncDelete(filter.from + filterFromToSeparator + filter.to);
+    syncDelete(filter.from + filterFromToSeparator + filter.to, filter);
 }
 
 //Delete single action
@@ -125,9 +125,7 @@ function syncDelete(key, value) {
 }
 
 function syncUpdateFilter(filter) {
-    syncUpdate(
-		filter.from + filterFromToSeparator + filter.to,
-		generateExportItem(filter));
+    syncUpdate(filter.from + filterFromToSeparator + filter.to, filter);
 }
 
 function syncUpdateAction(action, config) {
