@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="920"
+   height="680"
+   id="svg3811"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Large 920x680.svg"
+   inkscape:export-filename="/home/peter/Projekt/Negotiator/Extension/Store/Large 920x680.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs3813">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3883"
+       id="radialGradient3889"
+       cx="219.28571"
+       cy="282.18848"
+       fx="219.28571"
+       fy="282.18848"
+       r="228.57143"
+       gradientTransform="matrix(1,0,0,0.37094276,0,73.181372)"
+       gradientUnits="userSpaceOnUse"
+       spreadMethod="pad" />
+    <linearGradient
+       id="linearGradient3883">
+      <stop
+         style="stop-color:#79c57d;stop-opacity:1;"
+         offset="0"
+         id="stop3885" />
+      <stop
+         style="stop-color:#38803b;stop-opacity:1;"
+         offset="1"
+         id="stop3887" />
+    </linearGradient>
+    <radialGradient
+       r="228.57143"
+       fy="282.18848"
+       fx="219.28571"
+       cy="282.18848"
+       cx="219.28571"
+       spreadMethod="pad"
+       gradientTransform="matrix(2.059375,0,0,0.84499411,0.46649091,566.60899)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4041"
+       xlink:href="#linearGradient3883"
+       inkscape:collect="always" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="84.759405"
+     inkscape:cy="245.80256"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1918"
+     inkscape:window-height="1179"
+     inkscape:window-x="1920"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     borderlayer="true" />
+  <metadata
+     id="metadata3816">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-372.36218)">
+    <rect
+       style="fill:url(#radialGradient4041);fill-opacity:1;stroke:none"
+       id="rect3881"
+       width="941.42853"
+       height="693.15173"
+       x="-15.714256"
+       y="367.36221" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3913-0"
+       style="font-size:9px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:0.08695655;stroke:none;font-family:Dhurjati;-inkscape-font-specification:Dhurjati"
+       transform="translate(-377.28749,281.80516)"><flowRegion
+         id="flowRegion3915-6"><rect
+           id="rect3917-1"
+           width="762.85712"
+           height="278.57144"
+           x="577.14288"
+           y="122.85714"
+           style="fill:#000000;fill-opacity:0.08695655" /></flowRegion><flowPara
+         id="flowPara3919-7"
+         style="font-size:144px;fill:#000000;fill-opacity:0.08695655">Negotiator</flowPara></flowRoot>    <path
+       style="fill:#1d451f;fill-opacity:0.06763288;stroke:none"
+       d="M 444.25912,583.06648 A 131.86209,131.86209 0 0 0 312.39702,714.92858 131.86209,131.86209 0 0 0 444.25912,846.79069 131.86209,131.86209 0 0 0 576.12123,714.92858 131.86209,131.86209 0 0 0 444.25912,583.06648 z"
+       id="rect4755-0"
+       inkscape:export-filename="/home/peter/Projekt/Negotiator/Extension/images/icon128.png"
+       inkscape:export-xdpi="250.42999"
+       inkscape:export-ydpi="250.42999"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#4caf51;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+       d="m 444.25912,573.64787 a 131.86209,131.86209 0 0 0 -131.8621,131.8621 131.86209,131.86209 0 0 0 131.8621,131.862 131.86209,131.86209 0 0 0 131.86209,-131.862 131.86209,131.86209 0 0 0 -131.86209,-131.8621 z"
+       id="rect4755"
+       inkscape:export-filename="/home/peter/Projekt/Negotiator/Extension/images/icon128.png"
+       inkscape:export-xdpi="250.42999"
+       inkscape:export-ydpi="250.42999"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#c0c0c0;fill-opacity:0.50196078;fill-rule:evenodd;stroke:none"
+       d="M 337.63625,663.22813 490.1018,810.6772 467.30119,815.86738 412.8264,793.6976 357.4648,739.09633 333.64792,684.24172 z"
+       id="path4764"
+       inkscape:connector-curvature="0" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif"
+       d="m 337.71464,663.40723 c -3.67978,9.28612 -6.13039,19.01343 -7.28959,28.93441 7.35519,27.66466 24.03791,55.21058 47.19758,78.37145 24.34316,24.34386 53.52255,41.50643 82.60416,48.21655 10.20733,-1.44365 20.17338,-4.25726 29.62866,-8.36476 -7.24594,0.26113 -14.89679,-0.24725 -22.95493,-1.80251 -27.72919,-5.35196 -56.97106,-21.95575 -81.17087,-46.1562 -24.19996,-24.20094 -40.79328,-53.44362 -46.14501,-81.17092 -1.20544,-6.24614 -1.76374,-12.25383 -1.87,-18.02802 z"
+       id="path4719"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccscc" />
+    <path
+       style="fill:#c0c0c0;fill-opacity:0.50196078;fill-rule:evenodd;stroke:none"
+       d="m 355.17158,633.26329 18.31918,-17.91603 19.17015,-8.37555 83.13046,66.28948 65.93102,86.35523 -8.33095,17.7371 -16.2588,16.2586 -15.40781,9.36103 -85.09786,-65.27055 -68.91695,-87.15961 z"
+       id="path4785"
+       inkscape:connector-curvature="0" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif"
+       d="m 355.33956,633.25229 c -4.73385,5.81677 -8.88562,12.08381 -12.39567,18.71124 1.49781,3.97811 3.18273,8.05237 5.24043,12.31702 11.91215,24.68815 32.93056,51.80862 58.49589,77.37484 25.5655,25.56641 52.68536,46.58359 77.37493,58.49591 5.12499,2.47289 10.00038,4.45152 14.71355,6.11393 6.7071,-3.63115 13.03518,-7.92232 18.89024,-12.80993 -6.82147,-0.97672 -15.79319,-3.8061 -26.12384,-8.79002 -21.94015,-10.5857 -48.12194,-30.59695 -72.69434,-55.17014 -24.57258,-24.57332 -44.57332,-50.74494 -55.15905,-72.68321 -4.38246,-9.08365 -7.0712,-17.09811 -8.34214,-23.55964 z"
+       id="path4721"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccsscccscc" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif"
+       d="m 372.2926,616.31047 c -5.96245,4.80892 -11.42802,10.2032 -16.31478,16.10203 4.04873,4.15832 7.81889,8.03151 13.68338,14.10896 17.09733,17.71706 40.89236,40.9028 66.0654,66.07666 25.17316,25.17347 48.35826,48.97834 66.07662,66.07662 6.69153,6.45653 11.18896,10.82494 15.53098,15.06053 5.90329,-4.88996 11.30138,-10.35918 16.11324,-16.32594 -4.43865,-4.33167 -9.01334,-8.77801 -15.71013,-15.23996 -17.25398,-16.64948 -40.48118,-40.481 -65.78548,-65.78534 -25.30438,-25.30545 -49.14702,-48.53267 -65.79668,-65.78546 -5.87766,-6.09134 -9.74064,-10.05317 -13.86255,-14.2881 z"
+       id="path4723"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccsccccccc" />
+    <path
+       style="fill:#c0c0c0;fill-opacity:0.50196078;fill-rule:evenodd;stroke:none"
+       d="m 404.0376,598.08077 146.24264,151.15034 4.5209,-28.85065 -41.92355,-74.17243 -80.80138,-52.13587 z"
+       id="path4781"
+       inkscape:connector-curvature="0" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif"
+       d="m 391.94427,603.50051 c -6.61154,3.3893 -12.87803,7.4132 -18.71106,12.01494 6.27764,1.36078 14.00243,4.20615 22.69739,8.71166 21.47981,11.12921 48.08648,30.45002 72.9071,55.27115 24.82068,24.82083 44.14085,51.43818 55.27101,72.91802 5.12936,9.89932 8.13593,18.55535 9.19316,25.20568 4.76625,-5.88858 8.93717,-12.23492 12.45167,-18.94623 -1.75497,-4.57844 -3.82813,-9.26755 -6.37142,-14.17612 -12.18478,-23.5148 -32.38804,-51.16571 -58.38391,-77.16207 -25.99591,-25.99632 -53.64657,-46.19979 -77.16217,-58.38385 -4.09427,-2.12142 -8.02958,-3.87512 -11.89177,-5.45318 z"
+       id="path4725"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccsscccssc" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif"
+       d="m 433.03921,591.51912 c -9.91657,0.95892 -19.66587,3.20615 -29.00161,6.68494 5.38871,0.22628 10.93113,0.83906 16.66193,2.02677 26.84519,5.56458 56.41719,21.33488 81.24925,46.1673 24.83207,24.8321 40.60336,54.40382 46.16742,81.2493 1.55228,7.48974 2.19793,14.6847 2.10515,21.56649 3.87306,-9.44438 6.46768,-19.36329 7.71509,-29.49416 -6.97605,-27.74708 -23.21477,-56.76306 -47.88063,-81.4284 -23.35525,-23.35567 -50.6293,-39.22387 -77.0166,-46.77224 z"
+       id="path4727"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccssccsc" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3913"
+       style="font-size:9px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Dhurjati;-inkscape-font-specification:Dhurjati"
+       transform="translate(-377.31727,274.50505)"><flowRegion
+         id="flowRegion3915"><rect
+           id="rect3917"
+           width="762.85712"
+           height="278.57144"
+           x="577.14288"
+           y="122.85714"
+           style="fill:#ffffff;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara3919"
+         style="font-size:144px;fill:#ffffff;fill-opacity:1">Negotiator</flowPara></flowRoot>  </g>
+</svg>
