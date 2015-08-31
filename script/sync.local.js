@@ -7,9 +7,6 @@ function saveAllLocal() {
 
 //Only called from loadAll()
 function loadLocalFilters() {
-    if (syncType != "local")
-        return; //Loaded in loadAll();
-
     var json = localStorage.getItem("filter-list");
     if (json != null) {
         //New format
