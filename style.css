@@ -194,24 +194,15 @@ label {
     display: inline-block;
 }
 
-.main,
-.main-full,
-.main-half {
+.main {
     position: relative;
     margin: 0 1em 1em 0;
     padding: 1em;
 }
 
-    .main .table,
-    .main-half .table {
+    .main .table {
         margin: 0 -1em -1em -1em;
     }
-
-.main-half {
-    margin: 1em;
-    display: inline-block;
-    max-width: 50%;
-}
 
 #filters ul {
     list-style-type: none;
