@@ -1,10 +1,20 @@
 *.crx
 *.zip
+*.xpi
 *~
 *.xcf
 *.userprefs
-
+*.sh
 .git*
 Store
 *.mdproj
+release.exclude.txt
+updates.xml
+README.md
+COPYING.GPLv3.html
+bin/
+obj/
+*.csproj
+*.sln
+*.user
 

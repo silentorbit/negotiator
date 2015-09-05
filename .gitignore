@@ -1,5 +1,6 @@
 *.crx
 *.zip
+*.xpi
 *~
 *.xcf
 *.userprefs
