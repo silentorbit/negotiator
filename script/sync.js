@@ -15,8 +15,8 @@ function loadAll() {
         case "chrome":
             loadAllChrome();
             break;
-        case "custom":
-            syncCustomNow(true);
+        case "negotiator":
+            syncNegotiatorNow(true);
             break;
     }
 }
@@ -86,8 +86,8 @@ function saveAll() {
         case "chrome":
             saveAllChrome();
             break;
-        case "custom":
-            saveAllCustom();
+        case "negotiator":
+            saveAllNegotiator();
             break;
     }
 }
@@ -116,8 +116,8 @@ function syncDelete(key, value) {
             syncDeleteChrome(key);
             break;
 
-        case "custom":
-            syncDeleteCustom(key, value);
+        case "negotiator":
+            syncDeleteNegotiator(key, value);
             //Save after sync flag has been set
             saveAllLocal();
             break;
@@ -150,8 +150,8 @@ function syncUpdate(key, value) {
             syncUpdateChrome(key, value);
             break;
 
-        case "custom":
-            syncUpdateCustom(key, value);
+        case "negotiator":
+            syncUpdateNegotiator(key, value);
             //Save after sync flag has been set
             saveAllLocal();
             break;

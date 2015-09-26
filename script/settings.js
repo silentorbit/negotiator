@@ -1,6 +1,6 @@
 "use strict";
 
-//Storage location: local, chrome, custom
+//Storage location: local, chrome, negotiator
 //Upgrade setting
 if (localStorage.getItem("useChromeSync") == "true") //if true use chrome.storage.sync, otherwise use localStorage
 {
@@ -10,6 +10,8 @@ if (localStorage.getItem("useChromeSync") == "true") //if true use chrome.storag
 var syncType = localStorage.getItem("syncType");
 if (syncType == null)
     syncType = "local";
+if (syncType == "custom")
+    syncType == "negotiator";
 var syncUrl = localStorage.getItem("syncUrl");
 
 function setSync(type, url) {
@@ -18,7 +20,7 @@ function setSync(type, url) {
     syncUrl = url;
     localStorage.syncType = syncType;
     localStorage.syncUrl = syncUrl;
-    localStorage.syncCustomVersion = "0";
+    localStorage.syncNegotiatorVersion = "0";
     localChanges = true;
 
     //Reload

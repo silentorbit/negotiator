@@ -1,14 +1,14 @@
 ﻿"use strict";
 
-setInterval(function () { syncCustomNow(false); }, 15 * 1000); //15 seconds
-setInterval(function () { syncCustomNow(true); }, 15 * 60 * 1000); //15 minutes
+setInterval(function () { syncNegotiatorNow(false); }, 15 * 1000); //15 seconds
+setInterval(function () { syncNegotiatorNow(true); }, 15 * 60 * 1000); //15 minutes
 
-var syncCustomStatus = "";
+var syncNegotiatorStatus = "";
 var localChanges = true; //First time we scan for changes
 
-function setSyncStatus(message) {
+function setSyncNegotiatorStatus(message) {
     var now = new Date();
-    syncCustomStatus = now.getHours() + ":" + zeropad(now.getMinutes()) + ":" + zeropad(now.getSeconds()) + " " + message;
+    syncNegotiatorStatus = now.getHours() + ":" + zeropad(now.getMinutes()) + ":" + zeropad(now.getSeconds()) + " " + message;
 }
 
 function zeropad(value) {
@@ -21,9 +21,9 @@ function zeropad(value) {
 }
 
 //download, check with remote server even if we have no local changes
-function syncCustomNow(download) {
-    if (syncType != "custom") {
-        setSyncStatus("Custom sync not enabled");
+function syncNegotiatorNow(download) {
+    if (syncType != "negotiator") {
+        setSyncNegotiatorStatus("Negotiator sync not enabled");
         return;
     }
 
@@ -44,20 +44,19 @@ function syncCustomNow(download) {
     localChanges = false;
 
     if ((download == false) && (total === 0)) {
-        setSyncStatus("All synchronized");
+        setSyncNegotiatorStatus("All synchronized");
         return;
     }
 
-    setSyncStatus("Synchronizing " + total + " items...");
-    sendCustomRequest({ list: sync });
+    setSyncNegotiatorStatus("Synchronizing " + total + " items...");
+    sendNegotiatorRequest({ list: sync });
 }
 
-function syncUploadIntervalCustom() {
-    if (syncType != "custom") {
-        setSyncStatus("Custom sync not enabled");
+function syncUploadIntervalNegotiator() {
+    if (syncType != "negotiator") {
+        setSyncNegotiatorStatus("Negotiator sync not enabled");
         return;
     }
-
 }
 
 function fullSyncUrl() {
@@ -68,7 +67,7 @@ function fullSyncUrl() {
     return url;
 }
 
-function sendCustomRequest(request) {
+function sendNegotiatorRequest(request) {
     var req = new XMLHttpRequest();
     var url = fullSyncUrl();
     req.open("POST", url, true);
@@ -80,7 +79,7 @@ function sendCustomRequest(request) {
 
         if (req.status == 200) {
             if (req.response.version != null && req.response.version != "" && req.response.version != "0")
-                localStorage.syncCustomVersion = req.response.version;
+                localStorage.syncNegotiatorVersion = req.response.version;
 
             if (request.version == "0") {
                 filters = {};
@@ -89,36 +88,36 @@ function sendCustomRequest(request) {
             var total = importAll(req.response.list);
 
             if (request.version == "0")
-                setSyncStatus("Complete download, " + total + " items");
+                setSyncNegotiatorStatus("Complete download, " + total + " items");
             else
-                setSyncStatus("Done, " + total + " changes");
+                setSyncNegotiatorStatus("Done, " + total + " changes");
 
             //Always save locally
             saveAllLocal();
         }
         else {
-            setSyncStatus("Sync error " + req.statusText + "(" + req.status + ")");
-            logError("Custom Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
+            setSyncNegotiatorStatus("Sync error " + req.statusText + "(" + req.status + ")");
+            logError("Negotiator Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
             localChanges = true;
         }
     };
-    request.version = localStorage.syncCustomVersion;
+    request.version = localStorage.syncNegotiatorVersion;
     req.send(JSON.stringify(request, null, "\t"));
 }
 
-function saveAllCustom() {
-    sendCustomRequest({
+function saveAllNegotiator() {
+    sendNegotiatorRequest({
         complete: true,
         list: exportAll(),
     });
 }
 
-function syncDeleteCustom(key, value) {
+function syncDeleteNegotiator(key, value) {
     value.sync = "deleted";
     localChanges = true;    //Sync will trigger every 15 seconds if there are changes
 }
 
-function syncUpdateCustom(key, value) {
+function syncUpdateNegotiator(key, value) {
     value.sync = "modified";
     localChanges = true;    //Sync will trigger every 15 seconds if there are changes
 }

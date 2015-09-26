@@ -2,7 +2,7 @@
 
 window.addEventListener("load", loadOptionsPage, false);
 
-var syncCustom;
+var syncNegotiator;
 
 //Called at the end of the options page load
 function loadOptionsPage() {
@@ -17,8 +17,8 @@ function loadOptionsPage() {
     //Filter Sync
     var syncType = document.getElementById("syncType");
     var syncUrl = document.getElementById("syncUrl");
-    var syncUrlButton = document.getElementById("syncUrlButton");
-    syncCustom = document.getElementById("syncCustom");
+    var syncNegotiatorUrlChange = document.getElementById("syncNegotiatorUrlChange");
+    syncNegotiator = document.getElementById("syncNegotiator");
 
     setSelected(syncType, b.syncType);
     syncUrl.value = b.syncUrl;
@@ -27,27 +27,27 @@ function loadOptionsPage() {
         b.setSync(syncType.value, syncUrl.value);
         showSyncUrl();
     });
-    syncUrlButton.onclick = function () {
+    syncNegotiatorUrlChange.onclick = function () {
         if (syncUrl.disabled) {
             syncUrl.disabled = false;
-            syncUrlButton.textContent = "Save";
+            syncNegotiatorUrlChange.textContent = "Save";
             syncUrl.focus();
         }
         else {
             syncUrl.disabled = true;
-            syncUrlButton.textContent = "Change";
+            syncNegotiatorUrlChange.textContent = "Change";
             b.setSync(syncType.value, syncUrl.value);
         }
     };
 
-    //Custom sync
-    document.getElementById("syncNow").onclick = function () {
+    //Negotiator sync
+    document.getElementById("syncNegotiatorNow").onclick = function () {
         b.localChanges = true;
-        b.syncCustomNow(true);
+        b.syncNegotiatorNow(true);
     };
-    var syncStatus = document.getElementById("syncStatus");
+    var syncNegotiatorStatus = document.getElementById("syncNegotiatorStatus");
     setInterval(function () {
-        syncStatus.textContent = b.syncCustomStatus;
+        syncNegotiatorStatus.textContent = b.syncNegotiatorStatus;
     }, 1000);
 
     //Default Actions
@@ -97,10 +97,10 @@ function loadOptionsPage() {
 }
 
 function showSyncUrl() {
-    if (b.syncType == "custom")
-        syncCustom.style.display = "";
+    if (b.syncType == "negotiator")
+        syncNegotiator.style.display = "";
     else
-        syncCustom.style.display = "none";
+        syncNegotiator.style.display = "none";
 }
 
 //Populate Actions list

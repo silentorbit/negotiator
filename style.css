@@ -402,6 +402,14 @@ select {
     right: auto;
 }
 
+.tooltip-link {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-color: inherit;
+    cursor: hand;
+}
+
+
 code {
     background: #ccc;
     display: block;
@@ -425,17 +433,17 @@ dt {
     width: 100%;
 }
 
-#syncUrlButton {
+#syncNegotiatorUrlChange {
     float: right;
     margin: 0;
 }
 
-#syncNow {
+#syncNegotiatorNow {
     width: 100%;
     margin: 0;
 }
 
-#syncStatus {
+#syncNegotiatorStatus {
     clear: both;
     background: #eee;
     padding: 0.5em;

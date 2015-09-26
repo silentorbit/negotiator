@@ -23,31 +23,38 @@
             <fieldset>
                 <select id="syncType">
                     <option value="local">Local Only</option>
+                    <option value="negotiator">Negotiator Sync</option>
                     <option value="chrome">Chrome Sync</option>
-                    <option value="custom">Custom URL</option>
                 </select> <span class="tooltip tooltip-below">
                     Help<div>
                         <h2>Where to store your settings, actions and filters</h2>
                         <p>These are always stored locally in addition to one of the following.</p>
                         <dl>
                             <dt>Local Only</dt>
-                            <dd>As it sounds</dd>
+                            <dd>Only stored locally, use export/import to copy to other computers.</dd>
+                            <dt>Negotiator Sync</dt>
+                            <dd>
+                                <p>Sync using a server supported by the extension developer.</p>
+                                <p>Also supports custom urls for third party servers.</p>
+                            </dd>
                             <dt>Chrome Sync</dt>
                             <dd>
                                 <p>Save remotely using chrome.storage.sync to your Google Chrome browsers where you are logged in.</p>
-                                <p>Chrome sync supports a <strong>maximum of 500 filters and actions</strong>.</p>
+                                <p>Chrome sync supports a <strong>maximum of 512 filters and actions</strong>.</p>
                             </dd>
-                            <dt>Custom URL</dt>
-                            <dd>Synchronize with a custom server. No limit of filters and actions.</dd>
                         </dl>
                     </div>
                 </span>
             </fieldset>
-            <fieldset id="syncCustom">
-                <button id="syncUrlButton" class="button button-bottom">Change</button>
+            <fieldset id="syncNegotiator">
+                <a href="https://negotiator.silentorbit.com/" class="signup tooltip tooltip-below tooltip-link" target="_blank">Signup here<div>
+                Hello
+                </div></a>
+
+                <button id="syncNegotiatorUrlChange" class="button button-bottom">Change</button>
                 <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
-                <div id="syncStatus"></div>
-                <button id="syncNow" class="button button-top">Sync Now</button>
+                <div id="syncNegotiatorStatus"></div>
+                <button id="syncNegotiatorNow" class="button button-top">Sync Now</button>
             </fieldset>
         </div>
         <div class="box">

@@ -90,6 +90,8 @@ function loadLegacyActions() {
 
 //Call this once saving in the new format is successful
 function removeLegacy() {
+    //Renamed to Negotiator
+    localStorage.removeItem("syncCustomVersion");
     //These are now items in filter-list
     localStorage.removeItem("settings");
     localStorage.removeItem("actions");
