@@ -76,14 +76,6 @@ function loadOptionsPage() {
         b.syncUpdateSettings();
     });
 
-    //Experimental, pass same
-    var passSame = document.getElementById("alwaysPassSame");
-    passSame.checked = b.settings.alwaysPassSame;
-    passSame.addEventListener("click", function () {
-        b.settings.alwaysPassSame = this.checked;
-        b.syncUpdateSettings();
-    });
-
     //Action List
     updateActions();
     //New action

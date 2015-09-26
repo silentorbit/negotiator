@@ -59,8 +59,6 @@ function fixAll() {
         settings.defaultLocalTLDAction = "pass";
     if (settings.defaultNewFilterAction == undefined)
         settings.defaultNewFilterAction = "block";
-    if (settings.alwaysPassSame == undefined)
-        settings.alwaysPassSame = false;
 
     //Actions
     if (actions == null || Object.keys(actions).length == 0) {

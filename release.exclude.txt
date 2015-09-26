@@ -6,7 +6,7 @@
 *.userprefs
 *.sh
 .git*
-Store
+/Store/
 *.mdproj
 release.exclude.txt
 updates.xml

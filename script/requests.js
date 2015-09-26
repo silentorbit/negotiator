@@ -170,14 +170,8 @@ function onBeforeSendHeaders(d) {
     //Find matching filter
     var filter = null;
     var f = getFilter(referrer, domain);
-    if (f != null) {
-        if (settings.alwaysPassSame && f.from == "" && actions[f.filter].block && (referrer == domain || referrer == null)) {
-            //Experimental feature, dangerous
-            f = null;
-        }
-        else
-            filter = f.filter;
-    }
+    if (f != null)
+        filter = f.filter;
 
     //No matching filter
     if (f == null || f.track) {

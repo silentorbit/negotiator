@@ -71,9 +71,6 @@ function loadLegacySettings() {
     //Ignore leading www.
     s.ignoreWWW = (localStorage.ignoreWWW == "true");
 
-    //Experimental: allow bar>bar when block:*>bar is set
-    s.alwaysPassSame = (localStorage.alwaysPassSame == "true");
-
     return s;
 }
 
