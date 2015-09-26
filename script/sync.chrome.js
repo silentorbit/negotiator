@@ -28,7 +28,7 @@ function loadAllChrome() {
 }
 
 function saveAllChrome() {
-    var list = exportAll();
+    var list = exportAll(false);
     //console.log("Filters: saving all", list);
     chrome.storage.sync.set(list, function () {
         if (chrome.runtime.lastError) {

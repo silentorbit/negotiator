@@ -24,6 +24,7 @@ function loadAll() {
 function mergeUpdate(target, source) {
     for (var k in source)
         target[k] = source[k];
+    delete target.sync;
 }
 
 //With Special handling of deletion

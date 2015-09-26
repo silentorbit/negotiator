@@ -30,7 +30,7 @@ function syncNegotiatorNow(download) {
     var sync = {};
     var total = 0;
     if (localChanges) {
-        var all = exportAll();
+        var all = exportAll(true);
         for (var k in all) {
             var value = all[k];
 
@@ -108,7 +108,7 @@ function sendNegotiatorRequest(request) {
 function saveAllNegotiator() {
     sendNegotiatorRequest({
         complete: true,
-        list: exportAll(),
+        list: exportAll(true),
     });
 }
 
