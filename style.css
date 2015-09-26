@@ -273,6 +273,9 @@ select {
     background: transparent;
     border: 1px solid transparent;
 }
+.table textarea {
+    height: 5em;
+}
 
 .table input[type="text"] {
     width: 15em;
