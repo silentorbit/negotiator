@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
   <app appid="moighfiimfhhlnhdepcfghlhnanncoeb">
-    <updatecheck codebase="http://silentorbit.com/extensions/Negotiator.crx" version="0.0.7.9" prodversionmin="20.0.0.0"/>
+    <updatecheck codebase="http://silentorbit.com/extensions/Negotiator.crx" version="0.0.8.0" prodversionmin="20.0.0.0"/>
   </app>
 </gupdate>
