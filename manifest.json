@@ -4,11 +4,6 @@
     "name": "Negotiator",
     "short_name": "Negotiator",
     "minimum_chrome_version": "20.0.0.0",
-    "applications": {
-        "gecko": {
-            "id": "negotiator@silentorbit.com"
-        }
-    },
     "icons": {
         "128": "images/icon128.png"
     },
