@@ -24,7 +24,7 @@ function loadAll() {
 function mergeUpdate(target, source) {
     for (var k in source)
         target[k] = source[k];
-    delete target.sync;
+    //delete target.sync;
 }
 
 //With Special handling of deletion
@@ -33,14 +33,8 @@ function mergeListUpdate(list, index, source) {
         delete list[index];
         return;
     }
-    
-    var target = list[index];
-    if (target == null)
-        target = list[index] = source;
-    else
-        mergeUpdate(target, source);
 
-    delete target.sync;
+    list[index] = source;
 }
 
 function importAll(list) {
@@ -52,8 +46,10 @@ function importAll(list) {
         total += 1;
 
         //Settings
-        if (k == "settings")
+        if (k == "settings") {
             mergeUpdate(settings, row);
+            continue;
+        }
 
         //Actions
         if (k.indexOf(syncActionPrefix) == 0) {

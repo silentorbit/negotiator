@@ -78,16 +78,14 @@ function sendNegotiatorRequest(request) {
             return;
 
         if (req.status == 200) {
-            if (req.response.version != null && req.response.version != "" && req.response.version != "0")
-                localStorage.syncNegotiatorVersion = req.response.version;
-
-            if (request.version == "0") {
+            
+            if (req.response.complete) {
                 filters = {};
                 actions = {};
             }
             var total = importAll(req.response.list);
 
-            if (request.version == "0")
+            if (req.response.complete)
                 setSyncNegotiatorStatus("Complete download, " + total + " items");
             else
                 setSyncNegotiatorStatus("Done, " + total + " changes");
@@ -97,11 +95,11 @@ function sendNegotiatorRequest(request) {
         }
         else {
             setSyncNegotiatorStatus("Sync error " + req.statusText + "(" + req.status + ")");
-            logError("Negotiator Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
+            //logError("Negotiator Sync: " + url + "\n" + req.statusText + "(" + req.status + ")");
             localChanges = true;
         }
     };
-    request.version = localStorage.syncNegotiatorVersion;
+    console.log("About to sync", request.list)
     req.send(JSON.stringify(request, null, "\t"));
 }
 

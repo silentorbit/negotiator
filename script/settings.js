@@ -20,7 +20,6 @@ function setSync(type, url) {
     syncUrl = url;
     localStorage.syncType = syncType;
     localStorage.syncUrl = syncUrl;
-    localStorage.syncNegotiatorVersion = "0";
     localChanges = true;
 
     //Reload
@@ -71,7 +70,8 @@ function fixAll() {
             color: "#4f4",
             block: "false",
             request: {},
-            response: {}
+            response: {},
+            sync: "modified"
         }
 
         actions.clear = {
@@ -83,14 +83,16 @@ function fixAll() {
             },
             response: {
                 "set-cookie": "remove"
-            }
+            },
+            sync: "modified"
         }
 
         actions.block = {
             color: "#f64",
             block: "true",
             request: {},
-            response: {}
+            response: {},
+            sync: "modified"
         }
     }
 

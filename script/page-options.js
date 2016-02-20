@@ -138,6 +138,7 @@ function addActionRow(a) {
     var save = function (event) {
         event.preventDefault();
 
+        action = b.actions[a];
         action.color = row.color.value;
         action.block = row.block.value;
         action.request = parseActionFilters(row.request.value);
