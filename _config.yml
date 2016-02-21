@@ -12,6 +12,7 @@ description:      'Chrome Extension'
 icon:             /images/icon128.png
 url:              https://silentorbit.com/negotiator
 baseurl:          /negotiator
+email:		hello@silentorbit.com
 
 author:
   name:           'Peter Hultqvist'
