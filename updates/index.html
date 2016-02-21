@@ -1,18 +1,18 @@
 ---
 layout: page
-title: Home
+title: Project Updates
+menu_order: 90000
+menu:
+  title: Updates
 ---
 
 <div class="posts">
     {% for post in site.posts %}
     <div class="post">
-        <h1 class="post-title">
-            <a href="{{ site.baseurl }}{{ post.url }}">
-                {{ post.title }}
-            </a>
-        </h1>
+        <h3 class="post-title"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
         <span class="post-date">{{ post.date | date_to_string }}</span>
-        {{ post.content }}
+        {{ post.excerpt }}
+        <p class="read-more"><a href="{{ site.baseurl }}{{ post.url }}">Read more...</a></p>
     </div>
     {% endfor %}
 </div>

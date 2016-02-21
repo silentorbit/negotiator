@@ -8,13 +8,18 @@ permalink:        pretty
 # Setup
 title:            Negotiator
 tagline:          'Naming is hard'
-description:      ''
+description:      'Chrome Extension'
+icon:             /images/icon128.png
 url:              https://silentorbit.com/negotiator
 baseurl:          /negotiator
 
 author:
   name:           'Peter Hultqvist'
   url:            https://silentorbit.com/hultqvist/
+
+license:
+  url:		https://www.gnu.org/licenses/gpl-3.0
+  title:	GPLv3
 
 paginate:         5
 paginate_path:    "/updates/page:num"

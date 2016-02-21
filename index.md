@@ -1,7 +1,9 @@
 ---
 layout: default
-title: Start
-menu: 1
+title: Home
+menu_order: 1
+menu:
+  title: Home
 ---
 
 # Negotiator

@@ -1,21 +1,24 @@
 <div class="sidebar">
 <div class="container sidebar-sticky">
 	<div class="sidebar-about">
+{% if site.icon != null %}
+		<img src="{{ site.baseurl }}{{ site.icon }}" alt="{{ site.tagline }}" />
+{% endif %}
 		<h2><a href="{{ site.baseurl }}">{{ site.title }}</a></h2>
 		<p class="lead">{{ site.description }}</p>
 	</div>
 	<nav class="sidebar-nav">
-{% assign pages = site.pages | sort:"menu"  %}
+{% assign pages = site.pages | sort:"menu_order"  %}
 {% for p in pages %}
 {% if p.menu != null %}
-<a class="{% if page.url == p.url %} active{% endif %}" href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}</a>
+<a class="{% if page.url == p.url %} active{% endif %}" href="{{ site.baseurl }}{{ p.url }}">{% if p.menu.title == null %}{{ p.title }}{% else %}{{ p.menu.title }}{% endif %}</a>
 {% endif %}{% endfor %}
 <a href="{{ site.github.repo }}" target="_blank">Project on GitHub</a>
 	</nav>
 	<footer>
 		<p>Contact by <a href="mailto:lax@silentorbit.com">e-mail</a><br/>
 		&copy; {{ site.time | date: '%Y' }}. All rights reserved.<br />
-		<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>
+		<a href="{{site.license.url}}" target="_blank">{{site.license.title}}</a>
 		</p>
 		<p><a class="edit_github" href="{{ site.github.repo }}/edit/{{ site.github.branch }}/{{ page.path }}" target="_blank">Edit this page on GitHub</a></p>
 	</footer>
