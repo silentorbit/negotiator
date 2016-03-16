@@ -98,6 +98,9 @@ function clearTrackedRequests() {
 //Shared with page filter and popup
 //Return html representation of a filter
 function generateFilterItem(table, f) {
+    if (f.sync == "deleted")
+        return;
+
     var row = b.filterTemplate.cloneNode(true);
     updateFilterRow(row, f);
 
@@ -148,7 +151,7 @@ function updateFilterRow(row, f) {
 
     //Update events with the new filter settings (f)
     row.del.onclick = function () {
-        b.deleteFilter(f.from, f.to);
+        //b.deleteFilter(f.from, f.to);
         b.syncDeleteFilter(f);
         row.parentNode.removeChild(row);
         return false;

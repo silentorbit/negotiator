@@ -42,7 +42,7 @@ function getRequestFilter(from, to) {
     if (f != null) {
         //To 
         var t = getRequestFilterTo(f, to);
-        if (t != null)
+        if (t != null && t.sync != "deleted")
             return t;
     }
 
@@ -53,7 +53,7 @@ function getRequestFilter(from, to) {
         var toList = filters.wild[from];
         if (toList != null) {
             t = getRequestFilterTo(toList, to);
-            if (t != null)
+            if (t != null && t.sync != "deleted")
                 return t;
         }
         //remove one subdomain level
@@ -64,13 +64,16 @@ function getRequestFilter(from, to) {
     }
     if (filters.wild[""] == null)
         return null;
-    return getRequestFilterTo(filters.wild[""], to);
+    var t = getRequestFilterTo(filters.wild[""], to);
+    if (t != null && t.sync != "deleted")
+        return t;
+    return null;
 }
 
 function getRequestFilterTo(fromList, to) {
     //To direct match
     var t = fromList[to];
-    if (t != null)
+    if (t != null && t.sync != "deleted")
         return t;
 
     //To wildcard match
@@ -84,7 +87,7 @@ function getWild(source, domain) {
         return null;
     while (true) {
         var t = source[domain];
-        if (t != null)
+        if (t != null && t.sync != "deleted")
             return t;
         //remove one subdomain
         var p = domain.indexOf(".");
