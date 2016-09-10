@@ -5,13 +5,18 @@
     "short_name": "Negotiator",
     "minimum_chrome_version": "20.0.0.0",
     "icons": {
-        "128": "images/icon128.png"
+        "16": "images/icon16.png",
+		"32": "images/icon32.png",
+		"48": "images/icon48.png",
+		"128": "images/icon128.png"
     },
     "description": "Surf the web on your terms.",
     "browser_action": {
         "default_icon": {
-            "19": "images/action19.png",
-            "38": "images/action38.png"
+            "16": "images/icon16.png",
+            "19": "images/icon19.png",
+            "38": "images/icon38.png",
+			"128": "images/icon128.png"
         },
         "default_title": "Negotiator",
         "default_popup": "popup.html"
