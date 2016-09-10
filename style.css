@@ -39,6 +39,7 @@ h1, h2, h3 {
     min-width: 600px;
     padding: 0;
     box-shadow: #fff 0 0 3px inset;
+	background: #fff;
 }
 
     #popupBody h2 {
@@ -102,7 +103,7 @@ h1, h2, h3 {
 
 header {
     background: #fff;
-    box-shadow: #00adee 0 -100px 20px 100px;
+    box-shadow: #ccc 0 -100px 20px 100px;
 }
 
 #mainpanel {

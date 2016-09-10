@@ -45,8 +45,7 @@
                 </span>
             </fieldset>
             <fieldset id="syncNegotiator">
-                <a href="https://negotiator.silentorbit.com/" class="signup tooltip tooltip-below tooltip-link" target="_blank">Signup here<div>
-                    Signup for your personal sync url.</div></a>
+                <a href="https://silentorbit.com/negotiator/signup/" class="signup tooltip tooltip-below tooltip-link" target="_blank">Signup here<div>Signup for your personal sync url.</div></a>
 
                 <button id="syncNegotiatorUrlChange" class="button button-bottom">Change</button>
                 <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
@@ -67,8 +66,8 @@
             <label for="counterIndicator">
                 <input type="checkbox" name="counterIndicator" id="counterIndicator" /> Show <span class="tooltip tooltip-below">
                     unfiltered<div>
-                        Unfiltered requests are those that does not match any filters.
-                        Requests that match a "pass" filter are considered "filtered".
+                        <p>Unfiltered requests are those that does not match any filters.</p>
+                        <p>Requests that match a "pass" filter are considered "filtered".</p>
                     </div>
                 </span> requests.
             </label>
@@ -134,10 +133,9 @@
             <p>Format:</p>
             <code>header: value</code>
             <code>+header: value</code>
-            <p>
-                <kbd>header</kbd> is the http header to be replaced. Using the "+" prefix will add the header if it wasn't there before.
-                <kbd>value</kbd> is the value of the header or one of the following keywords:
-            </p>
+            <p><kbd>header</kbd> is the http header to be replaced, if it isn't present nothing will be added.</p>
+			<p><kbd>+header</kbd> will replace or add the header if it wasn't there before.</p>
+			<p><kbd>value</kbd> is the value of the header or one of the keywords described in the next boxes.</p>
         </div>
         <div class="box">
             <h2>Request Filters</h2>
@@ -157,8 +155,6 @@
                 <dd>New one for every request, <code id="exampleRandom"></code></dd>
                 <dt>simple</dt>
                 <dd><code id="exampleSimple"></code></dd>
-                <dt>force-csp</dt>
-                <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
             </dl>
         </div>
         <div class="box">
