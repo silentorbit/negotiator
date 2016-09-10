@@ -1,35 +1,42 @@
 #!/bin/bash
 set -e
-SOURCE=$(dirname $0)
-echo $SOURCE
+pushd $(dirname $0)
+SOURCE=`pwd`
+popd > /dev/null
+
+mkdir $SOURCE/../Releases || true
+pushd $SOURCE/../Releases
+REL=`pwd`
+popd > /dev/null
 
 ls $1
 
-cd /tmp
+cd $REL
 
-rm -r /tmp/Negotiator || true
-mkdir Negotiator
-rsync -rv $SOURCE --exclude-from $SOURCE/release.exclude.txt Negotiator/ || true
+#rm -r $REL/Negotiator || true
+#mkdir Negotiator
+#rsync -rv $SOURCE/ --exclude-from $SOURCE/release.exclude.txt Negotiator/ || true
 
 #Web Extension
-pushd Negotiator
-zip -r $SOURCE/../Releases/Negotiator.xpi *
-popd
+#pushd Negotiator
+#zip -r $SOURCE/../Releases/Negotiator.xpi *
+#popd
 
 #SilentOrbit
-google-chrome --pack-extension=Negotiator --pack-extension-key=$1
-mv Negotiator.crx $SOURCE/../Releases/
+rm -r $REL/SilentOrbit || true
+mkdir $REL/SilentOrbit
+rsync -rv $SOURCE/ --exclude-from $SOURCE/release.exclude.txt $REL/SilentOrbit
+#chromium-browser --pack-extension=Negotiator --pack-extension-key=$1
 
 #Chrome Web Store
+CWSZIP=$REL/ChromeWebStore-Negotiator.zip
+rm -r $REL/ChromeWebStore || true
+mkdir $REL/ChromeWebStore
+rsync -rv $SOURCE/ --exclude-from $SOURCE/release.exclude.txt $REL/ChromeWebStore
 #remove update_url for chrome web store
-cp Negotiator/manifest.json .
-cat manifest.json |grep -v update_url > Negotiator/manifest.json
-rm manifest.json
+cp $REL/ChromeWebStore/manifest.json cws_manifest.tmp
+cat cws_manifest.tmp |grep -v update_url > $REL/ChromeWebStore/manifest.json
+rm cws_manifest.tmp
 
-rm /tmp/Negotiator.zip || true
-
-zip -r Negotiator.zip Negotiator/
-
-rm -r /tmp/Negotiator
-
-mv Negotiator.zip $1/negotiator-chrome-release.zip
+rm $CWSZIP || true
+zip -r $CWSZIP $REL/ChromeWebStore/
