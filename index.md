@@ -20,7 +20,7 @@ You no longer need to blindly accept what the web offers. This extension allows 
 
 # Install
 
-<button onclick="chrome.webstore.install()" id="install-button">Add to Chrome</button>
+<button onclick="chrome.webstore.install('https://chrome.google.com/webstore/detail/lfopjlendebbnfddpgpoaahmpbgmffii', function(d){console.log('installed')},function(e){console.log('not installed: '+ e)})" id="install-button">Add to Chrome</button>
 <script>
 if (chrome.app.isInstalled) {
   document.getElementById('install-button').style.display = 'none';
