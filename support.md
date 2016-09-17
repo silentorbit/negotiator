@@ -16,4 +16,4 @@ menu:
 
 # Live Chat
 
-<iframe src="https://discordapp.com/widget?id=151008904539537408&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+[Web Chat](https://discord.gg/u4qfkVT)
