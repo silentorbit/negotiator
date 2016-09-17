@@ -10,4 +10,4 @@ Simple http request and response filtering for advanced users..
 
 Send your questions to support@silentorbit.com
 
-Read the [documentation on the wiki](https://github.com/hultqvist/negotiator/wiki).
+[Read more about it](https://silentorbit.com/negotiator/).
