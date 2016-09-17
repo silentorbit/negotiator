@@ -13,8 +13,9 @@ function loadPopupPage() {
         clearTrackedRequests();
         window.close();
     });
-
-    chrome.tabs.getSelected(null, function (tab) {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+		var tab = tabs[0];
+		
         //Get tab domain
         domain = b.tabUrl[tab.id];
         if (domain == null)
@@ -72,7 +73,7 @@ function showOptionsPage(path) {
         for (var i in extviews) {
             if (extviews[i].location.href == optionsUrl) {
                 extviews[i].chrome.tabs.getCurrent(function (tab) {
-                    chrome.tabs.update(tab.id, { "selected": true });
+                    chrome.tabs.update(tab.id, { "active": true });
                 });
                 return;
             }

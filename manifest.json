@@ -34,5 +34,6 @@
     "storage",
     "<all_urls>"
   ],
-  "incognito": "spanning"
+  "incognito": "spanning",
+  "applications": { "gecko": { "id": "negotiator@silentorbit.com" } }
 }

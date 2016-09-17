@@ -11,6 +11,7 @@ function logUncaught(message, url, line) {
 }
 
 function logError(message) {
+	message = message.replace(chrome.extension.getURL("/"), "/")
     console.log("Error", message);
     if (errorList.indexOf(message) >= 0)
         return; //Prevent duplicates
