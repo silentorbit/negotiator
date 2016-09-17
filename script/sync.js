@@ -91,6 +91,7 @@ function saveAll() {
 
 //Delete single filter item from sync storage
 function syncDeleteFilter(filter) {
+    deleteFilter(filter.from, filter.to);
     syncDelete(filter.from + filterFromToSeparator + filter.to, filter);
 }
 

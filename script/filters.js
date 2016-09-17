@@ -54,7 +54,6 @@ function addFilter(f) {
 function updateFilter(before, after) {
     if (before.from != after.from || before.to != after.to) {
         //Delete old location
-        deleteFilter(before.from, before.to);
         syncDeleteFilter(before);
     }
     addFilter(after);
