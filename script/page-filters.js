@@ -21,7 +21,7 @@ function testFilter() {
         result.innerHTML = "no match, default";
     else {
         result.innerHTML = "";
-        result.appendChild(b.filterHeader.cloneNode(true));//Add headers
+        result.appendChild(cloneElement(b.filterHeader));//Add headers
         generateFilterItem(result, filter);
     }
 }
@@ -35,12 +35,10 @@ function updateFilters() {
     if (filtersTag == null || filtersBlockedTag == null)
         return;
 
-    filtersTag.innerHTML = "";
-    filtersBlockedTag.innerHTML = "";
     //Add headers
-    filtersTag.appendChild(b.filterHeader.cloneNode(true));
-    filtersBlockedTag.appendChild(b.filterHeader.cloneNode(true));
-
+    filtersTag.innerHTML = b.filterHeader.outerHTML;
+    filtersBlockedTag.innerHTML = b.filterHeader.outerHTML;
+    
     for (var i in list.wild)
         generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
 

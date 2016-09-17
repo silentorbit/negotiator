@@ -101,7 +101,7 @@ function generateFilterItem(table, f) {
     if (f.sync == "deleted")
         return;
 
-    var row = b.filterTemplate.cloneNode(true);
+    var row = cloneElement(b.filterTemplate);
     updateFilterRow(row, f);
 
     table.appendChild(row);
@@ -171,7 +171,7 @@ function updateFilterRow(row, f) {
 function insertTrackedRow(table, req, submitAction) {
     if (req.from == null)
         req.from = "";
-    var row = b.filterTemplate.cloneNode(true);
+    var row = cloneElement(b.filterTemplate);
     row.removeAttribute("id");
     row.del.style.display = "none";
     row.from.value = req.from;
@@ -245,4 +245,11 @@ function endsWith(str, suffix) {
     if (str == null)
         return false;
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function cloneElement(source)
+{
+	var e = document.createElement("div");
+	e.innerHTML = source.outerHTML;
+	return e.firstChild;
 }

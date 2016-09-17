@@ -224,7 +224,7 @@ function onBeforeSendHeaders(d) {
 
     if (action == null || action.request == null) {
         logError("missing action for filter: " + filter + ": " + JSON.stringify(f, null, "\t"));
-        return; //No use in running the filters
+        return { requestHeaders: d.requestHeaders, cancel: false }; //No use in running the filters
     }
 
     //Apply filters
@@ -336,7 +336,7 @@ function onBeforeSendHeaders(d) {
     }
 
     //Allow with modified headers
-    return { requestHeaders: d.requestHeaders };
+    return { requestHeaders: d.requestHeaders, cancel: false };
 }
 
 function onHeadersReceived(d) {
@@ -345,7 +345,7 @@ function onHeadersReceived(d) {
 
     var action = actions[f];
     if (action == null || action.response == null)
-        return;
+        return { responseHeaders: d.responseHeaders, cancel: false };
     
     var alreadyAdded = {};
 
@@ -407,5 +407,5 @@ function onHeadersReceived(d) {
         }
     }
 
-    return { responseHeaders: d.responseHeaders };
+    return { responseHeaders: d.responseHeaders, cancel: false };
 }

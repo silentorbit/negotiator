@@ -34,7 +34,7 @@ function loadPopupPage() {
         //Tracked requests
         var trackedArray = b.tabRequests[tab.id];
         var tableTracked = document.getElementById("trackedTable");
-        tableTracked.appendChild(b.filterHeader.cloneNode(true));//Add headers
+        tableTracked.appendChild(cloneElement(b.filterHeader));//Add headers
 
         insertTrackedRow(tableTracked, { from: domain, to: domain, track: false }, newFilterAdded);
         if (trackedArray) {
@@ -52,7 +52,7 @@ function updateTabFilters(tab) {
     if (tabFilterArray) {
         var tableFilters = document.getElementById("filters");
         tableFilters.innerHTML = "";
-        tableFilters.appendChild(b.filterHeader.cloneNode(true));//Add headers
+        tableFilters.appendChild(cloneElement(b.filterHeader));//Add headers
         var added = [];
         for (var i in tabFilterArray) {
             var filter = tabFilterArray[i];

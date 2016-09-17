@@ -5,7 +5,7 @@ window.addEventListener("load", loadTrackedPage, false);
 function loadTrackedPage() {
     //Tracked Requests
     var table = document.getElementById("trackedTable");
-    table.appendChild(b.filterHeader.cloneNode(true));//Add headers
+    table.appendChild(cloneElement(b.filterHeader));//Add headers
     for (var i in b.TrackedRequests) {
         var r = b.TrackedRequests[i];
 
