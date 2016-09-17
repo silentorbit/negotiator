@@ -2,6 +2,7 @@
   "manifest_version": 2,
   "version": "0.0.8.2",
   "name": "Negotiator",
+  "author": "silentorbit",
   "short_name": "Negotiator",
   "minimum_chrome_version": "20.0.0.0",
   "icons": {
@@ -24,7 +25,8 @@
   "update_url": "http://silentorbit.com/extensions/updates",
   "homepage_url": "http://silentorbit.com/negotiator/",
   "background": {
-    "page": "background.html"
+    "page": "background.html",
+	"persistent": true
   },
   "options_page": "options.html",
   "permissions": [
