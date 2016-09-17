@@ -10,7 +10,7 @@
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-  "description": "Surf the web on your terms.",
+  "description": "Surf the web on your terms",
   "browser_action": {
     "default_icon": {
       "16": "images/icon16.png",

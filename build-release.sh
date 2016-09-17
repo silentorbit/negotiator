@@ -39,4 +39,5 @@ cat cws_manifest.tmp |grep -v update_url > $REL/ChromeWebStore/manifest.json
 rm cws_manifest.tmp
 
 rm $CWSZIP || true
-zip -r $CWSZIP $REL/ChromeWebStore/
+cd $REL/ChromeWebStore/
+zip -r $CWSZIP *
