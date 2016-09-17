@@ -41,3 +41,11 @@ rm cws_manifest.tmp
 rm $CWSZIP || true
 cd $REL/ChromeWebStore/
 zip -r $CWSZIP *
+
+#Firefox
+rm -r $REL/Firefox || true
+mkdir $REL/Firefox
+rsync -rv $SOURCE/ --exclude-from $SOURCE/release.exclude.txt $REL/Firefox
+FFZIP=$REL/Firefox-Negotiator.zip
+cd $REL/Firefox/
+zip -r $FFZIP *
