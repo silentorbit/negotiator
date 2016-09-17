@@ -28,10 +28,3 @@ if (chrome.app.isInstalled) {
 </script>
 
 [Install from Chrome Web Store](https://chrome.google.com/webstore/detail/negotiator/lfopjlendebbnfddpgpoaahmpbgmffii)
-
-# Support
-
-[Send us an email](mailto:support@silentorbit.com)
-
-[Send your bug reports here](https://github.com/hultqvist/negotiator/issues)
-
