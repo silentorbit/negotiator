@@ -80,7 +80,7 @@ function loadOptionsPage() {
     updateActions();
     //New action
     document.querySelector("#addActionForm").addEventListener("submit", function (evt) {
-        event.preventDefault();
+        evt.preventDefault();
 
         var name = document.getElementById("actionName");
 
