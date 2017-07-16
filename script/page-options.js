@@ -162,7 +162,7 @@ function addActionRow(actionKey) {
     row.delete.onclick = function (event) {
         event.preventDefault();
 
-        b.syncDeleteAction(a)
+        b.deleteAction(actionKey);
         table.removeChild(row);
     }
 

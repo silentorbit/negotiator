@@ -37,6 +37,11 @@ function addAction(actionKey, action)
     actions[actionKey] = action;
 }
 
+function deleteAction(actionKey) {
+    delete actions[actionKey];
+    syncDeleteAction(actionKey)
+}
+
 function fixAll() {
     //Filters
     if (filters == null) {
