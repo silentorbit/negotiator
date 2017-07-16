@@ -56,10 +56,16 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 chrome.tabs.onActivated.addListener(function (info) {
     chrome.pageAction.show(info.tabId);
     chrome.pageAction.setPopup({
-        tabId: tabId,
-        popup: "tracked.html?tabID=" + tabId
+        tabId: info.tabId,
+        popup: "tracked.html?tabID=" + info.tabId
     });
 });
+
+function ClearTrackedRequests() {
+    TrackedRequests = {};
+    tabRequests = {};
+    tabFilters = {};
+}
 
 //Clear cache of tracked requests if no new ones are registerred for 5 minutes
 var lastTracked = new Date();

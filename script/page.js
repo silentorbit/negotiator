@@ -88,13 +88,6 @@ function getFilterFromForm(form) {
     return f;
 }
 
-//Shared between tracked and popup
-function clearTrackedRequests() {
-    b.TrackedRequests = {};
-    b.tabRequests = {};
-    b.tabFilters = {};
-}
-
 //Shared with page filter and popup
 //Return html representation of a filter
 function generateFilterItem(table, f) {

@@ -4,9 +4,20 @@ window.addEventListener("load", LoadTracked, false);
 
 
 function LoadTracked() {
+    //This works on all
+    //For Firefox on Android where the page is loaded in a new tab
     var tabID = getParameterByName("tabID");
     var tabUrl = getParameterByName("tabUrl");
-    
+    /*}
+    else { //for regular requests, keep in case we use it with browserAction once it is available for Firefox on Android
+        //Chrome and Firefox desktop with an actual popup
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            var tab = tabs[0];
+            LoadTabRequests(tab.id, tab.url);
+        });
+    }*/
+
+    //Make sure menu buttons open a new tab. Otherwise the page loads in the popup.
     if (tabID != null) {
         var navButtons = document.querySelectorAll("#mainpanel a");
         for (var n = 0; n < navButtons.length; n++)
@@ -19,12 +30,11 @@ function LoadTracked() {
     });
     var clearButton = document.querySelector("#clearTrackedReload");
     if (clearButton) clearButton.addEventListener("click", function () {
-        clearTrackedRequests();
+        b.ClearTrackedRequests();
         location.reload();
     });
 
-    if (tabID == null)
-    {
+    if (tabID == null) {
         allButton.parentElement.removeChild(allButton);
         LoadAllTracked();
     }

@@ -21,6 +21,7 @@ body {
     font-size: 13pt;
     margin: 0 auto;
     padding: 0 0 0 0;
+    min-width: 600px;
 }
 
 h1, h2, h3 {
@@ -34,38 +35,6 @@ h1, h2, h3 {
     h1 div, h2 div, h3 div {
         font-family: sans-serif;
     }
-
-#popupBody {
-    min-width: 600px;
-    padding: 0;
-    box-shadow: #fff 0 0 3px inset;
-    background: #fff;
-}
-
-    #popupBody h2 {
-        clear: left;
-        margin: 5pt 0 0 0;
-    }
-
-#logo {
-    margin: 1em 0 0 0;
-    text-align: center;
-    font-family: 'Dhurjati';
-    font-size: 30pt;
-}
-
-    #logo a {
-        display: block;
-        color: #ccc;
-        text-decoration: none;
-        padding: 0 0 1em 0;
-    }
-
-        #logo a:hover {
-            color: #8bc53f;
-            text-decoration: underline;
-        }
-
 
 .errorList {
     background: #f88;
@@ -85,20 +54,8 @@ h1, h2, h3 {
         white-space: pre;
     }
 
-#popupMenu {
-    padding: 3px;
-    margin-bottom: 1em;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-}
-
 .filler {
     flex-grow: 1;
-}
-
-#popupBody .table {
-    width: 100%;
 }
 
 header {
@@ -107,24 +64,17 @@ header {
 }
 
 #mainpanel {
-    padding: 5px 9px 0 1em;
+    padding: 5px 1em;
     line-height: 1em;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    align-items: stretch;
+    align-items: center;
     align-content: space-between;
 }
 
     #mainpanel > * {
-        margin: 0 5px 5px 0;
-    }
-
-    #mainpanel .title {
-        color: #8bc53f;
-        text-decoration: none;
-        font-family: 'Dhurjati';
-        font-size: 24pt;
+        margin: 5px;
     }
 
     #mainpanel a {
@@ -197,27 +147,6 @@ label {
     padding: 1em;
 }
 
-#filters ul {
-    list-style-type: none;
-    clear: both;
-}
-
-#filters li {
-    padding: 0 0.5em 0 1em;
-}
-
-    #filters li a,
-    #filters h3 a {
-        opacity: 0.5;
-        color: #ddd;
-    }
-
-    #filters li:hover a,
-    #filters h3:hover a {
-        opacity: 1;
-        color: #00f;
-    }
-
 /* Table */
 .table {
     display: table;
@@ -251,10 +180,6 @@ input[type="checkbox"] {
 select {
     background: transparent;
     padding: 2pt;
-}
-
-.header > * {
-    padding: 2pt 5pt;
 }
 
 .table input[type="text"],
@@ -324,11 +249,6 @@ select {
 .button.active {
     background-color: #6af;
     color: #fff !important;
-}
-
-.table .button {
-    padding: 2pt 5pt;
-    margin: 2pt;
 }
 
 .dangerButton {
@@ -420,7 +340,7 @@ dt {
 
     .exportedColumn textarea {
         width: 100%;
-        height: 40em;
+        height: 20em;
     }
 
 #syncUrl {
@@ -453,9 +373,6 @@ dt {
 }
 
 @media screen and (max-width: 800px) {
-    #popupBody {
-        min-width: auto;
-    }
 
     .columns {
         display: block;
