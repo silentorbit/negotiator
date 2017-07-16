@@ -5,8 +5,8 @@
 //Keep a few parameters to allow login to google accounts
 var ua = navigator.userAgent;
 var userAgent = ua.match(/^([^ ]*)/g) + " (X) " +
-	(ua.match(/(AppleWebKit[^ ]*)/g) || "") + " (KHTML, like Gecko) " +
-	(ua.match(/(Chrome[^ ]*)/g) || "");
+    (ua.match(/(AppleWebKit[^ ]*)/g) || "") + " (KHTML, like Gecko) " +
+    (ua.match(/(Chrome[^ ]*)/g) || "");
 userAgent = userAgent.replace("  ", " ");
 
 //Requests without any matching filter
@@ -346,7 +346,7 @@ function onHeadersReceived(d) {
     var action = actions[f];
     if (action == null || action.response == null)
         return { responseHeaders: d.responseHeaders, cancel: false };
-    
+
     var alreadyAdded = {};
 
     for (var i = 0; i < d.responseHeaders.length; i++) {
