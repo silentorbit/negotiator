@@ -116,14 +116,14 @@ function updateEnabled(row) {
     row.response.style.display = display;
 }
 
-function addActionRow(a) {
+function addActionRow(actionKey) {
     var row = document.getElementById("actionTemplate").cloneNode(true);
-    var action = b.actions[a];
+    var action = b.actions[actionKey];
 
     row.removeAttribute("id");
     row.style.background = action.color;
 
-    row.querySelector(".name").textContent = a;
+    row.querySelector(".name").textContent = actionKey;
 
     row.color.value = action.color;
 
@@ -138,7 +138,7 @@ function addActionRow(a) {
     var save = function (event) {
         event.preventDefault();
 
-        action = b.actions[a];
+        action = b.actions[actionKey];
         action.color = row.color.value;
         action.block = row.block.value;
         action.request = parseActionFilters(row.request.value);
@@ -146,7 +146,7 @@ function addActionRow(a) {
         //Debug
         //row.querySelector("#requestParsed").textContent = JSON.stringify(action.request, null, "\t");
         //row.querySelector("#responseParsed").textContent = JSON.stringify(action.response, null, "\t");
-        b.syncUpdateAction(a, action);
+        b.syncUpdateAction(actionKey, action);
 
         row.style.backgroundColor = row.color.value;
 
@@ -194,15 +194,14 @@ function parseActionFilters(text) {
     return headerFilter;
 }
 
-function addAction(a) {
-    if (b.actions[a] != null) {
-        alert(a + " already exists");
+function addAction(actionKey) {
+    if (b.actions[actionKey] != null) {
+        alert(actionKey + " already exists");
         return;
     }
 
     var action = { color: "green", block: "false" };
-    b.actions[a] = action;
-    b.syncUpdateAction(a, action)
-
-    addActionRow(a);
+    b.addAction(actionKey, action);
+    
+    addActionRow(actionKey);
 }

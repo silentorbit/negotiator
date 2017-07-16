@@ -16,6 +16,7 @@ function withoutWild(domain) {
 }
 
 function addFilter(f) {
+    f = JSON.parse(JSON.stringify(f)); //Prevents Firefox dead object warning 
     var fr;
 
     //From...
@@ -52,6 +53,9 @@ function addFilter(f) {
 
 //Filter is updated by the user, save changes
 function updateFilter(before, after) {
+    before = JSON.parse(JSON.stringify(before)); //Prevents Firefox dead object warning 
+    after = JSON.parse(JSON.stringify(after)); //Prevents Firefox dead object warning 
+
     if (before.from != after.from || before.to != after.to) {
         //Delete old location
         syncDeleteFilter(before);
