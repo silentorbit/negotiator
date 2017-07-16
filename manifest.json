@@ -20,7 +20,7 @@
       "38": "images/icon38.png"
     },
     "default_title": "Negotiator",
-    "default_popup": "popup.html"
+    "default_popup": "tracked.html"
   },
   "disabled: browser_action": {
     "default_icon": {
@@ -30,7 +30,7 @@
       "128": "images/icon128.png"
     },
     "default_title": "Negotiator",
-    "default_popup": "popup.html"
+    "default_popup": "tracked.html"
   },
   "update_url": "http://silentorbit.com/extensions/updates",
   "homepage_url": "http://silentorbit.com/negotiator/",

@@ -49,7 +49,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     chrome.pageAction.show(tabId);
     chrome.pageAction.setPopup({
         tabId: tabId,
-        popup: "popup.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
+        popup: "tracked.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
     });
 });
 
@@ -57,7 +57,7 @@ chrome.tabs.onActivated.addListener(function (info) {
     chrome.pageAction.show(info.tabId);
     chrome.pageAction.setPopup({
         tabId: tabId,
-        popup: "popup.html?tabID=" + tabId
+        popup: "tracked.html?tabID=" + tabId
     });
 });
 
