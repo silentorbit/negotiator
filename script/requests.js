@@ -45,6 +45,22 @@ var uaOS = ["Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu/
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, { urls: ["<all_urls>"] }, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, { urls: ["<all_urls>"] }, ["responseHeaders", "blocking"]);
 
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    chrome.pageAction.show(tabId);
+    chrome.pageAction.setPopup({
+        tabId: tabId,
+        popup: "popup.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
+    });
+});
+
+chrome.tabs.onActivated.addListener(function (info) {
+    chrome.pageAction.show(info.tabId);
+    chrome.pageAction.setPopup({
+        tabId: tabId,
+        popup: "popup.html?tabID=" + tabId
+    });
+});
+
 //Clear cache of tracked requests if no new ones are registerred for 5 minutes
 var lastTracked = new Date();
 setInterval(clearTracked, 10 * 1000);
@@ -158,7 +174,7 @@ function onBeforeSendHeaders(d) {
         tabRequests[d.tabId] = {};
         tabFilters[d.tabId] = [];
         tabUrl[d.tabId] = getDomain(d.url);
-        chrome.browserAction.setBadgeText({ text: "" });
+        //chrome.browserAction.setBadgeText({ text: "" });
     }
 
     //for empty referer to non top frame targets, use the cached tab url
@@ -188,11 +204,12 @@ function onBeforeSendHeaders(d) {
         tr[reqKey] = req;
 
         if (settings.countIndicator == "unfiltered") {
-            chrome.browserAction.setBadgeText({ text: "" + Object.keys(tr).length, tabId: d.tabId });
-            chrome.browserAction.setBadgeBackgroundColor({ color: "#000", tabId: d.tabId });
+            //chrome.browserAction.setBadgeText({ text: "" + Object.keys(tr).length, tabId: d.tabId });
+            //chrome.browserAction.setBadgeBackgroundColor({ color: "#000", tabId: d.tabId });
         }
-        else
-            chrome.browserAction.setBadgeText({ text: "" });
+        else {
+            //chrome.browserAction.setBadgeText({ text: "" });
+        }
     }
 
     if (filter == null) {
@@ -231,7 +248,8 @@ function onBeforeSendHeaders(d) {
     if (action.block == "true") {
         if (d.type == "main_frame") {
             blockReport[d.tabId] = d.url;
-            chrome.browserAction.setIcon({
+            //chrome.browserAction.setIcon({
+            chrome.pageAction.setIcon({
                 tabId: d.tabId,
                 path: {
                     "19": "images/red38.png",

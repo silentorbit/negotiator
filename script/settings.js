@@ -31,8 +31,7 @@ var settings = {};
 var actions = {};
 var filters = {};
 
-function addAction(actionKey, action)
-{
+function addAction(actionKey, action) {
     action = JSON.parse(JSON.stringify(action)); //Prevents Firefox dead object
     actions[actionKey] = action;
 }

@@ -1,9 +1,16 @@
 ﻿"use strict";
 
-//Set by popup page when only filters for one domain is to be shown
-var domain;
-
 window.addEventListener("load", loadPopupPage, false);
+
+function getParameterByName(name) {
+    var url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function loadPopupPage() {
     document.querySelector("#showFilters").addEventListener("click", function () { showOptionsPage("filters.html"); });
@@ -13,42 +20,57 @@ function loadPopupPage() {
         clearTrackedRequests();
         window.close();
     });
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-		var tab = tabs[0];
-		
-        //Get tab domain
-        domain = b.tabUrl[tab.id];
-        if (domain == null)
-            domain = b.getDomain(tab.url);
 
-        updateTabFilters(tab);
-
-        var newFilterAdded = function (filter) {
-            var tf = b.tabFilters[tab.id];
-            if (tf) {
-                tf.push(filter);
-                updateTabFilters(tab);
-            }
-        };
-
-        //Tracked requests
-        var trackedArray = b.tabRequests[tab.id];
-        var tableTracked = document.getElementById("trackedTable");
-        tableTracked.appendChild(cloneElement(b.filterHeader));//Add headers
-
-        insertTrackedRow(tableTracked, { from: domain, to: domain, track: false }, newFilterAdded);
-        if (trackedArray) {
-            for (var i in trackedArray) {
-                var t = trackedArray[i];
-                insertTrackedRow(tableTracked, t, newFilterAdded);
-            }
-        }
-    });
+    //This works on all
+    //if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+        //For Firefox on Android where the page is loaded in a new tab
+        var tabID = getParameterByName("tabID");
+        var tabUrl = getParameterByName("tabUrl");
+        LoadTabRequests(tabID, tabUrl);
+    /*}
+    else {
+        //Chrome and Firefox desktop with an actual popup
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            var tab = tabs[0];
+            LoadTabRequests(tab.id, tab.url);
+        });
+    }*/
 }
 
-function updateTabFilters(tab) {
+function LoadTabRequests(tabID, tabUrl) {
+    updateTabFilters(tabID);
+
+    var newFilterAdded = function (filter) {
+        var tf = b.tabFilters[tabID];
+        if (tf) {
+            tf.push(filter);
+            updateTabFilters(tabID);
+        }
+    };
+
+    //Tracked requests
+    var tableTracked = document.getElementById("trackedTable");
+    tableTracked.appendChild(cloneElement(b.filterHeader));//Add headers
+
+    //Get tab domain
+    var domain = b.tabUrl[tabID];
+    if (domain == null)
+        domain = b.getDomain(tabUrl);
+
+    insertTrackedRow(tableTracked, { from: domain, to: domain, track: false }, newFilterAdded);
+
+    var trackedArray = b.tabRequests[tabID];
+    if (trackedArray) {
+        for (var i in trackedArray) {
+            var t = trackedArray[i];
+            insertTrackedRow(tableTracked, t, newFilterAdded);
+        }
+    }
+}
+
+function updateTabFilters(tabID) {
     //Update list of filters for domain
-    var tabFilterArray = b.tabFilters[tab.id];
+    var tabFilterArray = b.tabFilters[tabID];
     if (tabFilterArray) {
         var tableFilters = document.getElementById("filters");
         tableFilters.innerHTML = "";
@@ -68,7 +90,7 @@ function updateTabFilters(tab) {
 function showOptionsPage(path) {
     var optionsUrl = chrome.extension.getURL(path);
 
-    if(chrome.extension.getViews) {
+    if (chrome.extension.getViews) {
         var extviews = chrome.extension.getViews({ "type": "tab" })
         for (var i in extviews) {
             if (extviews[i].location.href == optionsUrl) {

@@ -39,7 +39,7 @@ h1, h2, h3 {
     min-width: 600px;
     padding: 0;
     box-shadow: #fff 0 0 3px inset;
-	background: #fff;
+    background: #fff;
 }
 
     #popupBody h2 {
@@ -89,7 +89,7 @@ h1, h2, h3 {
     padding: 3px;
     margin-bottom: 1em;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
 }
 
@@ -107,28 +107,24 @@ header {
 }
 
 #mainpanel {
-    padding: 5px 9px 5px 1em;
+    padding: 5px 9px 0 1em;
     line-height: 1em;
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: flex-start;
+    align-items: stretch;
     align-content: space-between;
 }
 
     #mainpanel > * {
-        align-self: flex-end;
-        margin: 0 5px 0 0;
+        margin: 0 5px 5px 0;
     }
 
     #mainpanel .title {
-        order: 50;
         color: #8bc53f;
         text-decoration: none;
         font-family: 'Dhurjati';
         font-size: 24pt;
-        align-self: center;
-        margin: -4px 0 0 0;
     }
 
     #mainpanel a {
@@ -232,7 +228,6 @@ label {
     display: table;
     border-collapse: separate;
     border-spacing: 0 1px;
-    width: 100%;
 }
 
     .table > * {
@@ -245,6 +240,35 @@ label {
             vertical-align: middle;
             text-align: center;
         }
+
+@media screen and (max-width: 800px) {
+    .columns {
+        display: block;
+        margin: 1em 0;
+    }
+
+    .main, .table {
+        display: block;
+        width: auto;
+        margin: 0;
+    }
+
+        .table .header {
+            display: none;
+        }
+
+        .table > * {
+            display: flex;
+            flex-flow: row wrap;
+            padding: 6pt;
+            margin: 0 0 6pt 0;
+        }
+
+            .table > * > * {
+                display: inline-block;
+                margin: 0 5pt 5pt 0;
+            }
+}
 
 #actions.table {
     background: #ccc;
@@ -274,6 +298,7 @@ select {
     background: transparent;
     border: 1px solid transparent;
 }
+
 .table textarea {
     height: 5em;
 }

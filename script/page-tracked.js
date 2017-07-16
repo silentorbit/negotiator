@@ -11,6 +11,7 @@ function loadTrackedPage() {
 
         insertTrackedRow(table, r, null);
     }
+    insertTrackedRow(table, {}, null);
 
     var button = document.querySelector("#clearTrackedReload");
     if (button) button.addEventListener("click", function () {
