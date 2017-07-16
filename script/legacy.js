@@ -77,7 +77,7 @@ function loadLegacySettings() {
 //Only called from loadAll()
 function loadLegacyActions() {
     try {
-        var json = localStorage.getItem("actions")
+        var json = localStorage.getItem("actions");
         if (json != null) {
             actions = JSON.parse(json);
             return;
