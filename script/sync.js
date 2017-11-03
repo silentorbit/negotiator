@@ -6,8 +6,6 @@ loadAll();
 
 function loadAll() {
     //Always start with local
-    loadLegacySettings();
-    loadLegacyActions();
     loadLocalFilters();
     fixAll();
 

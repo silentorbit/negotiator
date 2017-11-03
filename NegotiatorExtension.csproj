@@ -42,7 +42,6 @@
     <Content Include="script\errors.js" />
     <Content Include="script\export.js" />
     <Content Include="script\filters.js" />
-    <Content Include="script\legacy.js" />
     <Content Include="script\page-export.js" />
     <Content Include="script\page-filters.js" />
     <Content Include="script\page-options.js" />

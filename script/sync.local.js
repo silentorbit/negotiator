@@ -2,24 +2,16 @@
 
 function saveAllLocal() {
     localStorage.setItem("filter-list", JSON.stringify(exportAll(true), null, "\t"));
-    removeLegacy();
+
+    //Remove legacy saved data.
+    //localStorage.removeItem("filter-list");
 }
 
 //Only called from loadAll()
 function loadLocalFilters() {
     var json = localStorage.getItem("filter-list");
-    if (json != null) {
-        //New format
-        filters = {};
-        fixAll();
-        importJson(json);
-    }
-    else {
-        //Legacy format
-        var json = localStorage.getItem("filters");
-        filters = JSON.parse(json);
-        fixAll();
-        fixLegacyWildcard();
-    }
+    filters = {};
+    fixAll();
+    importJson(json);
 }
 

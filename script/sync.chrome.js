@@ -6,17 +6,7 @@ function loadAllChrome() {
             syncError();
             return;
         }
-
-        if (list.filters != null) {
-            console.log("Filters: loaded legacy");
-
-            //Legacy filters
-            filters = JSON.parse(list.filters);
-            fixAll();
-            fixLegacyWildcard();
-            return;
-        }
-
+        
         //console.log("Filters: loaded", list);
         filters = {};
         actions = {};
