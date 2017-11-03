@@ -188,7 +188,10 @@ select {
 .table textarea,
 .table select {
     background: transparent;
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
+}
+
+.table input[type="checkbox"] {
 }
 
 .table textarea {
