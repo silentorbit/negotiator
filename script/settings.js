@@ -1,12 +1,6 @@
 "use strict";
 
 //Storage location: local, chrome, negotiator
-//Upgrade setting
-if (localStorage.getItem("useChromeSync") == "true") //if true use chrome.storage.sync, otherwise use localStorage
-{
-    localStorage.setItem("syncType", "chrome");
-    localStorage.removeItem("useChromeSync");
-}
 var syncType = localStorage.getItem("syncType");
 if (syncType == null)
     syncType = "local";

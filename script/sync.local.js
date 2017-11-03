@@ -1,17 +1,37 @@
 ﻿"use strict";
 
 function saveAllLocal() {
-    localStorage.setItem("filter-list", JSON.stringify(exportAll(true), null, "\t"));
+    chrome.storage.local.set({ "settings": exportAll(true) }, function () {
 
-    //Remove legacy saved data.
-    //localStorage.removeItem("filter-list");
+        console.log("Save successful, deleting legacy");
+
+        //Remove legacy saved data.
+        localStorage.removeItem("filter-list");
+    });
 }
 
 //Only called from loadAll()
-function loadLocalFilters() {
-    var json = localStorage.getItem("filter-list");
+function loadLocalFilters(callback) {
     filters = {};
     fixAll();
-    importJson(json);
+
+    var json = localStorage.getItem("filter-list");
+    if (json != null) {
+        console.log("Legacy settings found: localstorage[filter-list]");
+        //Import legacy settings
+        var list = JSON.parse(json);
+        importAll(list);
+
+        callback();
+        return;
+    }
+
+    console.log("No legacy settings found");
+
+    chrome.storage.local.get("settings", function (json) {
+        importAll(json.settings);
+        callback();
+    });
+
 }
 

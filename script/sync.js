@@ -6,17 +6,19 @@ loadAll();
 
 function loadAll() {
     //Always start with local
-    loadLocalFilters();
-    fixAll();
+    loadLocalFilters(function () {
 
-    switch (syncType) {
-        case "chrome":
-            loadAllChrome();
-            break;
-        case "negotiator":
-            syncNegotiatorNow(true);
-            break;
-    }
+        fixAll();
+
+        switch (syncType) {
+            case "chrome":
+                loadAllChrome();
+                return;
+            case "negotiator":
+                syncNegotiatorNow(true);
+                return;
+        }
+    });
 }
 
 function mergeUpdate(target, source) {

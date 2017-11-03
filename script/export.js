@@ -2,11 +2,6 @@
 
 var filterFromToSeparator = " > ";
 
-function importJson(json) {
-    var list = JSON.parse(json);
-    importAll(list);
-}
-
 function exportJson() {
     return JSON.stringify(exportAll(false), null, "\t");
 }
