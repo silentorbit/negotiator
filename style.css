@@ -17,11 +17,13 @@ html {
 }
 
 body {
-    font-family: sans-serif;
-    font-size: 13pt;
     margin: 0 auto;
     padding: 0 0 0 0;
-    min-width: 600px;
+}
+
+body, button {
+    font-family: sans-serif;
+    font-size: 13pt;
 }
 
 h1, h2, h3 {
@@ -408,3 +410,43 @@ dt {
                 margin: 0 5pt 5pt 0;
             }
 }
+
+.tab.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#clearTrackedReload {
+    float: right;
+}
+
+#popupBody {
+    background: #fff;
+    box-shadow: #fff 0 0 3px inset;
+}
+
+    #popupBody #tablewrap {
+        padding: 1em 0 2em;
+    }
+
+    #popupBody .table {
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0 2px;
+    }
+
+        #popupBody .table > * {
+            display: table-row;
+            border: 0;
+        }
+
+            #popupBody .table > * > * {
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                padding: 1px;
+                border: 0;
+            }

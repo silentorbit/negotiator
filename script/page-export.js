@@ -1,12 +1,12 @@
 ﻿"use strict";
 
-window.addEventListener("load", function () {
+function loadExportPage() {
     document.querySelector("#exportJSON").addEventListener("click", exportJSON);
     document.querySelector("#importJSON").addEventListener("click", importJSON);
 
     //Export directly when the page is loaded
     exportJSON();
-}, false);
+}
 
 //Filter Import/Export
 function exportJSON() {

@@ -49,7 +49,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     chrome.pageAction.show(tabId);
     chrome.pageAction.setPopup({
         tabId: tabId,
-        popup: "tracked.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
+        popup: "popup.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
     });
 });
 
@@ -57,7 +57,7 @@ chrome.tabs.onActivated.addListener(function (info) {
     chrome.pageAction.show(info.tabId);
     chrome.pageAction.setPopup({
         tabId: info.tabId,
-        popup: "tracked.html?tabID=" + info.tabId
+        popup: "popup.html?tabID=" + info.tabId
     });
 });
 
@@ -247,7 +247,7 @@ function onBeforeSendHeaders(d) {
 
     if (action == null || action.request == null) {
         logError("missing action for filter: " + filter + ": " + JSON.stringify(f, null, "\t"));
-        return { requestHeaders: d.requestHeaders, cancel: false }; //No use in running the filters
+        return { requestHeaders: d.requestHeaders }; //No use in running the filters
     }
 
     //Apply filters
@@ -360,7 +360,7 @@ function onBeforeSendHeaders(d) {
     }
 
     //Allow with modified headers
-    return { requestHeaders: d.requestHeaders, cancel: false };
+    return { requestHeaders: d.requestHeaders };
 }
 
 function onHeadersReceived(d) {
@@ -369,7 +369,7 @@ function onHeadersReceived(d) {
 
     var action = actions[f];
     if (action == null || action.response == null)
-        return { responseHeaders: d.responseHeaders, cancel: false };
+        return { responseHeaders: d.responseHeaders };
 
     var alreadyAdded = {};
 
@@ -431,5 +431,5 @@ function onHeadersReceived(d) {
         }
     }
 
-    return { responseHeaders: d.responseHeaders, cancel: false };
+    return { responseHeaders: d.responseHeaders };
 }

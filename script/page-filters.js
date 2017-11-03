@@ -1,7 +1,5 @@
 ﻿"use strict";
 
-window.addEventListener("load", loadFiltersPage, false);
-
 function loadFiltersPage() {
     //Filters
     setTimeout(updateFilters, 0);
@@ -21,7 +19,7 @@ function testFilter() {
         result.innerHTML = "no match, default";
     else {
         result.innerHTML = "";
-        result.appendChild(cloneElement(b.filterHeader));//Add headers
+        result.appendChild(cloneElement("filterHeader"));//Add headers
         generateFilterItem(result, filter);
     }
 }
@@ -36,8 +34,8 @@ function updateFilters() {
         return;
 
     //Add headers
-    filtersTag.innerHTML = b.filterHeader.outerHTML;
-    filtersBlockedTag.innerHTML = b.filterHeader.outerHTML;
+    filtersTag.innerHTML = document.getElementById("filterHeader").outerHTML;
+    filtersBlockedTag.innerHTML = document.getElementById("filterHeader").outerHTML;
     
     for (var i in list.wild)
         generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);

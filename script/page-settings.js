@@ -1,11 +1,9 @@
 ﻿"use strict";
 
-window.addEventListener("load", loadOptionsPage, false);
-
 var syncNegotiator;
 
 //Called at the end of the options page load
-function loadOptionsPage() {
+function loadSettingsPage() {
     //Count unfiltered
     var www = document.getElementById("counterIndicator");
     www.checked = b.settings.countIndicator == "unfiltered";

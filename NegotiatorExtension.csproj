@@ -19,6 +19,7 @@
     <UseGlobalApplicationHostFile />
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyName>NegotiatorExtension</AssemblyName>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -27,8 +28,6 @@
     <Content Include=".gitignore" />
     <Content Include="background.html" />
     <Content Include="COPYING.GPLv3.html" />
-    <Content Include="export.html" />
-    <Content Include="filters.html" />
     <Content Include="images\action19.png" />
     <Content Include="images\action38.png" />
     <Content Include="images\icon128.png" />
@@ -44,7 +43,7 @@
     <Content Include="script\filters.js" />
     <Content Include="script\page-export.js" />
     <Content Include="script\page-filters.js" />
-    <Content Include="script\page-options.js" />
+    <Content Include="script\page-settings.js" />
     <Content Include="script\page-tracked.js" />
     <Content Include="script\page.js" />
     <Content Include="script\query.js" />
@@ -62,7 +61,6 @@
     <Content Include="Store\screenshot-tracked.png" />
     <Content Include="Store\Small Tile.png" />
     <Content Include="style.css" />
-    <Content Include="tracked.html" />
     <Content Include="updates.xml" />
     <Content Include="script\sync.negotiator.js" />
   </ItemGroup>

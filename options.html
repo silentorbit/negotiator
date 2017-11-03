@@ -4,185 +4,266 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link rel="stylesheet" href="style.css" type="text/css" />
-    <title>Options - Negotiator</title>
-    <script src="script/page-options.js"></script>
+    <title>Negotiator</title>
+    <script src="script/shared.js"></script>
+    <script src="script/page-filters.js"></script>
+    <script src="script/page-tracked.js"></script>
+    <script src="script/page-settings.js"></script>
+    <script src="script/page-export.js"></script>
     <script src="script/page.js"></script>
 </head>
 <body>
     <header id="mainpanel">
-        <a href="filters.html" class="button">Filters</a>
-        <a href="tracked.html" class="button">Tracked</a>
-        <a href="options.html" class="button active">Options</a>
-        <a href="export.html" class="button">Export</a>
+        <button id="filters-button" class="button">Filters</button>
+        <button id="tracked-button" class="button">Tracked</button>
+        <button id="settings-button" class="button">Options</button>
+        <button id="export-button" class="button">Export</button>
     </header>
-    <div class="columns">
-        <div class="box">
-            <h1>Filter synchronization</h1>
-            <fieldset>
-                <select id="syncType">
-                    <option value="local">Local Only</option>
-                    <option value="negotiator">Negotiator Sync</option>
-                    <option value="chrome">Browser Sync</option>
-                </select> <span class="tooltip tooltip-below">
-                    Help<div>
-                        <h2>Where to store your settings, actions and filters</h2>
-                        <p>These are always stored locally in addition to one of the following.</p>
-                        <dl>
-                            <dt>Local Only</dt>
-                            <dd>Only stored locally, use export/import to copy to other computers.</dd>
-                            <dt>Negotiator Sync</dt>
-                            <dd>
-                                <p>Sync using a server supported by the extension developer.</p>
-                                <p>Also supports custom urls for third party servers.</p>
-                            </dd>
-                            <dt>Browser Sync</dt>
-                            <dd>
-                                <p>Save remotely using chrome.storage.sync to your browsers where you are logged in.</p>
-                                <p>Google Chrome sync supports a <strong>maximum of 512 filters and actions</strong>.</p>
-                            </dd>
-                        </dl>
-                    </div>
-                </span>
-            </fieldset>
-            <fieldset id="syncNegotiator">
-                <a href="https://silentorbit.com/negotiator/signup/" class="signup tooltip tooltip-below tooltip-link" target="_blank">Signup here<div>Signup for your personal sync url.</div></a>
+    <div id="filters-tab" class="tab hidden">
+        <div class="columns columns-wrap">
+            <div class="main box">
+                <h1>Test</h1>
+                <fieldset>
+                    <input id="testFrom" value="example.com" />
+                    <input id="testTo" value="doubleclick.net" />
+                    <input type="button" id="testButton" value="Test" class="button" />
+                </fieldset>
+                <div id="testResult" class="table"></div>
+            </div>
+        </div>
+        <div class="columns columns-wrap">
+            <div class="main box">
 
-                <button id="syncNegotiatorUrlChange" class="button button-bottom">Change</button>
-                <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
-                <div id="syncNegotiatorStatus"></div>
-                <button id="syncNegotiatorNow" class="button button-top">Sync Now</button>
-            </fieldset>
-        </div>
-        <div class="box">
-            <h1>New filters</h1>
-            <p>
-                <label for="defaultNewFilterAction">Preset action</label>
-                <select id="defaultNewFilterAction"></select>
-            </p>
-            <h1>Filter matching</h1>
-            <fieldset id="ignoreWWWSetting">
-                <label for="ignoreWWW"><input type="checkbox" name="ignoreWWW" id="ignoreWWW" /> <span class="tooltip tooltip-below">Ignore leading www.<div>Treat www.example.com as example.com</div></span></label>
-            </fieldset>
-            <label for="counterIndicator">
-                <input type="checkbox" name="counterIndicator" id="counterIndicator" /> Show <span class="tooltip tooltip-below">
-                    unfiltered<div>
-                        <p>Unfiltered requests are those that does not match any filters.</p>
-                        <p>Requests that match a "pass" filter are considered "filtered".</p>
-                    </div>
-                </span> requests.
-            </label>
-        </div>
-        <div class="box">
-            <h1>Default action</h1>
-            <p>
-                <label for="defaultAction">Cross domain:</label>
-                <select id="defaultAction"></select>
-            </p>
-            <p>
-                <label for="defaultLocalAction">Same exact domain:</label>
-                <select id="defaultLocalAction"></select>
-            </p>
-            <p>
-                <label for="defaultLocalTLDAction">Same top domain:</label>
-                <select id="defaultLocalTLDAction"></select>
-            </p>
+                <h1>Blocked</h1>
+                <div id="filtersBlocked" class="table"></div>
+            </div>
+            <div class="main box">
+                <h1>Filtered</h1>
+                <div id="filters" class="table"></div>
+            </div>
         </div>
     </div>
-    <div class="columns">
-        <div class="main box">
-            <h1>Actions</h1>
-            <form id="addActionForm">
-                New action: <input type="text" id="actionName" value="" size="10" placeholder="name" /><input type="submit" value="Add" class="button button-left" />
-            </form>
-            <div id="actions" class="table">
-                <div>
-                    <span></span>
-                    <span>Name</span>
-                    <span class="tooltip">
-                        Color<div>
-                            <h2>Color</h2>
-                            <p>HTML color code, #0f0, #00ff00, or green.</p>
-                            <p>Used in the extension for visualization</p>
+    <div id="tracked-tab" class="tab hidden">
+        <div class="columns">
+            <div class="main box">
+                <button class="button" id="clearTrackedReload">Clear</button>
+                <h1>Tracked Requests</h1>
+                <div id="trackedTable" class="table"></div>
+                <div id="filters" class="table"></div>
+            </div>
+        </div>
+    </div>
+    <div id="settings-tab" class="tab hidden">
+        <div class="columns">
+            <div class="box">
+                <h1>Filter synchronization</h1>
+                <fieldset>
+                    <select id="syncType">
+                        <option value="local">Local Only</option>
+                        <option value="negotiator">Negotiator Sync</option>
+                        <option value="chrome">Browser Sync</option>
+                    </select> <span class="tooltip tooltip-below">
+                        Help<div>
+                            <h2>Where to store your settings, actions and filters</h2>
+                            <p>These are always stored locally in addition to one of the following.</p>
+                            <dl>
+                                <dt>Local Only</dt>
+                                <dd>Only stored locally, use export/import to copy to other computers.</dd>
+                                <dt>Negotiator Sync</dt>
+                                <dd>
+                                    <p>Sync using a server supported by the extension developer.</p>
+                                    <p>Also supports custom urls for third party servers.</p>
+                                </dd>
+                                <dt>Browser Sync</dt>
+                                <dd>
+                                    <p>Save remotely using chrome.storage.sync to your browsers where you are logged in.</p>
+                                    <p>Google Chrome sync supports a <strong>maximum of 512 filters and actions</strong>.</p>
+                                </dd>
+                            </dl>
                         </div>
                     </span>
-                    <span class="tooltip">
-                        Block<div>
-                            <h2>Block</h2>
-                            <p>Block the request entirely</p>
+                </fieldset>
+                <fieldset id="syncNegotiator">
+                    <button id="syncNegotiatorUrlChange" class="button button-bottom">Change</button>
+                    <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
+                    <div id="syncNegotiatorStatus"></div>
+                    <button id="syncNegotiatorNow" class="button button-top">Sync Now</button>
+                </fieldset>
+            </div>
+            <div class="box">
+                <h1>New filters</h1>
+                <p>
+                    <label for="defaultNewFilterAction">Preset action</label>
+                    <select id="defaultNewFilterAction"></select>
+                </p>
+                <h1>Filter matching</h1>
+                <fieldset id="ignoreWWWSetting">
+                    <label for="ignoreWWW"><input type="checkbox" name="ignoreWWW" id="ignoreWWW" /> <span class="tooltip tooltip-below">Ignore leading www.<div>Treat www.example.com as example.com</div></span></label>
+                </fieldset>
+                <label for="counterIndicator">
+                    <input type="checkbox" name="counterIndicator" id="counterIndicator" /> Show <span class="tooltip tooltip-below">
+                        unfiltered<div>
+                            <p>Unfiltered requests are those that does not match any filters.</p>
+                            <p>Requests that match a "pass" filter are considered "filtered".</p>
                         </div>
-                    </span>
-                    <span class="tooltip">
-                        Request Filter<div>
-                            <h2>Request Filters</h2>
-                            <p>See below the table</p>
-                        </div>
-                    </span>
-                    <span class="tooltip">
-                        Response Filter<div>
-                            <h2>Response Filter</h2>
-                            <p>See below the table</p>
-                        </div>
-                    </span>
+                    </span> requests.
+                </label>
+            </div>
+            <div class="box">
+                <h1>Default action</h1>
+                <p>
+                    <label for="defaultAction">Cross domain:</label>
+                    <select id="defaultAction"></select>
+                </p>
+                <p>
+                    <label for="defaultLocalAction">Same exact domain:</label>
+                    <select id="defaultLocalAction"></select>
+                </p>
+                <p>
+                    <label for="defaultLocalTLDAction">Same top domain:</label>
+                    <select id="defaultLocalTLDAction"></select>
+                </p>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="main box">
+                <h1>Actions</h1>
+                <form id="addActionForm">
+                    New action: <input type="text" id="actionName" value="" size="10" placeholder="name" /><input type="submit" value="Add" class="button button-left" />
+                </form>
+                <div id="actions" class="table">
+                    <div>
+                        <span></span>
+                        <span>Name</span>
+                        <span class="tooltip">
+                            Color<div>
+                                <h2>Color</h2>
+                                <p>HTML color code, #0f0, #00ff00, or green.</p>
+                                <p>Used in the extension for visualization</p>
+                            </div>
+                        </span>
+                        <span class="tooltip">
+                            Block<div>
+                                <h2>Block</h2>
+                                <p>Block the request entirely</p>
+                            </div>
+                        </span>
+                        <span class="tooltip">
+                            Request Filter<div>
+                                <h2>Request Filters</h2>
+                                <p>See below the table</p>
+                            </div>
+                        </span>
+                        <span class="tooltip">
+                            Response Filter<div>
+                                <h2>Response Filter</h2>
+                                <p>See below the table</p>
+                            </div>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="columns">
-        <div class="box">
-            <h2>Filters</h2>
-            <p>Format:</p>
-            <code>header: value</code>
-            <code>+header: value</code>
-            <p><kbd>header</kbd> is the http header to be replaced, if it isn't present nothing will be added.</p>
-            <p><kbd>+header</kbd> will replace or add the header if it wasn't there before.</p>
-            <p><kbd>value</kbd> is the value of the header or one of the keywords described in the next boxes.</p>
-        </div>
-        <div class="box">
-            <h2>Request Filters</h2>
-            <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-            <dl>
-                <dt>pass</dt>
-                <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-                <dt>remove</dt>
-                <dd>Remove the header.</dd>
-                <dt>clean</dt>
-                <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
-                <dt>destclean</dt>
-                <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
-                <dt>dest</dt>
-                <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
-                <dt>random</dt>
-                <dd>New one for every request, <code id="exampleRandom"></code></dd>
-                <dt>simple</dt>
-                <dd><code id="exampleSimple"></code></dd>
-            </dl>
-        </div>
-        <div class="box">
-            <h2>Response Filters</h2>
-            <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
-            <dl>
-                <dt>pass</dt>
-                <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
-                <dt>remove</dt>
-                <dd>Remove the header.</dd>
-                <dt>force-csp</dt>
-                <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
-            </dl>
-        </div>
-    </div>
-    <div style="display: none;">
-        <form id="actionTemplate">
-            <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
-            <div class="name"></div>
-            <div><input id="color" class="color" type="text" value="#fff" size="10" /></div>
-            <div>
-                <select id="block">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                </select>
+        <div class="columns">
+            <div class="box">
+                <h2>Filters</h2>
+                <p>Format:</p>
+                <code>header: value</code>
+                <code>+header: value</code>
+                <p><kbd>header</kbd> is the http header to be replaced, if it isn't present nothing will be added.</p>
+                <p><kbd>+header</kbd> will replace or add the header if it wasn't there before.</p>
+                <p><kbd>value</kbd> is the value of the header or one of the keywords described in the next boxes.</p>
             </div>
-            <div><textarea id="request" rows="10" cols="50" placeholder="Request Filter"></textarea><div id="requestParsed"></div></div>
-            <div><textarea id="response" rows="10" cols="50" placeholder="Response Filter"></textarea><div id="responseParsed"></div></div>
+            <div class="box">
+                <h2>Request Filters</h2>
+                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+                <dl>
+                    <dt>pass</dt>
+                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                    <dt>remove</dt>
+                    <dd>Remove the header.</dd>
+                    <dt>clean</dt>
+                    <dd>Only send the domain of the referrer, <code>http://example.com</code></dd>
+                    <dt>destclean</dt>
+                    <dd>Send the domain of the <strong>destination</strong>, <code>http://target.com</code></dd>
+                    <dt>dest</dt>
+                    <dd>Send the entire <strong>destination</strong>, <code>http://target.com/subpage.php</code></dd>
+                    <dt>random</dt>
+                    <dd>New one for every request, <code id="exampleRandom"></code></dd>
+                    <dt>simple</dt>
+                    <dd><code id="exampleSimple"></code></dd>
+                </dl>
+            </div>
+            <div class="box">
+                <h2>Response Filters</h2>
+                <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
+                <dl>
+                    <dt>pass</dt>
+                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                    <dt>remove</dt>
+                    <dd>Remove the header.</dd>
+                    <dt>force-csp</dt>
+                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+                </dl>
+            </div>
+        </div>
+        <div style="display: none;">
+            <form id="actionTemplate">
+                <div><input type="submit" id="delete" value="Delete" class="dangerButton" /></div>
+                <div class="name"></div>
+                <div><input id="color" class="color" type="text" value="#fff" size="10" /></div>
+                <div>
+                    <select id="block">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div><textarea id="request" rows="10" cols="50" placeholder="Request Filter"></textarea><div id="requestParsed"></div></div>
+                <div><textarea id="response" rows="10" cols="50" placeholder="Response Filter"></textarea><div id="responseParsed"></div></div>
+            </form>
+        </div>
+    </div>
+    <div id="export-tab" class="tab hidden">
+        <div class="columns">
+            <div class="main box">
+                <p>Settings, actions and filters</p>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="grow box exportedColumn">
+                <h1>Export</h1>
+                <input type="button" id="exportJSON" value="Export" class="button button-bottom" />
+                <textarea id="exportedJSON" placeholder="Click Export"></textarea>
+            </div>
+            <div class="grow box exportedColumn">
+                <h1>Import</h1>
+                <input type="button" id="importJSON" value="Import" class="button button-bottom" "       />
+                <textarea id="importedJSON" placeholder="Paste a previous export here and click Import"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;">
+        <div id="filterHeader" class="header">
+            <span class="tooltip tooltip-below">
+                Track<div>
+                    <h1>Track requests</h1>
+                    <p>Requests matching this filter will be tracked.</p>
+                    <p>By default only requests that does not match any filter are tracked.</p>
+                </div>
+            </span>
+            <span>From</span>
+            <span>To</span>
+            <span>Action</span>
+        </div>
+
+        <form id="filterTemplate">
+            <div><input type="checkbox" id="track" title="Track" /></div>
+            <div><input type="text" id="from" value="" placeholder="From domain" /></div>
+            <div><input type="text" id="to" value="" placeholder="To domain" /></div>
+            <div><select id="filter"></select></div>
+            <div><input type="submit" id="add" value="Add" class="button" /></div>
+            <div><input type="button" id="del" value="delete" class="dangerButton" /></div>
         </form>
     </div>
 </body>

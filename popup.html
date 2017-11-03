@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <title>Negotiator</title>
+    <script src="script/shared.js"></script>
+    <script src="script/popup.js"></script>
+</head>
+<body id="popupBody">
+    <header id="mainpanel">
+        <a href="options.html#filters" class="button" target="_blank">Filters</a>
+        <a href="options.html#tracked" class="button" target="_blank">Tracked</a>
+        <a href="options.html#settings" class="button" target="_blank">Options</a>
+        <span class="filler"></span>
+        <button class="button" id="clearTrackedReload">Clear</button>
+    </header>
+    <div id="tablewrap">
+        <div id="table" class="table"></div>
+    </div>
+
+    <div style="display: none;">
+        <form id="filterTemplate">
+            <div><input type="checkbox" id="track" /></div>
+            <div><input type="text" id="from" value="" placeholder="From domain" /></div>
+            <div><input type="text" id="to" value="" placeholder="To domain" /></div>
+            <div><select id="filter"></select></div>
+            <div><input type="submit" id="add" value="Add" class="button" /></div>
+            <div><input type="button" id="del" value="delete" class="dangerButton" /></div>
+        </form>
+    </div>
+</body>
+</html>
