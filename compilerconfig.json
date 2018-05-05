@@ -1,0 +1,9 @@
+﻿[
+  {
+    "outputFile": "style.css",
+    "inputFile": "style.scss",
+    "minify": {
+      "enabled": false
+    }
+  }
+]

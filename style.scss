@@ -1,0 +1,465 @@
+/*
+Green	8bc53f
+Blue 00adee
+Red eb008b
+Orange f6921e
+*/
+
+@font-face {
+    font-family: 'Dhurjati';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Dhurjati'), url(/images/Dhurjati-Regular.ttf) format('truetype');
+}
+
+html {
+    background: #eee;
+}
+
+body {
+    margin: 0 auto;
+    padding: 0 0 0 0;
+}
+
+body, button {
+    font-family: sans-serif;
+    font-size: 13pt;
+}
+
+h1, h2, h3 {
+    font-family: 'Dhurjati';
+    font-weight: normal;
+    line-height: 1em;
+    padding: 0;
+    margin: 0 0 6pt 0;
+}
+
+h1 div, h2 div, h3 div {
+    font-family: sans-serif;
+}
+
+.errorList {
+    background: #f88;
+    border: 2px solid #000;
+    position: absolute;
+    top: 5em;
+    margin: 1em;
+    padding: 1em;
+    z-index: 9999;
+}
+
+.errorList > * {
+    margin: 3px 0 0 0;
+    padding: 3px;
+    background: #fff;
+    border: 1px solid #444;
+    white-space: pre;
+}
+
+.filler {
+    flex-grow: 1;
+}
+
+header {
+    background: #fff;
+    box-shadow: #ccc 0 -100px 20px 100px;
+}
+
+#mainpanel {
+    padding: 5px 1em;
+    line-height: 1em;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: space-between;
+}
+
+#mainpanel > * {
+    margin: 5px;
+}
+
+#mainpanel a {
+    color: #000;
+}
+
+#mainpanel a:hover {
+    color: #00adee;
+}
+
+fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+
+fieldset:last-child {
+    margin: 0;
+}
+
+label {
+    display: inline-block;
+    padding: 4px 11px;
+}
+
+label:hover {
+    background-color: #cfc;
+}
+
+.columns {
+    margin: 1em;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.columns > * {
+    display: inline-block;
+    margin: 0 2em 0 0;
+    padding: 0.5em 1em 1em 1em;
+    vertical-align: top;
+}
+
+.columns > *:last-child {
+    margin: 0;
+}
+
+.columns-wrap {
+    flex-wrap: wrap;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+.box {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: #ccc 3px 3px 5px;
+}
+
+.main {
+    display: inline-block;
+}
+
+.main {
+    position: relative;
+    margin: 0 1em 1em 0;
+    padding: 1em;
+}
+
+/* Table */
+.table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 0 1px;
+}
+
+.table > * {
+    display: table-row;
+    padding: 0 1em;
+}
+
+.table > * > * {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#actions.table {
+    background: #ccc;
+}
+
+input[type="checkbox"] {
+    width: 1.4em;
+    height: 1.4em;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+select {
+    background: transparent;
+    padding: 2pt;
+}
+
+.table {
+    input[type="text"],
+    textarea,
+    select {
+        background: transparent;
+        border: 1px solid transparent;
+    }
+
+    input[type="checkbox"] {
+    }
+
+    textarea {
+        height: 5em;
+    }
+
+    input[type="text"] {
+        width: 15em;
+        padding: 2pt 5pt;
+    }
+
+    input[type="text"].color {
+        width: 5em;
+    }
+
+    form:hover input[type="text"],
+    form:hover textarea,
+    form:hover select {
+        border: 1px solid gray;
+        background: #fff;
+    }
+}
+
+.button {
+    background-color: #fff;
+    background-color: #adf;
+    border-radius: 3px;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 3pt 20pt;
+    margin: 2pt;
+
+    &:hover {
+        background-color: #8cf;
+    }
+}
+
+.button-left {
+    margin-left: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.button-bottom {
+    margin-bottom: 0;
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.button-top {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.button.active {
+    background-color: #6af;
+    color: #fff !important;
+}
+
+.dangerButton {
+    cursor: pointer;
+    background-color: #fff;
+    color: #f00;
+    border: 1px solid #f00;
+}
+
+.dangerButton:hover {
+    background-color: #f24537;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* Thanks to http://www.menucool.com/tooltip/css-tooltip */
+.tooltip {
+    outline: none;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: gray;
+    cursor: help;
+    position: relative;
+    text-align: left;
+
+    & > * {
+        z-index: 10;
+        display: none;
+        position: absolute;
+        bottom: 2em;
+        left: 0;
+        color: #111;
+        border: 1px solid #DCA;
+        background: #fffAF0;
+        padding: 0 5px 5px 5px;
+        width: 300px;
+        font-size: 1rem;
+        font-weight: normal;
+        border-radius: 4px;
+        box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    }
+
+    h1,
+    h2 {
+        margin: 0;
+    }
+
+    p {
+        margin: 0 0 1em 0;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    &:hover > * {
+        display: inline;
+    }
+}
+
+.tooltip-below:hover > * {
+    bottom: auto;
+    top: 2em;
+    left: 0;
+    right: auto;
+}
+
+.tooltip-link {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-color: inherit;
+    cursor: hand;
+}
+
+
+code {
+    background: #ccc;
+    display: block;
+}
+
+dt {
+    font-weight: bold;
+}
+
+
+.exportedColumn {
+    width: 40%;
+
+    textarea {
+        width: 100%;
+        height: 20em;
+    }
+}
+
+#syncUrl {
+    width: 100%;
+}
+
+#syncNegotiatorUrlChange {
+    margin: 0;
+}
+
+#syncNegotiatorNow {
+    width: 100%;
+    margin: 0;
+}
+
+#syncNegotiatorStatus {
+    clear: both;
+    background: #eee;
+    padding: 0.5em;
+    margin: 1em 0 0 0;
+    box-shadow: #ccc 3px 3px 5px inset;
+    border: 1px solid #ccc;
+    min-width: 250px;
+}
+
+#addActionForm {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+@media screen and (max-width: 800px) {
+
+    .columns {
+        display: block;
+        margin: 1em 0;
+
+        & > * {
+            display: block;
+            margin: 1em 0;
+        }
+    }
+
+    .exportedColumn {
+        display: block;
+        width: auto;
+        margin: 1em 0;
+    }
+
+    .main, .table {
+        display: block;
+        width: auto;
+        margin: 0;
+    }
+
+    .table {
+
+        .header {
+            display: none;
+        }
+
+        & > * {
+            display: flex;
+            flex-flow: row wrap;
+            padding: 6pt;
+            margin: 0 0 6pt 0;
+            border-bottom: 1px solid #ccc;
+
+            & > * {
+                display: inline-block;
+                margin: 0 5pt 5pt 0;
+            }
+        }
+    }
+}
+
+.tab.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#clearTrackedReload {
+    float: right;
+}
+
+#popupBody {
+    background: #fff;
+    box-shadow: #fff 0 0 3px inset;
+
+    #tablewrap {
+        padding: 1em 0 2em;
+    }
+
+    .table {
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0 2px;
+    }
+
+    .table > * {
+        display: table-row;
+        border: 0;
+    }
+
+    .table > * > * {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding: 1px;
+        border: 0;
+    }
+}

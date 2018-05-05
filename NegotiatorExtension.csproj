@@ -63,7 +63,7 @@
     <Content Include="Store\screenshot-options.png" />
     <Content Include="Store\screenshot-tracked.png" />
     <Content Include="Store\Small Tile.png" />
-    <Content Include="style.css" />
+    <None Include="style.scss" />
     <Content Include="updates.xml" />
     <Content Include="script\sync.negotiator.js" />
   </ItemGroup>
