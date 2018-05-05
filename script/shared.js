@@ -64,8 +64,6 @@ function getFilterFromForm(form) {
     return f;
 }
 function generateFilterItem(table, f) {
-    if (f.sync == "deleted")
-        return;
     var row = cloneElement("filterTemplate");
     updateFilterRow(row, f);
     table.appendChild(row);

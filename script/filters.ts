@@ -38,15 +38,13 @@ function addFilter(f: Filter) {
             filters.direct[fromWithout] = fr;
         }
     }
-    if (fr.wild == null)
-        fr.wild = {};
 
     //...To: add filter
     var toWithout = withoutWild(f.to);
     if (isWild(f.to))
-        mergeListUpdate(fr.wild, toWithout, f);
+        fr.wild[toWithout] = f;
     else
-        mergeListUpdate(fr, toWithout, f);
+        fr.direct[toWithout] = f;
 
     return true;
 }

@@ -87,10 +87,42 @@ function addActionRow(actionKey) {
     var table = document.getElementById("actions");
     row["delete"].onclick = function (event) {
         event.preventDefault();
+        var count = ActionUse();
+        if (count > 0) {
+            alert("Action is in use by " + count + " filters");
+            return;
+        }
         b.deleteAction(actionKey);
         table.removeChild(row);
     };
     table.appendChild(row);
+    function ActionUse() {
+        var use = 0;
+        use += ActionUse1(b.filters.direct);
+        use += ActionUse1(b.filters.wild);
+        return use;
+    }
+    function ActionUse1(list) {
+        var use = 0;
+        for (var k in list) {
+            use += ActionUse2(list[k]);
+        }
+        return use;
+    }
+    function ActionUse2(to) {
+        var use = 0;
+        use += ActionUse3(to.direct);
+        use += ActionUse3(to.wild);
+        return use;
+    }
+    function ActionUse3(list) {
+        var use = 0;
+        for (var k in list) {
+            if (list[k].filter == actionKey)
+                use++;
+        }
+        return use;
+    }
 }
 function formatActionFilters(headerFilter) {
     if (headerFilter == null)

@@ -128,11 +128,49 @@ function addActionRow(actionKey: string) {
     row.delete.onclick = function (event: Event) {
         event.preventDefault();
 
+        //Make sure the action is not inuse.
+        var count = ActionUse();
+        if (count > 0) {
+            alert("Action is in use by " + count + " filters");
+            return;
+        }
+
         b.deleteAction(actionKey);
         table.removeChild(row);
     }
 
     table.appendChild(row);
+
+    function ActionUse() {
+        var use = 0;
+        use += ActionUse1(b.filters.direct);
+        use += ActionUse1(b.filters.wild);
+        return use;
+    }
+
+    function ActionUse1(list: { [index: string]: FiltersTo }): number {
+        var use = 0;
+        for (var k in list) {
+            use += ActionUse2(list[k]);
+        }
+        return use;
+    }
+
+    function ActionUse2(to: FiltersTo): number {
+        var use = 0;
+        use += ActionUse3(to.direct);
+        use += ActionUse3(to.wild);
+        return use;
+    }
+
+    function ActionUse3(list: { [index: string]: Filter }): number {
+        var use = 0;
+        for (var k in list) {
+            if (list[k].filter == actionKey)
+                use++;
+        }
+        return use;
+    }
 }
 
 function formatActionFilters(headerFilter: HeaderFilter) {

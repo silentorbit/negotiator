@@ -1,9 +1,9 @@
 "use strict";
 var filterFromToSeparator = " > ";
 function exportJSON() {
-    return JSON.stringify(exportAll(false), null, "\t");
+    return JSON.stringify(exportAll(), null, "\t");
 }
-function exportAll(includeEtag) {
+function exportAll() {
     var list = {};
     list.settings = JSON.parse(JSON.stringify(settings));
     for (var a in actions)
@@ -15,14 +15,6 @@ function exportAll(includeEtag) {
     var fw = filters.wild;
     for (var f in fw) {
         exportAllTo("*" + f, fw[f], list);
-    }
-    if (includeEtag !== true) {
-        for (var k in list) {
-            var i = list[k];
-            delete i.etag;
-            delete i.version;
-            delete i.sync;
-        }
     }
     return list;
 }
@@ -48,10 +40,6 @@ function generateExportItem(f) {
     var i = {
         filter: f.filter
     };
-    if (f.etag)
-        i.etag = f.etag;
-    if (f.sync)
-        i.sync = f.sync;
     if (f.track)
         i.track = true;
     return i;

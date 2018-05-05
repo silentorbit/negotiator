@@ -20,7 +20,7 @@ function getRequestFilter(from, to) {
         var fto = filters.direct[from];
         if (fto != null) {
             var t = getRequestFilterTo(fto, to);
-            if (t != null && t.sync != "deleted")
+            if (t != null)
                 return t;
         }
     }
@@ -30,7 +30,7 @@ function getRequestFilter(from, to) {
         var toList = filters.wild[from];
         if (toList != null) {
             t = getRequestFilterTo(toList, to);
-            if (t != null && t.sync != "deleted")
+            if (t != null)
                 return t;
         }
         var p = from.indexOf(".");
@@ -41,20 +41,20 @@ function getRequestFilter(from, to) {
     if (filters.wild[""] == null)
         return null;
     var t = getRequestFilterTo(filters.wild[""], to);
-    if (t != null && t.sync != "deleted")
+    if (t != null)
         return t;
     return null;
 }
 function getRequestFilterTo(fromList, domain) {
     var t = fromList.direct[domain];
-    if (t != null && t.sync != "deleted")
+    if (t != null)
         return t;
     var source = fromList.wild;
     if (source == null)
         return null;
     while (true) {
         var t_1 = source[domain];
-        if (t_1 != null && t_1.sync != "deleted")
+        if (t_1 != null)
             return t_1;
         var p = domain.indexOf(".");
         if (p < 0)

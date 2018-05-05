@@ -90,9 +90,6 @@ function getFilterFromForm(form: FilterRow): Filter {
 //Shared with page filter and popup
 //Return html representation of a filter
 function generateFilterItem(table: HTMLElement, f: Filter) {
-    if (f.sync == "deleted")
-        return;
-
     var row = cloneElement("filterTemplate") as FilterRow;
     updateFilterRow(row, f);
 

@@ -122,14 +122,10 @@ interface Filter {
     to: string
     filter: string
     track: boolean
-    sync?: string
-    etag?: string
 }
 
 interface ExportItem {
     filter: string
-    etag?: string
-    sync?: string
     track?: boolean
 }
 
@@ -142,7 +138,7 @@ interface Settings {
     defaultNewFilterAction?: string
 }
 
-interface SettingsExport {
+interface SettingsExport extends Object {
     [key: string]: any
     settings?: any
 }

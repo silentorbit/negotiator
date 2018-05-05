@@ -21,16 +21,6 @@ function mergeUpdate(target: any, source: any) {
     //delete target.sync;
 }
 
-//With Special handling of deletion
-function mergeListUpdate(list: any, index: string, source: any) {
-    if (source.sync == "deleted") {
-        delete list[index];
-        return;
-    }
-
-    list[index] = source;
-}
-
 function importAll(list: { [key: string]: any }) {
 
     var total = 0;
@@ -48,7 +38,7 @@ function importAll(list: { [key: string]: any }) {
         //Actions
         if (k.indexOf(syncActionPrefix) == 0) {
             var action = k.substring(syncActionPrefix.length);
-            mergeListUpdate(actions, action, row);
+            actions[action] = row;
             continue;
         }
 

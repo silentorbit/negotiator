@@ -12,13 +12,6 @@ function mergeUpdate(target, source) {
     for (var k in source)
         target[k] = source[k];
 }
-function mergeListUpdate(list, index, source) {
-    if (source.sync == "deleted") {
-        delete list[index];
-        return;
-    }
-    list[index] = source;
-}
 function importAll(list) {
     var total = 0;
     for (var k in list) {
@@ -30,7 +23,7 @@ function importAll(list) {
         }
         if (k.indexOf(syncActionPrefix) == 0) {
             var action = k.substring(syncActionPrefix.length);
-            mergeListUpdate(actions, action, row);
+            actions[action] = row;
             continue;
         }
         var sep = k.indexOf(filterFromToSeparator);

@@ -1,12 +1,16 @@
 ﻿"use strict";
 
 function saveAllLocal() {
-    chrome.storage.local.set({ "settings": exportAll(true) }, function () {
+    var settingsExport = exportAll();
+    chrome.storage.local.set({ settings: settingsExport }, function () {
 
-        console.log("Save successful, deleting legacy");
+        console.log("Saved " + Object.keys(settingsExport).length + " rows");
 
-        //Remove legacy saved data.
-        localStorage.removeItem("filter-list");
+        if (localStorage.getItem("filter-list") != null) {
+            //Remove legacy saved data.
+            localStorage.removeItem("filter-list");
+            console.log("Removed legacy storage");
+        }
     });
 }
 

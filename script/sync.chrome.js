@@ -12,7 +12,7 @@ function loadAllChrome() {
     });
 }
 function saveAllChrome() {
-    var list = exportAll(false);
+    var list = exportAll();
     chrome.storage.sync.set(list, function () {
         if (chrome.runtime.lastError) {
             logError(chrome.runtime.lastError);
