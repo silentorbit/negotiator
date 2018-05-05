@@ -1,42 +1,55 @@
-"use strict";
+﻿"use strict";
+
 function loadAllChrome() {
     chrome.storage.sync.get(null, function (list) {
         if (chrome.runtime.lastError) {
             syncError();
             return;
         }
+
+        //console.log("Filters: loaded", list);
         filters = { wild: {}, direct: {} };
-        actions = {};
+        actions = {} as Actions;
         importAll(list);
+
+        //Always save locally
         saveAllLocal();
     });
 }
+
 function saveAllChrome() {
     var list = exportAll(false);
+    //console.log("Filters: saving all", list);
     chrome.storage.sync.set(list, function () {
         if (chrome.runtime.lastError) {
             logError(chrome.runtime.lastError);
         }
         else {
+            //Remove legacy code
             if (!chrome.runtime.lastError) {
+                //console.log("Filters: removing legacy, filters");
                 chrome.storage.sync.remove("filters", syncError);
             }
         }
     });
 }
-function syncDeleteChrome(key) {
+
+function syncDeleteChrome(key: string) {
     chrome.storage.sync.remove(key, syncError);
 }
-function syncUpdateChrome(key, value) {
-    var i = {};
+
+function syncUpdateChrome(key: string, value: any) {
+    var i = {} as any;
     i[key] = value;
     chrome.storage.sync.set(i, syncError);
 }
+
 chrome.storage.onChanged.addListener(function (changed, namespace) {
     if (namespace != "sync")
         return;
     if (syncType != "chrome")
         return;
+
     for (var k in changed) {
         var c = changed[k];
         if (k.indexOf(syncActionPrefix) == 0) {
@@ -69,7 +82,9 @@ chrome.storage.onChanged.addListener(function (changed, namespace) {
                 settings = c.newValue;
             continue;
         }
+        //Unknown storage key
         console.log("Error, unknown sync storage key", k, c);
     }
+
     saveAllLocal();
 });

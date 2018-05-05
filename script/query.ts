@@ -1,12 +1,18 @@
 "use strict";
-function getFilter(from, to) {
+
+//Return the filter string for a given domain
+//Return null if no filter matched
+function getFilter(from: string, to: string) {
+    //Remove leading www.
     if (settings.ignoreWWW) {
         if (from != null && from.lastIndexOf("www.", 0) == 0)
             from = from.substring(4);
         if (to.lastIndexOf("www.", 0) == 0)
             to = to.substring(4);
     }
+
     if (from == null) {
+        //First check for within the domain filter
         var f = getRequestFilter(to, to);
         if (f != null)
             return f;
@@ -15,15 +21,33 @@ function getFilter(from, to) {
     else
         return getRequestFilter(from, to);
 }
-function getRequestFilter(from, to) {
+
+function getRequestFilter(from: string, to: string) {
+    //From ip
+    /*
+	var a = ipsub.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)/);
+	if(a !== null)
+	{
+		//TODO: Decide
+		//Either: Loop through an entire list if ip filters(up to n tests)
+		//Or  interpret as 32 bit - up to 32 tests
+		//Or interpret as bytes - up to 4 tests
+		//Or compare as domains but start cutting off at the end instead.
+		//We go with the last option
+	}*/
+
+    //From direct match
     {
-        var fto = filters.direct[from];
+        let fto = filters.direct[from];
         if (fto != null) {
+            //To 
             var t = getRequestFilterTo(fto, to);
             if (t != null && t.sync != "deleted")
                 return t;
         }
     }
+
+    //From wildcard match
     if (filters.wild == null)
         return null;
     while (from != "") {
@@ -33,6 +57,7 @@ function getRequestFilter(from, to) {
             if (t != null && t.sync != "deleted")
                 return t;
         }
+        //remove one subdomain level
         var p = from.indexOf(".");
         if (p < 0)
             break;
@@ -45,17 +70,22 @@ function getRequestFilter(from, to) {
         return t;
     return null;
 }
-function getRequestFilterTo(fromList, domain) {
+
+function getRequestFilterTo(fromList: FiltersTo, domain: string) {
+    //To direct match
     var t = fromList.direct[domain];
     if (t != null && t.sync != "deleted")
         return t;
+
+    //To wildcard match
     var source = fromList.wild;
     if (source == null)
         return null;
     while (true) {
-        var t_1 = source[domain];
-        if (t_1 != null && t_1.sync != "deleted")
-            return t_1;
+        let t = source[domain];
+        if (t != null && t.sync != "deleted")
+            return t;
+        //remove one subdomain
         var p = domain.indexOf(".");
         if (p < 0)
             break;
@@ -63,7 +93,8 @@ function getRequestFilterTo(fromList, domain) {
     }
     return source[""];
 }
-function parseSubnet(ipsub) {
+
+function parseSubnet(ipsub: string) {
     var a = ipsub.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)(\/(\d+))?/);
     if (a === null)
         return null;

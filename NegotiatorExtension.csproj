@@ -28,44 +28,45 @@
     <Content Include=".gitignore" />
     <Content Include="background.html" />
     <Content Include="COPYING.GPLv3.html" />
-    <Content Include="images\action19.png" />
-    <Content Include="images\action38.png" />
     <Content Include="images\icon128.png" />
     <Content Include="images\icon16.png" />
+    <Content Include="images\icon19.png" />
     <Content Include="images\icon32.png" />
+    <Content Include="images\icon38.png" />
     <Content Include="images\icon48.png" />
     <Content Include="images\red19.png" />
     <Content Include="images\red38.png" />
     <Content Include="options.html" />
     <Content Include="popup.html" />
     <Content Include="release.exclude.txt" />
-    <Content Include="script\errors.js" />
-    <Content Include="script\export.js" />
-    <Content Include="script\filters.js" />
-    <Content Include="script\page-export.js" />
-    <Content Include="script\page-filters.js" />
-    <Content Include="script\page-settings.js" />
-    <Content Include="script\page-tracked.js" />
-    <Content Include="script\page.js" />
-    <Content Include="script\popup.js" />
-    <Content Include="script\query.js" />
-    <Content Include="script\requests.js" />
-    <Content Include="script\settings.js" />
-    <Content Include="script\shared.js" />
-    <Content Include="script\sync.local.js" />
-    <Content Include="script\sync.chrome.js" />
-    <Content Include="script\sync.js" />
-    <Content Include="Store\Large Tile.png" />
-    <Content Include="Store\Marquee.png" />
-    <Content Include="Store\screenshot-after.png" />
-    <Content Include="Store\screenshot-before.png" />
-    <Content Include="Store\screenshot-filters.png" />
-    <Content Include="Store\screenshot-options.png" />
-    <Content Include="Store\screenshot-tracked.png" />
-    <Content Include="Store\Small Tile.png" />
+    <TypeScriptCompile Include="script\chrome.d.ts" />
+    <TypeScriptCompile Include="script\errors.ts" />
+    <TypeScriptCompile Include="script\export.ts" />
+    <TypeScriptCompile Include="script\interfaces.d.ts" />
+    <TypeScriptCompile Include="script\filters.ts" />
+    <TypeScriptCompile Include="script\page-export.ts" />
+    <TypeScriptCompile Include="script\page-filters.ts" />
+    <TypeScriptCompile Include="script\page-settings.ts" />
+    <TypeScriptCompile Include="script\page-tracked.ts" />
+    <TypeScriptCompile Include="script\page.ts" />
+    <TypeScriptCompile Include="script\popup.ts" />
+    <TypeScriptCompile Include="script\query.ts" />
+    <TypeScriptCompile Include="script\requests.ts" />
+    <TypeScriptCompile Include="script\settings.ts" />
+    <TypeScriptCompile Include="script\shared.ts" />
+    <TypeScriptCompile Include="script\sync.local.ts" />
+    <TypeScriptCompile Include="script\sync.chrome.ts" />
+    <TypeScriptCompile Include="script\sync.ts" />
+    <Content Include="tsconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="style.scss" />
+    <Content Include="style.css">
+      <DependentUpon>style.scss</DependentUpon>
+    </Content>
     <Content Include="updates.xml" />
-    <Content Include="script\sync.negotiator.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build-release.sh" />

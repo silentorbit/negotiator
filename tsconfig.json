@@ -1,0 +1,11 @@
+﻿{
+  "compilerOptions": {
+    "module": "system",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": false
+  },
+  "include": [
+    "script/*.ts"
+  ]
+}

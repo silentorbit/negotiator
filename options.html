@@ -60,7 +60,6 @@
                 <fieldset>
                     <select id="syncType">
                         <option value="local">Local Only</option>
-                        <option value="negotiator">Negotiator Sync</option>
                         <option value="chrome">Browser Sync</option>
                     </select> <span class="tooltip tooltip-below">
                         Help<div>
@@ -69,11 +68,6 @@
                             <dl>
                                 <dt>Local Only</dt>
                                 <dd>Only stored locally, use export/import to copy to other computers.</dd>
-                                <dt>Negotiator Sync</dt>
-                                <dd>
-                                    <p>Sync using a server supported by the extension developer.</p>
-                                    <p>Also supports custom urls for third party servers.</p>
-                                </dd>
                                 <dt>Browser Sync</dt>
                                 <dd>
                                     <p>Save remotely using chrome.storage.sync to your browsers where you are logged in.</p>
@@ -82,12 +76,6 @@
                             </dl>
                         </div>
                     </span>
-                </fieldset>
-                <fieldset id="syncNegotiator">
-                    <button id="syncNegotiatorUrlChange" class="button button-bottom">Change</button>
-                    <input type="text" id="syncUrl" value="" placeholder="https://" disabled="disabled" />
-                    <div id="syncNegotiatorStatus"></div>
-                    <button id="syncNegotiatorNow" class="button button-top">Sync Now</button>
                 </fieldset>
             </div>
             <div class="box">

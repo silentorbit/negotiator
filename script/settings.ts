@@ -1,28 +1,39 @@
 "use strict";
+
+//Storage location: local, chrome, negotiator
 var syncType = localStorage.getItem("syncType");
 if (syncType == null)
     syncType = "local";
-function setSync(type) {
+
+function setSync(type: string) {
+    //Save setting
     syncType = type;
     localStorage.syncType = syncType;
+    
+    //Reload
     loadAll();
 }
-var settings = {};
-var actions = {};
-var filters = { wild: {}, direct: {} };
-function addAction(actionKey, action) {
-    action = JSON.parse(JSON.stringify(action));
+
+//Live storage
+var settings = {} as Settings;
+var actions = {} as Actions;
+var filters: Filters = { wild: {}, direct: {} };
+
+function addAction(actionKey: string, action: Action) {
+    action = JSON.parse(JSON.stringify(action)); //Prevents Firefox dead object
     actions[actionKey] = action;
 }
-function deleteAction(actionKey) {
+
+function deleteAction(actionKey: string) {
     delete actions[actionKey];
-    syncDeleteAction(actionKey);
+    syncDeleteAction(actionKey)
 }
+
 function fixAll() {
-    if (settings == null)
-        settings = {};
+    //Settings
+    if (settings == null) settings = {};
     if (settings.ignoreWWW === undefined)
-        settings.ignoreWWW = true;
+        settings.ignoreWWW = true;//By default new installs ignore www
     if (settings.countIndicator === undefined)
         settings.countIndicator = "unfiltered";
     if (settings.defaultAction == undefined)
@@ -33,7 +44,10 @@ function fixAll() {
         settings.defaultLocalTLDAction = "pass";
     if (settings.defaultNewFilterAction == undefined)
         settings.defaultNewFilterAction = "block";
+
+    //Actions
     if (actions == null || Object.keys(actions).length == 0) {
+        //Load default actions
         actions = {
             pass: {
                 color: "#4f4",
@@ -42,6 +56,7 @@ function fixAll() {
                 response: {},
                 sync: "modified"
             },
+
             clear: {
                 color: "#8ce",
                 block: "false",
@@ -54,6 +69,7 @@ function fixAll() {
                 },
                 sync: "modified"
             },
+
             block: {
                 color: "#f64",
                 block: "true",
@@ -61,14 +77,17 @@ function fixAll() {
                 response: {},
                 sync: "modified"
             }
-        };
+        }
     }
+
+    //Upgrade actions
     for (var k in actions) {
         var a = actions[k];
         if (a.request == null)
             a.request = {};
         if (a.response == null)
             a.response = {};
+
         switch (a.agent) {
             case null:
             case undefined:
@@ -90,6 +109,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.agent;
+
         switch (a.referer) {
             case null:
             case undefined:
@@ -111,6 +131,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.referer;
+
         switch (a.cookie) {
             case null:
             case undefined:
@@ -124,6 +145,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.cookie;
+
         switch (a.accept) {
             case null:
             case undefined:
@@ -139,6 +161,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.accept;
+
         switch (a.acceptlanguage) {
             case null:
             case undefined:
@@ -151,6 +174,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.acceptlanguage;
+
         switch (a.acceptencoding) {
             case null:
             case undefined:
@@ -163,6 +187,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.acceptencoding;
+
         switch (a.acceptcharset) {
             case null:
             case undefined:
@@ -175,6 +200,7 @@ function fixAll() {
                 throw "Upgrade error";
         }
         delete a.acceptcharset;
+
         switch (a.csp) {
             case null:
             case undefined:
@@ -200,6 +226,7 @@ function fixAll() {
         }
         delete a.csp;
         delete a.customcsp;
+
         console.log("Upgrade complete");
     }
 }
