@@ -131,7 +131,7 @@ function addActionRow(actionKey: string) {
         //Make sure the action is not inuse.
         var count = ActionUse();
         if (count > 0) {
-            alert("Action is in use by " + count + " filters");
+            alert("Action is in use by " + count + " filters\n\nDelete those filters first.");
             return;
         }
 
