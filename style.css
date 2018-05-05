@@ -384,6 +384,11 @@ dt {
         margin: 1em 0;
     }
 
+        .columns > * {
+            display: block;
+            margin: 1em 0;
+        }
+
     .exportedColumn {
         display: block;
         width: auto;
