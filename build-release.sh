@@ -22,12 +22,6 @@ cd $REL
 #zip -r $SOURCE/../Releases/Negotiator.xpi *
 #popd
 
-#SilentOrbit
-rm -r $REL/SilentOrbit || true
-mkdir $REL/SilentOrbit
-rsync -rv $SOURCE/ --exclude-from $SOURCE/release.exclude.txt $REL/SilentOrbit
-#chromium-browser --pack-extension=Negotiator --pack-extension-key=$1
-
 #Chrome Web Store
 CWSZIP=$REL/ChromeWebStore-Negotiator.zip
 rm -r $REL/ChromeWebStore || true
