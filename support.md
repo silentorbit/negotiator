@@ -13,7 +13,3 @@ menu:
 # Issue Tracker
 
 [Send your bug reports here](https://github.com/hultqvist/negotiator/issues)
-
-# Live Chat
-
-[Web Chat](https://discord.gg/u4qfkVT)

@@ -1,7 +1,5 @@
 # Negotiator
 
-*Formerly known as "KISS Privacy"*
-
 The web is not a done deal.
 
 ## Chrome Extension
