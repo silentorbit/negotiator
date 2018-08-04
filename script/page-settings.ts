@@ -59,9 +59,9 @@ function loadSettingsPage() {
     });
 
     //Help examples:
-    document.querySelector("#examplePass").innerHTML = navigator.userAgent;
-    document.querySelector("#exampleRandom").innerHTML = b.getRandomUserAgent();
-    document.querySelector("#exampleSimple").innerHTML = b.userAgent;
+    document.querySelector("#examplePass").textContent = navigator.userAgent;
+    document.querySelector("#exampleRandom").textContent = b.getRandomUserAgent();
+    document.querySelector("#exampleSimple").textContent = b.userAgent;
 }
 
 //Populate Actions list
@@ -83,10 +83,9 @@ function updateEnabled(row: ActionRow) {
 }
 
 function addActionRow(actionKey: string) {
-    var row = document.getElementById("actionTemplate").cloneNode(true) as ActionRow;
+    var row = CloneByID<ActionRow>("actionTemplate");
     var action = b.actions[actionKey];
 
-    row.removeAttribute("id");
     row.style.background = action.color;
 
     row.querySelector(".name").textContent = actionKey;

@@ -16,10 +16,10 @@ function testFilter() {
 
     var result = document.getElementById("testResult");
     if (filter == null)
-        result.innerHTML = "no match, default";
+        result.textContent = "no match, default";
     else {
         result.innerHTML = "";
-        result.appendChild(cloneElement("filterHeader"));//Add headers
+        result.appendChild(CloneByID("filterHeader"));//Add headers
         generateFilterItem(result, filter);
     }
 }
@@ -34,8 +34,8 @@ function updateFilters() {
         return;
 
     //Add headers
-    filtersTag.innerHTML = document.getElementById("filterHeader").outerHTML;
-    filtersBlockedTag.innerHTML = document.getElementById("filterHeader").outerHTML;
+    filtersTag.appendChild(CloneByID("filterHeader"));
+    filtersBlockedTag.appendChild(CloneByID("filterHeader"));
 
     for (var i in list.wild)
         generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);

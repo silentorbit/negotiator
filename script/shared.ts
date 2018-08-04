@@ -90,7 +90,7 @@ function getFilterFromForm(form: FilterRow): Filter {
 //Shared with page filter and popup
 //Return html representation of a filter
 function generateFilterItem(table: HTMLElement, f: Filter) {
-    var row = cloneElement("filterTemplate") as FilterRow;
+    var row = CloneByID("filterTemplate") as FilterRow;
     updateFilterRow(row, f);
 
     table.appendChild(row);
@@ -159,7 +159,7 @@ function updateFilterRow(row: FilterRow, f: Filter) {
 function insertTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: { (f: Filter): void }) {
     if (req.from == null)
         req.from = "";
-    var row = cloneElement("filterTemplate") as FilterRow;
+    var row = CloneByID("filterTemplate") as FilterRow;
     row.removeAttribute("id");
     row.removeChild(row.del.parentNode);
     row.from.value = req.from;
@@ -236,9 +236,9 @@ function endsWith(str: string, suffix: string) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function cloneElement(id: string): HTMLElement {
+function CloneByID<T extends Element>(id: string): T {
     var source = document.getElementById(id);
-    var e = document.createElement("div");
-    e.innerHTML = source.outerHTML;
-    return e.firstChild as HTMLElement;
+    var clone = source.cloneNode(true) as T;
+    clone.removeAttribute("id");
+    return clone;
 }
