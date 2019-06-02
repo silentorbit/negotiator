@@ -153,7 +153,7 @@ function updateFilterRow(row: FilterRow, f: Filter) {
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
     if (row.add != null)
-        row.removeChild(row.add.parentNode); //Remove "add"/"save" button
+        row.add.parentNode.removeChild(row.add); //Remove "add"/"save" button
 
     //Update events with the new filter settings (f)
     row.del.onclick = function () {
@@ -178,7 +178,7 @@ function insertTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction
         req.from = "";
     var row = CloneByID("filterTemplate") as FilterRow;
     row.removeAttribute("id");
-    row.removeChild(row.del.parentNode);
+    row.del.parentNode.removeChild(row.del);
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;

@@ -60,6 +60,10 @@ h1 div, h2 div, h3 div {
     flex-grow: 1;
 }
 
+.spacer {
+    flex: 0 0 0.5em;
+}
+
 header {
     background: #fff;
     box-shadow: #ccc 0 -100px 20px 100px;
@@ -106,23 +110,31 @@ label:hover {
     background-color: #cfc;
 }
 
+.full-width {
+    margin: 1em;
+
+    & > * {
+        display: block;
+    }
+}
+
 .columns {
     margin: 1em;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-}
 
-.columns > * {
-    display: inline-block;
-    margin: 0 2em 0 0;
-    padding: 0.5em 1em 1em 1em;
-    vertical-align: top;
-}
+    & > * {
+        display: inline-block;
+        margin: 0 2em 0 0;
+        padding: 0.5em 1em 1em 1em;
+        vertical-align: top;
+    }
 
-.columns > *:last-child {
-    margin: 0;
+    & > *:last-child {
+        margin: 0;
+    }
 }
 
 .columns-wrap {
@@ -140,10 +152,6 @@ label:hover {
 }
 
 .main {
-    display: inline-block;
-}
-
-.main {
     position: relative;
     margin: 0 1em 1em 0;
     padding: 1em;
@@ -152,20 +160,48 @@ label:hover {
 /* Table */
 .table {
     display: table;
-    border-collapse: separate;
-    border-spacing: 0 1px;
+
+    .header {
+        font-weight: bold;
+    }
+
+    & > * {
+        display: table-row;
+
+        & > * {
+            display: table-cell;
+            padding: 3pt;
+            vertical-align: top;
+        }
+    }
 }
 
-.table > * {
-    display: table-row;
-    padding: 0 1em;
+.filter-table {
+    display: flex;
+    flex-flow: column nowrap;
+
+    .header {
+        font-weight: bold;
+    }
+
+    & > * {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+
+        & > * {
+            flex: 0 0 13em;
+            padding: 3pt;
+            display: flex;
+            align-items: center;
+        }
+
+        & > *:nth-child(3) {
+            flex: 0 0 10em;
+        }
+    }
 }
 
-.table > * > * {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-}
 
 #actions.table {
     background: #ccc;
@@ -184,6 +220,7 @@ select {
     padding: 2pt;
 }
 
+.filter-table,
 .table {
     input[type="text"],
     textarea,
@@ -206,6 +243,16 @@ select {
 
     input[type="text"].color {
         width: 5em;
+    }
+
+    form {
+        border: 1px solid #000;
+        margin-bottom: -1px;
+    }
+
+    form:hover {
+        background: #ccc;
+        border: 1px solid #000;
     }
 
     form:hover input[type="text"],
@@ -327,7 +374,7 @@ select {
     text-decoration: underline;
     text-decoration-style: solid;
     text-decoration-color: inherit;
-    cursor: hand;
+    cursor: pointer;
 }
 
 
@@ -374,30 +421,10 @@ dt {
         margin: 1em 0;
     }
 
-    .main, .table {
+    .main {
         display: block;
         width: auto;
         margin: 0;
-    }
-
-    .table {
-
-        .header {
-            display: none;
-        }
-
-        & > * {
-            display: flex;
-            flex-flow: row wrap;
-            padding: 6pt;
-            margin: 0 0 6pt 0;
-            border-bottom: 1px solid #ccc;
-
-            & > * {
-                display: inline-block;
-                margin: 0 5pt 5pt 0;
-            }
-        }
     }
 }
 
@@ -419,24 +446,5 @@ dt {
 
     #tablewrap {
         padding: 1em 0 2em;
-    }
-
-    .table {
-        display: table;
-        border-collapse: collapse;
-        border-spacing: 0 2px;
-    }
-
-    .table > * {
-        display: table-row;
-        border: 0;
-    }
-
-    .table > * > * {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-        padding: 1px;
-        border: 0;
     }
 }

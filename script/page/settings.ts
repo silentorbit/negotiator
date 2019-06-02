@@ -72,7 +72,7 @@ function updateActions() {
         forms[n].remove();
 
     for (var i in b.actions)
-        addActionRow(i);
+        addActionRow(i, b.actions[i]);
 }
 
 function updateEnabled(row: ActionRow) {
@@ -82,10 +82,9 @@ function updateEnabled(row: ActionRow) {
     row.response.style.display = display;
 }
 
-function addActionRow(actionKey: string) {
+function addActionRow(actionKey: string, action: Action) {
     var row = CloneByID<ActionRow>("actionTemplate");
-    var action = b.actions[actionKey];
-
+    
     row.style.background = action.color;
 
     row.querySelector(".name").textContent = actionKey;

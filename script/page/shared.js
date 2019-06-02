@@ -111,7 +111,7 @@ function updateFilterRow(row, f) {
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
     if (row.add != null)
-        row.removeChild(row.add.parentNode);
+        row.add.parentNode.removeChild(row.add);
     row.del.onclick = function () {
         b.syncDeleteFilter(f);
         row.parentNode.removeChild(row);
@@ -131,7 +131,7 @@ function insertTrackedRow(table, req, submitAction) {
         req.from = "";
     var row = CloneByID("filterTemplate");
     row.removeAttribute("id");
-    row.removeChild(row.del.parentNode);
+    row.del.parentNode.removeChild(row.del);
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;

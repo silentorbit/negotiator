@@ -29,28 +29,27 @@
                     <input id="testTo" value="doubleclick.net" />
                     <input type="button" id="testButton" value="Test" class="button" />
                 </fieldset>
-                <div id="testResult" class="table"></div>
+                <div id="testResult" class="filter-table"></div>
             </div>
         </div>
-        <div class="columns columns-wrap">
+        <div class="full-width">
             <div class="main box">
-
                 <h1>Blocked</h1>
-                <div id="filtersBlocked" class="table"></div>
+                <div id="filtersBlocked" class="filter-table"></div>
             </div>
             <div class="main box">
                 <h1>Filtered</h1>
-                <div id="filters" class="table"></div>
+                <div id="filters" class="filter-table"></div>
             </div>
         </div>
     </div>
     <div id="tracked-tab" class="tab hidden">
-        <div class="columns">
+        <div class="full-width">
             <div class="main box">
                 <button class="button" id="clearTrackedReload">Clear</button>
                 <h1>Tracked Requests</h1>
-                <div id="trackedTable" class="table"></div>
-                <div id="filters" class="table"></div>
+                <div id="trackedTable" class="filter-table"></div>
+                <div id="filters" class="filter-table"></div>
             </div>
         </div>
     </div>
@@ -226,7 +225,7 @@
             </div>
             <div class="grow box exportedColumn">
                 <h1>Import</h1>
-                <input type="button" id="importJSON" value="Import" class="button button-bottom" "       />
+                <input type="button" id="importJSON" value="Import" class="button button-bottom" "           />
                 <textarea id="importedJSON" placeholder="Paste a previous export here and click Import"></textarea>
             </div>
         </div>
@@ -234,6 +233,8 @@
 
     <div style="display: none;">
         <div id="filterHeader" class="header">
+            <span>From</span>
+            <span>To</span>
             <span class="tooltip tooltip-below">
                 Track<div>
                     <h1>Track requests</h1>
@@ -241,18 +242,17 @@
                     <p>By default only requests that does not match any filter are tracked.</p>
                 </div>
             </span>
-            <span>From</span>
-            <span>To</span>
-            <span>Action</span>
         </div>
 
         <form id="filterTemplate">
-            <div><input type="checkbox" id="track" title="Track" /></div>
             <div><input type="text" id="from" value="" placeholder="From domain" /></div>
             <div><input type="text" id="to" value="" placeholder="To domain" /></div>
-            <div><select id="filter"></select></div>
-            <div><input type="submit" id="add" value="Add" class="button" /></div>
-            <div><input type="button" id="del" value="delete" class="dangerButton" /></div>
+            <div>
+                <input type="checkbox" id="track" title="Track" /><span class="spacer"></span>
+                <select id="filter"></select><span class="spacer"></span>
+                <input type="submit" id="add" value="Add" class="button" />
+                <input type="button" id="del" value="delete" class="dangerButton" />
+            </div>
         </form>
     </div>
 </body>

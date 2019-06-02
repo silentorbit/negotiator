@@ -50,7 +50,7 @@ function updateActions() {
     for (var n = 0; n < forms.length; n++)
         forms[n].remove();
     for (var i in b.actions)
-        addActionRow(i);
+        addActionRow(i, b.actions[i]);
 }
 function updateEnabled(row) {
     var isBlocked = row.block.value == "true";
@@ -58,9 +58,8 @@ function updateEnabled(row) {
     row.request.style.display = display;
     row.response.style.display = display;
 }
-function addActionRow(actionKey) {
+function addActionRow(actionKey, action) {
     var row = CloneByID("actionTemplate");
-    var action = b.actions[actionKey];
     row.style.background = action.color;
     row.querySelector(".name").textContent = actionKey;
     row.color.value = action.color;
