@@ -22,23 +22,26 @@
     "default_title": "Negotiator",
     "default_popup": "options.html"
   },
-  "disabled: browser_action": {
-    "default_icon": {
-      "16": "images/icon16.png",
-      "19": "images/icon19.png",
-      "38": "images/icon38.png",
-      "128": "images/icon128.png"
-    },
-    "default_title": "Negotiator",
-    "default_popup": "options.html"
-  },
-  "update_url": "http://silentorbit.com/extensions/updates",
   "homepage_url": "http://silentorbit.com/negotiator/",
   "background": {
-    "page": "background.html",
+    "scripts": [
+      "script/errors.js",
+      "script/settings.js",
+      "script/export.js",
+      "script/filters.js",
+      "script/query.js",
+      "script/requests.js",
+      "script/sync.local.js",
+      "script/sync.chrome.js",
+      "script/sync.js"
+    ],
     "persistent": true
   },
   "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "permissions": [
     "webRequest",
     "webRequestBlocking",
@@ -52,9 +55,5 @@
     "gecko": {
       "id": "negotiator@silentorbit.com"
     }
-  },
-  "-ms-preload": {
-    "backgroundScript": "backgroundScriptsAPIBridge.js",
-    "contentScript": "contentScriptsAPIBridge.js"
   }
 }
