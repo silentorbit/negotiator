@@ -74,6 +74,7 @@ function syncUpdateSettings() {
     syncUpdate("settings", settings);
 }
 function syncUpdate(key, value) {
+    value = JSON.parse(JSON.stringify(value));
     saveAllLocal();
     switch (syncType) {
         default:
