@@ -1,253 +1,46 @@
 "use strict";
 
-//
-// Shared / used in both popup.html and options.html
-//
+// Used in both background and page
 
-//
-// Script for user manipulation
-// in the options page and the popup
-//
-
-var b = chrome.extension.getBackgroundPage() as any as BackgroundPage;
-
-if (b == null) {
-    alert("Can't reach Negotiator background worker.\n\nIf you are in incognito mode you need to open the options page in the non-incognito window.");
-    alert("Sorry about that");
-}
-
-window.onerror = b.logUncaught;
-
-//Shared between tracked and popup
-function cleanDomain(domain: string) {
-    domain = domain.trim();
-    var wild = domain.indexOf("*") == 0;
-    domain = domain.replace(/^[\*\.]+/, "").trim();
-    var sep = domain.indexOf("/");
-    if (sep >= 0)
-        domain = domain.substring(0, sep);
-    if (wild)
-        domain = "*" + domain;
-    return domain;
-}
-
-//Create a new filter based on the form data
-//Return false if the form entry is invalid.
-function getFilterFromForm(form: FilterRow): Filter {
-    var f: Filter = {
-        from: form.from.value,
-        to: form.to.value,
-        filter: form.filter.value,
-        track: form.track.checked
-    };
-
-    if (f.from == "" && f.to == "")
-        return null;
-
-    //Remove leading dots, and everything after slash
-    f.from = cleanDomain(f.from);
-    f.to = cleanDomain(f.to);
-
-    if (f.from.indexOf(" ") >= 0 || f.to.indexOf(" ") >= 0) {
-        alert("domains can't contain spaces");
-        return null;
-    }
-    if (f.from.indexOf("*") > 0 || f.to.indexOf("*") > 0) {
-        alert("domains can only start with wildcard *");
-        return null;
-    }
-    //Empty is interpreted as wildcard(which includes empty)
-    if (f.to == "")
-        f.to = "*";
-
-    var toWild = b.isWild(f.to);
-    var toWithout = b.withoutWild(f.to);
-    var fromWild = b.isWild(f.from);
-    var fromWithout = b.withoutWild(f.from);
-
-    //Remove tracked requests matching filter
-    for (var i in b.TrackedRequests) {
-        let t = b.TrackedRequests[i];
-
-        if (f.from != null && f.from != "") {
-            if (fromWild) {
-                if (endsWith(t.from, b.withoutWild(f.from)) == false)
-                    continue;
-            }
-            else {
-                if (f.from != t.from)
-                    continue;
-            }
-        }
-        if (f.to != null && f.to != "") {
-            if (toWild) {
-                if (endsWith(t.to, toWithout) == false)
-                    continue;
-            } else {
-                if (f.to != t.to)
-                    continue;
-            }
-        }
-
-        //Remove record
-        delete b.TrackedRequests[i];
-    }
-
-    return f;
-}
-
-//Shared with page filter and popup
-//Return html representation of a filter
-function generateFilterItem(table: HTMLElement, f: Filter) {
-    var row = CloneByID("filterTemplate") as FilterRow;
-    updateFilterRow(row, f);
-
-    table.appendChild(row);
-    return row;
-}
-
-function onFilterChange(row: FilterRow, f: Filter) {
-    wildcardTextHelper(row.from);
-    wildcardTextHelper(row.to);
-
-    var newFilter = getFilterFromForm(row);
-    if (newFilter != null) {
-        b.updateFilter(f, newFilter);
-        b.syncUpdateFilter(newFilter);
-
-        updateFilterRow(row, newFilter);
-    }
-}
-
-function updateFilterRow(row: FilterRow, f: Filter) {
-    //Clear events, new ones are added in the end
-    row.from.oninput = null;
-    row.to.oninput = null;
-    row.filter.onchange = null;
-    row.track.onchange = null;
-    row.onsubmit = function () { return false; };
-
-    //Update fields
-    row.removeAttribute("id");
-    row.style.background = b.actions[f.filter].color;
-    var selFrom = row.from.selectionEnd;
-    var selTo = row.to.selectionEnd;
-    row.from.value = f.from;
-    row.to.value = f.to;
-    if (selFrom != 0) {
-        row.from.selectionStart = selFrom;
-        row.from.selectionEnd = selFrom;
-    }
-    if (selTo != 0) {
-        row.to.selectionStart = selTo;
-        row.to.selectionEnd = selTo;
-    }
-    fillActionSelect(row.filter, f.filter);
-    row.track.checked = f.track;
-    if (row.add != null)
-        row.removeChild(row.add.parentNode); //Remove "add"/"save" button
-
-    //Update events with the new filter settings (f)
-    row.del.onclick = function () {
-        b.syncDeleteFilter(f);
-        row.parentNode.removeChild(row);
+//return whether the domain contain a leading wildcard
+function isWild(domain: string) {
+    if (domain.length == 0)
         return false;
-    };
-    row.from.oninput = function () { onFilterChange(row, f); };
-    row.to.oninput = function () { onFilterChange(row, f); };
-    row.filter.onchange = function () { onFilterChange(row, f); };
-    row.track.onchange = function () { onFilterChange(row, f); };
-    row.onsubmit = function () {
-        onFilterChange(row, f);
-        return false;
-    };
+    return domain.indexOf("*") == 0;
 }
 
-//Tracked requests
-
-function insertTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: { (f: Filter): void }) {
-    if (req.from == null)
-        req.from = "";
-    var row = CloneByID("filterTemplate") as FilterRow;
-    row.removeAttribute("id");
-    row.removeChild(row.del.parentNode);
-    row.from.value = req.from;
-    if (req.to != null)
-        row.to.value = req.to;
-    row.track.checked = req.track;
-
-    fillActionSelect(row.filter, b.settings.defaultNewFilterAction);
-
-    row.onsubmit = function () {
-        var filter = getFilterFromForm(row);
-        if (filter == null)
-            return;
-        b.addFilter(filter);
-        b.syncUpdateFilter(filter);
-
-        table.removeChild(row);
-        if (submitAction != null)
-            submitAction(filter);
-        return false;
-    };
-
-    //Helpers for wildcard checkbox
-    row.from.oninput = function () { wildcardTextHelper(row.from); };
-    row.to.oninput = function () { wildcardTextHelper(row.to); };
-    table.appendChild(row);
+//return domain without leading wildcard
+function withoutWild(domain: string) {
+    if (isWild(domain))
+        return domain.substring(1);
+    else
+        return domain;
 }
 
-//Chandle changes in the domain textbox
-function wildcardTextHelper(text: HTMLInputElement) {
-    var wild = false;
-    //Get text and remove space and leading *
-    var f = text.value;
-    f = f.trim();
-    if (f.indexOf("*") == 0) {
-        f = f.substring(1).trim();
-        wild = true;
-    }
-    f = f.replace("*", "");
 
-    if (wild)
-        f = "*" + f;
-    if (text.value != f)
-        text.value = f;
+//Choices for random User-Agent
+var uaPlatform = ["Windows", "X11", "Macintosh"];
+//, "iPad", "iPhone" 
+var uaArch = ["Linux x86_64", "Linux i686", "Linux i586", "FreeBSD i386", "Intel Mac OS X 10.5", "Intel Mac OS X 10_5_8", "Intel Mac OS X 10_6_3", "PPC Mac OS X 10.5", "Windows NT 5.1", "Windows NT 5.2", "Windows NT 6.0", "Windows NT 6.1"];
+//, "CPU iPhone OS 3_2 like Mac OS X", "CPU OS 3_2 like Mac OS X" 
+var uaLang = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba", "eu", "be", "bn", "bh", "bi", "bjn", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "cv", "kw", "co", "cr", "hr", "cs", "da", "day", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi", "fr", "ff", "gl", "ka", "de", "el", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho", "hu", "ia", "id", "ie", "ga", "ig", "ik", "io", "is", "it", "iu", "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km", "ki", "rw", "ky", "kv", "kg", "ko", "ku", "kj", "la", "lb", "lg", "li", "ln", "lo", "lt", "lu", "lv", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mn", "na", "nv", "nb", "nd", "ne", "ng", "nn", "no", "ii", "nr", "oc", "oj", "cu", "om", "or", "os", "pa", "pi", "fa", "pl", "ps", "pt", "qu", "rm", "rn", "ro", "ru", "sa", "sc", "sd", "se", "sm", "sg", "sr", "gd", "sn", "si", "sk", "sl", "so", "st", "es", "su", "sw", "ss", "sv", "ta", "te", "tg", "th", "ti", "bo", "tk", "tl", "tn", "to", "tr", "ts", "tt", "tw", "ty", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "yo", "za", "zu"];
+//, "AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314"
+var uaEngine = ["AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0", "AppleWebKit/533.16 (KHTML, like Gecko) Version/4.1", "AppleWebKit/533.4 (KHTML, like Gecko) Version/4.1", "AppleWebKit/531.22.7 (KHTML, like Gecko) Version/4.0.5 ", "AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 ", "Gecko/20100401", "Gecko/20121223", "Gecko/2008092313", "Gecko/20100614", "Gecko/20100625", "Gecko/20100403", "Gecko/20100401", "Gecko/20100404", "Gecko/20100401", "Gecko/20100101", "Gecko/20100115", "Gecko/20091215", "Gecko/20090612", "Gecko/20090624", "AppleWebKit/534.2 (KHTML, like Gecko)", "AppleWebKit/534.1 (KHTML, like Gecko)", "AppleWebKit/533.2 (KHTML, like Gecko)", "AppleWebKit/533.3 (KHTML, like Gecko)"];
+var uaBrowser = ["Safari/533.16", "Safari/533.4", "Safari/533.3", "Safari/534.1", "Safari/534.2", "Safari/528.16", "Firefox/4.0 (.NET CLR 3.5.30729)", "Firefox/3.5", "Firefox/3.6", "Firefox/3.5", "Firefox/3.5.6", "Chrome/6.0.428.0", "Chrome/6.0.422.0", "Chrome/6.0", "Chrome/5.0.357.0"];
+var uaOS = ["Fedora/3.5.9-2.fc12 Firefox/3.5.9", "Ubuntu/8.04 (hardy)", "Ubuntu/9.10 (karmic)", "Ubuntu/12.04", "Gentoo", "Ubuntu/10.04 (lucid)", "Fedora/3.6.3-4.fc13", "SUSE/3.6.3-1.1", "", "", ""];
+
+function getRandom(list: string[]) {
+    var index = Math.floor(Math.random() * list.length);
+    return list[index];
 }
 
-function fillActionSelect(select: HTMLSelectElement, selectedAction: string, action?: EventListener) {
-    var i = 0;
-    for (var f in b.actions) {
-        var o = new Option(f, f);
-        select.options[i] = o;
-        o.style.background = b.actions[f].color;
-        o.selected = true;
-        i++;
-    }
-    setSelected(select, selectedAction);
-    if (action)
-        select.addEventListener("change", action);
+function getRandomUserAgent() {
+    return "Mozilla/5.0 (" + getRandom(uaPlatform) + "; U; " + getRandom(uaArch) + "; " + getRandom(uaLang) + ") " + getRandom(uaEngine) + " " + getRandom(uaBrowser) + " " + getRandom(uaOS);
 }
 
-function setSelected(list: HTMLSelectElement, value: string) {
-    for (var i = 0; i < list.length; i++) {
-        var option: HTMLOptionElement = list.options[i];
-        if (option.value == value) {
-            option.selected = true;
-            return;
-        }
-    }
-}
-
-function endsWith(str: string, suffix: string) {
-    if (str == null)
-        return false;
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
-function CloneByID<T extends Element>(id: string): T {
-    var source = document.getElementById(id);
-    var clone = source.cloneNode(true) as T;
-    clone.removeAttribute("id");
-    return clone;
-}
+//Keep a few parameters to allow login to google accounts
+var ua = navigator.userAgent;
+var userAgent = ua.match(/^([^ ]*)/g) + " (X) " +
+    (ua.match(/(AppleWebKit[^ ]*)/g) || "") + " (KHTML, like Gecko) " +
+    (ua.match(/(Chrome[^ ]*)/g) || "");
+userAgent = userAgent.replace("  ", " ");

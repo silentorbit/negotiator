@@ -38,6 +38,7 @@
     <Content Include="options.html" />
     <Content Include="popup.html" />
     <Content Include="release.exclude.txt" />
+    <TypeScriptCompile Include="script\background\port.ts" />
     <TypeScriptCompile Include="script\chrome.d.ts" />
     <TypeScriptCompile Include="script\background\errors.ts" />
     <TypeScriptCompile Include="script\background\export.ts" />
@@ -46,13 +47,14 @@
     <TypeScriptCompile Include="script\page\export.ts" />
     <TypeScriptCompile Include="script\page\filters.ts" />
     <TypeScriptCompile Include="script\page\settings.ts" />
+    <TypeScriptCompile Include="script\shared.ts" />
     <TypeScriptCompile Include="script\page\tracked.ts" />
     <TypeScriptCompile Include="script\page\page.ts" />
-    <TypeScriptCompile Include="script\popup.ts" />
+    <TypeScriptCompile Include="script\page\popup.ts" />
     <TypeScriptCompile Include="script\background\query.ts" />
     <TypeScriptCompile Include="script\background\requests.ts" />
     <TypeScriptCompile Include="script\background\settings.ts" />
-    <TypeScriptCompile Include="script\shared.ts" />
+    <TypeScriptCompile Include="script\page\shared.ts" />
     <TypeScriptCompile Include="script\background\sync.local.ts" />
     <TypeScriptCompile Include="script\background\sync.chrome.ts" />
     <TypeScriptCompile Include="script\background\sync.ts" />

@@ -1,19 +1,5 @@
 "use strict";
 
-//return whether the domain contain a leading wildcard
-function isWild(domain: string) {
-    if (domain.length == 0)
-        return false;
-    return domain.indexOf("*") == 0;
-}
-
-//return domain without leading wildcard
-function withoutWild(domain: string) {
-    if (isWild(domain))
-        return domain.substring(1);
-    else
-        return domain;
-}
 
 function addFilter(f: Filter) {
     f = JSON.parse(JSON.stringify(f)); //Prevents Firefox dead object warning 

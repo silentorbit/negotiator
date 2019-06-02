@@ -39,7 +39,6 @@ interface BackgroundPage {
 
     saveAll(): void
 
-    userAgent: string
     syncType: string
 
     logUncaught: any
@@ -48,9 +47,6 @@ interface BackgroundPage {
     exportJSON(): string
     importAll(list: any): void
 
-    getRandomUserAgent(): string
-    isWild(filter: string): boolean
-    withoutWild(filter: string): string
     getDomain(from: string): string
 
     TrackedRequests: TrackedRequestList

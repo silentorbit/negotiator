@@ -1,15 +1,4 @@
 "use strict";
-function isWild(domain) {
-    if (domain.length == 0)
-        return false;
-    return domain.indexOf("*") == 0;
-}
-function withoutWild(domain) {
-    if (isWild(domain))
-        return domain.substring(1);
-    else
-        return domain;
-}
 function addFilter(f) {
     f = JSON.parse(JSON.stringify(f));
     var fr;

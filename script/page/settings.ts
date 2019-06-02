@@ -60,8 +60,8 @@ function loadSettingsPage() {
 
     //Help examples:
     document.querySelector("#examplePass").textContent = navigator.userAgent;
-    document.querySelector("#exampleRandom").textContent = b.getRandomUserAgent();
-    document.querySelector("#exampleSimple").textContent = b.userAgent;
+    document.querySelector("#exampleRandom").textContent = getRandomUserAgent();
+    document.querySelector("#exampleSimple").textContent = userAgent;
 }
 
 //Populate Actions list

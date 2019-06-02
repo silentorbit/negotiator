@@ -5,7 +5,7 @@ window.onerror = function (message, url, line) {
     logError(line + ": " + url + "\n" + message);
 };
 function logError(error) {
-    var message = error.message.replace(chrome.extension.getURL("/"), "/");
+    var message = error.replace(chrome.extension.getURL("/"), "/");
     console.log("Error", message);
     if (errorList.indexOf(message) >= 0)
         return;

@@ -8,8 +8,8 @@ window.onerror = function (message, url, line) {
     logError(line + ": " + url + "\n" + message);
 }
 
-function logError(error: chrome.runtime.LastError) {
-    var message = error.message.replace(chrome.extension.getURL("/"), "/")
+function logError(error: string) {
+    var message = error.replace(chrome.extension.getURL("/"), "/")
     console.log("Error", message);
     if (errorList.indexOf(message) >= 0)
         return; //Prevent duplicates
