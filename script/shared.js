@@ -1,5 +1,9 @@
 "use strict";
 var b = chrome.extension.getBackgroundPage();
+if (b == null) {
+    alert("Can't reach Negotiator background worker.\n\nIf you are in incognito mode you need to open the options page in the non-incognito window.");
+    alert("Sorry about that");
+}
 window.onerror = b.logUncaught;
 function cleanDomain(domain) {
     domain = domain.trim();
@@ -64,7 +68,7 @@ function getFilterFromForm(form) {
     return f;
 }
 function generateFilterItem(table, f) {
-    var row = cloneElement("filterTemplate");
+    var row = CloneByID("filterTemplate");
     updateFilterRow(row, f);
     table.appendChild(row);
     return row;
@@ -120,7 +124,7 @@ function updateFilterRow(row, f) {
 function insertTrackedRow(table, req, submitAction) {
     if (req.from == null)
         req.from = "";
-    var row = cloneElement("filterTemplate");
+    var row = CloneByID("filterTemplate");
     row.removeAttribute("id");
     row.removeChild(row.del.parentNode);
     row.from.value = req.from;
@@ -172,9 +176,9 @@ function fillActionSelect(select, selectedAction, action) {
 }
 function setSelected(list, value) {
     for (var i = 0; i < list.length; i++) {
-        var li = list[i];
-        if (li.value == value) {
-            list[i].selected = true;
+        var option = list.options[i];
+        if (option.value == value) {
+            option.selected = true;
             return;
         }
     }
@@ -184,9 +188,9 @@ function endsWith(str, suffix) {
         return false;
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
-function cloneElement(id) {
+function CloneByID(id) {
     var source = document.getElementById(id);
-    var e = document.createElement("div");
-    e.innerHTML = source.outerHTML;
-    return e.firstChild;
+    var clone = source.cloneNode(true);
+    clone.removeAttribute("id");
+    return clone;
 }

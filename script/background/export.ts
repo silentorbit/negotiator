@@ -51,7 +51,7 @@ function exportAllTo(from: string, filters: FiltersTo, list: SettingsExport) {
 function generateExportItem(f: Filter) {
     var i: ExportItem = {
         //from and to are not included since they are encoded into the key
-        filter: f.filter,
+        filter: f.filter
     };
     if (f.track)
         i.track = true;

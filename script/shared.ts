@@ -1,11 +1,20 @@
 "use strict";
 
 //
+// Shared / used in both popup.html and options.html
+//
+
+//
 // Script for user manipulation
 // in the options page and the popup
 //
 
 var b = chrome.extension.getBackgroundPage() as any as BackgroundPage;
+
+if (b == null) {
+    alert("Can't reach Negotiator background worker.\n\nIf you are in incognito mode you need to open the options page in the non-incognito window.");
+    alert("Sorry about that");
+}
 
 window.onerror = b.logUncaught;
 
@@ -222,9 +231,9 @@ function fillActionSelect(select: HTMLSelectElement, selectedAction: string, act
 
 function setSelected(list: HTMLSelectElement, value: string) {
     for (var i = 0; i < list.length; i++) {
-        var li = list[i];
-        if (li.value == value) {
-            list[i].selected = true;
+        var option: HTMLOptionElement = list.options[i];
+        if (option.value == value) {
+            option.selected = true;
             return;
         }
     }

@@ -41,9 +41,9 @@ function loadSettingsPage() {
         name.value = "";
         return false;
     });
-    document.querySelector("#examplePass").innerHTML = navigator.userAgent;
-    document.querySelector("#exampleRandom").innerHTML = b.getRandomUserAgent();
-    document.querySelector("#exampleSimple").innerHTML = b.userAgent;
+    document.querySelector("#examplePass").textContent = navigator.userAgent;
+    document.querySelector("#exampleRandom").textContent = b.getRandomUserAgent();
+    document.querySelector("#exampleSimple").textContent = b.userAgent;
 }
 function updateActions() {
     var forms = document.querySelectorAll("#actions form");
@@ -59,9 +59,8 @@ function updateEnabled(row) {
     row.response.style.display = display;
 }
 function addActionRow(actionKey) {
-    var row = document.getElementById("actionTemplate").cloneNode(true);
+    var row = CloneByID("actionTemplate");
     var action = b.actions[actionKey];
-    row.removeAttribute("id");
     row.style.background = action.color;
     row.querySelector(".name").textContent = actionKey;
     row.color.value = action.color;
@@ -89,7 +88,7 @@ function addActionRow(actionKey) {
         event.preventDefault();
         var count = ActionUse();
         if (count > 0) {
-            alert("Action is in use by " + count + " filters");
+            alert("Action is in use by " + count + " filters\n\nDelete those filters first.");
             return;
         }
         b.deleteAction(actionKey);

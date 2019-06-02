@@ -26,7 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="background.html" />
     <Content Include="COPYING.GPLv3.html" />
     <Content Include="images\icon128.png" />
     <Content Include="images\icon16.png" />
@@ -40,23 +39,23 @@
     <Content Include="popup.html" />
     <Content Include="release.exclude.txt" />
     <TypeScriptCompile Include="script\chrome.d.ts" />
-    <TypeScriptCompile Include="script\errors.ts" />
-    <TypeScriptCompile Include="script\export.ts" />
+    <TypeScriptCompile Include="script\background\errors.ts" />
+    <TypeScriptCompile Include="script\background\export.ts" />
     <TypeScriptCompile Include="script\interfaces.d.ts" />
-    <TypeScriptCompile Include="script\filters.ts" />
-    <TypeScriptCompile Include="script\page-export.ts" />
-    <TypeScriptCompile Include="script\page-filters.ts" />
-    <TypeScriptCompile Include="script\page-settings.ts" />
-    <TypeScriptCompile Include="script\page-tracked.ts" />
-    <TypeScriptCompile Include="script\page.ts" />
+    <TypeScriptCompile Include="script\background\filters.ts" />
+    <TypeScriptCompile Include="script\page\export.ts" />
+    <TypeScriptCompile Include="script\page\filters.ts" />
+    <TypeScriptCompile Include="script\page\settings.ts" />
+    <TypeScriptCompile Include="script\page\tracked.ts" />
+    <TypeScriptCompile Include="script\page\page.ts" />
     <TypeScriptCompile Include="script\popup.ts" />
-    <TypeScriptCompile Include="script\query.ts" />
-    <TypeScriptCompile Include="script\requests.ts" />
-    <TypeScriptCompile Include="script\settings.ts" />
+    <TypeScriptCompile Include="script\background\query.ts" />
+    <TypeScriptCompile Include="script\background\requests.ts" />
+    <TypeScriptCompile Include="script\background\settings.ts" />
     <TypeScriptCompile Include="script\shared.ts" />
-    <TypeScriptCompile Include="script\sync.local.ts" />
-    <TypeScriptCompile Include="script\sync.chrome.ts" />
-    <TypeScriptCompile Include="script\sync.ts" />
+    <TypeScriptCompile Include="script\background\sync.local.ts" />
+    <TypeScriptCompile Include="script\background\sync.chrome.ts" />
+    <TypeScriptCompile Include="script\background\sync.ts" />
     <Content Include="tsconfig.json" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">

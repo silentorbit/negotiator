@@ -25,15 +25,15 @@
   "homepage_url": "http://silentorbit.com/negotiator/",
   "background": {
     "scripts": [
-      "script/errors.js",
-      "script/settings.js",
-      "script/export.js",
-      "script/filters.js",
-      "script/query.js",
-      "script/requests.js",
-      "script/sync.local.js",
-      "script/sync.chrome.js",
-      "script/sync.js"
+      "script/background/errors.js",
+      "script/background/settings.js",
+      "script/background/export.js",
+      "script/background/filters.js",
+      "script/background/query.js",
+      "script/background/requests.js",
+      "script/background/sync.local.js",
+      "script/background/sync.chrome.js",
+      "script/background/sync.js"
     ],
     "persistent": true
   },

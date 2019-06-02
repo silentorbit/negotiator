@@ -11,7 +11,7 @@ function loadTrackedPage() {
 function LoadAllTracked() {
     var table = document.getElementById("trackedTable");
     table.innerHTML = "";
-    table.appendChild(cloneElement("filterHeader"));
+    table.appendChild(CloneByID("filterHeader"));
     insertTrackedRow(table, { from: "", to: "" }, null);
     for (var i in b.TrackedRequests) {
         var r = b.TrackedRequests[i];

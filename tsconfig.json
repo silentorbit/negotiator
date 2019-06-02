@@ -1,4 +1,5 @@
 ﻿{
+  "compileOnSave": true,
   "compilerOptions": {
     "module": "system",
     "noImplicitAny": true,
@@ -6,6 +7,8 @@
     "preserveConstEnums": false
   },
   "include": [
-    "script/*.ts"
+    "script/*.ts",
+    "script/background/*.ts",
+    "script/page/*.ts"
   ]
 }

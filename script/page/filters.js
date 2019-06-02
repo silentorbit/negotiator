@@ -11,10 +11,10 @@ function testFilter() {
     var filter = b.getFilter(referrer, domain);
     var result = document.getElementById("testResult");
     if (filter == null)
-        result.innerHTML = "no match, default";
+        result.textContent = "no match, default";
     else {
         result.innerHTML = "";
-        result.appendChild(cloneElement("filterHeader"));
+        result.appendChild(CloneByID("filterHeader"));
         generateFilterItem(result, filter);
     }
 }
@@ -24,8 +24,8 @@ function updateFilters() {
     var filtersTag = document.getElementById("filters");
     if (filtersTag == null || filtersBlockedTag == null)
         return;
-    filtersTag.innerHTML = document.getElementById("filterHeader").outerHTML;
-    filtersBlockedTag.innerHTML = document.getElementById("filterHeader").outerHTML;
+    filtersTag.appendChild(CloneByID("filterHeader"));
+    filtersBlockedTag.appendChild(CloneByID("filterHeader"));
     for (var i in list.wild)
         generateFilterList(filtersBlockedTag, filtersTag, list.wild[i]);
     for (var i in list.direct) {

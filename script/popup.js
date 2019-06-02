@@ -1,6 +1,5 @@
 "use strict";
 window.addEventListener("load", loadPopupPage, false);
-var b = chrome.extension.getBackgroundPage();
 function loadPopupPage() {
     var tabID = getParameterByName("tabID");
     var tabUrl = getParameterByName("tabUrl");

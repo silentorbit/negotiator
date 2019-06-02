@@ -2,7 +2,7 @@
 
 window.addEventListener("load", loadPopupPage, false);
 
-var b = chrome.extension.getBackgroundPage() as any as BackgroundPage;
+//var b = chrome.extension.getBackgroundPage() as any as BackgroundPage;
 
 function loadPopupPage() {
     //This works on all
