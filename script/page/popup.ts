@@ -30,7 +30,7 @@ function loadPopupPage() {
 function LoadTabTracked(tabID: string, tabUrl: string) {
     //Tracked requests
     var table = document.getElementById("table");
-    table.innerHTML = "";
+    //RemoveAllChildren(table);
 
     var newFilterAdded = function (filter: Filter) {
         var tf = b.tabFilters[tabID];

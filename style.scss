@@ -448,3 +448,10 @@ dt {
         padding: 1em 0 2em;
     }
 }
+
+@media only screen and (min-device-width : 640px) {
+    #popupBody{
+        min-width: 640px;
+    }
+}
+

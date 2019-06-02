@@ -13,7 +13,6 @@ function loadPopupPage() {
 }
 function LoadTabTracked(tabID, tabUrl) {
     var table = document.getElementById("table");
-    table.innerHTML = "";
     var newFilterAdded = function (filter) {
         var tf = b.tabFilters[tabID];
         if (tf) {
