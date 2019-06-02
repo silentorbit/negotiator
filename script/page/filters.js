@@ -24,6 +24,8 @@ function updateFilters() {
     var filtersTag = document.getElementById("filters");
     if (filtersTag == null || filtersBlockedTag == null)
         return;
+    RemoveAllChildren(filtersTag);
+    RemoveAllChildren(filtersBlockedTag);
     filtersTag.appendChild(CloneByID("filterHeader"));
     filtersBlockedTag.appendChild(CloneByID("filterHeader"));
     for (var i in list.wild)
@@ -31,6 +33,10 @@ function updateFilters() {
     for (var i in list.direct) {
         generateFilterList(filtersBlockedTag, filtersTag, list.direct[i]);
     }
+}
+function RemoveAllChildren(tag) {
+    while (tag.firstChild)
+        tag.removeChild(tag.firstChild);
 }
 function generateFilterList(tableBlocked, table, list) {
     if (list == null)

@@ -33,6 +33,9 @@ function updateFilters() {
     if (filtersTag == null || filtersBlockedTag == null)
         return;
 
+    RemoveAllChildren(filtersTag);
+    RemoveAllChildren(filtersBlockedTag);
+
     //Add headers
     filtersTag.appendChild(CloneByID("filterHeader"));
     filtersBlockedTag.appendChild(CloneByID("filterHeader"));
@@ -43,6 +46,11 @@ function updateFilters() {
     for (var i in list.direct) {
         generateFilterList(filtersBlockedTag, filtersTag, list.direct[i]);
     }
+}
+
+function RemoveAllChildren(tag: HTMLElement) {
+    while (tag.firstChild)
+        tag.removeChild(tag.firstChild);
 }
 
 //Fill table with html representaton of a filter list
