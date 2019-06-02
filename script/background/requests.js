@@ -8,19 +8,27 @@ var tabFilters = {};
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, { urls: ["<all_urls>"] }, ["requestHeaders", "blocking"]);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, { urls: ["<all_urls>"] }, ["responseHeaders", "blocking"]);
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    chrome.pageAction.show(tabId);
-    chrome.pageAction.setPopup({
-        tabId: tabId,
-        popup: "popup.html?tabID=" + tabId + "&tabUrl=" + encodeURIComponent(tab.url)
-    });
+    SetUI(tabId, tab.url);
 });
 chrome.tabs.onActivated.addListener(function (info) {
-    chrome.pageAction.show(info.tabId);
-    chrome.pageAction.setPopup({
-        tabId: info.tabId,
-        popup: "popup.html?tabID=" + info.tabId
-    });
+    SetUI(info.tabId);
 });
+function SetUI(tabId, tabUrl) {
+    var popup = {
+        tabId: tabId,
+        popup: "popup.html?tabID=" + tabId
+    };
+    if (tabUrl)
+        popup.popup += "&tabUrl=" + encodeURIComponent(tabUrl);
+    if (navigator.userAgent.indexOf("Android") != -1) {
+        chrome.pageAction.show(tabId);
+        chrome.pageAction.setPopup(popup);
+    }
+    else {
+        chrome.browserAction.enable(tabId);
+        chrome.browserAction.setPopup(popup);
+    }
+}
 function ClearTrackedRequests() {
     TrackedRequests = {};
     tabRequests = {};
