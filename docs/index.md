@@ -22,7 +22,9 @@ You no longer need to blindly accept what the web offers. This extension allows 
 
 # Install on Firefox
 
-[Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/negotiator/)
+<del>[Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/negotiator/)</del>
+
+For the moment the addon is not available on Firefox.
 
 # Install on Edge
 
