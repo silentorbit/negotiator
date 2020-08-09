@@ -75,14 +75,15 @@ function getFilterFromForm(form) {
 function AddFilterRow(table, f) {
     var row = CloneByID("filterTemplate");
     row.add.remove();
-    row.origFilter = f;
     row.del.onclick = function () {
         b.syncDeleteFilter(f);
         row.remove();
         return false;
     };
-    row.fromWild.onclick = function (e) { e.preventDefault(); DomainClick(row.from, row.origFilter.from); };
-    row.toWild.onclick = function (e) { e.preventDefault(); DomainClick(row.to, row.origFilter.to); };
+    row.from.orig = f.from;
+    row.to.orig = f.to;
+    row.fromWild.onclick = function () { DomainClick(row.from); };
+    row.toWild.onclick = function () { DomainClick(row.to); };
     row.from.oninput = function () { onFilterChange(row, f); };
     row.to.oninput = function () { onFilterChange(row, f); };
     row.filter.onchange = function () { onFilterChange(row, f); };
@@ -97,11 +98,6 @@ function AddFilterRow(table, f) {
 }
 function UpdateFilterRow(row, f) {
     row.currentFilter = f;
-    if (row.from.dataset.orig == null) {
-        row.from.dataset.orig = f.from;
-        row.to.dataset.orig = f.to;
-    }
-    row.removeAttribute("id");
     row.style.background = b.actions[f.filter].color;
     var selFrom = row.from.selectionEnd;
     var selTo = row.to.selectionEnd;
@@ -118,15 +114,15 @@ function UpdateFilterRow(row, f) {
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
 }
-function DomainClick(input, orig) {
+function DomainClick(input) {
     var v = input.value;
     if (v == "*") {
-        input.value = orig;
+        input.value = input.orig;
     }
     else if (v.indexOf("*") == 0) {
         v = v.replace("*", "");
         var s = v.split(".");
-        if (s.length == 1) {
+        if (s.length <= 2) {
             input.value = "*";
         }
         else {
@@ -158,6 +154,10 @@ function AddTrackedRow(table, req, submitAction) {
         row.to.value = req.to;
     row.track.checked = req.track;
     fillActionSelect(row.filter, b.settings.defaultNewFilterAction);
+    row.from.orig = row.from.value;
+    row.to.orig = row.to.value;
+    row.fromWild.onclick = function (e) { e.preventDefault(); DomainClick(row.from); };
+    row.toWild.onclick = function (e) { e.preventDefault(); DomainClick(row.to); };
     row.onsubmit = function () {
         var filter = getFilterFromForm(row);
         if (filter == null)

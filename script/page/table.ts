@@ -9,6 +9,7 @@
 // in the options page and the popup
 //
 
+//Must load before any other page scripts
 var b = chrome.extension.getBackgroundPage() as any as BackgroundPage;
 
 function loadShared() {
@@ -25,8 +26,6 @@ function loadShared() {
 
 loadShared();
 
-
-//Shared between tracked and popup
 function cleanDomain(domain: string) {
     domain = domain.trim();
     var wild = domain.indexOf("*") == 0;
@@ -40,7 +39,7 @@ function cleanDomain(domain: string) {
 }
 
 //Create a new filter based on the form data
-//Return false if the form entry is invalid.
+//Return null if the form entry is invalid.
 function getFilterFromForm(form: FilterRow): Filter {
     var f: Filter = {
         from: form.from.value,
@@ -104,39 +103,47 @@ function getFilterFromForm(form: FilterRow): Filter {
     return f;
 }
 
+interface HTMLInputElement {
+    orig: string //Original value before clicking the "*" button
+}
+
 //Shared with page filter and popup
 //Return html representation of a filter
 function AddFilterRow(table: HTMLElement, f: Filter) {
     var row = CloneByID("filterTemplate") as FilterRow;
+    row.add.remove(); //Remove "add"/"save" button
+
+    //Update events with the new filter settings (f)
+    row.del.onclick = function () {
+        b.syncDeleteFilter(f);
+        row.remove();
+        return false;
+    };
+
+    row.from.orig = f.from;
+    row.to.orig = f.to;
+    row.fromWild.onclick = function () { DomainClick(row.from); };
+    row.toWild.onclick = function () { DomainClick(row.to); };
+
+    row.from.oninput = function () { onFilterChange(row, f); };
+    row.to.oninput = function () { onFilterChange(row, f); };
+    row.filter.onchange = function () { onFilterChange(row, f); };
+    row.track.onchange = function () { onFilterChange(row, f); };
+    row.onsubmit = function () {
+        onFilterChange(row, f);
+        return false;
+    };
+
     UpdateFilterRow(row, f);
 
     table.appendChild(row);
     return row;
 }
 
-function onFilterChange(row: FilterRow, f: Filter) {
-    wildcardTextHelper(row.from);
-    wildcardTextHelper(row.to);
-
-    var newFilter = getFilterFromForm(row);
-    if (newFilter != null) {
-        b.updateFilter(f, newFilter);
-        b.syncUpdateFilter(newFilter);
-
-        UpdateFilterRow(row, newFilter);
-    }
-}
-
 function UpdateFilterRow(row: FilterRow, f: Filter) {
-    //Clear events, new ones are added in the end
-    row.from.oninput = null;
-    row.to.oninput = null;
-    row.filter.onchange = null;
-    row.track.onchange = null;
-    row.onsubmit = function () { return false; };
+    row.currentFilter = f;
 
     //Update fields
-    row.removeAttribute("id");
     row.style.background = b.actions[f.filter].color;
     var selFrom = row.from.selectionEnd;
     var selTo = row.to.selectionEnd;
@@ -152,23 +159,43 @@ function UpdateFilterRow(row: FilterRow, f: Filter) {
     }
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
-    if (row.add != null)
-        row.add.remove(); //Remove "add"/"save" button
+}
 
-    //Update events with the new filter settings (f)
-    row.del.onclick = function () {
-        b.syncDeleteFilter(f);
-        row.remove();
-        return false;
-    };
-    row.from.oninput = function () { onFilterChange(row, f); };
-    row.to.oninput = function () { onFilterChange(row, f); };
-    row.filter.onchange = function () { onFilterChange(row, f); };
-    row.track.onchange = function () { onFilterChange(row, f); };
-    row.onsubmit = function () {
-        onFilterChange(row, f);
-        return false;
-    };
+//Add wildcard or strip one subdomain each click
+function DomainClick(input: HTMLInputElement) {
+
+    var v = input.value;
+    if (v == "*") {
+        //Add back original domain
+        input.value = input.orig;
+    } else if (v.indexOf("*") == 0) {
+        //Strip one subdomain
+        v = v.replace("*", "");
+        var s = v.split(".");
+        if (s.length <= 2) {
+            input.value = "*";
+        }
+        else {
+            s.shift();
+            input.value = "*" + s.join(".");
+        }
+    } else {
+        //Add wildcard
+        input.value = "*" + input.value;
+    }
+}
+
+function onFilterChange(row: FilterRow, f: Filter) {
+    wildcardTextHelper(row.from);
+    wildcardTextHelper(row.to);
+
+    var newFilter = getFilterFromForm(row);
+    if (newFilter != null) {
+        b.updateFilter(f, newFilter);
+        b.syncUpdateFilter(newFilter);
+
+        UpdateFilterRow(row, newFilter);
+    }
 }
 
 //Tracked requests
@@ -184,6 +211,11 @@ function AddTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: {
     row.track.checked = req.track;
 
     fillActionSelect(row.filter, b.settings.defaultNewFilterAction);
+
+    row.from.orig = row.from.value;
+    row.to.orig = row.to.value;
+    row.fromWild.onclick = function (e) { e.preventDefault(); DomainClick(row.from); };
+    row.toWild.onclick = function (e) { e.preventDefault(); DomainClick(row.to); };
 
     row.onsubmit = function () {
         var filter = getFilterFromForm(row);
@@ -204,7 +236,7 @@ function AddTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: {
     table.appendChild(row);
 }
 
-//Chandle changes in the domain textbox
+//Handle changes in the domain textbox
 function wildcardTextHelper(text: HTMLInputElement) {
     var wild = false;
     //Get text and remove space and leading *
@@ -257,4 +289,9 @@ function CloneByID<T extends Element>(id: string): T {
     var clone = source.cloneNode(true) as T;
     clone.removeAttribute("id");
     return clone;
+}
+
+function RemoveAllChildren(tag: HTMLElement) {
+    while (tag.firstChild)
+        tag.removeChild(tag.firstChild);
 }

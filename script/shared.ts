@@ -45,7 +45,3 @@ var userAgent = ua.match(/^([^ ]*)/g) + " (X) " +
     (ua.match(/(Chrome[^ ]*)/g) || "");
 userAgent = userAgent.replace("  ", " ");
 
-function RemoveAllChildren(tag: HTMLElement) {
-    while (tag.firstChild)
-        tag.removeChild(tag.firstChild);
-}

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css" type="text/css" />
     <title>Negotiator</title>
     <script src="script/shared.js"></script>
-    <script src="script/page/shared.js"></script>
+    <script src="script/page/table.js"></script>
     <script src="script/page/filters.js"></script>
     <script src="script/page/tracked.js"></script>
     <script src="script/page/settings.js"></script>
@@ -231,7 +231,9 @@
         </div>
     </div>
 
+    <!-- Templates -->
     <div style="display: none;">
+
         <div id="filterHeader" class="header">
             <span>From</span>
             <span>To</span>
@@ -245,8 +247,14 @@
         </div>
 
         <form id="filterTemplate">
-            <div><input type="text" id="from" value="" placeholder="From domain" /></div>
-            <div><input type="text" id="to" value="" placeholder="To domain" /></div>
+            <div>
+                <button id="fromWild">➤</button>
+                <input type="text" id="from" value="" placeholder="From domain" />
+            </div>
+            <div>
+                <button id="toWild">➤</button>
+                <input type="text" id="to" value="" placeholder="To domain" />
+            </div>
             <div>
                 <input type="checkbox" id="track" title="Track" /><span class="spacer"></span>
                 <select id="filter"></select><span class="spacer"></span>

@@ -54,7 +54,7 @@
     <TypeScriptCompile Include="script\background\query.ts" />
     <TypeScriptCompile Include="script\background\requests.ts" />
     <TypeScriptCompile Include="script\background\settings.ts" />
-    <TypeScriptCompile Include="script\page\shared.ts" />
+    <TypeScriptCompile Include="script\page\table.ts" />
     <TypeScriptCompile Include="script\background\sync.local.ts" />
     <TypeScriptCompile Include="script\background\sync.chrome.ts" />
     <TypeScriptCompile Include="script\background\sync.ts" />

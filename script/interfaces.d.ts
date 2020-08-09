@@ -3,12 +3,16 @@ interface TODO {
 }
 
 interface FilterRow extends HTMLElement {
+    fromWild: HTMLButtonElement
+    toWild: HTMLButtonElement
     from: HTMLInputElement
     to: HTMLInputElement
     track: HTMLInputElement
     filter: HTMLSelectElement
     add: HTMLButtonElement
     del: HTMLButtonElement
+
+    currentFilter: Filter
 }
 
 interface ActionRow extends HTMLElement {
