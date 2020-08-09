@@ -106,9 +106,9 @@ function getFilterFromForm(form: FilterRow): Filter {
 
 //Shared with page filter and popup
 //Return html representation of a filter
-function generateFilterItem(table: HTMLElement, f: Filter) {
+function AddFilterRow(table: HTMLElement, f: Filter) {
     var row = CloneByID("filterTemplate") as FilterRow;
-    updateFilterRow(row, f);
+    UpdateFilterRow(row, f);
 
     table.appendChild(row);
     return row;
@@ -123,11 +123,11 @@ function onFilterChange(row: FilterRow, f: Filter) {
         b.updateFilter(f, newFilter);
         b.syncUpdateFilter(newFilter);
 
-        updateFilterRow(row, newFilter);
+        UpdateFilterRow(row, newFilter);
     }
 }
 
-function updateFilterRow(row: FilterRow, f: Filter) {
+function UpdateFilterRow(row: FilterRow, f: Filter) {
     //Clear events, new ones are added in the end
     row.from.oninput = null;
     row.to.oninput = null;
@@ -153,12 +153,12 @@ function updateFilterRow(row: FilterRow, f: Filter) {
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
     if (row.add != null)
-        row.add.parentNode.removeChild(row.add); //Remove "add"/"save" button
+        row.add.remove(); //Remove "add"/"save" button
 
     //Update events with the new filter settings (f)
     row.del.onclick = function () {
         b.syncDeleteFilter(f);
-        row.parentNode.removeChild(row);
+        row.remove();
         return false;
     };
     row.from.oninput = function () { onFilterChange(row, f); };
@@ -173,12 +173,11 @@ function updateFilterRow(row: FilterRow, f: Filter) {
 
 //Tracked requests
 
-function insertTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: { (f: Filter): void }) {
+function AddTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: { (f: Filter): void }) {
     if (req.from == null)
         req.from = "";
     var row = CloneByID("filterTemplate") as FilterRow;
-    row.removeAttribute("id");
-    row.del.parentNode.removeChild(row.del);
+    row.del.remove();
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;

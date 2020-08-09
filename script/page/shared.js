@@ -72,9 +72,9 @@ function getFilterFromForm(form) {
     }
     return f;
 }
-function generateFilterItem(table, f) {
+function AddFilterRow(table, f) {
     var row = CloneByID("filterTemplate");
-    updateFilterRow(row, f);
+    UpdateFilterRow(row, f);
     table.appendChild(row);
     return row;
 }
@@ -85,10 +85,10 @@ function onFilterChange(row, f) {
     if (newFilter != null) {
         b.updateFilter(f, newFilter);
         b.syncUpdateFilter(newFilter);
-        updateFilterRow(row, newFilter);
+        UpdateFilterRow(row, newFilter);
     }
 }
-function updateFilterRow(row, f) {
+function UpdateFilterRow(row, f) {
     row.from.oninput = null;
     row.to.oninput = null;
     row.filter.onchange = null;
@@ -111,10 +111,10 @@ function updateFilterRow(row, f) {
     fillActionSelect(row.filter, f.filter);
     row.track.checked = f.track;
     if (row.add != null)
-        row.add.parentNode.removeChild(row.add);
+        row.add.remove();
     row.del.onclick = function () {
         b.syncDeleteFilter(f);
-        row.parentNode.removeChild(row);
+        row.remove();
         return false;
     };
     row.from.oninput = function () { onFilterChange(row, f); };
@@ -126,12 +126,11 @@ function updateFilterRow(row, f) {
         return false;
     };
 }
-function insertTrackedRow(table, req, submitAction) {
+function AddTrackedRow(table, req, submitAction) {
     if (req.from == null)
         req.from = "";
     var row = CloneByID("filterTemplate");
-    row.removeAttribute("id");
-    row.del.parentNode.removeChild(row.del);
+    row.del.remove();
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;

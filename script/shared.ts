@@ -44,3 +44,8 @@ var userAgent = ua.match(/^([^ ]*)/g) + " (X) " +
     (ua.match(/(AppleWebKit[^ ]*)/g) || "") + " (KHTML, like Gecko) " +
     (ua.match(/(Chrome[^ ]*)/g) || "");
 userAgent = userAgent.replace("  ", " ");
+
+function RemoveAllChildren(tag: HTMLElement) {
+    while (tag.firstChild)
+        tag.removeChild(tag.firstChild);
+}

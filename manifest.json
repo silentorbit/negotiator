@@ -20,16 +20,7 @@
       "38": "images/icon38.png"
     },
     "default_title": "Negotiator",
-    "default_popup": "options.html"
-  },
-  "page_action": {
-    "browser_style": false,
-    "default_icon": {
-      "19": "images/icon19.png",
-      "38": "images/icon38.png"
-    },
-    "default_title": "Negotiator",
-    "default_popup": "options.html"
+    "default_popup": "popup.html"
   },
   "homepage_url": "http://silentorbit.com/negotiator/",
   "background": {

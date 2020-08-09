@@ -15,7 +15,7 @@ function testFilter() {
     else {
         result.innerHTML = "";
         result.appendChild(CloneByID("filterHeader"));
-        generateFilterItem(result, filter);
+        AddFilterRow(result, filter);
     }
 }
 function updateFilters() {
@@ -34,27 +34,23 @@ function updateFilters() {
         generateFilterList(filtersBlockedTag, filtersTag, list.direct[i]);
     }
 }
-function RemoveAllChildren(tag) {
-    while (tag.firstChild)
-        tag.removeChild(tag.firstChild);
-}
 function generateFilterList(tableBlocked, table, list) {
     if (list == null)
         return;
     for (var i in list.wild) {
         var f = list.wild[i];
         if (f.filter == "block")
-            generateFilterItem(tableBlocked, f);
+            AddFilterRow(tableBlocked, f);
         else
-            generateFilterItem(table, f);
+            AddFilterRow(table, f);
     }
     for (var i in list.direct) {
         var f = list.direct[i];
         if (f == null)
             continue;
         if (f.filter == "block")
-            generateFilterItem(tableBlocked, f);
+            AddFilterRow(tableBlocked, f);
         else
-            generateFilterItem(table, f);
+            AddFilterRow(table, f);
     }
 }

@@ -20,7 +20,7 @@ function testFilter() {
     else {
         result.innerHTML = "";
         result.appendChild(CloneByID("filterHeader"));//Add headers
-        generateFilterItem(result, filter);
+        AddFilterRow(result, filter);
     }
 }
 
@@ -48,11 +48,6 @@ function updateFilters() {
     }
 }
 
-function RemoveAllChildren(tag: HTMLElement) {
-    while (tag.firstChild)
-        tag.removeChild(tag.firstChild);
-}
-
 //Fill table with html representaton of a filter list
 function generateFilterList(tableBlocked: HTMLElement, table: HTMLElement, list: FiltersTo) {
     if (list == null)
@@ -61,9 +56,9 @@ function generateFilterList(tableBlocked: HTMLElement, table: HTMLElement, list:
     for (var i in list.wild) {
         var f = list.wild[i];
         if (f.filter == "block")
-            generateFilterItem(tableBlocked, f);
+            AddFilterRow(tableBlocked, f);
         else
-            generateFilterItem(table, f);
+            AddFilterRow(table, f);
     }
 
     for (var i in list.direct) {
@@ -72,8 +67,8 @@ function generateFilterList(tableBlocked: HTMLElement, table: HTMLElement, list:
             continue;
 
         if (f.filter == "block")
-            generateFilterItem(tableBlocked, f);
+            AddFilterRow(tableBlocked, f);
         else
-            generateFilterItem(table, f);
+            AddFilterRow(table, f);
     }
 }

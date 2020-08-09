@@ -12,9 +12,9 @@ function LoadAllTracked() {
     var table = document.getElementById("trackedTable");
     table.innerHTML = "";
     table.appendChild(CloneByID("filterHeader"));
-    insertTrackedRow(table, { from: "", to: "" }, null);
+    AddTrackedRow(table, { from: "", to: "" }, null);
     for (var i in b.TrackedRequests) {
         var r = b.TrackedRequests[i];
-        insertTrackedRow(table, r, null);
+        AddTrackedRow(table, r, null);
     }
 }
