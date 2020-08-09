@@ -1,7 +1,7 @@
 ﻿[
   {
-    "outputFile": "style.css",
-    "inputFile": "style.scss",
+    "outputFile": "extension/style.css",
+    "inputFile": "Style/style.scss",
     "minify": {
       "enabled": false
     }

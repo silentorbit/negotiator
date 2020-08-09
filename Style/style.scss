@@ -497,14 +497,9 @@ dt {
 #popupBody {
     background: #fff;
     box-shadow: #fff 0 0 3px inset;
+    min-width: 640px;
 
     #tablewrap {
-        padding: 1em 0 2em;
-    }
-}
-
-@media only screen and (min-device-width : 640px) {
-    #popupBody {
-        min-width: 640px;
+        padding: 1em;
     }
 }

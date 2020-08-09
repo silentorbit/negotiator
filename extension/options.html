@@ -187,11 +187,11 @@
                 <p>In addition to an arbitrary value to insert, the following special keywords can be used</p>
                 <dl>
                     <dt>pass</dt>
-                    <dd>Send the header unmodified, for User-Agent that is<br /><code id="examplePass"></code></dd>
+                    <dd>Send the header unmodified</dd>
                     <dt>remove</dt>
                     <dd>Remove the header.</dd>
                     <dt>force-csp</dt>
-                    <dd>Response-filters only. Will replace the header name of a CSP-Report, to the enforcing version.</dd>
+                    <dd>Replace the header name of a CSP-Report, to the enforcing version.</dd>
                 </dl>
             </div>
         </div>
@@ -242,9 +242,9 @@
 
         <form id="filterTemplate">
             <button id="fromWild">➤</button>
-            <input type="text" id="from" value="" placeholder="From domain" />
+            <input type="text" id="from" value="" placeholder="From domain..." />
             <button id="toWild">➤</button>
-            <input type="text" id="to" value="" placeholder="To domain" />
+            <input type="text" id="to" value="" placeholder="To domain..." />
             <input type="checkbox" id="track" title="Track" />
             <select id="filter"></select>
             <input type="submit" id="add" value="Add" class="button" />

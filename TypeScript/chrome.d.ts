@@ -4,8 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.4
 
-/// <reference types="filesystem" />
-
 ////////////////////
 // Global object
 ////////////////////
@@ -5830,11 +5828,6 @@ declare namespace chrome.runtime {
      * @returns The manifest details.
      */
     export function getManifest(): Manifest;
-    /**
-     * Returns a DirectoryEntry for the package directory.
-     * @since Chrome 29.
-     */
-    export function getPackageDirectoryEntry(callback: (directoryEntry: DirectoryEntry) => void): void;
     /**
      * Returns information about the current platform.
      * @since Chrome 29.

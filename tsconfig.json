@@ -4,11 +4,12 @@
     "module": "system",
     "noImplicitAny": true,
     "removeComments": true,
-    "preserveConstEnums": false
+    "preserveConstEnums": false,
+    "outDir": "extension/script"
   },
   "include": [
-    "script/*.ts",
-    "script/background/*.ts",
-    "script/page/*.ts"
+    "TypeScript/*.ts",
+    "TypeScript/background/*.ts",
+    "TypeScript/page/*.ts"
   ]
 }

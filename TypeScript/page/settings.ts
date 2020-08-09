@@ -205,5 +205,5 @@ function addActionKey(actionKey: string) {
     var action = { color: "green", block: "false" };
     b.addAction(actionKey, action);
 
-    addActionRow(actionKey);
+    addActionRow(actionKey, action);
 }

@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -27,56 +27,50 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="COPYING.GPLv3.html" />
-    <Content Include="images\icon128.png" />
-    <Content Include="images\icon16.png" />
-    <Content Include="images\icon19.png" />
-    <Content Include="images\icon32.png" />
-    <Content Include="images\icon38.png" />
-    <Content Include="images\icon48.png" />
-    <Content Include="images\red19.png" />
-    <Content Include="images\red38.png" />
-    <Content Include="options.html" />
-    <Content Include="popup.html" />
-    <Content Include="release.exclude.txt" />
-    <TypeScriptCompile Include="script\background\port.ts" />
-    <TypeScriptCompile Include="script\chrome.d.ts" />
-    <TypeScriptCompile Include="script\background\errors.ts" />
-    <TypeScriptCompile Include="script\background\export.ts" />
-    <TypeScriptCompile Include="script\interfaces.d.ts" />
-    <TypeScriptCompile Include="script\background\filters.ts" />
-    <TypeScriptCompile Include="script\page\export.ts" />
-    <TypeScriptCompile Include="script\page\filters.ts" />
-    <TypeScriptCompile Include="script\page\settings.ts" />
-    <TypeScriptCompile Include="script\shared.ts" />
-    <TypeScriptCompile Include="script\page\tracked.ts" />
-    <TypeScriptCompile Include="script\page\page.ts" />
-    <TypeScriptCompile Include="script\page\popup.ts" />
-    <TypeScriptCompile Include="script\background\query.ts" />
-    <TypeScriptCompile Include="script\background\requests.ts" />
-    <TypeScriptCompile Include="script\background\settings.ts" />
-    <TypeScriptCompile Include="script\page\table.ts" />
-    <TypeScriptCompile Include="script\background\sync.local.ts" />
-    <TypeScriptCompile Include="script\background\sync.chrome.ts" />
-    <TypeScriptCompile Include="script\background\sync.ts" />
+    <Content Include="extension\images\icon128.png" />
+    <Content Include="extension\images\icon16.png" />
+    <Content Include="extension\images\icon19.png" />
+    <Content Include="extension\images\icon32.png" />
+    <Content Include="extension\images\icon38.png" />
+    <Content Include="extension\images\icon48.png" />
+    <Content Include="extension\images\red19.png" />
+    <Content Include="extension\images\red38.png" />
+    <Content Include="extension\options.html" />
+    <Content Include="extension\popup.html" />
+    <Content Include="extension\style.css" />
+    <TypeScriptCompile Include="TypeScript\interfaces.d.ts" />
+    <TypeScriptCompile Include="TypeScript\background\port.ts" />
+    <TypeScriptCompile Include="TypeScript\chrome.d.ts" />
+    <TypeScriptCompile Include="TypeScript\background\errors.ts" />
+    <TypeScriptCompile Include="TypeScript\background\export.ts" />
+    <TypeScriptCompile Include="TypeScript\background\filters.ts" />
+    <TypeScriptCompile Include="TypeScript\page\export.ts" />
+    <TypeScriptCompile Include="TypeScript\page\filters.ts" />
+    <TypeScriptCompile Include="TypeScript\page\settings.ts" />
+    <TypeScriptCompile Include="TypeScript\shared.ts" />
+    <TypeScriptCompile Include="TypeScript\page\tracked.ts" />
+    <TypeScriptCompile Include="TypeScript\page\page.ts" />
+    <TypeScriptCompile Include="TypeScript\page\popup.ts" />
+    <TypeScriptCompile Include="TypeScript\background\query.ts" />
+    <TypeScriptCompile Include="TypeScript\background\requests.ts" />
+    <TypeScriptCompile Include="TypeScript\background\settings.ts" />
+    <TypeScriptCompile Include="TypeScript\page\table.ts" />
+    <TypeScriptCompile Include="TypeScript\background\sync.local.ts" />
+    <TypeScriptCompile Include="TypeScript\background\sync.chrome.ts" />
+    <TypeScriptCompile Include="TypeScript\background\sync.ts" />
     <Content Include="tsconfig.json" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <None Include="style.scss" />
-    <Content Include="style.css">
-      <DependentUpon>style.scss</DependentUpon>
-    </Content>
+    <None Include="Style\style.scss" />
     <Content Include="updates.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build-release.sh" />
-    <Content Include="images\Dhurjati-Regular.ttf" />
-    <Content Include="manifest.json" />
+    <Content Include="extension\images\Dhurjati-Regular.ttf" />
+    <Content Include="extension\manifest.json" />
     <Content Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

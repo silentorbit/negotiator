@@ -34,8 +34,7 @@
       "script/background/requests.js",
       "script/background/sync.local.js",
       "script/background/sync.chrome.js",
-      "script/background/sync.js",
-      "script/background/port.js"
+      "script/background/sync.js"
     ],
     "persistent": true
   },
