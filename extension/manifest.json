@@ -1,11 +1,10 @@
 {
   "manifest_version": 2,
-  "version": "0.0.9.1",
+  "version": "0.0.9.2",
   "name": "Negotiator",
   "author": "silentorbit",
   "short_name": "Negotiator",
   "minimum_chrome_version": "20.0.0.0",
-  "minimum_edge_version": "33.14281.1000.0",
   "icons": {
     "16": "images/icon16.png",
     "32": "images/icon32.png",
@@ -50,11 +49,5 @@
     "storage",
     "<all_urls>"
   ],
-  "incognito": "spanning",
-  "inprivate": "spanning",
-  "applications": {
-    "gecko": {
-      "id": "negotiator@silentorbit.com"
-    }
-  }
+  "incognito": "spanning"
 }

@@ -98,7 +98,8 @@ function AddFilterRow(table, f) {
 }
 function UpdateFilterRow(row, f) {
     row.currentFilter = f;
-    row.style.background = b.actions[f.filter].color;
+    for (var ci = 0; ci < row.children.length; ci++)
+        row.children[ci].style.background = b.actions[f.filter].color;
     var selFrom = row.from.selectionEnd;
     var selTo = row.to.selectionEnd;
     row.from.value = f.from;

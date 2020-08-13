@@ -144,7 +144,9 @@ function UpdateFilterRow(row: FilterRow, f: Filter) {
     row.currentFilter = f;
 
     //Update fields
-    row.style.background = b.actions[f.filter].color;
+    for (var ci = 0; ci < row.children.length; ci++)
+        (row.children[ci] as HTMLElement).style.background = b.actions[f.filter].color;
+
     var selFrom = row.from.selectionEnd;
     var selTo = row.to.selectionEnd;
     row.from.value = f.from;

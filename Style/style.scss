@@ -178,7 +178,7 @@ label:hover {
 
 .filter-table {
     display: grid;
-    align-items: center;
+    align-items: stretch;
     grid-template-columns: auto 1fr auto 1fr auto auto auto;
 
     input[type=text], select {
@@ -211,6 +211,11 @@ label:hover {
 
     form > *:first-child {
         grid-column: 1 / 2;
+    }
+
+    form > div {
+        display: flex;
+        align-items: center;
     }
 
     input {
@@ -312,7 +317,7 @@ select {
         textarea,
         select {
             border: 1px solid gray;
-            background: #fff;
+            background: #fff !important;
         }
     }
 }

@@ -139,7 +139,7 @@ label:hover {
 
 .filter-table {
   display: grid;
-  align-items: center;
+  align-items: stretch;
   grid-template-columns: auto 1fr auto 1fr auto auto auto; }
   .filter-table input[type=text], .filter-table select {
     align-self: stretch; }
@@ -157,6 +157,9 @@ label:hover {
     display: contents; }
   .filter-table form > *:first-child {
     grid-column: 1 / 2; }
+  .filter-table form > div {
+    display: flex;
+    align-items: center; }
   .filter-table input {
     box-sizing: border-box;
     width: 100%; }
@@ -232,7 +235,7 @@ select {
   .table form:hover textarea,
   .table form:hover select {
     border: 1px solid gray;
-    background: #fff; }
+    background: #fff !important; }
 
 .button {
   background-color: #fff;
