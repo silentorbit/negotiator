@@ -372,6 +372,7 @@ dt {
 #popupBody {
   background: #fff;
   box-shadow: #fff 0 0 3px inset;
-  min-width: 640px; }
+  width: 750px;
+  max-width: 100%; }
   #popupBody #tablewrap {
     padding: 1em; }
