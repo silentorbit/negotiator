@@ -94,6 +94,9 @@ function AddFilterRow(table, f) {
     };
     UpdateFilterRow(row, f);
     table.appendChild(row);
+    var spacer = document.createElement("div");
+    spacer.classList.add("row-sep");
+    table.appendChild(spacer);
     return row;
 }
 function UpdateFilterRow(row, f) {
@@ -149,7 +152,7 @@ function AddTrackedRow(table, req, submitAction) {
     if (req.from == null)
         req.from = "";
     var row = CloneByID("filterTemplate");
-    row.del.remove();
+    row.del.parentElement.remove();
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;
@@ -173,6 +176,9 @@ function AddTrackedRow(table, req, submitAction) {
     row.from.oninput = function () { wildcardTextHelper(row.from); };
     row.to.oninput = function () { wildcardTextHelper(row.to); };
     table.appendChild(row);
+    var spacer = document.createElement("div");
+    spacer.classList.add("row-sep");
+    table.appendChild(spacer);
 }
 function wildcardTextHelper(text) {
     var wild = false;

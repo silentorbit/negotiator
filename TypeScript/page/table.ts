@@ -137,6 +137,12 @@ function AddFilterRow(table: HTMLElement, f: Filter) {
     UpdateFilterRow(row, f);
 
     table.appendChild(row);
+
+    //Spacer
+    var spacer = document.createElement("div");
+    spacer.classList.add("row-sep");
+    table.appendChild(spacer);
+
     return row;
 }
 
@@ -206,7 +212,7 @@ function AddTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: {
     if (req.from == null)
         req.from = "";
     var row = CloneByID("filterTemplate") as FilterRow;
-    row.del.remove();
+    row.del.parentElement.remove();
     row.from.value = req.from;
     if (req.to != null)
         row.to.value = req.to;
@@ -236,6 +242,11 @@ function AddTrackedRow(table: HTMLElement, req: ITrackedRequest, submitAction: {
     row.from.oninput = function () { wildcardTextHelper(row.from); };
     row.to.oninput = function () { wildcardTextHelper(row.to); };
     table.appendChild(row);
+
+    //Spacer
+    var spacer = document.createElement("div");
+    spacer.classList.add("row-sep");
+    table.appendChild(spacer);
 }
 
 //Handle changes in the domain textbox

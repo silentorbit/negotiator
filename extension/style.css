@@ -163,27 +163,31 @@ label:hover {
   .filter-table input {
     box-sizing: border-box;
     width: 100%; }
+  .filter-table .row-sep {
+    display: none; }
 
 @media only screen and (max-width: 650px) {
   .filter-table {
     grid-template-columns: auto 1fr auto;
     grid-auto-flow: dense; }
+    .filter-table .row-sep {
+      display: block;
+      height: 1em;
+      grid-column: 1 / -1; }
     .filter-table .header {
       display: none; }
     .filter-table form > *:nth-child(1),
     .filter-table form > *:nth-child(3),
-    .filter-table form input[type=checkbox] {
+    .filter-table form > *:nth-child(5) {
       grid-column: 1 / 2; }
-    .filter-table form input[type=text],
-    .filter-table form select {
+    .filter-table form > *:nth-child(2),
+    .filter-table form > *:nth-child(4),
+    .filter-table form > *:nth-child(6) {
       grid-column: 2 / 3; }
-    .filter-table form input[type=submit],
-    .filter-table form .dangerButton {
+    .filter-table form > *:nth-child(7) {
+      grid-column: 3;
       grid-row: span 3;
-      align-self: stretch; }
-    .filter-table div {
-      grid-column: 1 / -1;
-      height: 1em; } }
+      align-self: stretch; } }
 
 #actions.table {
   background: #ccc; }
