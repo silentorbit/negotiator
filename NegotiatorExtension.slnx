@@ -1,0 +1,49 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+  </Configurations>
+  <Project Path="." Type="Website" DisplayName="negotiator" Id="30656387-ab21-4de8-b3fc-c9b70f1e3a6a">
+    <Properties Name="WebsiteProperties">
+      <Property Name="Debug.AspNetCompiler.Debug" Value="&quot;True&quot;" />
+      <Property Name="Debug.AspNetCompiler.FixedNames" Value="&quot;false&quot;" />
+      <Property Name="Debug.AspNetCompiler.ForceOverwrite" Value="&quot;true&quot;" />
+      <Property Name="Debug.AspNetCompiler.PhysicalPath" Value="&quot;..\negotiator\&quot;" />
+      <Property Name="Debug.AspNetCompiler.TargetPath" Value="&quot;PrecompiledWeb\localhost_49809\&quot;" />
+      <Property Name="Debug.AspNetCompiler.Updateable" Value="&quot;true&quot;" />
+      <Property Name="Debug.AspNetCompiler.VirtualPath" Value="&quot;/localhost_49809&quot;" />
+      <Property Name="Release.AspNetCompiler.Debug" Value="&quot;False&quot;" />
+      <Property Name="Release.AspNetCompiler.FixedNames" Value="&quot;false&quot;" />
+      <Property Name="Release.AspNetCompiler.ForceOverwrite" Value="&quot;true&quot;" />
+      <Property Name="Release.AspNetCompiler.PhysicalPath" Value="&quot;..\negotiator\&quot;" />
+      <Property Name="Release.AspNetCompiler.TargetPath" Value="&quot;PrecompiledWeb\localhost_49809\&quot;" />
+      <Property Name="Release.AspNetCompiler.Updateable" Value="&quot;true&quot;" />
+      <Property Name="Release.AspNetCompiler.VirtualPath" Value="&quot;/localhost_49809&quot;" />
+      <Property Name="TargetFrameworkMoniker" Value="&quot;.NETFramework,Version%3Dv4.8.1&quot;" />
+      <Property Name="VWDPort" Value="&quot;49809&quot;" />
+    </Properties>
+  </Project>
+  <Properties Name="MonoDevelopProperties">
+    <Property Name="$0.TextStylePolicy" Value="$6" />
+    <Property Name="$0.XmlFormattingPolicy" Value="$7" />
+    <Property Name="$1.inheritsSet" Value="null" />
+    <Property Name="$1.scope" Value="text/html" />
+    <Property Name="$2.EolMarker" Value="Unix" />
+    <Property Name="$2.FileWidth" Value="120" />
+    <Property Name="$2.inheritsScope" Value="text/plain" />
+    <Property Name="$2.inheritsSet" Value="VisualStudio" />
+    <Property Name="$2.scope" Value="text/plain" />
+    <Property Name="$2.TabsToSpaces" Value="False" />
+    <Property Name="$3.inheritsSet" Value="null" />
+    <Property Name="$3.scope" Value="application/json" />
+    <Property Name="$4.inheritsSet" Value="null" />
+    <Property Name="$4.scope" Value="text/css" />
+    <Property Name="$5.inheritsSet" Value="null" />
+    <Property Name="$5.scope" Value="application/javascript" />
+    <Property Name="$6.inheritsSet" Value="null" />
+    <Property Name="$6.scope" Value="application/xml" />
+    <Property Name="$7.inheritsScope" Value="application/xml" />
+    <Property Name="$7.inheritsSet" Value="Mono" />
+    <Property Name="$7.scope" Value="application/xml" />
+    <Property Name="Policies" Value="$0" />
+  </Properties>
+</Solution>

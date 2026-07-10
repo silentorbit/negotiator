@@ -1,6 +1,70 @@
-"use strict";
+/// <reference path="./service_worker/service_worker.d.ts" />
+/// <reference path="./chrome.d.ts" />
+/// <reference path="./table.d.ts" />
 
-// Used in both background and page
+window.addEventListener("load", function () {
+
+    var clearButton = document.getElementById("clearTrackedReload");
+    if (clearButton) {
+        clearButton.addEventListener("click", async function () {
+            await chrome.runtime.sendMessage({ action: "clearTracked" } as serviceRequest);
+            location.reload();
+        });
+    }
+
+    loadTracked();
+    loadRules();
+
+}, false);
+
+//Switch tabs based on page URL
+window.addEventListener("hashchange", handleRouting);
+document.addEventListener("DOMContentLoaded", handleRouting);
+function handleRouting() {
+    if (window.location.hash == null)
+        return;
+
+    const tabElementId = window.location.hash.substring(1) + "-tab";
+    document.querySelectorAll(".tab").forEach(e => {
+        if (e.id == tabElementId) {
+            e.classList.remove("hidden");
+            switch (tabElementId) {
+                case "rules-tab":
+                    loadRules();
+                    break;
+                case "tracked-tab":
+                    loadTracked();
+                    break;
+            }
+        }
+        else {
+            e.classList.add("hidden");
+        }
+    });
+}
+
+async function getActiveTabId(): Promise<number> {
+
+    //Options page
+    const currentTab = await chrome.tabs.getCurrent()
+    if (currentTab)
+        return 0;
+
+    //Popup page
+
+    // Query Chrome for the tab that is currently active and in the focused window
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    // Ensure the tab and its ID exist (it should always exist when the popup is open)
+    if (!tab || tab.id === undefined) {
+        debugger;
+        console.error("Could not determine the active tab ID.");
+        return 0;
+    }
+
+    return tab.id;
+}
+
 
 //return whether the domain contain a leading wildcard
 function isWild(domain: string) {

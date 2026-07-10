@@ -1,4 +1,50 @@
 "use strict";
+window.addEventListener("load", function () {
+    var clearButton = document.getElementById("clearTrackedReload");
+    if (clearButton) {
+        clearButton.addEventListener("click", async function () {
+            await chrome.runtime.sendMessage({ action: "clearTracked" });
+            location.reload();
+        });
+    }
+    loadTracked();
+    loadRules();
+}, false);
+window.addEventListener("hashchange", handleRouting);
+document.addEventListener("DOMContentLoaded", handleRouting);
+function handleRouting() {
+    if (window.location.hash == null)
+        return;
+    const tabElementId = window.location.hash.substring(1) + "-tab";
+    document.querySelectorAll(".tab").forEach(e => {
+        if (e.id == tabElementId) {
+            e.classList.remove("hidden");
+            switch (tabElementId) {
+                case "rules-tab":
+                    loadRules();
+                    break;
+                case "tracked-tab":
+                    loadTracked();
+                    break;
+            }
+        }
+        else {
+            e.classList.add("hidden");
+        }
+    });
+}
+async function getActiveTabId() {
+    const currentTab = await chrome.tabs.getCurrent();
+    if (currentTab)
+        return 0;
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || tab.id === undefined) {
+        debugger;
+        console.error("Could not determine the active tab ID.");
+        return 0;
+    }
+    return tab.id;
+}
 function isWild(domain) {
     if (domain.length == 0)
         return false;

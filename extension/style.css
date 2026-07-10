@@ -5,57 +5,45 @@ Red eb008b
 Orange f6921e
 */
 @font-face {
-  font-family: 'Dhurjati';
+  font-family: "Dhurjati";
   font-style: normal;
   font-weight: 400;
-  src: local("Dhurjati"), url(/images/Dhurjati-Regular.ttf) format("truetype"); }
-
+  src: local("Dhurjati"), url(/images/Dhurjati-Regular.ttf) format("truetype");
+}
 html {
-  background: #eee; }
+  background: #eee;
+}
 
 body {
   margin: 0 auto;
-  padding: 0 0 0 0; }
+  padding: 0 0 0 0;
+}
+
+main {
+  margin: 1em;
+}
 
 body, button {
   font-family: sans-serif;
-  font-size: 13pt; }
+  font-size: 13pt;
+}
 
 h1, h2, h3 {
-  font-family: 'Dhurjati';
+  font-family: "Dhurjati";
   font-weight: normal;
   line-height: 1em;
   padding: 0;
-  margin: 0 0 6pt 0; }
+  margin: 0 0 6pt 0;
+}
 
 h1 div, h2 div, h3 div {
-  font-family: sans-serif; }
-
-.errorList {
-  background: #f88;
-  border: 2px solid #000;
-  position: absolute;
-  top: 5em;
-  margin: 1em;
-  padding: 1em;
-  z-index: 9999; }
-
-.errorList > * {
-  margin: 3px 0 0 0;
-  padding: 3px;
-  background: #fff;
-  border: 1px solid #444;
-  white-space: pre; }
-
-.filler {
-  flex-grow: 1; }
-
-.spacer {
-  flex: 0 0 0.5em; }
+  font-family: sans-serif;
+}
 
 header {
   background: #fff;
-  box-shadow: #ccc 0 -100px 20px 100px; }
+  box-shadow: #ccc 0 -100px 20px 100px;
+}
 
 #mainpanel {
   padding: 5px 1em;
@@ -64,182 +52,107 @@ header {
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: center;
-  align-content: space-between; }
+  align-content: space-between;
+}
 
 #mainpanel > * {
-  margin: 5px; }
+  margin: 5px;
+}
 
 #mainpanel a {
-  color: #000; }
+  color: #000;
+}
 
 #mainpanel a:hover {
-  color: #00adee; }
-
-fieldset {
-  border: 0;
-  padding: 0;
-  margin: 0 0 1em 0; }
-
-fieldset:last-child {
-  margin: 0; }
-
-label {
-  display: inline-block;
-  padding: 4px 11px; }
-
-label:hover {
-  background-color: #cfc; }
-
-.full-width {
-  margin: 1em; }
-  .full-width > * {
-    display: block; }
-
-.columns {
-  margin: 1em;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start; }
-  .columns > * {
-    display: inline-block;
-    margin: 0 2em 0 0;
-    padding: 0.5em 1em 1em 1em;
-    vertical-align: top; }
-  .columns > *:last-child {
-    margin: 0; }
-
-.columns-wrap {
-  flex-wrap: wrap; }
+  color: #00adee;
+}
 
 .grow {
-  flex-grow: 1; }
+  flex-grow: 1;
+}
 
-.box {
-  background: #fff;
-  border: 1px solid #ccc;
-  box-shadow: #ccc 3px 3px 5px; }
-
-.main {
-  position: relative;
-  margin: 0 1em 1em 0;
-  padding: 1em; }
-
-/* Table */
 .table {
-  display: table; }
-  .table .header {
-    font-weight: bold; }
-  .table > * {
-    display: table-row; }
-    .table > * > * {
-      display: table-cell;
-      padding: 3pt;
-      vertical-align: top; }
-
-.filter-table {
   display: grid;
-  align-items: stretch;
-  grid-template-columns: auto 1fr auto 1fr auto auto auto; }
-  .filter-table input[type=text], .filter-table select {
-    align-self: stretch; }
-  .filter-table input[type=checkbox] {
-    justify-self: center; }
-  .filter-table .header {
-    font-weight: bold; }
-    .filter-table .header span:nth-child(1) {
-      grid-column: 2 / 3; }
-    .filter-table .header span:nth-child(2) {
-      grid-column: 4 / 5; }
-    .filter-table .header span:nth-child(3) {
-      grid-column: 5 / -1; }
-  .filter-table .header, .filter-table form {
-    display: contents; }
-  .filter-table form > *:first-child {
-    grid-column: 1 / 2; }
-  .filter-table form > div {
-    display: flex;
-    align-items: center; }
-  .filter-table input {
-    box-sizing: border-box;
-    width: 100%; }
-  .filter-table .row-sep {
-    display: none; }
+  position: relative;
+  text-align: left;
+  border-collapse: collapse;
+}
+.table .header {
+  position: sticky;
+  top: 0;
+  background: #fc0;
+  z-index: 1;
+}
+.table .header,
+.table .rows,
+.table form {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
 
-@media only screen and (max-width: 650px) {
-  .filter-table {
-    grid-template-columns: auto 1fr auto;
-    grid-auto-flow: dense; }
-    .filter-table .row-sep {
-      display: block;
-      height: 1em;
-      grid-column: 1 / -1; }
-    .filter-table .header {
-      display: none; }
-    .filter-table form > *:nth-child(1),
-    .filter-table form > *:nth-child(3),
-    .filter-table form > *:nth-child(5) {
-      grid-column: 1 / 2; }
-    .filter-table form > *:nth-child(2),
-    .filter-table form > *:nth-child(4),
-    .filter-table form > *:nth-child(6) {
-      grid-column: 2 / 3; }
-    .filter-table form > *:nth-child(7) {
-      grid-column: 3;
-      grid-row: span 3;
-      align-self: stretch; } }
+#tracked.table {
+  grid-template-columns: auto 1fr auto 1fr auto auto;
+}
 
-#actions.table {
-  background: #ccc; }
+#tracked.table form #delete {
+  display: none;
+}
 
-input[type="checkbox"] {
+#rules.table {
+  grid-template-columns: auto 1fr auto 1fr auto auto;
+}
+
+select:has(option[value=allow]:checked), option[value=allow] {
+  background: #cfc;
+}
+
+select:has(option[value=block]:checked), option[value=block] {
+  background: #fcc;
+}
+
+/*************************************************/
+input[type=checkbox] {
   width: 1.4em;
   height: 1.4em;
   margin: 0;
   padding: 0;
-  position: relative; }
+  position: relative;
+}
 
 select {
   background: transparent;
-  padding: 2pt; }
+  padding: 2pt;
+}
 
-.filter-table input[type="text"],
-.filter-table textarea,
-.filter-table select,
-.table input[type="text"],
+.table input[type=text],
 .table textarea,
 .table select {
   background: transparent;
-  border: 1px solid transparent; }
-
-.filter-table textarea,
+  border: 1px solid transparent;
+}
 .table textarea {
-  height: 5em; }
-
-.filter-table input[type="text"],
-.table input[type="text"] {
-  padding: 2pt 5pt; }
-
-.filter-table input[type="text"].color,
-.table input[type="text"].color {
-  width: 5em; }
-
-.filter-table form,
+  height: 5em;
+}
+.table input[type=text] {
+  padding: 2pt 5pt;
+}
+.table input[type=text].color {
+  width: 5em;
+}
 .table form {
-  border: 1px solid #000; }
-
-.filter-table form:hover,
+  border: 1px solid #000;
+}
 .table form:hover {
   background: #ccc;
-  border: 1px solid #000; }
-  .filter-table form:hover input[type="text"],
-  .filter-table form:hover textarea,
-  .filter-table form:hover select,
-  .table form:hover input[type="text"],
-  .table form:hover textarea,
-  .table form:hover select {
-    border: 1px solid gray;
-    background: #fff !important; }
+  border: 1px solid #000;
+}
+.table form:hover input[type=text],
+.table form:hover textarea,
+.table form:hover select {
+  border: 1px solid gray;
+  background: #fff !important;
+}
 
 .button {
   background-color: #fff;
@@ -252,134 +165,37 @@ select {
   text-decoration: none;
   cursor: pointer;
   padding: 3pt 20pt;
-  margin: 2pt; }
-  .button:hover {
-    background-color: #8cf; }
+  margin: 2pt;
+}
+.button:hover {
+  background-color: #8cf;
+}
 
-.button-left {
-  margin-left: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0; }
-
-.button-bottom {
-  margin-bottom: 0;
-  border-bottom: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0; }
-
-.button-top {
-  margin-top: 0;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
-.button.active {
-  background-color: #6af;
-  color: #fff !important; }
-
-.dangerButton {
+button.danger {
   cursor: pointer;
   background-color: #fff;
   color: #f00;
-  border: 1px solid #f00; }
-
-.dangerButton:hover {
+  border: 1px solid #f00;
+}
+button.danger svg {
+  fill: #f00;
+}
+button.danger:hover {
   background-color: #f24537;
   color: #fff;
-  border: 1px solid #fff; }
-
-/* Thanks to http://www.menucool.com/tooltip/css-tooltip */
-.tooltip {
-  outline: none;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: gray;
-  cursor: help;
-  position: relative;
-  text-align: left; }
-  .tooltip > * {
-    z-index: 10;
-    display: none;
-    position: absolute;
-    bottom: 2em;
-    left: 0;
-    color: #111;
-    border: 1px solid #DCA;
-    background: #fffAF0;
-    padding: 0 5px 5px 5px;
-    width: 300px;
-    font-size: 1rem;
-    font-weight: normal;
-    border-radius: 4px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); }
-  .tooltip h1,
-  .tooltip h2 {
-    margin: 0; }
-  .tooltip p {
-    margin: 0 0 1em 0; }
-  .tooltip:hover {
-    text-decoration: none; }
-  .tooltip:hover > * {
-    display: inline; }
-
-.tooltip-below:hover > * {
-  bottom: auto;
-  top: 2em;
-  left: 0;
-  right: auto; }
-
-.tooltip-link {
-  text-decoration: underline;
-  text-decoration-style: solid;
-  text-decoration-color: inherit;
-  cursor: pointer; }
-
-code {
-  background: #ccc;
-  display: block; }
-
-dt {
-  font-weight: bold; }
-
-.exportedColumn {
-  width: 40%; }
-  .exportedColumn textarea {
-    width: 100%;
-    height: 20em; }
-
-#addActionForm {
-  position: absolute;
-  right: 1em;
-  top: 1em; }
-
-@media screen and (max-width: 800px) {
-  .columns {
-    display: block;
-    margin: 1em 0; }
-    .columns > * {
-      display: block;
-      margin: 1em 0; }
-  .exportedColumn {
-    display: block;
-    width: auto;
-    margin: 1em 0; }
-  .main {
-    display: block;
-    width: auto;
-    margin: 0; } }
-
-.tab.active {
-  display: block; }
+  border-color: #fff;
+}
+button.danger:hover svg {
+  fill: #fff;
+}
 
 .hidden {
-  display: none; }
-
-#clearTrackedReload {
-  float: right; }
+  display: none;
+}
 
 #popupBody {
   background: #fff;
   box-shadow: #fff 0 0 3px inset;
   width: 750px;
-  max-width: 100%; }
-  #popupBody #tablewrap {
-    padding: 1em; }
+  max-width: 100%;
+}

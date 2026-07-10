@@ -1,15 +1,25 @@
 ﻿{
   "compileOnSave": true,
   "compilerOptions": {
-    "module": "system",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": false,
-    "outDir": "extension/script"
+    "outDir": "extension/script",
+
+    /* Language and Environment */
+    "target": "ESNext",
+    "lib": [ "ESNext", "DOM", "DOM.Iterable" ],
+
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    /* Type Checking */
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "TypeScript/*.ts",
-    "TypeScript/background/*.ts",
-    "TypeScript/page/*.ts"
+    "TypeScript/**/*.ts"
   ]
 }

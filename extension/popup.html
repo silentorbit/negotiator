@@ -5,42 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link rel="stylesheet" href="style.css" type="text/css" />
     <title>Negotiator</title>
+    <script src="script/table.js"></script>
     <script src="script/shared.js"></script>
-    <script src="script/page/table.js"></script>
-    <script src="script/page/popup.js"></script>
 </head>
 <body id="popupBody">
     <header id="mainpanel">
-        <a href="options.html#filters" class="button" target="_blank">Filters</a>
+        <a href="options.html#rules" class="button" target="_blank">Rules</a>
         <a href="options.html#tracked" class="button" target="_blank">Tracked</a>
-        <a href="options.html#settings" class="button" target="_blank">Options</a>
-        <span class="filler"></span>
+        <span class="grow"></span>
         <button class="button" id="clearTrackedReload">Clear</button>
     </header>
-    <div id="tablewrap">
-        <div id="table" class="filter-table">
-            <div id="filterHeader" class="header">
-                <span>From</span>
-                <span>To</span>
-                <span>Track &amp; Action</span>
+    <main>
+        <h1>Tracked</h1>
+
+        <div class="table" id="tracked">
+            <div class="header">
+                <div></div>
+                <div>From</div>
+                <div></div>
+                <div>To</div>
+                <div style="grid-column: span 2">Action</div>
+            </div>
+            <div class="rows" id="tracked-rows">
+
             </div>
         </div>
-    </div>
 
-    <!-- Templates -->
-    <div style="display: none;">
+        <h1>Rules</h1>
 
-        <form id="filterTemplate">
-            <button id="fromWild">➤</button>
+        <div class="table" id="rules">
+            <div class="header">
+                <div></div>
+                <div>From</div>
+                <div></div>
+                <div>To</div>
+                <div>Action</div>
+                <div>Delete</div>
+            </div>
+            <div class="rows" id="rules-rows">
+
+            </div>
+        </div>
+    </main>
+
+    <template id="row-template">
+        <form>
+            <button type="button" id="fromWild">➤</button>
             <input type="text" id="from" value="" placeholder="From domain..." />
-            <button id="toWild">➤</button>
+            <button type="button" id="toWild">➤</button>
             <input type="text" id="to" value="" placeholder="To domain..." />
-            <div><input type="checkbox" id="track" title="Track" /></div>
-            <select id="filter"></select>
-            <input type="submit" id="add" value="Add" class="button" />
-            <div><input type="button" id="del" value="delete" class="dangerButton" /></div>
+            <select id="actionType">
+                <option value="allow">Allow</option>
+                <!--
+                <option value="modifyHeaders">Headers</option>
+                <option value="redirect">Redirect</option>
+                -->
+                <option value="block">Block</option>
+            </select>
+            <button type="submit" id="add">Add</button>
+            <button type="button" id="delete" class="danger">
+                <svg style="height: 1em" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
+            </button>
         </form>
+    </template>
 
-    </div>
 </body>
 </html>
