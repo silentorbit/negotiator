@@ -77,48 +77,68 @@ header {
 
 .table {
     display: grid;
-    position: relative; // For sticky
+    grid-template-columns: auto 1fr auto 1fr auto auto;
+    position: relative; // For sticky headers
     text-align: left;
     border-collapse: collapse;
 
-    .header {
+    & > div:first-child {
         position: sticky;
         top: 0;
         background: #fc0;
+        font-weight: bold;
         z-index: 1;
     }
 
-    .header,
-    .rows,
-    form {
+    & > *,
+    & > .rows > * {
         grid-column: 1/-1;
         display: grid;
         grid-template-columns: subgrid;
     }
 }
 
-#tracked.table {
-    grid-template-columns: auto 1fr auto 1fr auto auto;
-}
-
-#tracked.table form #delete {
-    display: none;
-}
-
-#rules.table {
-    grid-template-columns: auto 1fr auto 1fr auto auto;
-}
-
 select:has(option[value="allow"]:checked), option[value="allow"] {
     background: #cfc;
+}
+
+select:has(option[value="modifyHeaders"]:checked), option[value="modifyHeaders"] {
+    background: #ffc;
 }
 
 select:has(option[value="block"]:checked), option[value="block"] {
     background: #fcc;
 }
 
-/*************************************************/
+.modifyHeaders {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto 1fr auto auto;
 
+    h1 {
+        margin: 0;
+    }
+
+    & > div.header {
+        grid-column: 2/-1;
+        font-weight: bold;
+        background: #ffc;
+    }
+
+    & > div {
+        grid-column: 2/-1;
+        display: grid;
+        grid-template-columns: subgrid;
+
+        & > div {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: subgrid;
+            align-items: end;
+        }
+    }
+}
+/*************************************************/
 input[type="checkbox"] {
     width: 1.4em;
     height: 1.4em;
@@ -153,12 +173,12 @@ select {
     }
 
     form {
-        border: 1px solid #000;
+        border: 1px solid #0000;
     }
 
     form:hover {
-        background: #ccc;
-        border: 1px solid #000;
+        //background: #ccc;
+        //border-color: #000;
 
         input[type="text"],
         textarea,
@@ -169,7 +189,7 @@ select {
     }
 }
 
-.button {
+button, .button {
     background-color: #fff;
     background-color: #adf;
     border-radius: 3px;

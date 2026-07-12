@@ -1,6 +1,5 @@
 /// <reference path="./service_worker/service_worker.d.ts" />
 /// <reference path="./chrome.d.ts" />
-/// <reference path="./table.d.ts" />
 
 window.addEventListener("load", function () {
 
@@ -64,23 +63,6 @@ async function getActiveTabId(): Promise<number> {
 
     return tab.id;
 }
-
-
-//return whether the domain contain a leading wildcard
-function isWild(domain: string) {
-    if (domain.length == 0)
-        return false;
-    return domain.indexOf("*") == 0;
-}
-
-//return domain without leading wildcard
-function withoutWild(domain: string) {
-    if (isWild(domain))
-        return domain.substring(1);
-    else
-        return domain;
-}
-
 
 //Choices for random User-Agent
 var uaPlatform = ["Windows", "X11", "Macintosh"];

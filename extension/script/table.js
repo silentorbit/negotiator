@@ -3,102 +3,174 @@ async function loadTracked() {
     const tabId = await getActiveTabId();
     const response = await chrome.runtime.sendMessage({ action: "getTracked", tabId: tabId });
     console.log("GotTracked", tabId, response);
-    const rows = document.getElementById("tracked-rows");
+    const rows = document.querySelector("#tracked-rows");
     rows.replaceChildren();
-    addTrackedRow(rows, { from: "", to: "" });
-    response.tracked.forEach(t => {
-        addTrackedRow(rows, t);
-    });
-}
-function addTrackedRow(rows, tracked) {
-    const row = CloneRowTemplate();
-    row.fromWild.onclick = () => domainClick(row.from, tracked.from);
-    row.from.value = tracked.from;
-    row.toWild.onclick = () => domainClick(row.to, tracked.to);
-    row.to.value = tracked.to;
-    row.actionType.value = "block";
-    row.onsubmit = async function (e) {
-        e.preventDefault();
-        const type = row.actionType.value;
-        await chrome.runtime.sendMessage({
-            action: "updateRules",
-            update: {
-                addRules: [
-                    {
-                        id: 0,
-                        action: {
-                            type: type,
-                        },
-                        condition: {
-                            initiatorDomains: [row.from.value],
-                            requestDomains: [row.to.value]
-                        }
-                    }
-                ]
-            },
-        });
-        rows.removeChild(row);
-        loadRules();
-        return true;
-    };
-    row.from.oninput = function () { wildcardTextHelper(row.from); };
-    row.to.oninput = function () { wildcardTextHelper(row.to); };
-    rows.appendChild(row);
+    rows.appendChild(createRow({
+        id: 0,
+        action: {
+            type: "block",
+        },
+        condition: {
+            initiatorDomains: undefined,
+            requestDomains: undefined,
+        }
+    }));
+    response.tracked
+        .map(t => createRow({
+        id: 0,
+        action: {
+            type: "block",
+        },
+        condition: {
+            initiatorDomains: wildcardToCondition(t.from),
+            requestDomains: wildcardToCondition(t.to),
+        }
+    }))
+        .forEach((row) => rows.appendChild(row));
 }
 async function loadRules() {
     const response = await chrome.runtime.sendMessage({ action: "getRules" });
     console.log("GotRules", response);
     const tabId = await getActiveTabId();
-    const rows = document.getElementById("rules-rows");
+    const rows = document.querySelector("#rules-rows");
     rows.replaceChildren();
-    response.rules.forEach(rule => {
-        const row = CloneRowTemplate();
-        const from = rule.condition.initiatorDomains[0];
-        row.fromWild.onclick = () => domainClick(row.from, from, save);
-        row.from.value = from;
-        row.from.onchange = save;
-        const to = rule.condition.requestDomains[0];
-        row.toWild.onclick = () => domainClick(row.to, to, save);
-        row.to.value = to;
-        row.to.onchange = save;
-        row.actionType.value = rule.action.type;
-        row.add.remove();
-        row.actionType.onchange = save;
-        row.onsubmit = function (e) {
-            e.preventDefault();
-            save();
-            return true;
-        };
-        async function save() {
-            rule.condition.initiatorDomains = [row.from.value];
-            rule.condition.requestDomains = [row.to.value];
-            rule.action.type = row.actionType.value;
-            await chrome.runtime.sendMessage({
-                action: "updateRules",
-                update: {
-                    addRules: [rule]
-                },
-            });
+    response.rules
+        .map(createRow)
+        .forEach(row => rows.appendChild(row));
+}
+function createRow(rule) {
+    const row = CloneTemplate("row-template");
+    const fromDomain = conditionToWildcard(rule.condition.initiatorDomains);
+    const toDomain = conditionToWildcard(rule.condition.requestDomains);
+    const saveOnChange = rule.id == 0 ? ruleChanged : save;
+    const inputFrom = row.querySelector("input.from");
+    const inputTo = row.querySelector("input.to");
+    row.querySelector("button.fromWild").onclick = () => domainClick(inputFrom, fromDomain, saveOnChange);
+    row.querySelector("button.toWild").onclick = () => domainClick(inputTo, toDomain, saveOnChange);
+    inputFrom.value = fromDomain;
+    inputFrom.onchange = saveOnChange;
+    inputFrom.oninput = wildcardTextHelper;
+    inputTo.value = toDomain;
+    inputTo.onchange = saveOnChange;
+    inputTo.oninput = wildcardTextHelper;
+    const selectActionType = row.querySelector("select.actionType");
+    selectActionType.value = rule.action.type;
+    selectActionType.onchange = saveOnChange;
+    loadModifyHeaders(row.querySelector(".modifyHeadersRequestRows"), rule.action.requestHeaders);
+    loadModifyHeaders(row.querySelector(".modifyHeadersResponseRows"), rule.action.responseHeaders);
+    function loadModifyHeaders(div, headers) {
+        div.replaceChildren();
+        headers?.map(m => createModifyHeaders(headers, m))
+            .forEach(row => div.appendChild(row));
+    }
+    row.querySelector(".addRequestHeader").onclick = function () {
+        var headers = rule.action.requestHeaders ??= [];
+        var m = { header: "cookie", operation: "remove", value: "" };
+        headers.push(m);
+        row.querySelector(".modifyHeadersRequestRows").appendChild(createModifyHeaders(headers, m));
+        saveOnChange();
+    };
+    row.querySelector(".addResponseHeader").onclick = function () {
+        var headers = rule.action.responseHeaders ??= [];
+        var m = { header: "cookie", operation: "remove", value: "" };
+        headers.push(m);
+        row.querySelector(".modifyHeadersResponseRows").appendChild(createModifyHeaders(headers, m));
+        saveOnChange();
+    };
+    row.onsubmit = async function (e) {
+        e.preventDefault();
+        await save();
+        if (rule.id == 0) {
+            row.remove();
+            loadRules();
         }
-        row.delete.onclick = async () => {
-            await chrome.runtime.sendMessage({
-                action: "updateRules",
-                update: {
-                    removeRuleIds: [rule.id]
-                },
-            });
+        return true;
+    };
+    function ruleChanged() {
+        rule.condition.initiatorDomains = wildcardToCondition(inputFrom.value);
+        rule.condition.requestDomains = wildcardToCondition(inputTo.value);
+        rule.action.type = selectActionType.value;
+        var headers = row.querySelector(".modifyHeaders");
+        if (rule.action.type == "modifyHeaders")
+            headers.classList.remove("hidden");
+        else
+            headers.classList.add("hidden");
+    }
+    async function save() {
+        ruleChanged();
+        await chrome.runtime.sendMessage({ action: "updateRules", update: { addRules: [rule] }, });
+    }
+    const deleteButton = row.querySelector("button.delete");
+    const addButton = row.querySelector("button.add");
+    if (rule.id == 0) {
+        deleteButton.remove();
+    }
+    else {
+        addButton.remove();
+        deleteButton.onclick = async function () {
+            await chrome.runtime.sendMessage({ action: "updateRules", update: { removeRuleIds: [rule.id] }, });
             row.remove();
         };
-        rows.appendChild(row);
-    });
+    }
+    ruleChanged();
+    return row;
+    function createModifyHeaders(headers, modify) {
+        const headerDiv = CloneTemplate("modifyHeaders-template");
+        const header = headerDiv.querySelector(".header");
+        const operation = headerDiv.querySelector(".operation");
+        const value = headerDiv.querySelector(".value");
+        header.value = modify.header;
+        operation.value = modify.operation;
+        value.value = modify.value ?? "";
+        header.onchange = headerRuleChanged;
+        operation.onchange = headerRuleChanged;
+        value.onchange = headerRuleChanged;
+        headerRuleChanged();
+        function headerRuleChanged() {
+            modify.header = header.value;
+            modify.operation = operation.value;
+            modify.value = value.value;
+            if (operation.value == "remove") {
+                delete modify.value;
+                value.value = "";
+                value.disabled = true;
+            }
+            else {
+                modify.value = "";
+                value.value = "";
+                value.disabled = false;
+            }
+            saveOnChange();
+        }
+        ;
+        headerDiv.querySelector("button.delete").onclick = function () {
+            const index = headers.indexOf(modify);
+            if (index < 0)
+                return;
+            headers.splice(index, 1);
+            headerDiv.remove();
+        };
+        return headerDiv;
+    }
 }
-function domainClick(input, original, save) {
+function wildcardToCondition(domain) {
+    domain = domain.replace(/^\*.?/, '');
+    if (domain == "")
+        return undefined;
+    return [domain];
+}
+function conditionToWildcard(arr) {
+    if (!arr || arr.length == 0)
+        return "*";
+    return "*." + arr[0];
+}
+function domainClick(input, original, saveOnChange) {
     let v = input.value;
     if (v == "*") {
         input.value = original;
     }
-    else if (v.indexOf("*") == 0) {
-        v = v.replace("*", "");
+    else {
+        v = v.replace(/^[*.]*/, "");
         let s = v.split(".");
         if (s.length <= 2) {
             input.value = "*";
@@ -108,28 +180,17 @@ function domainClick(input, original, save) {
             input.value = "*" + s.join(".");
         }
     }
-    else {
-        input.value = "*" + input.value;
-    }
-    save();
+    saveOnChange();
     return false;
 }
-function wildcardTextHelper(text) {
-    let wild = false;
-    let f = text.value;
-    f = f.trim();
-    if (f.startsWith("*")) {
-        f = f.substring(1).trim();
-        wild = true;
-    }
-    f = f.replace("*", "");
-    if (wild)
-        f = "*" + f;
+function wildcardTextHelper(ev) {
+    const text = ev.target;
+    let f = "*." + text.value.replace(/^[*.]+/, '');
     if (text.value != f)
         text.value = f;
 }
-function CloneRowTemplate() {
-    const template = document.getElementById("row-template");
+function CloneTemplate(templateID) {
+    const template = document.getElementById(templateID);
     const fragment = template.content.cloneNode(true);
     const clone = fragment.firstElementChild;
     return clone;
