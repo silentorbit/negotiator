@@ -1,3 +1,39 @@
+:root {
+    color-scheme: light dark;
+    /* Light Mode (Default) */
+    --bg: #eee;
+    --text: #333;
+    --input-bg: #fff;
+    --button-bg: #adf;
+    --button-bg-hover: #8cf;
+    --button-shade: #ddd;
+    --button-text: #000;
+    --header-bg: #fc0;
+    //Rule action color
+    --allow: #cfc;
+    --modifyHeaders: #ffc;
+    --block: #fcc;
+}
+
+// Dark Mode Overrides
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #000;
+        --text: #e4e4e7;
+        --input-bg: #333;
+        --button-bg: #122;
+        --button-bg-hover: #233;
+        --button-shade: #000;
+        --button-text: #e4e4e7;
+        --header-bg: #430;
+        //Rule action color
+        --allow: #383;
+        --modifyHeaders: #883;
+        --block: #833;
+    }
+}
+
 /*
 Green	8bc53f
 Blue 00adee
@@ -12,12 +48,23 @@ Orange f6921e
 }
 
 html {
-    background: #eee;
+    background: var(--bg);
+    color: var(--text);
 }
 
 body {
     margin: 0 auto;
     padding: 0 0 0 0;
+}
+
+#popupBody {
+    box-shadow: #fff 0 0 3px inset;
+    width: 750px;
+    max-width: 100%;
+}
+
+header {
+    box-shadow: #ccc 0 -100px 20px 100px;
 }
 
 main {
@@ -42,11 +89,6 @@ h1 div, h2 div, h3 div {
     font-family: sans-serif;
 }
 
-header {
-    background: #fff;
-    box-shadow: #ccc 0 -100px 20px 100px;
-}
-
 #mainpanel {
     padding: 5px 1em;
     line-height: 1em;
@@ -59,14 +101,6 @@ header {
 
 #mainpanel > * {
     margin: 5px;
-}
-
-#mainpanel a {
-    color: #000;
-}
-
-#mainpanel a:hover {
-    color: #00adee;
 }
 
 .grow {
@@ -85,7 +119,8 @@ header {
     & > div:first-child {
         position: sticky;
         top: 0;
-        background: #fc0;
+        background: var(--bg);
+        border-bottom: 2px solid var(--header-bg);
         font-weight: bold;
         z-index: 1;
     }
@@ -99,15 +134,15 @@ header {
 }
 
 select:has(option[value="allow"]:checked), option[value="allow"] {
-    background: #cfc;
+    background: var(--allow);
 }
 
 select:has(option[value="modifyHeaders"]:checked), option[value="modifyHeaders"] {
-    background: #ffc;
+    background: var(--modifyHeaders);
 }
 
 select:has(option[value="block"]:checked), option[value="block"] {
-    background: #fcc;
+    background: var(--block);
 }
 
 .modifyHeaders {
@@ -122,7 +157,11 @@ select:has(option[value="block"]:checked), option[value="block"] {
     & > div.header {
         grid-column: 2/-1;
         font-weight: bold;
-        background: #ffc;
+        border-bottom: 2px solid var(--modifyHeaders);
+
+        & > div {
+            align-items: end;
+        }
     }
 
     & > div {
@@ -134,11 +173,20 @@ select:has(option[value="block"]:checked), option[value="block"] {
             grid-column: 1/-1;
             display: grid;
             grid-template-columns: subgrid;
-            align-items: end;
         }
     }
 }
 /*************************************************/
+
+input, select {
+    color: var(--text);
+    background-color: transparent;
+}
+
+input:disabled {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
 
 input:invalid {
     outline: 2px solid red;
@@ -182,39 +230,34 @@ select {
     }
 
     form:hover {
-        //background: #ccc;
-        //border-color: #000;
 
-        input[type="text"],
-        textarea,
-        select {
+        input[type="text"] {
             border: 1px solid gray;
-            background: #fff !important;
+            background: var(--input-bg);
         }
     }
 }
 
 button, .button {
-    background-color: #fff;
-    background-color: #adf;
+    background-color: var(--button-bg);
     border-radius: 3px;
-    border: 0;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    color: #000;
+    border: 0px solid var(--button-shade);
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    color: var(--button-text);
     text-decoration: none;
     cursor: pointer;
     padding: 3pt 20pt;
     margin: 2pt;
 
     &:hover {
-        background-color: #8cf;
+        background-color: var(--button-bg-hover);
     }
 }
 
 button.danger {
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--bg);
     color: #f00;
     border: 1px solid #f00;
 
@@ -224,22 +267,15 @@ button.danger {
 
     &:hover {
         background-color: #f24537;
-        color: #fff;
-        border-color: #fff;
+        color: #ff0;
+        border-color: #ff0;
 
         svg {
-            fill: #fff;
+            fill: #ff0;
         }
     }
 }
 
 .hidden {
     display: none;
-}
-
-#popupBody {
-    background: #fff;
-    box-shadow: #fff 0 0 3px inset;
-    width: 750px;
-    max-width: 100%;
 }
