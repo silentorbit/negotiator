@@ -49,10 +49,8 @@ function createRow(rule) {
     row.querySelector("button.toWild").onclick = () => domainClick(inputTo, toDomain, saveOnChange);
     inputFrom.value = fromDomain;
     inputFrom.onchange = saveOnChange;
-    inputFrom.oninput = wildcardTextHelper;
     inputTo.value = toDomain;
     inputTo.onchange = saveOnChange;
-    inputTo.oninput = wildcardTextHelper;
     const selectActionType = row.querySelector("select.actionType");
     selectActionType.value = rule.action.type;
     selectActionType.onchange = saveOnChange;
@@ -87,6 +85,8 @@ function createRow(rule) {
         return true;
     };
     function ruleChanged() {
+        if (!row.reportValidity())
+            return;
         rule.condition.initiatorDomains = wildcardToCondition(inputFrom.value);
         rule.condition.requestDomains = wildcardToCondition(inputTo.value);
         rule.action.type = selectActionType.value;
@@ -97,6 +97,8 @@ function createRow(rule) {
             headers.classList.add("hidden");
     }
     async function save() {
+        if (!row.reportValidity())
+            return;
         ruleChanged();
         await chrome.runtime.sendMessage({ action: "updateRules", update: { addRules: [rule] }, });
     }
@@ -136,8 +138,7 @@ function createRow(rule) {
                 value.disabled = true;
             }
             else {
-                modify.value = "";
-                value.value = "";
+                modify.value ??= "";
                 value.disabled = false;
             }
             saveOnChange();
@@ -182,12 +183,6 @@ function domainClick(input, original, saveOnChange) {
     }
     saveOnChange();
     return false;
-}
-function wildcardTextHelper(ev) {
-    const text = ev.target;
-    let f = "*." + text.value.replace(/^[*.]+/, '');
-    if (text.value != f)
-        text.value = f;
 }
 function CloneTemplate(templateID) {
     const template = document.getElementById(templateID);

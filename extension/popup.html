@@ -51,15 +51,15 @@
     <template id="row-template">
         <form>
             <button type="button" class="fromWild">➤</button>
-            <input type="text" class="from" value="" placeholder="From domain..." />
+            <input type="text" class="from" pattern="\*|\*\.?[a-zA-Z0-9.\-]+" placeholder="*.example.com or *" title="*.example.com or *" />
             <button type="button" class="toWild">➤</button>
-            <input type="text" class="to" value="" placeholder="To domain..." />
+            <input type="text" class="to" pattern="\*|\*\.?[a-zA-Z0-9.\-]+" placeholder="*.example.com or *" title="*.example.com or *" />
             <select class="actionType">
                 <option value="allow">Allow</option>
                 <option value="modifyHeaders">Headers</option>
                 <!--
-        <option value="redirect">Redirect</option>
-        -->
+                <option value="redirect">Redirect</option>
+                -->
                 <option value="block">Block</option>
             </select>
             <button type="submit" class="add">Add</button>

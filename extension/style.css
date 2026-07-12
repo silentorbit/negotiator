@@ -129,6 +129,10 @@ select:has(option[value=block]:checked), option[value=block] {
 }
 
 /*************************************************/
+input:invalid {
+  outline: 2px solid red;
+}
+
 input[type=checkbox] {
   width: 1.4em;
   height: 1.4em;

@@ -54,7 +54,7 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
     const row = CloneTemplate<HTMLFormElement>("row-template");
 
     //Wildcard is implied
-    const fromDomain = conditionToWildcard( rule.condition.initiatorDomains);
+    const fromDomain = conditionToWildcard(rule.condition.initiatorDomains);
     const toDomain = conditionToWildcard(rule.condition.requestDomains);
 
     //Autosave existing rules
@@ -66,10 +66,8 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
     row.querySelector<HTMLButtonElement>("button.toWild")!.onclick = () => domainClick(inputTo, toDomain, saveOnChange);
     inputFrom.value = fromDomain;
     inputFrom.onchange = saveOnChange;
-    inputFrom.oninput = wildcardTextHelper;
     inputTo.value = toDomain;
     inputTo.onchange = saveOnChange;
-    inputTo.oninput = wildcardTextHelper;
 
     const selectActionType = row.querySelector<HTMLSelectElement>("select.actionType")!;
     selectActionType.value = rule.action.type;
@@ -113,6 +111,10 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
 
     function ruleChanged() {
 
+        // Abort if the inputs don't match the pattern
+        if (!row.reportValidity())
+            return;
+
         //Wildcard is implied
         rule.condition.initiatorDomains = wildcardToCondition(inputFrom.value);
         rule.condition.requestDomains = wildcardToCondition(inputTo.value);
@@ -125,6 +127,9 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
             headers.classList.add("hidden");
     }
     async function save() {
+        if (!row.reportValidity())
+            return;
+
         ruleChanged();
         await chrome.runtime.sendMessage({ action: "updateRules", update: { addRules: [rule] }, } as serviceRequest);
     }
@@ -168,8 +173,7 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
                 value.value = "";
                 value.disabled = true;
             } else {
-                modify.value = "";
-                value.value = "";
+                modify.value ??= "";
                 value.disabled = false;
             }
             saveOnChange()
@@ -221,15 +225,6 @@ function domainClick(input: HTMLInputElement, original: string, saveOnChange: ()
 
     saveOnChange();
     return false;
-}
-
-//Force wildcard while editing
-function wildcardTextHelper(ev: Event) {
-    const text = ev.target as HTMLInputElement
-
-    let f = "*." + text.value.replace(/^[*.]+/, '');
-    if (text.value != f)
-        text.value = f;
 }
 
 function CloneTemplate<T>(templateID: string): T {
