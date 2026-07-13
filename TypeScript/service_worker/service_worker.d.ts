@@ -4,12 +4,17 @@ type trackedRequest = {
     to: string;
 }
 
-type requestAction = "getTracked" | "clearTracked" | "getRules" | "updateRules";
+type requestAction = "getTab" | "getTracked" | "clearTracked" | "getRules" | "updateRules";
 
 type serviceRequest = {
     action: requestAction;
     tabId: number;
     update: chrome.declarativeNetRequest.UpdateRuleOptions;
+}
+
+type getTabResponse = {
+    tracked: trackedRequest[];
+    rules: chrome.declarativeNetRequest.Rule[];
 }
 
 type getTrackedResponse = {

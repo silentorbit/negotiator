@@ -11,8 +11,7 @@ window.addEventListener("load", function () {
         });
     }
 
-    loadTracked();
-    loadRules();
+    loadTab();
 
 }, false);
 

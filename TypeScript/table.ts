@@ -1,12 +1,34 @@
 /// <reference path="./service_worker/service_worker.d.ts" />
 /// <reference path="./chrome.d.ts" />
 
+async function loadTab() {
+    const tabId = await getActiveTabId();
+
+    if (tabId) {
+        const response = await chrome.runtime.sendMessage({ action: "getTab", tabId: tabId } as serviceRequest) as getTabResponse;
+
+        console.log("GotTab", tabId, response);
+
+        console.log("GotTab fillTracked", response.tracked);
+        fillTracked(response.tracked);
+        console.log("GotTab fillRules", response.rules);
+        fillRules(response.rules);
+    } else {
+        loadTracked();
+        loadRules();
+    }
+}
+
 async function loadTracked() {
     const tabId = await getActiveTabId();
     const response = await chrome.runtime.sendMessage({ action: "getTracked", tabId: tabId } as serviceRequest) as getTrackedResponse;
 
     console.log("GotTracked", tabId, response);
 
+    fillTracked(response.tracked);
+}
+
+function fillTracked(tracked: trackedRequest[]) {
     const rows = document.querySelector("#tracked-rows") as HTMLDivElement;
     rows.replaceChildren();
     //First empty row
@@ -21,7 +43,7 @@ async function loadTracked() {
         }
     }));
     //Tracked rows
-    response.tracked
+    tracked
         .map(t => createRow(
             {
                 id: 0, //Set when added
@@ -41,18 +63,26 @@ async function loadRules() {
 
     console.log("GotRules", response);
 
-    const tabId = await getActiveTabId();
+    fillRules(response.rules);
+}
 
+function fillRules(rules: chrome.declarativeNetRequest.Rule[]) {
     const rows = document.querySelector("#rules-rows") as HTMLDivElement;
     rows.replaceChildren();
-    response.rules
+    console.log("fillRules", rows, rules);
+    rules
         .map(createRow)
-        .forEach(row => rows.appendChild(row));
+        .forEach(row => {
+            rows.appendChild(row);
+            console.log("fillRules appendChild", row);
+        });
+    console.log("fillRules", rows, rules);
 }
 
 function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
     const row = CloneTemplate<HTMLFormElement>("row-template");
 
+    console.log("createRow", rule);
     //Wildcard is implied
     const fromDomain = conditionToWildcard(rule.condition.initiatorDomains);
     const toDomain = conditionToWildcard(rule.condition.requestDomains);
@@ -102,9 +132,7 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
         await save();
 
         if (rule.id == 0) {
-            //Move to rules table
-            row.remove();
-            loadRules();
+            loadTab();
         }
         return true;
     };
@@ -192,7 +220,7 @@ function createRow(rule: chrome.declarativeNetRequest.Rule): HTMLFormElement {
 }
 
 function wildcardToCondition(domain: string): string[] | undefined {
-    domain = domain.replace(/^\*.?/, '');
+    domain = domain.replace(/^\*\.?/, '');
     if (domain == "")
         return undefined;
     return [domain];

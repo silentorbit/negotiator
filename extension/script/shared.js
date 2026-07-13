@@ -7,8 +7,7 @@ window.addEventListener("load", function () {
             location.reload();
         });
     }
-    loadTracked();
-    loadRules();
+    loadTab();
 }, false);
 window.addEventListener("hashchange", handleRouting);
 document.addEventListener("DOMContentLoaded", handleRouting);

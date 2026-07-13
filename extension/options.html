@@ -33,7 +33,7 @@
             </div>
         </div>
     </main>
-    
+
     <main id="tracked-tab" class="tab hidden">
 
         <h1>Tracked</h1>
@@ -52,47 +52,61 @@
         </div>
 
     </main>
-    
-    <!-- Templates -->
-    <div style="display: none;">
-
-        <div id="filterHeader" class="header">
-            <span>From</span>
-            <span>To</span>
-            <span>Track &amp; Action</span>
-        </div>
-
-        <form id="filterTemplate">
-            <div><button id="fromWild">➤</button></div>
-            <input type="text" id="from" value="" placeholder="From domain..." />
-            <div><button id="toWild">➤</button></div>
-            <input type="text" id="to" value="" placeholder="To domain..." />
-            <div><input type="checkbox" id="track" title="Track" /></div>
-            <select id="filter"></select>
-            <input type="submit" id="add" value="Add" class="button" />
-            <div><input type="button" id="del" value="delete" class="dangerButton" /></div>
-        </form>
-    </div>
 
     <template id="row-template">
         <form>
-            <button type="button" id="fromWild">➤</button>
-            <input type="text" id="from" value="" placeholder="From domain..." />
-            <button type="button" id="toWild">➤</button>
-            <input type="text" id="to" value="" placeholder="To domain..." />
-            <select id="actionType">
+            <button type="button" class="fromWild">➤</button>
+            <input type="text" class="from" pattern="\*|\*\.?[a-zA-Z0-9.\-]+" placeholder="*.example.com or *" title="*.example.com or *" />
+            <button type="button" class="toWild">➤</button>
+            <input type="text" class="to" pattern="\*|\*\.?[a-zA-Z0-9.\-]+" placeholder="*.example.com or *" title="*.example.com or *" />
+            <select class="actionType">
                 <option value="allow">Allow</option>
-                <!--
                 <option value="modifyHeaders">Headers</option>
+                <!--
                 <option value="redirect">Redirect</option>
                 -->
                 <option value="block">Block</option>
             </select>
-            <button type="submit" id="add">Add</button>
-            <button type="button" id="delete" class="danger">
+            <button type="submit" class="add">Add</button>
+            <button type="button" class="delete danger">
                 <svg style="height: 1em" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
             </button>
+            <div class="modifyHeaders">
+                <div class="header">
+                    <div>
+                        <div>Request Header</div>
+                        <div>Operation</div>
+                        <div>Value</div>
+                        <button type="button" class="addRequestHeader">+</button>
+                    </div>
+                </div>
+                <div class="modifyHeadersRequestRows"></div>
+                <div class="header">
+                    <div>
+                        <div>Response Header</div>
+                        <div>Operation</div>
+                        <div>Value</div>
+                        <button type="button" class="addResponseHeader">+</button>
+                    </div>
+                </div>
+                <div class="modifyHeadersResponseRows"></div>
+            </div>
         </form>
+    </template>
+
+    <template id="modifyHeaders-template">
+        <div>
+            <input type="text" class="header" />
+            <select class="operation">
+                <option value="remove">Remove</option>
+                <option value="set">Set</option>
+                <option value="append">Append</option>
+            </select>
+            <input type="text" class="value" />
+            <button type="button" class="delete danger">
+                <svg style="height: 1em" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
+            </button>
+        </div>
     </template>
 </body>
 </html>

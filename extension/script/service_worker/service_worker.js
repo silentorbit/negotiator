@@ -71,17 +71,13 @@ function onRemoved(tabId) {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("onMessage", message.action, message);
     switch (message.action) {
+        case "getTab":
+            getTab(message, sendResponse);
+            return true;
         case "getTracked":
             const result = [];
-            if (message.tabId == 0) {
-                for (const tabDictionary of tracked.values())
-                    result.push(...tabDictionary.values());
-            }
-            else {
-                var tabTracked = tracked.get(message.tabId);
-                if (tabTracked)
-                    result.push(...tabTracked.values());
-            }
+            for (const tabDictionary of tracked.values())
+                result.push(...tabDictionary.values());
             sendResponse({ tracked: result });
             return false;
         case "clearTracked":
@@ -98,6 +94,48 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return false;
     }
 });
+async function getTab(message, sendResponse) {
+    var trackedResult = [];
+    var tabTracked = tracked.get(message.tabId);
+    if (!tabTracked) {
+        const resp = { tracked: [], rules: [], };
+        console.log("getTab", "Nothing tracked, no rules to match", resp);
+        sendResponse(resp);
+        return;
+    }
+    trackedResult.push(...tabTracked.values());
+    const dynamicRules = await chrome.declarativeNetRequest.getDynamicRules();
+    const ruleMap = new Map(dynamicRules.map(rule => [rule.id, rule]));
+    const matchingRules = [];
+    const unmatchedRequests = [];
+    const matchPromises = trackedResult.map(async (trackedRequest) => {
+        const outcome = await chrome.declarativeNetRequest.testMatchOutcome({
+            url: "https://" + trackedRequest.to,
+            type: "main_frame",
+            method: "get",
+            tabId: 1,
+            initiator: "https://" + trackedRequest.from,
+        });
+        if (outcome.matchedRules && outcome.matchedRules.length > 0) {
+            for (const match of outcome.matchedRules) {
+                if (ruleMap.has(match.ruleId)) {
+                    matchingRules.push(ruleMap.get(match.ruleId));
+                }
+            }
+        }
+        else {
+            unmatchedRequests.push(trackedRequest);
+        }
+    });
+    await Promise.all(matchPromises);
+    const uniqueMatchedRules = [...new Map(matchingRules.map(r => [r.id, r])).values()];
+    const resp = {
+        tracked: unmatchedRequests,
+        rules: uniqueMatchedRules,
+    };
+    console.log("getTab return", resp);
+    sendResponse(resp);
+}
 async function getRules(sendResponse) {
     const rules = await chrome.declarativeNetRequest.getDynamicRules();
     sendResponse({ rules: rules });

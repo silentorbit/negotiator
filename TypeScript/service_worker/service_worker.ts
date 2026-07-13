@@ -57,8 +57,6 @@ function onBeforeRequest(details: chrome.webRequest.OnBeforeRequestDetails): und
     const from = getDomain(details.initiator);
     const to = getDomain(details.url);
 
-    //console.log("onBeforeRequest", details.initiator, details.url, t);
-
     const tabId = details.tabId;
 
     let tabTracked = tracked.get(tabId);
@@ -98,17 +96,13 @@ chrome.runtime.onMessage.addListener((message: serviceRequest, sender, sendRespo
     console.log("onMessage", message.action, message);
 
     switch (message.action) {
-
+        case "getTab":
+            getTab(message, sendResponse);
+            return true;
         case "getTracked":
             const result = [];
-            if (message.tabId == 0) {
-                for (const tabDictionary of tracked.values())
-                    result.push(...tabDictionary.values());
-            } else {
-                var tabTracked = tracked.get(message.tabId);
-                if (tabTracked)
-                    result.push(...tabTracked.values());
-            }
+            for (const tabDictionary of tracked.values())
+                result.push(...tabDictionary.values());
             sendResponse({ tracked: result } as getTrackedResponse);
             return false;
 
@@ -130,12 +124,69 @@ chrome.runtime.onMessage.addListener((message: serviceRequest, sender, sendRespo
     }
 });
 
-async function getRules(sendResponse: (response?: any) => void) {
+async function getTab(message: serviceRequest, sendResponse: (response: getTabResponse) => void): Promise<void> {
+    //Tab specific tracked
+    var trackedResult: trackedRequest[] = [];
+    var tabTracked = tracked.get(message.tabId);
+    if (!tabTracked) {
+        const resp = { tracked: [], rules: [], } as getTabResponse
+        console.log("getTab", "Nothing tracked, no rules to match", resp);
+        sendResponse(resp);
+        return;
+    }
+    trackedResult.push(...tabTracked.values());
+
+    //Find matching rules, remove matching tracked
+    const dynamicRules = await chrome.declarativeNetRequest.getDynamicRules();
+    const ruleMap = new Map(dynamicRules.map(rule => [rule.id, rule]));
+    const matchingRules: chrome.declarativeNetRequest.Rule[] = [];
+    const unmatchedRequests: trackedRequest[] = [];
+
+    // Test each request in the cache against active DNR rules
+    const matchPromises = trackedResult.map(async (trackedRequest) => {
+
+        // Construct the test request using webRequest details
+        const outcome = await chrome.declarativeNetRequest.testMatchOutcome({
+            url: "https://" + trackedRequest.to,
+            type: "main_frame",
+            method: "get",
+            tabId: 1,
+            initiator: "https://" + trackedRequest.from,
+        });
+
+        if (outcome.matchedRules && outcome.matchedRules.length > 0) {
+            // Store the rule and DROP the request from cache.
+            for (const match of outcome.matchedRules) {
+                if (ruleMap.has(match.ruleId)) {
+                    matchingRules.push(ruleMap.get(match.ruleId)!);
+                }
+            }
+        } else {
+            // 3b. No match. KEEP the request in the cache.
+            unmatchedRequests.push(trackedRequest);
+        }
+    });
+
+    // Wait for all test outcomes to resolve
+    await Promise.all(matchPromises);
+
+    // Deduplicate the matched rules (in case multiple requests hit the same rule)
+    const uniqueMatchedRules = [...new Map(matchingRules.map(r => [r.id, r])).values()];
+
+    const resp = {
+        tracked: unmatchedRequests,
+        rules: uniqueMatchedRules,
+    } as getTabResponse;
+    console.log("getTab return", resp);
+    sendResponse(resp);
+}
+
+async function getRules(sendResponse: (response: getRulesResponse) => void) {
     const rules = await chrome.declarativeNetRequest.getDynamicRules();
     sendResponse({ rules: rules });
 }
 
-async function updateRules(message: serviceRequest, sendResponse: (response?: any) => void) {
+async function updateRules(message: serviceRequest, sendResponse: (response: updateRulesResponse) => void) {
 
     // Set id for addRules
     if (message.update.addRules) {
@@ -154,7 +205,24 @@ async function updateRules(message: serviceRequest, sendResponse: (response?: an
             }
 
             //Always apply to all types
-            rule.condition.resourceTypes = ["main_frame", "sub_frame", "xmlhttprequest"];
+            rule.condition.resourceTypes =
+                [
+                    "object",
+                    "main_frame",
+                    "sub_frame",
+                    "stylesheet",
+                    "script",
+                    "image",
+                    "font",
+                    "xmlhttprequest",
+                    "ping",
+                    "csp_report",
+                    "media",
+                    "websocket",
+                    "webtransport",
+                    "webbundle",
+                    "other"
+                ];
         });
     }
 
@@ -162,5 +230,5 @@ async function updateRules(message: serviceRequest, sendResponse: (response?: an
 
     console.log("updateRules", message.update);
 
-    sendResponse(message as updateRulesResponse);
+    sendResponse(message);
 }
