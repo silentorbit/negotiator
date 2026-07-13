@@ -152,6 +152,9 @@ async function updateRules(message: serviceRequest, sendResponse: (response?: an
             else {
                 message.update.removeRuleIds!.push(rule.id);
             }
+
+            //Always apply to all types
+            rule.condition.resourceTypes = ["main_frame", "sub_frame", "xmlhttprequest"];
         });
     }
 

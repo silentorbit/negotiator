@@ -116,6 +116,24 @@ async function updateRules(message, sendResponse) {
             else {
                 message.update.removeRuleIds.push(rule.id);
             }
+            rule.condition.resourceTypes =
+                [
+                    "object",
+                    "main_frame",
+                    "sub_frame",
+                    "stylesheet",
+                    "script",
+                    "image",
+                    "font",
+                    "xmlhttprequest",
+                    "ping",
+                    "csp_report",
+                    "media",
+                    "websocket",
+                    "webtransport",
+                    "webbundle",
+                    "other"
+                ];
         });
     }
     await chrome.declarativeNetRequest.updateDynamicRules(message.update);
